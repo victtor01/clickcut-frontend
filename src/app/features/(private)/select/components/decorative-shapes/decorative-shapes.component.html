@@ -1,0 +1,13 @@
+<span
+  *ngFor="let shape of shapes"
+  class="absolute backdrop-blur-md bg-white/5 border-2 border-zinc-700 dark:border-zinc-100 rounded-[40%] opacity-100"
+  [ngStyle]="{
+    'width.px': shape.size,
+    'height.px': shape.size,
+    transform: 'rotate(' + shape.rotation + 'deg)',
+    top: shape.top,
+    bottom: shape.bottom,
+    left: shape.left,
+    right: shape.right
+  }"
+></span>
