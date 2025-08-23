@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
-	AfterViewInit,
-	Component,
-	ElementRef,
-	QueryList,
-	ViewChildren,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 
 interface Tab {
@@ -22,8 +22,8 @@ export class MobileSidebarComponent implements AfterViewInit {
   tabs: Tab[] = [
     { id: 'home', icon: 'home' },
     { id: 'services', icon: 'shopping_bag' },
-    { id: 'clients', icon: 'plumbing' },
-    { id: 'business', icon: 'business' },
+    { id: 'clients', icon: 'contacts' },
+    { id: 'bookings', icon: 'event' },
   ];
 
   activeTabId: string = this.tabs[0].id; // Define a primeira aba como ativa

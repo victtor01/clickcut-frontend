@@ -9,7 +9,7 @@ export const PRIVATE_ROUTES: Routes = [
     path: '',
     component: PrivateLayoutComponent,
     children: [
-      { path: '', pathMatch: 'full', component: SelectBusinessComponent },
+      { path: 'select', pathMatch: 'full', component: SelectBusinessComponent },
       {
         path: 'home',
         component: HomeLayoutComponent,

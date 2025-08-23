@@ -6,10 +6,35 @@
   </header>
 
   <section
-    class="flex flex-col gap-1 border bg-white/10 dark:bg-zinc-950/80 dark:border-zinc-800 dark:text-gray-200 shadow-xl rounded-xl divide-y divide-zinc-200 dark:divide-zinc-800"
+    class="flex flex-col border bg-white/10 overflow-hidden dark:bg-zinc-950/80 dark:border-zinc-800 dark:text-gray-200 shadow-xl rounded-xl divide-y divide-zinc-200 dark:divide-zinc-800"
   >
-    <div class="flex p-3">Corte terminado</div>
-    <div class="flex p-3">Corte terminado</div>
-    <div class="flex p-3">Corte terminado</div>
+    <div
+      class="flex p-3 gap-2 items-center active:bg-zinc-100 dark:active:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+    >
+      <i class="material-icons-outlined w-6 h-6 text-yellow-500"
+        >check_circle_unread</i
+      >
+      Agendamento confirmado.
+    </div>
+    <div
+      class="flex p-3 gap-2 items-center active:bg-zinc-100 dark:active:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+    >
+      <i class="material-icons-outlined w-6 h-6 text-red-500">block</i>
+      Cancelamento de agendamento.
+    </div>
+    <div
+      class="flex p-3 gap-2 items-center active:bg-zinc-100 dark:active:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+    >
+      <i class="material-icons-outlined w-6 h-6 text-emerald-500">paid</i>
+      Agendamento pago
+    </div>
+    <div
+      class="flex p-3 gap-2 items-center active:bg-zinc-100 dark:active:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+    >
+      <i class="material-icons-outlined w-6 h-6 text-indigo-500"
+        >check_circle_unread</i
+      >
+      Agendamento Terminado
+    </div>
   </section>
 </div>
