@@ -1,3 +1,8 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
+import { LoginComponent } from './login/pages/login.component';
+import { RegisterComponent } from './register/pages/register.component';
 
-const PUBLIC_ROUTES: Routes = [];
+export const PUBLIC_ROUTES: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+];

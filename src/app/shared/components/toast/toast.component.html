@@ -1,0 +1,8 @@
+<div 
+  [@toastTrigger]="toast.state"
+  (@toastTrigger.done)="onAnimationDone($event)"
+  class="toast-body" 
+  [ngClass]="'toast-' + toast.type"
+  (click)="destroy.emit()">
+  {{ toast.message }}
+</div>

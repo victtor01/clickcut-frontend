@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.toast-body {
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s ease;
+  font-family: sans-serif;
+  font-weight: 500;
+  cursor: default;
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.toast-success {
+  background-color: var(--color-indigo-500);
+}
+.toast-error {
+  background-color: var(--color-gray-700);
+}
+.toast-info {
+  background-color: #17a2b8;
+}
+.toast-warning {
+  background-color: #ffc107;
+  color: #212529;
+}

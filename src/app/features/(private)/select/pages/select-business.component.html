@@ -1,5 +1,5 @@
 <section
-  class="flex flex-col relative p-5 items-center h-screen overflow-auto overflow-x-hidden w-full bg-gradient-to-bl from-stone-50 to-white dark:from-zinc-950 dark:to-black"
+  class="flex flex-col relative p-5 items-center h-screen overflow-auto overflow-x-hidden w-full bg-gradient-to-bl from-stone-50 to-white dark:from-zinc-950/50 dark:to-zinc-950/50"
 >
   <div
     class="flex flex-1 bg-gradient-to-bl from-indigo-500 to-purple-900 w-[200%] left-[50%] absolute rounded-full top-[-20%] translate-x-[-50%] h-[40rem]"
@@ -8,7 +8,7 @@
   </div>
 
   <div
-    class="w-full max-w-2xl mt-[10rem] bg-white/80 dark:bg-zinc-950 backdrop-blur-xl md:border border-white/20 md:rounded-t-2xl shadow-2xl rounded-2xl flex flex-col items-center p-20 text-center md:relative md:bottom-auto md:left-auto md:translate-x-0 md:m-auto"
+    class="w-full max-w-2xl mt-[10rem] bg-white/80 dark:bg-zinc-950 backdrop-blur-xl md:border border-white/20 md:rounded-t-2xl shadow-xl dark:shadow-black/50 rounded-2xl flex flex-col items-center p-20 text-center md:relative md:bottom-auto md:left-auto md:translate-x-0 md:m-auto"
   >
     <header class="mb-8">
       <h2
@@ -24,27 +24,18 @@
     <div
       class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 w-full max-w-md mx-auto"
     >
+      @for(bus of business; track $index) {
       <button
         type="button"
         class="group saira-font aspect-square flex flex-col items-center justify-center gap-1 p-2 rounded-lg bg-zinc-800 transition-all duration-200 ease-in-out hover:scale-110 hover:ring-2 hover:ring-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-offset-zinc-900"
       >
-        <span class="font-black text-6xl text-gray-200">A</span>
+        <span class="font-black text-6xl text-gray-200"></span>
         <span
           class="font-medium text-sm text-zinc-400 tracking-wider group-hover:text-white transition-colors"
-          >LOJA A</span
+          >{{bus.name}}</span
         >
       </button>
-
-      <button
-        type="button"
-        class="group saira-font aspect-square flex flex-col items-center justify-center gap-1 p-2 rounded-lg bg-zinc-800 transition-all duration-200 ease-in-out hover:scale-110 hover:ring-2 hover:ring-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-offset-zinc-900"
-      >
-        <span class="font-black text-6xl text-gray-200">B</span>
-        <span
-          class="font-medium text-sm text-zinc-400 tracking-wider group-hover:text-white transition-colors"
-          >LOJA B</span
-        >
-      </button>
+      }
 
       <button
         type="button"
