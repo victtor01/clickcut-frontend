@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
+import { BusinessGuard } from '@app/core/guards/business.guard';
 import { HomeLayoutComponent } from '../../shared/layouts/home-layout/home-layout.component';
 import { PrivateLayoutComponent } from '../../shared/layouts/private-layout/private-layout.component';
+import { BookingComponent } from './business/pages/booking.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
 
@@ -11,10 +13,17 @@ export const PRIVATE_ROUTES: Routes = [
     children: [
       { path: 'select', pathMatch: 'full', component: SelectBusinessComponent },
       {
-        path: 'home',
-        component: HomeLayoutComponent,
+        path: '',
+        canActivate: [BusinessGuard],
         children: [
-          { path: '', pathMatch: 'full', component: HomePageComponent },
+          {
+            path: '',
+            component: HomeLayoutComponent,
+            children: [
+              { path: 'home', component: HomePageComponent },
+              { path: 'bookings', component: BookingComponent },
+            ],
+          },
         ],
       },
     ],

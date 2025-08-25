@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
+import { Business } from '../models/Business';
 import { User } from '../models/User';
 import { ApiService } from './api.service';
 
@@ -12,6 +13,7 @@ interface AuthResponse {
 export class AuthService {
   private isAuthenticated: boolean = false;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
+  private currentBusinessSubject = new BehaviorSubject<Business | null>(null);
 
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -25,6 +27,19 @@ export class AuthService {
       map(() => true),
       catchError(() => {
         this.currentUserSubject.next(null);
+        return of(false);
+      })
+    );
+  }
+
+  public checkAuthBusiness(): Observable<boolean> {
+    return this.apiService.get<Business>('/auth/business').pipe(
+      tap((message) => {
+        this.currentBusinessSubject.next(message);
+      }),
+      map(() => true),
+      catchError(() => {
+        this.currentBusinessSubject.next(null);
         return of(false);
       })
     );
@@ -46,6 +61,10 @@ export class AuthService {
 
   public getCurrentUserSnapshot(): User | null {
     return this.currentUserSubject?.value;
+  }
+
+  public getCurrentBusinessSnapshot(): Business | null {
+    return this.currentBusinessSubject?.value;
   }
 
   public isLogged(): boolean {
