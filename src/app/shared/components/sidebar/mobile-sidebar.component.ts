@@ -22,86 +22,91 @@ interface Tab {
   styleUrl: './mobile-sidebar.component.scss',
 })
 export class MobileSidebarComponent implements AfterViewInit {
-  constructor(private readonly router: Router) {}
-
-  tabs: Tab[] = [
-    { id: 'home', icon: 'home', route: "/home" },
-    { id: 'services', icon: 'shopping_bag', route: "#" },
-    { id: 'clients', icon: 'contacts', route: "#" },
-    { id: 'bookings', icon: 'event', route: "/bookings" },
+  // 1. Defina as abas primeiro
+  public tabs: Tab[] = [
+    { id: 'home', icon: 'home', route: '/home' },
+    { id: 'services', icon: 'shopping_bag', route: '/services' },
+    { id: 'clients', icon: 'contacts', route: '/clients' },
+    { id: 'bookings', icon: 'event', route: '/bookings' },
   ];
 
-  activeTabId: string = this.tabs[0].id;
-  indicatorStyle = {};
+  public activeTabId: string;
+  // 2. O indicador começa invisível para evitar o "pulo"
+  public indicatorStyle: { [key: string]: any } = { opacity: 0 };
 
-  private animationTimeout: any; // Para gerenciar o timeout
-
-  @ViewChildren('tabElement') tabElements!: QueryList<
-    ElementRef<HTMLLIElement>
+  @ViewChildren('tabElement') private tabElements!: QueryList<
+    ElementRef<HTMLElement>
   >;
+  private animationTimeout?: number;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event?: Event) {
-    const activeTab = this.tabs.find((tab) => tab.id === this.activeTabId);
-    if (activeTab) {
-      // Ao redimensionar, apenas movemos para o estado final, sem a animação complexa
-      this.moveIndicatorWithoutAnimation(activeTab);
+  constructor(private readonly router: Router) {
+    // Inicialize activeTabId com um valor padrão
+    this.activeTabId = this.tabs[0].id;
+  }
+
+  ngOnInit(): void {
+    // 3. Lógica movida para ngOnInit, que executa DEPOIS das propriedades serem inicializadas
+    const currentTab = this.tabs.find((tab) =>
+      this.router.url.startsWith(tab.route)
+    );
+    if (currentTab) {
+      this.activeTabId = currentTab.id;
     }
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => this.moveIndicatorWithoutAnimation(this.tabs[0]), 0);
+  ngAfterViewInit(): void {
+    // Usamos um pequeno timeout para garantir que os elementos já foram renderizados
+    setTimeout(() => this.updateIndicatorPosition(), 0);
   }
 
-  selectTab(tab: Tab) {
+  @HostListener('window:resize')
+  onResize(): void {
+    this.updateIndicatorPosition();
+  }
+
+  public selectTab(tab: Tab): void {
+    if (this.activeTabId === tab.id) return;
     this.activeTabId = tab.id;
-    this.moveIndicator(tab); // <-- Usa a nova função com animação
+    this.moveIndicator(tab, true);
     this.router.navigateByUrl(tab.route);
   }
-  private moveIndicator(activeTab: Tab) {
-    if (this.animationTimeout) {
-      clearTimeout(this.animationTimeout);
-    }
 
-    const activeIndex = this.tabs.findIndex((tab) => tab.id === activeTab.id);
-    const tabElement = this.tabElements.toArray()[activeIndex]?.nativeElement;
-
-    if (tabElement) {
-      const travelingWidth = '1.5rem'; // w-5
-      const finalWidth = '0.5rem'; // w-2
-      const destinationCenter =
-        tabElement.offsetLeft + tabElement.clientWidth / 2;
-
-      // Fase 1: Inicia a transição com a largura de "viagem"
-      this.indicatorStyle = {
-        left: `${destinationCenter}px`,
-        width: travelingWidth,
-        transform: 'translateX(-50%)',
-      };
-
-      // Fase 2: Agenda a mudança para a largura final
-      this.animationTimeout = setTimeout(() => {
-        this.indicatorStyle = {
-          left: `${destinationCenter}px`,
-          width: finalWidth,
-          transform: 'translateX(-50%)',
-        };
-      }, 150);
+  private updateIndicatorPosition(): void {
+    const activeTab = this.tabs.find((tab) => tab.id === this.activeTabId);
+    if (activeTab) {
+      this.moveIndicator(activeTab, false);
     }
   }
 
-  private moveIndicatorWithoutAnimation(activeTab: Tab) {
+  private moveIndicator(activeTab: Tab, animated: boolean): void {
+    if (this.animationTimeout) clearTimeout(this.animationTimeout);
+
     const activeIndex = this.tabs.findIndex((tab) => tab.id === activeTab.id);
-    const tabElement = this.tabElements.toArray()[activeIndex]?.nativeElement;
-    if (tabElement) {
-      const finalWidth = '0.5rem'; // w-2
-      const destinationCenter =
-        tabElement.offsetLeft + tabElement.clientWidth / 2;
-      this.indicatorStyle = {
-        left: `${destinationCenter}px`,
-        width: finalWidth,
-        transform: 'translateX(-50%)',
-      };
+    const tabElement = this.tabElements?.toArray()[activeIndex]?.nativeElement;
+
+    if (!tabElement) return;
+
+    const finalWidth = '0.5rem';
+    const destinationCenter =
+      tabElement.offsetLeft + tabElement.clientWidth / 2;
+    const finalStyle = {
+      left: `${destinationCenter}px`,
+      width: finalWidth,
+      transform: 'translateX(-50%)',
+      opacity: 1, // 4. Torna o indicador visível
+    };
+
+    if (animated) {
+      const travelingWidth = '1.5rem';
+      // Fase 1: Animação de "viagem"
+      this.indicatorStyle = { ...finalStyle, width: travelingWidth };
+      // Fase 2: Animação final
+      this.animationTimeout = window.setTimeout(() => {
+        this.indicatorStyle = { ...this.indicatorStyle, width: finalWidth };
+      }, 150);
+    } else {
+      // Movimento instantâneo
+      this.indicatorStyle = finalStyle;
     }
   }
 }

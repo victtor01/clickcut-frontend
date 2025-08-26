@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Booking } from '@app/core/models/Booking';
 import {
   BookingsByDay,
@@ -14,12 +14,13 @@ dayjs.locale('pt-br');
   templateUrl: './booking.component.html',
   imports: [CommonModule],
 })
-export class BookingComponent implements OnInit {
+export class BookingComponent implements OnInit, OnDestroy {
   public currentDate: Dayjs = dayjs();
   public isLoading = true;
   private _bookingsByDay: BookingsByDay = {};
-
+  private timer: any;
   public dayjs = dayjs;
+  public scale = 2;
 
   constructor(
     private readonly bookingsService: BookingService,
@@ -31,12 +32,28 @@ export class BookingComponent implements OnInit {
     return this._bookingsByDay[dateKey] || [];
   }
 
+  get timelineGridStyle(): { [key: string]: string } {
+    return {
+      'grid-template-rows': `repeat(1440, ${this.scale}px)`,
+    };
+  }
+
   get formattedDate(): string {
     return this.currentDate.format('dddd, D [de] MMMM');
   }
 
   ngOnInit(): void {
     this.fetchBookings();
+
+    this.timer = setInterval(() => {
+      this.currentDate = dayjs();
+    }, 30000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   public previousDay(): void {
@@ -47,6 +64,18 @@ export class BookingComponent implements OnInit {
   public nextDay(): void {
     this.currentDate = this.currentDate.add(1, 'day');
     this.fetchBookings();
+  }
+
+  get currentTimeIndicatorStyle(): { [key: string]: any } {
+    const minutesFromMidnight =
+      this.currentDate.hour() * 60 + this.currentDate.minute();
+    return {
+      'grid-row-start': `${minutesFromMidnight + 1}`,
+    };
+  }
+
+  get isToday(): boolean {
+    return this.currentDate.isSame(dayjs(), 'day');
   }
 
   private fetchBookings(): void {
@@ -63,19 +92,19 @@ export class BookingComponent implements OnInit {
       },
     });
   }
-
   public getBookingGridStyle(booking: Booking): { [key: string]: any } {
     const start = dayjs(booking.startAt);
     const end = dayjs(booking.endAt);
     const startMinute = start.hour() * 60 + start.minute();
     const endMinute = end.hour() * 60 + end.minute();
-    const gridRowStart = startMinute + 1;
-    const gridRowEnd = endMinute + 1;
-
     return {
-      'grid-row': `${gridRowStart} / ${gridRowEnd}`, // Ex: '571 / 616'
-      'grid-column': '2', // Coloca na segunda coluna (a área de agendamentos)
+      'grid-row': `${startMinute + 1} / ${endMinute + 1}`,
+      'grid-column': '2',
     };
+  }
+
+  public onGridClick(hour: string) {
+    alert(hour);
   }
 
   public openModalForHour(hour: number): void {
@@ -94,7 +123,7 @@ export class BookingComponent implements OnInit {
     console.log('Fim do intervalo:', endOfHour.toISOString());
     console.log('Agendamentos nesta hora:', bookingsInHour);
 
-    alert("teste")
+    alert('teste');
     // Ex: this.modalService.open(CreateBookingModal, { data: { startAt: startOfHour, bookings: bookingsInHour } });
   }
 }

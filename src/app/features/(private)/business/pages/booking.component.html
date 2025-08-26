@@ -32,62 +32,67 @@
   </section>
 
   <section class="sm:p-6 lg:p-8 font-sans mt-5">
-    <div
-      class="h-auto rounded-lg shadow-lg pt-10 pr-7 bg-white dark:bg-zinc-900/20 dark:border dark:border-zinc-900 overflow-y-auto"
-    >
+    <div class="h-auto rounded-lg shadow-lg overflow-y-auto">
       <div
-        class="grid grid-cols-[4rem_1fr] grid-rows-[repeat(1460,1px)] min-h-full"
-      >
+        class="grid grid-cols-[4rem_1fr] grid-rows-[repeat(1440,1px)] pt-5 min-h-full relative"
+       [ngStyle]="timelineGridStyle" 
+        >
+        @for (hour of [].constructor(24); let i = $index; track $index) {
         <div
-          *ngFor="let hour of [].constructor(24); let i = index"
-          class="col-start-2 hover:bg-indigo-500/10 dark:hover:bg-indigo-500/20 active:bg-indigo-500/10 dark:active:bg-indigo-500/20 cursor-pointer transition-colors"
-          [style.grid-row]="i * 60 + 1 + ' / span 60'"
-          (click)="openModalForHour(i)"
-        ></div>
-        
-        <div
-          *ngFor="let hour of [].constructor(24); let i = index"
-          class="col-start-1 col-end-3 row-start-1 pointer-events-none flex items-center pr-2 z-0"
+          (click)="onGridClick(hour)"
+          class="col-start-1 col-end-3 row-start-1 flex items-center pr-2 z-0 pointer-events-none"
           [style.grid-row]="i * 60 + 1"
         >
           <span
-            class="text-xs text-gray-400 dark:text-gray-500 w-16 text-right pr-2"
+            class="text-xs text-gray-400 dark:text-gray-500 w-10 text-right pr-2"
             >{{ i }}:00</span
           >
           <div class="flex-grow h-px bg-gray-200 dark:bg-zinc-700"></div>
         </div>
-
+        } @for (booking of bookingsForCurrentDay; track booking.id) {
         <div
-          *ngFor="let booking of bookingsForCurrentDay"
-          class="relative mr-2 my-[1px] p-2 bg-indigo-100 pointer-events-none dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex flex-col justify-center z-10"
+          class="booking-item mr-2 -ml-6 my-[1px] p-2 bg-indigo-100 dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex flex-col justify-center z-10 cursor-pointer"
           [ngStyle]="getBookingGridStyle(booking)"
         >
           <p
-            class="font-semibold text-sm text-indigo-800 dark:text-indigo-200 truncate"
+            class="font-semibold text-sm text-indigo-800 dark:text-indigo-200 truncate pointer-events-none"
           >
             {{ booking.title }}
           </p>
-          <p class="text-xs text-indigo-600 dark:text-indigo-400">
+          <p
+            class="text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none"
+          >
             {{ dayjs(booking.startAt).format("HH:mm") }} -
             {{ dayjs(booking.endAt).format("HH:mm") }}
           </p>
         </div>
-
+        } @empty { @if (!isLoading) {
         <div
-          *ngIf="isLoading || bookingsForCurrentDay.length === 0"
-          class="col-start-1 col-end-3 row-start-1 row-end-[-1] flex items-center justify-center z-20"
+          class="col-start-1 col-end-3 row-start-1 row-end-[-1] flex items-center justify-center z-20 pointer-events-none"
         >
-          <div
-            *ngIf="isLoading"
-            class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"
-          ></div>
-          <p
-            *ngIf="!isLoading && bookingsForCurrentDay.length === 0"
-            class="text-gray-500 dark:text-gray-400"
-          >
+          <p class="text-gray-500 dark:text-gray-400">
             Nenhum agendamento para este dia.
           </p>
         </div>
+        } } @if (isToday) {
+        <div
+          class="col-start-1 col-end-3 row-start-1 flex items-center z-30 pointer-events-none"
+          [ngStyle]="currentTimeIndicatorStyle"
+        >
+          <div class="w-10 text-blue-500 flex justify-end">
+            <span class="material-icons-outlined text-base">chevron_right</span>
+          </div>
+          <div class="flex-grow h-0.5 bg-blue-500"></div>
+        </div>
+        } @if (isLoading) {
+        <div
+          class="col-start-1 col-end-3 row-start-1 row-end-[-1] flex items-center justify-center z-20 pointer-events-none"
+        >
+          <div
+            class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"
+          ></div>
+        </div>
+        }
       </div>
     </div>
   </section>
