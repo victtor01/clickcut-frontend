@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Booking } from '@app/core/models/Booking';
-import {
-  BookingsByDay,
-  BookingService,
-} from '@app/core/services/booking.service';
+import { BookingsByDay, BookingService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
@@ -12,15 +10,18 @@ dayjs.locale('pt-br');
 
 @Component({
   templateUrl: './booking.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
 })
-export class BookingComponent implements OnInit, OnDestroy {
+export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
   public currentDate: Dayjs = dayjs();
   public isLoading = true;
   private _bookingsByDay: BookingsByDay = {};
   private timer: any;
   public dayjs = dayjs;
   public scale = 2;
+
+  @ViewChild('timeIndicator')
+  private timeIndicator!: ElementRef;
 
   constructor(
     private readonly bookingsService: BookingService,
@@ -42,18 +43,22 @@ export class BookingComponent implements OnInit, OnDestroy {
     return this.currentDate.format('dddd, D [de] MMMM');
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.fetchBookings();
 
     this.timer = setInterval(() => {
-      this.currentDate = dayjs();
+      this.currentDate = this.currentDate.add(30, "second");
     }, 30000);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.timer) {
       clearInterval(this.timer);
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.scrollToCurrentTime();
   }
 
   public previousDay(): void {
@@ -67,8 +72,7 @@ export class BookingComponent implements OnInit, OnDestroy {
   }
 
   get currentTimeIndicatorStyle(): { [key: string]: any } {
-    const minutesFromMidnight =
-      this.currentDate.hour() * 60 + this.currentDate.minute();
+    const minutesFromMidnight = this.currentDate.hour() * 60 + this.currentDate.minute();
     return {
       'grid-row-start': `${minutesFromMidnight + 1}`,
     };
@@ -92,6 +96,17 @@ export class BookingComponent implements OnInit, OnDestroy {
       },
     });
   }
+
+  private scrollToCurrentTime(): void {
+    // Apenas role se for o dia de hoje e o elemento existir
+    if (this.isToday && this.timeIndicator?.nativeElement) {
+      this.timeIndicator.nativeElement.scrollIntoView({
+        behavior: 'smooth', // Rolagem suave
+        block: 'center', // Centraliza o elemento na tela
+      });
+    }
+  }
+
   public getBookingGridStyle(booking: Booking): { [key: string]: any } {
     const start = dayjs(booking.startAt);
     const end = dayjs(booking.endAt);
@@ -113,9 +128,7 @@ export class BookingComponent implements OnInit, OnDestroy {
 
     const bookingsInHour = this.bookingsForCurrentDay.filter((booking) => {
       const bookingStart = dayjs(booking.startAt);
-      return (
-        bookingStart.isAfter(startOfHour) && bookingStart.isBefore(endOfHour)
-      );
+      return bookingStart.isAfter(startOfHour) && bookingStart.isBefore(endOfHour);
     });
 
     console.log(`Clicou no slot das ${hour}h.`);

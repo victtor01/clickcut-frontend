@@ -1,0 +1,18 @@
+<section class="grid gap-4 grid-cols-2 flex-1">
+  @for (service of services; track $index) {
+  <button
+    (click)="action(service)"
+    [attr.data-active]="activated(service)"
+    class="flex flex-col relative bg-white border data-[active=true]:border-indigo-500 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-gray-200 rounded-xl ring-offset-2 dark:ring-offset-zinc-950 data-[active=true]:ring-2 dark:ring-indigo-500 transition-shadow"
+  >
+    <div class="absolute right-2 top-2 text-xs p-px px-1 rounded-full text-indigo-50 bg-indigo-500">
+      {{ service.price | toFormatBrl }}
+    </div>
+    <div class="p-2 aspect-square dark:border-zinc-800 border-b grid place-items-center"></div>
+
+    <div class="p-2">
+      {{ service.title || 'no name' }}
+    </div>
+  </button>
+  }
+</section>

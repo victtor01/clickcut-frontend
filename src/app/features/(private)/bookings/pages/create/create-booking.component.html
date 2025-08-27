@@ -1,0 +1,84 @@
+<section *ngIf="step === 1" class="flex flex-col gap-4 p-5">
+  <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
+    <a
+      [routerLink]="['/bookings']"
+      class="w-10 h-10 aspect-square dark:bg-zinc-900 grid place-items-center rounded-full"
+    >
+      <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
+    </a>
+    <h1 class="saira-font text-xl">Escolha um serviço para continuar</h1>
+  </header>
+
+  <section class="flex flex-col mx-2 rounded-xl">
+    <all-services [onAction]="selectItem" [isActive]="isActive"></all-services>
+  </section>
+</section>
+
+<section *ngIf="step === 2" class="flex flex-col gap-4 p-5">
+  <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
+    <a
+      [routerLink]="['/bookings']"
+      class="w-10 h-10 aspect-square bg-red-200 dark:bg-zinc-900 grid place-items-center rounded-full"
+    >
+      <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
+    </a>
+
+    <h1 class="saira-font text-xl">Selecione a hora</h1>
+  </header>
+
+  <section
+    *ngIf="selectedService != null"
+    class="h-[6rem] flex bg-zinc-100 dark:text-gray-200 dark:border-zinc-800 shadow-lg dark:shadow-black gap-3 dark:bg-zinc-900 overflow-hidden border rounded-2xl"
+  >
+    <div class="flex-1 max-w-[30%] bg-indigo-500"></div>
+    <div class="flex flex-col flex-1 p-1 py-2">
+      <h1 class="font-semibold flex-1 text-xl">
+        {{ selectedService.title }}
+      </h1>
+
+      <div class="justify-between items-center flex">
+        <div class="text-xs p-px px-2 rounded-full text-indigo-50 bg-indigo-500">
+          {{ selectedService.price | toFormatBrl }}
+        </div>
+
+        <div class="pr-2">
+          {{ timeStart }} - {{ timeEnd }}
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="flex flex-col gap-2 dark:text-gray-200">
+    <label for="bookingTitle" class="text-sm font-medium text-gray-600 dark:text-gray-300">
+      Título do agendamento (opcional)
+    </label>
+    <input
+      type="text"
+      id="bookingTitle"
+      placeholder="Ex: Corte para festa"
+      class="w-full p-3 bg-zinc-100 dark:bg-zinc-900 dark:placeholder:text-gray-500 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+    />
+  </div>
+
+  @if (serviceId) {
+  <section class="flex flex-col rounded-xl">
+    <all-times
+      [selectedTime]="selectedTime"
+      [whenSelectAction]="selectTime"
+      [serviceId]="serviceId"
+    ></all-times>
+  </section>
+  }@else {
+  <section>Você não selecionou o serviço</section>
+  }
+</section>
+
+<footer class="flex px-6 justify-between">
+  <div></div>
+  <button
+    (click)="submit()"
+    [attr.data-active]="!!buttonActive"
+    class="bg-indigo-500 text-indigo-50 rounded-full transition-all p-2 px-6 data-[active=false]:opacity-40"
+  >
+    <span class="saira-font"> Continuar </span>
+  </button>
+</footer>
