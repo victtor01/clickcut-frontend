@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
-import { Booking } from '@app/core/models/Booking';
+import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingsByDay, BookingService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { DetailsBookingComponent } from './details/details-booking-modal.component';
 dayjs.locale('pt-br');
 
 @Component({
@@ -25,7 +27,8 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private readonly bookingsService: BookingService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly dialogDetails: MatDialog
   ) {}
 
   get bookingsForCurrentDay(): Booking[] {
@@ -47,7 +50,7 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.fetchBookings();
 
     this.timer = setInterval(() => {
-      this.currentDate = this.currentDate.add(30, "second");
+      this.currentDate = this.currentDate.add(30, 'second');
     }, 30000);
   }
 
@@ -55,6 +58,20 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.timer) {
       clearInterval(this.timer);
     }
+  }
+
+  public isLate(booking: Booking) {
+    const now = dayjs();
+
+    const startDate = dayjs(booking.startAt);
+
+    const invalidStatus: BookingStatus[] = ['CREATED', 'CONFIRMED'];
+
+    if (startDate.isValid()) {
+      return now.isAfter(startDate) && invalidStatus.includes(booking.status);
+    }
+
+    return false;
   }
 
   public ngAfterViewInit(): void {
@@ -98,7 +115,6 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private scrollToCurrentTime(): void {
-    // Apenas role se for o dia de hoje e o elemento existir
     if (this.isToday && this.timeIndicator?.nativeElement) {
       this.timeIndicator.nativeElement.scrollIntoView({
         behavior: 'smooth', // Rolagem suave
@@ -122,21 +138,29 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
     alert(hour);
   }
 
-  public openModalForHour(hour: number): void {
-    const startOfHour = this.currentDate.hour(hour).minute(0).second(0);
-    const endOfHour = startOfHour.add(1, 'hour');
+  public openModalForHour(date: Date): void {
+    const dateFormated = dayjs(date);
 
-    const bookingsInHour = this.bookingsForCurrentDay.filter((booking) => {
-      const bookingStart = dayjs(booking.startAt);
-      return bookingStart.isAfter(startOfHour) && bookingStart.isBefore(endOfHour);
+    const bookings: Booking[] = this._bookingsByDay[dateFormated.format('YYYY-MM-DD')];
+
+    const start = dateFormated.startOf('hour').subtract(1, 'minute');
+    const end = dateFormated.endOf('hour').add(1, 'minute');
+
+    const bookingsInHour = bookings.filter((booking) => {
+      return dayjs(booking.startAt).isAfter(start) && dayjs(booking.endAt).isBefore(end);
     });
 
-    console.log(`Clicou no slot das ${hour}h.`);
-    console.log('Início do intervalo:', startOfHour.toISOString());
-    console.log('Fim do intervalo:', endOfHour.toISOString());
-    console.log('Agendamentos nesta hora:', bookingsInHour);
+    const dialogRef = this.dialogDetails.open(DetailsBookingComponent, {
+      width: 'min(50rem, 90%)',
+      backdropClass: ['bg-transparent', 'dark:bg-zinc-950/10', 'backdrop-blur-lg'],
+      panelClass: 'dialog-no-container',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { bookings: bookingsInHour },
+    });
 
-    alert('teste');
-    // Ex: this.modalService.open(CreateBookingModal, { data: { startAt: startOfHour, bookings: bookingsInHour } });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 }

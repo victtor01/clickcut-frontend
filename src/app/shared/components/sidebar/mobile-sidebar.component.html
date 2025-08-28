@@ -1,4 +1,4 @@
-<nav class="fixed bottom-0 left-0 w-full p-4 z-30">
+<nav class="fixed bottom-0 left-0 w-full p-4 z-30 pointer-events-none">
   <span
     class="absolute -top-30 -right-30 blur-3xl bg-indigo-500 dark:opacity-0 rounded-full w-[20rem] h-[20rem] -z-10 opacity-30"
   ></span>
@@ -16,7 +16,7 @@
       *ngFor="let tab of tabs"
       [attr.data-active]="tab.id === activeTabId"
       (click)="selectTab(tab)"
-      class="text-gray-600 dark:text-gray-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400 data-[active=true]:drop-shadow-[0_0_10px_rgba(59,130,246,1)]"
+      class="text-gray-600 pointer-events-auto dark:text-gray-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400 data-[active=true]:drop-shadow-[0_0_10px_rgba(59,130,246,1)]"
     >
       <span class="material-icons-outlined">{{ tab.icon }}</span>
     </button>

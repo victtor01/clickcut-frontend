@@ -41,9 +41,7 @@
           {{ selectedService.price | toFormatBrl }}
         </div>
 
-        <div class="pr-2">
-          {{ timeStart }} - {{ timeEnd }}
-        </div>
+        <div class="pr-2">{{ timeStart }} {{ timeEnd ? `- ${timeEnd}` : "" }}</div>
       </div>
     </div>
   </section>
@@ -65,6 +63,7 @@
       [selectedTime]="selectedTime"
       [whenSelectAction]="selectTime"
       [serviceId]="serviceId"
+      [currentDate]="currentDate?.format('YYYY-MM-DD')"
     ></all-times>
   </section>
   }@else {

@@ -3,6 +3,7 @@ import { BusinessGuard } from '@app/core/guards/business.guard';
 import { HomeLayoutComponent } from '../../shared/layouts/home-layout/home-layout.component';
 import { PrivateLayoutComponent } from '../../shared/layouts/private-layout/private-layout.component';
 import { BookingComponent } from './bookings/pages/booking.component';
+import { BookingDetailsComponent } from './bookings/pages/booking/booking-details.component';
 import { CreateBookingComponent } from './bookings/pages/create/create-booking.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
@@ -22,8 +23,14 @@ export const PRIVATE_ROUTES: Routes = [
             component: HomeLayoutComponent,
             children: [
               { path: 'home', component: HomePageComponent },
-              { path: 'bookings', component: BookingComponent },
-              { path: 'bookings/create', component: CreateBookingComponent },
+              {
+                path: 'bookings',
+                children: [
+                  { path: '', component: BookingComponent, pathMatch: 'full' },
+                  { path: 'create', component: CreateBookingComponent },
+                  { path: ':bookingId', component: BookingDetailsComponent },
+                ],
+              },
             ],
           },
         ],

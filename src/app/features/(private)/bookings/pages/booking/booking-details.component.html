@@ -1,0 +1,124 @@
+@if (booking) {
+<div class="flex flex-col gap-4 p-3 bg-white rounded-lg dark:bg-zinc-950 dark:border-zinc-800">
+  <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
+    <a
+      [routerLink]="['/bookings']"
+      class="w-10 h-10 aspect-square dark:bg-zinc-900 grid place-items-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+    >
+      <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
+    </a>
+    <h1 class="saira-font text-xl font-bold">Detalhes do Agendamento</h1>
+  </header>
+
+  <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-2">
+    <section class="lg:col-span-2 flex flex-col gap-6">
+      <input
+        type="text"
+        id="bookingTitle"
+        placeholder="Ex: Corte para festa"
+        class="outline-none bg-transparent text-3xl saira-font font-semibold text-gray-800 dark:text-gray-100"
+        [defaultValue]="booking.title"
+      />
+
+      <div class="flex flex-col gap-3">
+        <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+          Cliente
+        </h2>
+        @if (booking.client) {
+        <div class="flex items-center gap-4 p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg">
+          <img
+            [src]="booking.client"
+            alt="Avatar do cliente"
+            class="w-12 h-12 rounded-full object-cover"
+          />
+          <div>
+            <p class="font-bold text-gray-800 dark:text-gray-100">{{ booking.client.fullName }}</p>
+            <a href="#" class="text-sm text-indigo-500 hover:underline">Ver perfil</a>
+          </div>
+        </div>
+        }@else {
+        <div class="dark:text-gray-400 text-sm">Nenhum cliente para esse agendamento!</div>
+        }
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+          Serviços
+        </h2>
+        <div
+          class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg divide-y divide-gray-200 dark:divide-zinc-800"
+        >
+          @for (service of booking.services; track service.id ) {
+          <div class="flex justify-between items-center py-2">
+            <p class="text-gray-700 dark:text-gray-300">{{ service.title }}</p>
+            <p class="font-semibold text-gray-800 dark:text-gray-100">
+              {{ service.price | currency : 'BRL' }}
+            </p>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+          Horário
+        </h2>
+        <div class="flex items-center gap-4 p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg">
+          <i class="material-icons-outlined text-indigo-500">watch_later</i>
+          <div>
+            <p class="font-bold text-gray-800 dark:text-gray-100">
+              {{ dayjs(booking.startAt).format('HH:mm') }} -
+              {{ dayjs(booking.endAt).format('HH:mm') }}
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              {{ dayjs(booking.startAt).format('dddd, D [de] MMMM') }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <aside class="lg:col-span-1 p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg flex flex-col gap-4">
+      <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+        Status
+      </h2>
+
+      @if (isBookingTerminated()) {
+      <div
+        class="flex items-center gap-3 p-3 rounded-lg"
+        [ngClass]="getStatusColor(booking!.status)"
+      >
+        <i class="material-icons-outlined text-white">{{ getStatusIcon(booking!.status) }}</i>
+        <div class="text-white">
+          <p class="font-bold">Agendamento {{ booking!.status }}</p>
+          <p class="text-xs opacity-80">Este agendamento foi finalizado.</p>
+        </div>
+      </div>
+      }
+
+      <div class="relative">
+        @for (status of getTimelineStatuses(); track status; let i = $index) {
+        <div class="flex gap-4" [class.is-complete]="isStatusComplete(status)">
+          <div class="flex flex-col items-center w-8">
+            <div class="timeline-dot grid place-items-center" [ngClass]="getStatusColor(status)">
+              <i class="material-icons-outlined text-white text-sm">{{ getStatusIcon(status) }}</i>
+            </div>
+            @if (!$last) {
+            <div class="w-0.5 flex-grow" [ngClass]="getLineColor(status)"></div>
+            }
+          </div>
+
+          <div class="pb-8 pt-1">
+            <p class="font-semibold text-gray-800 dark:text-gray-100">{{ status }}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Status atualizado</p>
+          </div>
+        </div>
+        }
+      </div>
+    </aside>
+  </main>
+</div>
+} @else {
+<div class="grid place-items-center h-64">
+  <p class="text-gray-500">Carregando detalhes...</p>
+</div>
+}

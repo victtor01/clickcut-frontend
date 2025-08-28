@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BusinessService } from '@app/core/services/business.service';
 import { ToastService } from '@app/core/services/toast.service';
+import dayjs from 'dayjs';
 
 @Component({ templateUrl: './all-times.component.html', selector: 'all-times' })
 export class AllTimesComponent implements OnInit {
@@ -17,6 +18,9 @@ export class AllTimesComponent implements OnInit {
 
   @Input()
   public selectedTime?: string;
+
+  @Input()
+  public currentDate?: string;
 
   private _times: string[] = [];
 
@@ -36,7 +40,8 @@ export class AllTimesComponent implements OnInit {
 
   private loadTimes() {
     if (this.serviceId) {
-      this.businessService.avaibleTimes(this.serviceId).subscribe({
+      const dateValue = this.currentDate || dayjs().format('YYYY-MM-DD');
+      this.businessService.avaibleTimes(this.serviceId, dateValue).subscribe({
         next: (value: string[]) => {
           this._times = value;
         },

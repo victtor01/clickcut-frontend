@@ -19,12 +19,14 @@
     </button>
   </header>
 
-  <section class="flex items-center justify-between mt-4">
+  <section class="flex items-center justify-between mt-6">
     <div class="flex gap-2 items-center">
       <a
         [routerLink]="['/bookings/create']"
-        class="bg-indigo-500 text-indigo-50 active:bg-indigo-600 focus:ring-offset-2 dark:ring-offset-slate-900 rounded-lg transition-all active:scale-110 ease-in-out active:ring-2 dark:active:ring-indigo-700 p-2 px-4"
+        [queryParams]="{ currentDate: currentDate.format('YYYY-MM-DD') }"
+        class="bg-indigo-500 text-indigo-50 items-center flex gap-4 active:bg-indigo-600 focus:ring-offset-2 dark:ring-offset-slate-900 rounded-lg transition-all active:scale-110 ease-in-out active:ring-2 dark:active:ring-indigo-700 p-2 px-4"
       >
+        <i class="material-icons-outlined">add</i>
         <span class="saira-font">Agendamento</span>
       </a>
     </div>
@@ -48,8 +50,11 @@
           <div class="flex-grow h-px bg-gray-200 dark:bg-zinc-700"></div>
         </div>
         } @for (booking of bookingsForCurrentDay; track booking.id) {
-        <div
-          class="booking-item mr-2 -ml-6 my-[1px] p-2 bg-indigo-100 dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex flex-col justify-center z-10 cursor-pointer"
+        <button
+          (click)="openModalForHour(booking.startAt)"
+          [attr.data-late]="isLate(booking)"
+          type="button"
+          class="booking-item mr-2 -ml-6 items-start my-[1px] p-2 bg-indigo-100 dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex flex-col justify-center z-10 cursor-pointer data-[late=true]:bg-rose-500/10 data-[late=true]:border-rose-500"
           [ngStyle]="getBookingGridStyle(booking)"
         >
           <p
@@ -57,11 +62,14 @@
           >
             {{ booking.title }}
           </p>
-          <p class="text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none">
+          <p
+            [attr.data-late]="isLate(booking)"
+            class="text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none data-[late=true]:text-red-600"
+          >
             {{ dayjs(booking.startAt).format('HH:mm') }} -
             {{ dayjs(booking.endAt).format('HH:mm') }}
           </p>
-        </div>
+        </button>
         } @if (isToday) {
         <div
           #timeIndicator

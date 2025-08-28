@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { Booking } from '../models/Booking';
+import { CreateBookingDTO } from '../schemas/create-booking.dto';
 import { ApiService } from './api.service';
 
 export type BookingsByDay = Record<string, Booking[]>;
@@ -16,10 +17,16 @@ export class BookingService {
 
     const endDate = endAt ?? startDate;
 
-    const params = new HttpParams()
-      .set('startAt', startDate)
-      .set('endAt', endDate);
+    const params = new HttpParams().set('startAt', startDate).set('endAt', endDate);
 
     return this.apiService.get('/bookings/all', params);
+  }
+
+  public create(createBookingDTO: CreateBookingDTO) {
+    return this.apiService.post<Booking>('/bookings', createBookingDTO);
+  }
+
+  public findById(bookingId: string): Observable<Booking> {
+    return this.apiService.get<Booking>(`/bookings/${bookingId}`);
   }
 }

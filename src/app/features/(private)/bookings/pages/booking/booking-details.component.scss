@@ -1,0 +1,27 @@
+.timeline-item,
+.flex.gap-4 {
+  // Adicionado .flex.gap-4 para cobrir a nova estrutura
+  transition: opacity 0.3s ease-in-out;
+
+  &.is-active {
+    opacity: 1;
+    .font-semibold {
+      color: #6366f1; // Cor indigo-500
+    }
+  }
+
+  &.is-complete {
+    opacity: 1;
+    .font-semibold {
+      color: #6366f1; // Cor indigo-500
+    }
+  }
+}
+
+// Estilo da "bolinha"
+.timeline-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  flex-shrink: 0; // Impede que a bolinha encolha
+}

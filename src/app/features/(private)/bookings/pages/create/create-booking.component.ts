@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Service } from '@app/core/models/Service';
+import { CreateBookingDTO } from '@app/core/schemas/create-booking.dto';
+import { BookingService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { AllServicesComponent } from '@app/features/(private)/services/components/all-services/all-services.component';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { AllTimesComponent } from '../../components/all-times/all-times.component';
 
@@ -15,11 +17,17 @@ dayjs.extend(customParseFormat);
   templateUrl: './create-booking.component.html',
   imports: [AllServicesComponent, RouterLink, CommonModule, AllTimesComponent, ToFormatBrlPipe],
 })
-export class CreateBookingComponent {
-  constructor(private readonly toastService: ToastService) {}
+export class CreateBookingComponent implements OnInit {
+  constructor(
+    private readonly toastService: ToastService,
+    private readonly bookingService: BookingService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
+  ) {}
 
   private _selectedService?: Service;
   private _selectedTime?: string;
+  private _currentDate?: Dayjs;
   private _buttonActive: boolean = false;
   private _step: number = 1;
 
@@ -57,6 +65,22 @@ export class CreateBookingComponent {
     return this._buttonActive;
   }
 
+  get currentDate() {
+    return this._currentDate;
+  }
+
+  ngOnInit(): void {
+    const dateFromQuery = this.route.snapshot.queryParamMap.get('currentDate');
+
+    if (dateFromQuery) {
+      this._currentDate = dayjs(dateFromQuery);
+      console.log('Data recebida da URL:', this._currentDate.format('DD/MM/YYYY'));
+    } else {
+      this._currentDate = dayjs();
+      console.log('Nenhuma data passada na URL, usando data atual.');
+    }
+  }
+
   public activeButton(): void {
     this._buttonActive = true;
   }
@@ -73,7 +97,7 @@ export class CreateBookingComponent {
     if (this._step > 1) this._step -= 0;
   }
 
-  public submit() {
+  public submit(): void {
     switch (this._step) {
       case 1:
         if (this._selectedService) {
@@ -83,9 +107,45 @@ export class CreateBookingComponent {
           this.toastService.error('Selecione um serviço!');
         }
         break;
+
+      case 2:
+        this.createBooking();
+        break;
       default:
         console.log('Operação inválida!');
     }
+  }
+
+  public createBooking(): void {
+    if (!this.serviceId || !this._selectedTime || !this._currentDate) {
+      this.toastService.error('Dados faltando');
+      return;
+    }
+
+    const [hours, minutes] = this._selectedTime.split(':').map(Number);
+    const bookingDayjsObject = this._currentDate
+      .hour(hours)
+      .minute(minutes)
+      .second(0)
+      .millisecond(0);
+
+    const createBookingDTO = {
+      title: '',
+      serviceId: this.serviceId,
+      startAt: bookingDayjsObject.toDate().toISOString(),
+    } satisfies CreateBookingDTO;
+
+    this.bookingService.create(createBookingDTO).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.toastService.success(`Agendamento criado as ${this._selectedTime}`);
+        this.router.navigate(['/bookings']);
+      },
+
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   public selectTime = (time: string): void => {

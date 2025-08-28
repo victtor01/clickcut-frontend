@@ -7,3 +7,14 @@
 .scroll-hidden::-webkit-scrollbar {
   display: none;
 }
+
+.dialog-no-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background-color: transparent !important; // Remove o fundo branco
+  box-shadow: none !important; // Remove a sombra
+  padding: 0 !important; // Opcional: remove o preenchimento interno
+  border-radius: 0 !important; // Opcional: remove as bordas arredondadas
+}
+
+html, body { height: 100%; }
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
