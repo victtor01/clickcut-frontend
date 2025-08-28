@@ -1,0 +1,21 @@
+<aside
+  class="z-30 w-24 hidden lg:flex flex-col flex-1 h-full justify-center bg-white/50 dark:bg-zinc-950/70 backdrop-blur-sm "
+>
+  <div class="relative flex flex-col gap-2">
+    <span
+      [ngStyle]="indicatorStyle"
+      class="absolute left-0 w-1 bg-indigo-500 rounded-r-full duration-300 ease-in-out"
+    ></span>
+
+    <button
+      #tabElement
+      *ngFor="let tab of tabs"
+      [attr.data-active]="tab.id === activeTabId"
+      (click)="selectTab(tab)"
+      class="relative flex flex-col mx-auto items-center justify-center w-20 h-20 rounded-lg text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
+    >
+      <span class="material-icons-outlined text-3xl">{{ tab.icon }}</span>
+      <span class="text-xs font-medium mt-1">{{ tab.label }}</span>
+    </button>
+  </div>
+</aside>

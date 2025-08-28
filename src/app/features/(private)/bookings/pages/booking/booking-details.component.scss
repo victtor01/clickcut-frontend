@@ -25,3 +25,10 @@
   border-radius: 9999px;
   flex-shrink: 0; // Impede que a bolinha encolha
 }
+
+
+#auroraGlow {
+  left: var(--mouse-x);
+  top: var(--mouse-y);
+  transform: translate(-50%, -50%);
+}

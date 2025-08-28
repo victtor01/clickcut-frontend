@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingService } from '@app/core/services/booking.service';
+import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
 
 @Component({
@@ -10,7 +11,7 @@ import dayjs from 'dayjs'; // Importe o Dayjs
   templateUrl: './booking-details.component.html',
   styleUrls: ['./booking-details.component.scss'], // Adicione o SCSS
   standalone: true, // Adicione standalone: true
-  imports: [RouterLink, CommonModule], // Adicione CommonModule e RouterLink
+  imports: [RouterLink, CommonModule, ToFormatBrlPipe], // Adicione CommonModule e RouterLink
 })
 export class BookingDetailsComponent implements OnInit {
   constructor(
@@ -19,13 +20,16 @@ export class BookingDetailsComponent implements OnInit {
   ) {}
 
   public bookingId: string | null = null;
-  public dayjs = dayjs; // Exponha o dayjs para o template
+  public dayjs = dayjs;
 
-  // Dados de exemplo para o design
   private _booking?: Booking;
 
   get booking() {
     return this._booking;
+  }
+
+  set booking(value: Booking | undefined) {
+    this._booking = value;
   }
 
   public ngOnInit(): void {
@@ -34,7 +38,7 @@ export class BookingDetailsComponent implements OnInit {
     if (this.bookingId) {
       this.bookingService.findById(this.bookingId).subscribe({
         next: (value) => {
-          this._booking = value;
+          this.booking = value;
         },
       });
     }
@@ -102,9 +106,11 @@ export class BookingDetailsComponent implements OnInit {
 
     if (currentStatusIndex < statusOrder.length - 1) {
       this._booking!.status = statusOrder[currentStatusIndex + 1];
-      // Aqui você chamaria seu service para salvar a alteração no backend
-      // this.bookingService.updateStatus(this.bookingId, this._booking.status).subscribe(...);
     }
+  }
+
+  public isPaid(): boolean {
+    return this.booking?.status === 'PAID';
   }
 
   public getStatusColor(status: BookingStatus): string {
