@@ -16,7 +16,7 @@ export class ConnectionsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private mercadoPagoService: MercadoPagoService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
       if (params.get('success') === 'mp_connected') {
         this.connectionStatus.set('success');
@@ -27,9 +27,9 @@ export class ConnectionsComponent implements OnInit {
     });
 
     this.mercadoPagoService.getState().subscribe({
-      next: ({ token }) => {
-        this.isConnected = !!token;
-        this.connectionStatus.set("success");
+      next: (tokens) => {
+        this.isConnected = !!tokens;
+        this.connectionStatus.set('success');
       },
 
       error: (err) => {
@@ -38,12 +38,22 @@ export class ConnectionsComponent implements OnInit {
       },
     });
   }
-  async connectMercadoPago(): Promise<void> {
+
+  public async connectMercadoPago(): Promise<void> {
     this.mercadoPagoService.getConnectUrl().subscribe({
       next: (value) => {
         if (value?.url) {
           window.location.href = value.url;
         }
+      },
+    });
+  }
+
+  public async disconectMercadoPago() {
+    this.mercadoPagoService.disconnect().subscribe({
+      next: () => {
+        this.isConnected = false;
+        this.connectionStatus.set('not_connected');
       },
     });
   }

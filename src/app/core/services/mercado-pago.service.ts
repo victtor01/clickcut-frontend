@@ -13,4 +13,8 @@ export class MercadoPagoService {
   public getState(): Observable<{ token: string }> {
     return this.apiService.get<{ token: string }>('/mercado-pago/connect/state');
   }
+
+  public disconnect(): Observable<{ message: string }> {
+    return this.apiService.post<{ message: string }>('/mercado-pago/disconnect');
+  }
 }

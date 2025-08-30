@@ -44,6 +44,15 @@
     </div>
   </div>
 
+  <button
+    type="button"
+    *ngIf="!!isConnected"
+    (click)="disconectMercadoPago()"
+    class="flex rounded mt-4 opacity-90 hover:opacity-100 p-2 bg-zinc-100 dark:bg-zinc-900"
+  >
+    <span class=""> Desconectar </span>
+  </button>
+
   @if (connectionStatus() === 'error') {
   <p class="text-red-500 mt-4">
     Ocorreu um erro ao tentar conectar sua conta. Por favor, tente novamente.
