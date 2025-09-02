@@ -10,6 +10,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class SidebarConfigureComponent {
   public navItems = [
     { path: '/configure', icon: 'link', label: 'Conexões' },
+    { path: '/configure/business', icon: 'store', label: 'Negócio' },
     { path: '/configure/perfil', icon: 'account_circle', label: 'Perfil' },
     { path: '/configure/security', icon: 'admin_panel_settings', label: 'Segurança' },
   ];

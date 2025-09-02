@@ -1,0 +1,9 @@
+@if (qrCodeUrl()) {
+  <div>
+    <img [src]="qrCodeUrl()" alt="QR Code gerado">
+  </div>
+} @else {
+  <div class="placeholder">
+    <p>Aguardando dados para gerar o QR Code...</p>
+  </div>
+}

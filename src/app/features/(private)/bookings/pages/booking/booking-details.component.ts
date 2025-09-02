@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common'; // Importe o CommonModule
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingService } from '@app/core/services/booking.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
+import { PaymentBookingModalComponent } from './components/payment-booking-modal.component';
 
 @Component({
   selector: 'app-booking-details',
@@ -16,7 +18,8 @@ import dayjs from 'dayjs'; // Importe o Dayjs
 export class BookingDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly bookingService: BookingService
+    private readonly bookingService: BookingService,
+    private readonly paymentDialog: MatDialog
   ) {}
 
   public bookingId: string | null = null;
@@ -133,5 +136,20 @@ export class BookingDetailsComponent implements OnInit {
       default:
         return 'radio_button_unchecked';
     }
+  }
+
+  public openModalToPay() {
+    const dialogRef = this.paymentDialog.open(PaymentBookingModalComponent, {
+      width: 'min(50rem, 90%)',
+      backdropClass: ['bg-transparent', 'dark:bg-zinc-950/60'],
+      panelClass: 'dialog-no-container',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { bookingId: this.bookingId }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 }

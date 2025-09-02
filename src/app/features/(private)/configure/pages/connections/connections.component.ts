@@ -9,6 +9,12 @@ import { MpLogoComponent } from '../../components/mp-logo/mp-logo.component';
   standalone: true,
   imports: [MpLogoComponent, CommonModule],
   templateUrl: './connections.component.html',
+  styles: `
+    :host {
+      display: block;
+      width: 100%;
+    }
+  `,
 })
 export class ConnectionsComponent implements OnInit {
   public connectionStatus = signal<'success' | 'error' | 'not_connected'>('not_connected');

@@ -1,6 +1,8 @@
 <div class="flex h-screen flex-col overflow-auto overflow-x-hidden dark:text-zinc-200">
-	<section class="flex h-auto mx-auto w-auto py-[2%] max-w-[70rem]">
-		<sidebar-configure></sidebar-configure>
-		<router-outlet></router-outlet>
-	</section>
+  <section class="flex flex-row mx-auto w-full py-[2%] max-w-[70rem]">
+    <sidebar-configure></sidebar-configure>
+    <div class="flex flex-1 relative">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
 </div>
