@@ -9,5 +9,6 @@ export interface BusinessStatement {
     finished: number;
     canceled: number;
     noShow: number;
+    paids: number;
   };
 }

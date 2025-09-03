@@ -1,6 +1,8 @@
 @if (booking) {
 <div class="flex flex-col gap-4 p-3 bg-white rounded-lg dark:bg-zinc-950 dark:border-zinc-800">
-  <header class="flex gap-4 items-center flex-wrap justify-between text-gray-500 dark:text-gray-200">
+  <header
+    class="flex gap-4 items-center flex-wrap justify-between text-gray-500 dark:text-gray-200"
+  >
     <div class="flex gap-4 items-center">
       <a
         [routerLink]="['/bookings']"
@@ -12,7 +14,6 @@
     </div>
 
     <button
-      *ngIf="!isPaid()"
       (click)="openModalToPay()"
       type="button"
       class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-white/5 dark:bg-zinc-800/20 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-zinc-800/50 active:scale-95"
@@ -126,7 +127,7 @@
             id="auroraGlow"
             class="absolute -z-10 h-32 w-32 bg-violet-600 opacity-0 group-active:opacity-50 group-hover:opacity-25 blur-3xl transition-opacity duration-500"
           ></span>
-          <span>Avançar Status</span>
+          <span>{{getTextButton()}}</span>
           <i class="material-icons-outlined">arrow_forward</i>
         </button>
       </div>

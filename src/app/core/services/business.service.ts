@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { Business, TimeSlot } from '../models/Business';
 import { BusinessStatement } from '../models/BusinessStatement';
+import { CreateTimeSlotDTO } from '../schemas/create-time-slot.dto';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -18,6 +19,10 @@ export class BusinessService {
     return this.apiService.post('/auth/business', {
       businessId,
     });
+  }
+
+  public createTimeSlot(timeSlot: CreateTimeSlotDTO): Observable<TimeSlot> {
+    return this.apiService.put("/business/timeSlot", timeSlot);
   }
 
   public getStatement(): Observable<BusinessStatement> {

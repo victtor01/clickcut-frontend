@@ -1,0 +1,31 @@
+<div class="flex items-center gap-2 p-2 px-4 bg-white dark:bg-zinc-900 rounded-full">
+  <input
+    type="time"
+    [(ngModel)]="startTime"
+    class="w-24 bg-transparent outline-none border-0 focus:ring-0 text-sm text-gray-800 dark:text-gray-200 dark:[color-scheme:dark]"
+  />
+  <span class="text-gray-400 dark:text-zinc-500">-</span>
+  <input
+    type="time"
+    [(ngModel)]="endTime"
+    class="w-24 bg-transparent outline-none border-0 focus:ring-0 text-sm text-gray-800 dark:text-gray-200 dark:[color-scheme:dark]"
+  />
+
+	<span class="h-7 w-px bg-zinc-200 dark:bg-zinc-700"></span>
+  <button
+    type="button"
+    (click)="onSave()"
+    class="h-8 w-8 grid place-items-center rounded-full text-green-500 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors"
+    aria-label="Salvar Horário"
+  >
+    <span class="material-icons-outlined !text-xl">check_circle</span>
+  </button>
+  <button
+    type="button"
+    (click)="onCancel()"
+    class="h-8 w-8 grid place-items-center rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors"
+    aria-label="Cancelar"
+  >
+    <span class="material-icons-outlined !text-xl">cancel</span>
+  </button>
+</div>

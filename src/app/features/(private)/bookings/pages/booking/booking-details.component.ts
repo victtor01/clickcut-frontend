@@ -4,9 +4,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingService } from '@app/core/services/booking.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
 import { PaymentBookingModalComponent } from './components/payment-booking-modal.component';
+
+const BOOKING_STATUS_LABELS: Record<string, string> = {
+  CONFIRMED: 'Começar agendamento',
+  IN_PROGRESS: 'Finalizar agendamento',
+  COMPLETED: 'Pagamento finalizado!',
+};
+
+// Texto padrão para qualquer outro status
+const DEFAULT_BUTTON_LABEL = 'Avançar status';
 
 @Component({
   selector: 'app-booking-details',
@@ -19,7 +29,8 @@ export class BookingDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly bookingService: BookingService,
-    private readonly paymentDialog: MatDialog
+    private readonly paymentDialog: MatDialog,
+    private readonly toastService: ToastService
   ) {}
 
   public bookingId: string | null = null;
@@ -103,13 +114,49 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   public advanceStatus(): void {
-    if (!this.booking) return;
+    if (!this.booking?.id) return;
+
     const statusOrder = this.getAllStatuses();
     const currentStatusIndex = statusOrder.indexOf(this.booking.status);
+
+    switch (this.booking.status) {
+      case 'CONFIRMED':
+        this.bookingService.start(this.booking.id).subscribe({
+          next: (e) => {
+            this._booking!.status = e.status;
+          },
+        });
+        break;
+      case 'IN_PROGRESS':
+        this.bookingService.finish(this.booking.id).subscribe({
+          next: (e) => {
+            this._booking!.status = e.status;
+          },
+        });
+        break;
+      case 'CANCELLED':
+        this.toastService.error('O Agendamento está cancelado!');
+        break;
+      default:
+        this.toastService.error('Status inválido!');
+    }
 
     if (currentStatusIndex < statusOrder.length - 1) {
       this._booking!.status = statusOrder[currentStatusIndex + 1];
     }
+  }
+
+  public isInConfirmed(): boolean {
+    return this.booking?.status === 'CONFIRMED';
+  }
+
+  public isInProgress(): boolean {
+    return this.booking?.status === 'IN_PROGRESS';
+  }
+
+  public getTextButton(): string {
+    const status = this.booking?.status as BookingStatus;
+    return BOOKING_STATUS_LABELS[status] || DEFAULT_BUTTON_LABEL;
   }
 
   public isPaid(): boolean {
@@ -145,7 +192,7 @@ export class BookingDetailsComponent implements OnInit {
       panelClass: 'dialog-no-container',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
-      data: { bookingId: this.bookingId }
+      data: { bookingId: this.bookingId, status: this.booking?.status },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -28,6 +28,10 @@ export class WeekComponent {
     this._dateCounts = dates;
   }
 
+  public isNow(date: Dayjs): boolean {
+    return dayjs().isSame(date, 'date');
+  }
+
   public get currentDate(): Dayjs {
     return this._currentDate;
   }

@@ -1,27 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BookingStatus } from '@app/core/models/Booking';
 import { BookingPayment } from '@app/core/models/BookingPayment';
 import { PaymentService } from '@app/core/services/payment.service';
-import { QRCodeComponent } from 'angularx-qrcode';
 
-@Component({ templateUrl: './payment-booking-modal.component.html', imports: [CommonModule, QRCodeComponent] })
+@Component({
+  templateUrl: './payment-booking-modal.component.html',
+  imports: [CommonModule],
+})
 export class PaymentBookingModalComponent implements OnInit {
   constructor(
     private readonly dialogRef: MatDialogRef<PaymentBookingModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    private data: { bookingId: string },
+    private data: { bookingId: string; status: BookingStatus },
     private readonly paymentsService: PaymentService
   ) {}
 
   public payment?: BookingPayment;
 
   public ngOnInit(): void {
+    if(this?.data?.status !== "COMPLETED") return;
+
     if (this.data?.bookingId) {
       this.paymentsService.paymentIntent(this.data.bookingId).subscribe({
         next: (value) => {
-          console.log('valor: ', value);
           this.payment = value;
+          console.log(value);
         },
       });
     }
@@ -30,7 +35,11 @@ export class PaymentBookingModalComponent implements OnInit {
   public get pixCopyPasteCode() {
     return this.payment?.copyPasteCode;
   }
-  
+
+  public get status() {
+    return this.data.status;
+  }
+
   public get base64() {
     return this.payment?.qrCodeBase64 || null;
   }
@@ -67,7 +76,7 @@ export class PaymentBookingModalComponent implements OnInit {
 
   private copyLegacy() {
     const textArea = document.createElement('textarea');
-    textArea.value = this.pixCopyPasteCode || "";
+    textArea.value = this.pixCopyPasteCode || '';
 
     textArea.style.position = 'fixed';
     textArea.style.top = '0';

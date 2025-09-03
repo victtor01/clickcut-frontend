@@ -3,8 +3,9 @@
     @for (day of dates; track $index) {
     <div
       #dayElement
+      [attr.data-now]="isNow(day)"
       [attr.data-current]="day.isSame(currentDate, 'date')"
-      class="transition-all relative min-w-20 h-20 bg-zinc-100 flex items-center justify-center flex-col dark:bg-zinc-900 rounded-full data-[current=true]:bg-indigo-500"
+      class="transition-all relative min-w-20 h-20 bg-zinc-100 flex items-center justify-center flex-col dark:bg-zinc-900 rounded-full data-[current=true]:bg-indigo-500 data-[now=true]:border-4 dark:border-zinc-700"
     >
       <span
         [attr.data-current]="day.isSame(currentDate, 'date')"

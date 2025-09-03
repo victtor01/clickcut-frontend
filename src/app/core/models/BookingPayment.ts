@@ -9,6 +9,7 @@ export interface BookingPayment {
   bookingPaymentMethod: BookingPaymentMethod;
   bookingPaymentOrigin: BookingPaymentOrigin;
 }
+
 export type BookingPaymentMethod = 'CASH' | 'PIX' | 'CREDIT_CARD' | 'DEBIT_CARD';
 
 export type BookingPaymentOrigin = 'GATEWAY' | 'MANUAL';

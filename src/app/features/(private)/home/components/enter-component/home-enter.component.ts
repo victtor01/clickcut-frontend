@@ -40,6 +40,7 @@ export class HomeEnterComponent implements OnInit {
     this.businessService.getStatement().subscribe({
       next: (data) => {
         this.statement = data;
+        console.log(data)
       },
 
       error: () => {

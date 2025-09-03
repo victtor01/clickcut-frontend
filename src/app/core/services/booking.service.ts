@@ -30,4 +30,12 @@ export class BookingService {
   public findById(bookingId: string): Observable<Booking> {
     return this.apiService.get<Booking>(`/bookings/${bookingId}`);
   }
+
+  public start(bookingId: string): Observable<Booking> {
+    return this.apiService.patch(`/bookings/start/${bookingId}`);
+  }
+
+  public finish(bookingId: string): Observable<Booking> {
+    return this.apiService.patch(`/bookings/finish/${bookingId}`);
+  }
 }
