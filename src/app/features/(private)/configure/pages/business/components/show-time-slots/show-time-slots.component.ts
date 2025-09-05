@@ -48,10 +48,11 @@ export class ShowTimeSlotsComponent {
     const groupedSchedule: WeeklySchedule = {};
 
     for (const day of this.daysOfWeek) {
-      groupedSchedule[day.value] = { isActive: true, slots: [] };
+      groupedSchedule[day.value] = { isActive: false, slots: [] };
     }
 
     for (const slot of slots) {
+      console.log(slot.day)
       groupedSchedule[slot.day as any].isActive = true;
       groupedSchedule[slot.day as any].slots.push(slot);
     }

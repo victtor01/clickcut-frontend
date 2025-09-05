@@ -9,7 +9,7 @@ import { PaymentService } from '@app/core/services/payment.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration'; // Importar o plugin de duração
-import { ManualPaymentComponent } from './manual-payment/manual-payment.component';
+import { ManualPaymentComponent } from '../manual-payment/manual-payment.component';
 
 dayjs.extend(duration);
 
@@ -31,11 +31,12 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
   public payment?: BookingPayment;
   public time = dayjs();
 
-  public activeTab: string = 'pix';
+  public activeTab: string = 'manual';
   public remainingTime: string = '00:00';
   public isExpired: boolean = false;
   public isLoading: boolean = true;
   public isCopied: boolean = false;
+  public isPixLoading: boolean = true;
 
   public selectedPaymentMethod: string = 'dinheiro';
 
@@ -43,12 +44,14 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
     if (this?.data?.status !== 'COMPLETED') return;
 
     if (this.data?.bookingId) {
-      this.paymentsService.paymentIntent(this.data.bookingId).subscribe({
-        next: (value) => {
-          this.payment = value;
-          this.startCountdown();
-        },
-      });
+      if (this.activeTab === 'pix') {
+        this.paymentsService.paymentIntent(this.data.bookingId).subscribe({
+          next: (value) => {
+            this.payment = value;
+            this.startCountdown();
+          },
+        });
+      }
 
       this.paymentsService.getPendingBalance(this.data.bookingId).subscribe({
         next: (value) => {
@@ -63,6 +66,13 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
+    }
+  }
+
+  public selectTab(tab: 'manual' | 'pix'): void {
+    this.activeTab = tab;
+    if (this.activeTab === 'pix') {
+      this.fetchPixPaymentIntent();
     }
   }
 
@@ -84,6 +94,27 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
     });
   }
 
+  private fetchPixPaymentIntent(): void {
+    if (!this.data?.bookingId) return;
+
+    this.isPixLoading = true;
+    this.payment = undefined;
+
+    if (this.timerInterval) clearInterval(this.timerInterval);
+
+    this.paymentsService.paymentIntent(this.data.bookingId).subscribe({
+      next: (value) => {
+        this.payment = value;
+        this.startCountdown();
+        this.isPixLoading = false;
+      },
+      error: () => {
+        // Lidar com o erro, talvez mostrar uma mensagem para o utilizador
+        this.isPixLoading = false;
+      },
+    });
+  }
+
   private startCountdown(): void {
     if (!this.payment?.expirationDate) return;
 
@@ -91,7 +122,6 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
       const expirationDate = dayjs(this.payment!.expirationDate);
       const now = dayjs();
 
-      // Verifica se a data de expiração já passou
       if (now.isAfter(expirationDate)) {
         this.remainingTime = '00:00';
         this.isExpired = true;
@@ -99,7 +129,6 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // Calcula a diferença e formata o tempo restante
       const diff = expirationDate.diff(now);
       const remainingDuration = dayjs.duration(diff);
 

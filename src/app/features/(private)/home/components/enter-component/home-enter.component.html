@@ -1,4 +1,4 @@
-<div class="w-full h-[10rem] absolute bg-zinc-100 dark:bg-zinc-900/40"></div>
+<div class="w-full h-[10rem] absolute bg-transparent dark:bg-zinc-900/40"></div>
 
 <div class="flex relative flex-col p-5 gap-4">
   <header class="items-center gap-2 flex justify-between w-full dark:text-gray-300 text-gray-500">
@@ -6,7 +6,7 @@
       <h1 class="text-3xl saira-font font-light">
         Olá, <b class="font-semibold">{{ statement?.userSession?.username }}</b>
       </h1>
-      <span class="text-gray-300 dark:text-zinc-400">Bem vindo de volta a sua loja...</span>
+      <span class="text-gray-500 dark:text-zinc-400">Bem vindo de volta a sua loja...</span>
     </div>
 
     <div class="relative" #menuContainer>
@@ -42,7 +42,7 @@
   </header>
 
   <div
-    class="h-[10rem] p-3 rounded-xl flex flex-col bg-gradient-to-bl from-indigo-500 to-violet-500 dark:shadow-xl dark:shadow-black"
+    class="h-auto p-3 rounded-xl flex flex-col bg-gradient-to-bl from-indigo-500 to-violet-500 dark:shadow-xl shadow-zinc-600/20 dark:shadow-black"
   >
     <section class="flex items-center justify-between gap-5">
       <div class="flex gap-2 items-center">
@@ -63,7 +63,30 @@
       </div>
     </section>
 
-    <section class="flex items-end px-2 flex-1">
+    <section class="flex flex-col p-2 flex-1 justify-center">
+      <div class="flex h-3 flex-col rounded-full bg-indigo-900/30">
+        <span
+          [style.width.%]="porcetage"
+          class="flex bg-indigo-300 rounded-full relative left-0 h-full"
+        >
+          <span
+            class="right-0 text-zinc-200 w-auto absolute top-4 bg-indigo-400/40 translate-x-[45%] backdrop-blur-sm border border-indigo-300/30 saira-font font-semibold text-base rounded px-2"
+          >
+            {{ porcetage }}%
+          </span>
+        </span>
+      </div>
+      <div class="justify-between flex">
+        <span class="text-sm saira-font text-indigo-100">
+          {{ statement?.revenue | toFormatBrl }}
+        </span>
+        <span class="text-sm saira-font text-indigo-100">
+          {{ statement?.revenueGoal | toFormatBrl }}
+        </span>
+      </div>
+    </section>
+
+    <section class="flex items-end px-2 flex-1 mt-1">
       <div class="flex justify-between flex-1 items-center">
         <div class="flex text-indigo-50 flex-col leading-none gap-1 text-sm">
           <span class="saira-font text-xl font-semibold">
@@ -86,8 +109,7 @@
           <span> Completos </span>
         </div>
 
-
-         <div class="flex text-indigo-50 flex-col leading-none gap-1 text-sm">
+        <div class="flex text-indigo-50 flex-col leading-none gap-1 text-sm">
           <span class="saira-font text-xl font-semibold">
             {{ statement?.count?.paids }}
           </span>

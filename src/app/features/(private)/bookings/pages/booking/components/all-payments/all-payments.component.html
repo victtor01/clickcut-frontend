@@ -22,7 +22,6 @@
           </p>
           <p class="text-xs text-gray-500 dark:text-gray-400 capitalize">
             {{ payment.paymentMethod.toLowerCase().replace('_', ' ') }}
-						{{payment.paymentOrigin}}
             <span *ngIf="payment.paymentOrigin === 'MANUAL'">(Manual)</span>
           </p>
         </div>
@@ -32,7 +31,7 @@
         class="flex items-center gap-2 text-xs font-semibold px-2 py-1 rounded-full"
         [ngClass]="getPaymentStatusClass(payment.status)"
       >
-        <i class="material-icons-outlined !text-sm">{{ getPaymentStatusIcon(payment.status) }}</i>
+        <i class="material-icons-outlined !text-lg">{{ getPaymentStatusIcon(payment.status) }}</i>
         <span>{{ payment.status }}</span>
       </div>
     </li>

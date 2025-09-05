@@ -32,6 +32,14 @@ export class HomeEnterComponent implements OnInit {
     }
   }
 
+  public get porcetage() {
+    if (this.statement) {
+      return (this.statement?.revenue / this.statement?.revenueGoal) * 100;
+    }
+
+    return 0;
+  }
+
   public toggleMenu(): void {
     this.isMenuOpen.update((value) => !value);
   }
@@ -40,7 +48,6 @@ export class HomeEnterComponent implements OnInit {
     this.businessService.getStatement().subscribe({
       next: (data) => {
         this.statement = data;
-        console.log(data)
       },
 
       error: () => {

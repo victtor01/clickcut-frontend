@@ -9,7 +9,7 @@ import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
-import { PaymentBookingModalComponent } from './components/payment-booking-modal.component';
+import { PaymentBookingModalComponent } from './components/payment-modal/payment-booking-modal.component';
 
 const BOOKING_STATUS_LABELS: Record<string, string> = {
   CONFIRMED: 'Começar agendamento',
@@ -164,6 +164,10 @@ export class BookingDetailsComponent implements OnInit {
 
   public isPaid(): boolean {
     return this.booking?.status === 'PAID';
+  }
+
+    public isCompleted(): boolean {
+    return this.booking?.status === 'COMPLETED';
   }
 
   public getStatusColor(status: BookingStatus): string {

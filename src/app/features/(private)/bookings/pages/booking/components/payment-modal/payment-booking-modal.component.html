@@ -77,12 +77,12 @@
     <i class="material-icons-outlined">close</i>
   </button>
 
-  <div *ngIf="status === 'COMPLETED' && payment">
+  <div *ngIf="status === 'COMPLETED'">
     <div class="w-full mb-6">
       <div class="flex border-b border-white/10 dark:border-zinc-800">
         <button
           type="button"
-          (click)="activeTab = 'pix'"
+          (click)="selectTab('pix')"
           class="flex-1 py-3 text-sm font-semibold transition-colors duration-200"
           [ngClass]="{
             'text-violet-500 border-b-2 border-violet-500': activeTab === 'pix',
@@ -94,7 +94,7 @@
         </button>
         <button
           type="button"
-          (click)="activeTab = 'manual'"
+          (click)="selectTab('manual')"
           class="flex-1 py-3 text-sm font-semibold transition-colors duration-200"
           [ngClass]="{
             'text-violet-500 border-b-2 border-violet-500': activeTab === 'manual',
@@ -107,74 +107,125 @@
       </div>
     </div>
 
-    <div *ngIf="activeTab === 'pix'" class="flex flex-col items-center gap-4">
+    <div
+      *ngIf="activeTab === 'pix'"
+      class="flex flex-col items-center gap-4"
+    >
       <h2 class="text-2xl font-semibold saira-font text-gray-900 dark:text-gray-50">
         Pagamento PIX
       </h2>
+
       <p class="text-sm text-gray-600 dark:text-zinc-400 max-w-xs">
         Abra o app do seu banco, escaneie o código abaixo ou use o Copia e Cola.
       </p>
 
-      <div
-        class="flex items-stretch justify-around w-full max-w-xs bg-white/5 dark:bg-zinc-800/60 rounded-xl p-4 my-4"
+      <section
+        class="flex flex-col gap-3 flex-1 items-center"
+        *ngIf="!isPixLoading && payment; else loadingOrErrorTemplate"
       >
-        <div class="text-center">
-          <span
-            class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider"
-            >Valor</span
-          >
-          <p class="text-xl font-bold text-gray-900 dark:text-white mt-1">
-            {{ payment.amount | toFormatBrl }}
-          </p>
-        </div>
-        <div class="w-px bg-white/10 dark:bg-zinc-700/50"></div>
-        <div class="text-center">
-          <span
-            class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider"
-            >Expira em</span
-          >
-          <div
-            class="text-2xl font-mono font-bold saira-font mt-1"
-            [ngClass]="{ 'text-red-500': isExpired, 'text-gray-900 dark:text-white': !isExpired }"
-          >
-            {{ remainingTime }}
+        <div
+          class="flex items-stretch justify-around w-full max-w-xs bg-white/5 dark:bg-zinc-800/60 rounded-xl p-4 my-4"
+        >
+          <div class="text-center">
+            <span
+              class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider"
+              >Valor</span
+            >
+            <p class="text-xl font-bold text-gray-900 dark:text-white mt-1">
+              {{ payment.amount | toFormatBrl }}
+            </p>
+          </div>
+          <div class="w-px bg-white/10 dark:bg-zinc-700/50"></div>
+          <div class="text-center">
+            <span
+              class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider"
+              >Expira em</span
+            >
+            <div
+              class="text-2xl font-mono font-bold saira-font mt-1"
+              [ngClass]="{ 'text-red-500': isExpired, 'text-gray-900 dark:text-white': !isExpired }"
+            >
+              {{ remainingTime }}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="p-2 bg-white rounded-lg shadow-inner max-w-[25rem] my-2">
-        <img [src]="'data:image/png;base64,' + base64" alt="QR Code PIX" />
-      </div>
 
-      <div class="w-full text-left">
-        <label
-          for="pix-code"
-          class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider"
-        >
-          PIX Copia e Cola
-        </label>
-        <div class="relative w-full flex mt-2">
-          <input
-            id="pix-code"
-            type="text"
-            readonly
-            [value]="pixCopyPasteCode"
-            class="w-full p-3 pr-12 text-sm pointer-events-none truncate rounded-lg bg-gray-100 dark:bg-zinc-800 border-none text-gray-700 dark:text-zinc-300 focus:ring-2 focus:ring-violet-500"
-          />
-          <button
-            type="button"
-            (click)="copyCode()"
-            class="absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center w-8 h-8 rounded-full text-gray-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-200"
-            [ngClass]="{ 'bg-emerald-100 dark:bg-emerald-900 !text-emerald-500': isCopied }"
-            aria-label="Copiar texto"
-          >
-            <i *ngIf="isCopied" class="material-icons-outlined transition-opacity">check</i>
-            <i *ngIf="!isCopied" class="material-icons-outlined transition-opacity">content_copy</i>
-          </button>
+        <div class="p-2 bg-white rounded-lg shadow-inner max-w-[25rem] my-2">
+          <img [src]="'data:image/png;base64,' + base64" alt="QR Code PIX" />
         </div>
-        <p *ngIf="isCopied" class="text-xs text-emerald-500 mt-2 text-center">
-          Código copiado para a área de transferência!
-        </p>
-      </div>
+
+        <div class="w-full text-left">
+          <label
+            for="pix-code"
+            class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider"
+          >
+            PIX Copia e Cola
+          </label>
+          <div class="relative w-full flex mt-2">
+            <input
+              id="pix-code"
+              type="text"
+              readonly
+              [value]="pixCopyPasteCode"
+              class="w-full p-3 pr-12 text-sm pointer-events-none truncate rounded-lg bg-gray-100 dark:bg-zinc-800 border-none text-gray-700 dark:text-zinc-300 focus:ring-2 focus:ring-violet-500"
+            />
+            <button
+              type="button"
+              (click)="copyCode()"
+              class="absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center w-8 h-8 rounded-full text-gray-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-200"
+              [ngClass]="{ 'bg-emerald-100 dark:bg-emerald-900 !text-emerald-500': isCopied }"
+              aria-label="Copiar texto"
+            >
+              <i *ngIf="isCopied" class="material-icons-outlined transition-opacity">check</i>
+              <i *ngIf="!isCopied" class="material-icons-outlined transition-opacity"
+                >content_copy</i
+              >
+            </button>
+          </div>
+          <p *ngIf="isCopied" class="text-xs text-emerald-500 mt-2 text-center">
+            Código copiado para a área de transferência!
+          </p>
+        </div>
+      </section>
+      <ng-template #loadingOrErrorTemplate>
+        <!-- Dentro deste template, podemos ter mais lógica para decidir se mostramos o carregamento ou o erro -->
+        <div
+          *ngIf="isPixLoading; else errorTemplate"
+          class="flex flex-col items-center justify-center h-64"
+        >
+          <svg
+            class="w-12 h-12 text-violet-400 animate-spin"
+            xmlns="http://www.w.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          <p class="mt-4 text-sm text-gray-500 dark:text-zinc-400">A gerar PIX...</p>
+        </div>
+
+        <!-- O template de erro, que é o "else" do *ngIf="isPixLoading" -->
+        <ng-template #errorTemplate>
+          <div class="flex flex-col items-center justify-center h-64">
+            <i class="material-icons-outlined text-4xl text-rose-400">error_outline</i>
+            <p class="mt-4 text-sm text-gray-500 dark:text-zinc-400">
+              Não foi possível gerar o código PIX.<br />Tente novamente.
+            </p>
+          </div>
+        </ng-template>
+      </ng-template>
     </div>
 
     <div *ngIf="activeTab === 'manual'" class="flex flex-col gap-4 w-full">
@@ -185,9 +236,11 @@
         Registe um pagamento que foi recebido fora do sistema (ex: dinheiro, maquininha).
       </p>
 
-      <manual-payment (paymentSubmit)="createManualPayment($event)" [maxValue]="pendingValue"></manual-payment>
+      <manual-payment
+        (paymentSubmit)="createManualPayment($event)"
+        [maxValue]="pendingValue"
+      ></manual-payment>
     </div>
-
   </div>
 
   <div *ngIf="status === 'PAID'" class="flex flex-col items-center justify-center gap-4 py-8">
