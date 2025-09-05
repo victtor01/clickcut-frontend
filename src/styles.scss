@@ -36,6 +36,17 @@
   --circle-bg: var(--color-zinc-900); /* Fundo do círculo no MODO ESCURO (zinc-800) */
 }
 
+// .cdk-overlay-container {
+//   overflow: auto;
+// }
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+   overflow: auto;
+}
+
+/* "Diz ao painel do dialog: você não tem limites, cresça o quanto precisar" */
+  
 
 html, body { height: 100%; }
 

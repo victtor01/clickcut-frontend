@@ -1,3 +1,4 @@
+import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common'; // Importe o CommonModule
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,6 +8,7 @@ import { BookingService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
+import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
 import { PaymentBookingModalComponent } from './components/payment-booking-modal.component';
 
 const BOOKING_STATUS_LABELS: Record<string, string> = {
@@ -23,14 +25,15 @@ const DEFAULT_BUTTON_LABEL = 'Avançar status';
   templateUrl: './booking-details.component.html',
   styleUrls: ['./booking-details.component.scss'], // Adicione o SCSS
   standalone: true, // Adicione standalone: true
-  imports: [RouterLink, CommonModule, ToFormatBrlPipe], // Adicione CommonModule e RouterLink
+  imports: [RouterLink, CommonModule, ToFormatBrlPipe, AllPaymentsComponent], // Adicione CommonModule e RouterLink
 })
 export class BookingDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly bookingService: BookingService,
     private readonly paymentDialog: MatDialog,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly scrollStrategies: ScrollStrategyOptions,
   ) {}
 
   public bookingId: string | null = null;
@@ -187,9 +190,11 @@ export class BookingDetailsComponent implements OnInit {
 
   public openModalToPay() {
     const dialogRef = this.paymentDialog.open(PaymentBookingModalComponent, {
-      width: 'min(50rem, 90%)',
       backdropClass: ['bg-transparent', 'dark:bg-zinc-950/60'],
-      panelClass: 'dialog-no-container',
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(35rem, 90%)',
+      scrollStrategy: this.scrollStrategies.noop(),
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
       data: { bookingId: this.bookingId, status: this.booking?.status },

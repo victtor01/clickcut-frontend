@@ -1,15 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BookingStatus } from '@app/core/models/Booking';
 import { BookingPayment } from '@app/core/models/BookingPayment';
+import { CreateManualPaymentDTO } from '@app/core/schemas/create-manual-payment.dto';
 import { PaymentService } from '@app/core/services/payment.service';
+import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration'; // Importar o plugin de duração
+import { ManualPaymentComponent } from './manual-payment/manual-payment.component';
+
+dayjs.extend(duration);
 
 @Component({
   templateUrl: './payment-booking-modal.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, ToFormatBrlPipe, ReactiveFormsModule, ManualPaymentComponent],
 })
-export class PaymentBookingModalComponent implements OnInit {
+export class PaymentBookingModalComponent implements OnInit, OnDestroy {
   constructor(
     private readonly dialogRef: MatDialogRef<PaymentBookingModalComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -17,19 +25,89 @@ export class PaymentBookingModalComponent implements OnInit {
     private readonly paymentsService: PaymentService
   ) {}
 
+  private timerInterval?: any;
+
+  public pendingValue?: number;
   public payment?: BookingPayment;
+  public time = dayjs();
+
+  public activeTab: string = 'pix';
+  public remainingTime: string = '00:00';
+  public isExpired: boolean = false;
+  public isLoading: boolean = true;
+  public isCopied: boolean = false;
+
+  public selectedPaymentMethod: string = 'dinheiro';
 
   public ngOnInit(): void {
-    if(this?.data?.status !== "COMPLETED") return;
+    if (this?.data?.status !== 'COMPLETED') return;
 
     if (this.data?.bookingId) {
       this.paymentsService.paymentIntent(this.data.bookingId).subscribe({
         next: (value) => {
           this.payment = value;
-          console.log(value);
+          this.startCountdown();
+        },
+      });
+
+      this.paymentsService.getPendingBalance(this.data.bookingId).subscribe({
+        next: (value) => {
+          this.pendingValue = value.pending;
         },
       });
     }
+
+    this.timerInterval = setInterval(() => {}, 1000);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+  }
+
+  public createManualPayment(props: Partial<CreateManualPaymentDTO>) {
+    if (!props.amount || !props.method) {
+      return;
+    }
+
+    const createBookingDTO: CreateManualPaymentDTO = {
+      bookingId: this.data.bookingId,
+      method: props.method,
+      amount: props.amount,
+    };
+
+    this.paymentsService.createManual(createBookingDTO).subscribe({
+      next: (value) => {
+        console.log(value);
+      },
+    });
+  }
+
+  private startCountdown(): void {
+    if (!this.payment?.expirationDate) return;
+
+    this.timerInterval = setInterval(() => {
+      const expirationDate = dayjs(this.payment!.expirationDate);
+      const now = dayjs();
+
+      // Verifica se a data de expiração já passou
+      if (now.isAfter(expirationDate)) {
+        this.remainingTime = '00:00';
+        this.isExpired = true;
+        clearInterval(this.timerInterval);
+        return;
+      }
+
+      // Calcula a diferença e formata o tempo restante
+      const diff = expirationDate.diff(now);
+      const remainingDuration = dayjs.duration(diff);
+
+      const minutes = remainingDuration.minutes().toString().padStart(2, '0');
+      const seconds = remainingDuration.seconds().toString().padStart(2, '0');
+
+      this.remainingTime = `${minutes}:${seconds}`;
+    }, 1000);
   }
 
   public get pixCopyPasteCode() {
@@ -43,8 +121,6 @@ export class PaymentBookingModalComponent implements OnInit {
   public get base64() {
     return this.payment?.qrCodeBase64 || null;
   }
-
-  public isCopied = false;
 
   public copyCode = () => {
     if (!this.pixCopyPasteCode) return;

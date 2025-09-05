@@ -1,13 +1,15 @@
 export interface BookingPayment {
   id: string;
-  booking: any; // Replace 'any' with the actual Booking type if available
-  paymentReferenceId: number;
+  booking: any; 
+  amount: number;
   status: BookingPaymentStatus;
-  qrCodeBase64: string;
-  copyPasteCode: string;
-  expirationDate: Date;
-  bookingPaymentMethod: BookingPaymentMethod;
-  bookingPaymentOrigin: BookingPaymentOrigin;
+  paymentMethod: BookingPaymentMethod;
+  paymentOrigin: BookingPaymentOrigin;
+  
+  qrCodeBase64?: string;
+  copyPasteCode?: string;
+  expirationDate?: Date;
+  paymentReferenceId?: number;
 }
 
 export type BookingPaymentMethod = 'CASH' | 'PIX' | 'CREDIT_CARD' | 'DEBIT_CARD';

@@ -89,7 +89,9 @@
           </div>
         </div>
       </div>
+      <all-payments *ngIf="!!bookingId" [bookingId]="bookingId"></all-payments>
     </section>
+    
     <aside class="lg:col-span p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg flex flex-col gap-4">
       <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
         Status
@@ -127,7 +129,7 @@
             id="auroraGlow"
             class="absolute -z-10 h-32 w-32 bg-violet-600 opacity-0 group-active:opacity-50 group-hover:opacity-25 blur-3xl transition-opacity duration-500"
           ></span>
-          <span>{{getTextButton()}}</span>
+          <span>{{ getTextButton() }}</span>
           <i class="material-icons-outlined">arrow_forward</i>
         </button>
       </div>
