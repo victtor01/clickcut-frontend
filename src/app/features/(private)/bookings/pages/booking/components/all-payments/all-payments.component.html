@@ -1,0 +1,44 @@
+
+<div
+  class="flex flex-col gap-3 p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg"
+  *ngIf="payments && payments.length > 0"
+>
+  <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+    Histórico de Pagamentos
+  </h2>
+
+  <ul class="flex flex-col gap-2 divide-y divide-gray-200 dark:divide-zinc-800">
+    <li *ngFor="let payment of payments" class="flex items-center justify-between py-3">
+      <!-- Lado Esquerdo: Ícone e Detalhes -->
+      <div class="flex items-center gap-4">
+        <div
+          class="w-10 h-10 grid place-items-center rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-500 dark:text-zinc-400"
+        >
+          <i class="material-icons-outlined text-xl">{{ getPaymentMethodIcon(payment.paymentMethod) }}</i>
+        </div>
+        <div>
+          <p class="font-bold text-gray-800 dark:text-gray-100">
+            {{ (payment.amount || 0) | toFormatBrl }}
+          </p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 capitalize">
+            {{ payment.paymentMethod.toLowerCase().replace('_', ' ') }}
+            <span *ngIf="payment.paymentOrigin === 'MANUAL'">(Manual)</span>
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="flex items-center gap-2 text-xs font-semibold px-2 py-1 rounded-full"
+        [ngClass]="getPaymentStatusClass(payment.status)"
+      >
+        <i class="material-icons-outlined !text-lg">{{ getPaymentStatusIcon(payment.status) }}</i>
+        <span>{{ payment.status }}</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Mensagem para quando não houver pagamentos -->
+<div *ngIf="!payments || payments.length === 0" class="text-center py-8">
+  <p class="text-sm text-gray-500 dark:text-zinc-500">Nenhum pagamento registado para este agendamento.</p>
+</div>

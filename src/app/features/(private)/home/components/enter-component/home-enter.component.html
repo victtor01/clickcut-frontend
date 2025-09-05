@@ -1,33 +1,58 @@
-<div class="w-full h-[10rem] absolute bg-zinc-100 dark:bg-zinc-900/40"></div>
+<div class="w-full h-[10rem] absolute bg-transparent dark:bg-zinc-900/40"></div>
 
 <div class="flex relative flex-col p-5 gap-4">
-  <header class="items-center w-full dark:text-gray-300 text-gray-500">
-    <h1 class="text-3xl saira-font font-light">
-      Olá, <b class="font-semibold">{{ statement?.userSession?.username }}</b>
-    </h1>
-    <span class="text-gray-300 dark:text-zinc-400"
-      >Bem vindo de volta a sua loja...</span
-    >
+  <header class="items-center gap-2 flex justify-between w-full dark:text-gray-300 text-gray-500">
+    <div class="flex flex-col">
+      <h1 class="text-3xl saira-font font-light">
+        Olá, <b class="font-semibold">{{ statement?.userSession?.username }}</b>
+      </h1>
+      <span class="text-gray-500 dark:text-zinc-400">Bem vindo de volta a sua loja...</span>
+    </div>
+
+    <div class="relative" #menuContainer>
+      <div
+        (click)="toggleMenu()"
+        class="w-14 h-14 bg-zinc-100 dark:bg-zinc-800 rounded-full cursor-pointer hover:ring-2 hover:ring-violet-400 transition-all"
+      ></div>
+
+      @if (isMenuOpen()) {
+      <div
+        class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+      >
+        <div class="py-1">
+          <a
+            href="#"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
+            >Meu Perfil</a
+          >
+          <a
+            [routerLink]="['/configure']"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
+            >Configurações</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-zinc-700"
+            >Sair</a
+          >
+        </div>
+      </div>
+      }
+    </div>
   </header>
 
   <div
-    class="h-[10rem] p-3 rounded-xl flex flex-col bg-gradient-to-bl from-indigo-500 to-violet-500 dark:shadow-xl dark:shadow-black"
+    class="h-auto p-3 rounded-xl flex flex-col bg-gradient-to-bl from-indigo-500 to-violet-500 dark:shadow-xl shadow-zinc-600/20 dark:shadow-black"
   >
     <section class="flex items-center justify-between gap-5">
       <div class="flex gap-2 items-center">
-        <div
-          class="w-12 h-12 bg-zinc-900 rounded-full shadow-xl grid place-items-center"
-        ></div>
+        <div class="w-12 h-12 bg-zinc-900 rounded-full shadow-xl grid place-items-center"></div>
 
         <div class="flex flex-col">
-          <h1
-            class="saira-font text-gray-100 leading-none text-lg font-semibold"
-          >
+          <h1 class="saira-font text-gray-100 leading-none text-lg font-semibold">
             {{ statement?.name }}
           </h1>
-          <b class="text-white font-light">{{
-            statement?.userSession?.email
-          }}</b>
+          <b class="text-white font-light">{{ statement?.userSession?.email }}</b>
         </div>
       </div>
 
@@ -38,7 +63,30 @@
       </div>
     </section>
 
-    <section class="flex items-end px-2 flex-1">
+    <section class="flex flex-col p-2 flex-1 justify-center">
+      <div class="flex h-3 flex-col rounded-full bg-indigo-900/30">
+        <span
+          [style.width.%]="porcetage"
+          class="flex bg-indigo-300 rounded-full relative left-0 h-full"
+        >
+          <span
+            class="right-0 text-zinc-200 w-auto absolute top-4 bg-indigo-400/40 translate-x-[45%] backdrop-blur-sm border border-indigo-300/30 saira-font font-semibold text-base rounded px-2"
+          >
+            {{ porcetage }}%
+          </span>
+        </span>
+      </div>
+      <div class="justify-between flex">
+        <span class="text-sm saira-font text-indigo-100">
+          {{ statement?.revenue | toFormatBrl }}
+        </span>
+        <span class="text-sm saira-font text-indigo-100">
+          {{ statement?.revenueGoal | toFormatBrl }}
+        </span>
+      </div>
+    </section>
+
+    <section class="flex items-end px-2 flex-1 mt-1">
       <div class="flex justify-between flex-1 items-center">
         <div class="flex text-indigo-50 flex-col leading-none gap-1 text-sm">
           <span class="saira-font text-xl font-semibold">
@@ -59,6 +107,13 @@
             {{ statement?.count?.finished }}
           </span>
           <span> Completos </span>
+        </div>
+
+        <div class="flex text-indigo-50 flex-col leading-none gap-1 text-sm">
+          <span class="saira-font text-xl font-semibold">
+            {{ statement?.count?.paids }}
+          </span>
+          <span> Pagos </span>
         </div>
       </div>
     </section>

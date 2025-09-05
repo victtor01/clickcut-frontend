@@ -15,6 +15,39 @@
   border-radius: 0 !important; // Opcional: remove as bordas arredondadas
 }
 
+
+.checkmark {
+  --success-color: #34d399;
+  --circle-bg: white;
+
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: var(--success-color);
+  stroke-miterlimit: 10;
+  margin: 0 auto;
+  box-shadow: inset 0px 0px 0px var(--success-color);
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+.dark .checkmark {
+  --circle-bg: var(--color-zinc-900); /* Fundo do círculo no MODO ESCURO (zinc-800) */
+}
+
+// .cdk-overlay-container {
+//   overflow: auto;
+// }
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+   overflow: auto;
+}
+
+/* "Diz ao painel do dialog: você não tem limites, cresça o quanto precisar" */
+  
+
 html, body { height: 100%; }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

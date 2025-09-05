@@ -1,22 +1,39 @@
+import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common'; // Importe o CommonModule
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingService } from '@app/core/services/booking.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
+import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
+import { PaymentBookingModalComponent } from './components/payment-modal/payment-booking-modal.component';
+
+const BOOKING_STATUS_LABELS: Record<string, string> = {
+  CONFIRMED: 'Começar agendamento',
+  IN_PROGRESS: 'Finalizar agendamento',
+  COMPLETED: 'Pagamento finalizado!',
+};
+
+// Texto padrão para qualquer outro status
+const DEFAULT_BUTTON_LABEL = 'Avançar status';
 
 @Component({
   selector: 'app-booking-details',
   templateUrl: './booking-details.component.html',
   styleUrls: ['./booking-details.component.scss'], // Adicione o SCSS
   standalone: true, // Adicione standalone: true
-  imports: [RouterLink, CommonModule, ToFormatBrlPipe], // Adicione CommonModule e RouterLink
+  imports: [RouterLink, CommonModule, ToFormatBrlPipe, AllPaymentsComponent], // Adicione CommonModule e RouterLink
 })
 export class BookingDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly bookingService: BookingService
+    private readonly bookingService: BookingService,
+    private readonly paymentDialog: MatDialog,
+    private readonly toastService: ToastService,
+    private readonly scrollStrategies: ScrollStrategyOptions,
   ) {}
 
   public bookingId: string | null = null;
@@ -100,17 +117,57 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   public advanceStatus(): void {
-    if (!this.booking) return;
+    if (!this.booking?.id) return;
+
     const statusOrder = this.getAllStatuses();
     const currentStatusIndex = statusOrder.indexOf(this.booking.status);
+
+    switch (this.booking.status) {
+      case 'CONFIRMED':
+        this.bookingService.start(this.booking.id).subscribe({
+          next: (e) => {
+            this._booking!.status = e.status;
+          },
+        });
+        break;
+      case 'IN_PROGRESS':
+        this.bookingService.finish(this.booking.id).subscribe({
+          next: (e) => {
+            this._booking!.status = e.status;
+          },
+        });
+        break;
+      case 'CANCELLED':
+        this.toastService.error('O Agendamento está cancelado!');
+        break;
+      default:
+        this.toastService.error('Status inválido!');
+    }
 
     if (currentStatusIndex < statusOrder.length - 1) {
       this._booking!.status = statusOrder[currentStatusIndex + 1];
     }
   }
 
+  public isInConfirmed(): boolean {
+    return this.booking?.status === 'CONFIRMED';
+  }
+
+  public isInProgress(): boolean {
+    return this.booking?.status === 'IN_PROGRESS';
+  }
+
+  public getTextButton(): string {
+    const status = this.booking?.status as BookingStatus;
+    return BOOKING_STATUS_LABELS[status] || DEFAULT_BUTTON_LABEL;
+  }
+
   public isPaid(): boolean {
     return this.booking?.status === 'PAID';
+  }
+
+    public isCompleted(): boolean {
+    return this.booking?.status === 'COMPLETED';
   }
 
   public getStatusColor(status: BookingStatus): string {
@@ -133,5 +190,22 @@ export class BookingDetailsComponent implements OnInit {
       default:
         return 'radio_button_unchecked';
     }
+  }
+
+  public openModalToPay() {
+    const dialogRef = this.paymentDialog.open(PaymentBookingModalComponent, {
+      backdropClass: ['bg-transparent', 'dark:bg-zinc-950/60'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(35rem, 90%)',
+      scrollStrategy: this.scrollStrategies.noop(),
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { bookingId: this.bookingId, status: this.booking?.status },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 }

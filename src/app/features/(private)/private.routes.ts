@@ -5,6 +5,9 @@ import { PrivateLayoutComponent } from '../../shared/layouts/private-layout/priv
 import { BookingComponent } from './bookings/pages/booking.component';
 import { BookingDetailsComponent } from './bookings/pages/booking/booking-details.component';
 import { CreateBookingComponent } from './bookings/pages/create/create-booking.component';
+import { ConfigureBusinessComponent } from './configure/pages/business/configure-business.component';
+import { ConfigureComponent } from './configure/pages/configure.component';
+import { ConnectionsComponent } from './configure/pages/connections/connections.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
 
@@ -31,6 +34,14 @@ export const PRIVATE_ROUTES: Routes = [
                   { path: ':bookingId', component: BookingDetailsComponent },
                 ],
               },
+            ],
+          },
+          {
+            path: 'configure',
+            component: ConfigureComponent,
+            children: [
+              { path: '', pathMatch: 'full', component: ConnectionsComponent },
+              { path: 'business', component: ConfigureBusinessComponent },
             ],
           },
         ],

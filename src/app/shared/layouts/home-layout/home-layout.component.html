@@ -1,9 +1,8 @@
-<section
-  class="flex h-screen bg-white dark:bg-zinc-950 overflow-auto overflow-x-hidden"
->
+<section class="flex relative h-screen bg-white dark:bg-zinc-950 overflow-auto overflow-x-hidden">
   <sidebar></sidebar>
+
   <section
-    class="flex flex-col flex-1 pb-[5rem] lg:p-3 lg:rounded-lg lg:border overflow-auto dark:border-zinc-800 w-full mx-auto"
+    class="flex flex-col overflow-x-hidden border-zinc-200 lg:m-2 bg-white/50 backdrop-blur-sm dark:bg-zinc-950/30 flex-1 pb-[5rem] lg:rounded-xl lg:border overflow-auto dark:border-zinc-800"
   >
     <router-outlet></router-outlet>
   </section>

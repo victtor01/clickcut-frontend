@@ -1,4 +1,6 @@
-<section class="p-4 sm:p-6 lg:p-8 font-sans flex-1">
+<current-week [dateWithCount]="countOfDates" [currentDate]="currentDate"></current-week>
+
+<section class="p-4 font-sans flex-1">
   <header class="flex items-center justify-between">
     <button
       (click)="previousDay()"
@@ -19,7 +21,7 @@
     </button>
   </header>
 
-  <section class="flex items-center justify-between mt-6">
+  <section class="flex flex-row items-center justify-between mt-6">
     <div class="flex gap-2 items-center">
       <a
         [routerLink]="['/bookings/create']"
@@ -30,17 +32,25 @@
         <span class="saira-font">Agendamento</span>
       </a>
     </div>
+
+    <button
+      type="button"
+      (click)="navigateToNow()"
+      [attr.data-now]="isNow()"
+      class="p-2 px-4 rounded bg-stone-100 dark:bg-zinc-900 active:bg-zinc-800 data-[now=false]:bg-indigo-500"
+    >
+      <span class="dark:text-white saira-font">Hoje</span>
+    </button>
   </section>
 
-  <section class="sm:p-6 lg:p-8 font-sans mt-5">
-    <div class="h-auto rounded-lg shadow-lg overflow-y-auto">
+  <section class="font-sans mt-5">
+    <div class="h-auto rounded-lg  overflow-y-auto">
       <div
         class="grid grid-cols-[4rem_1fr] grid-rows-[repeat(1440,1px)] pt-5 min-h-full relative"
         [ngStyle]="timelineGridStyle"
       >
         @for (hour of [].constructor(24); let i = $index; track $index) {
         <div
-          (click)="onGridClick(hour)"
           class="col-start-1 col-end-3 row-start-1 flex items-center pr-2 z-0 pointer-events-none"
           [style.grid-row]="i * 60 + 1"
         >
@@ -51,24 +61,33 @@
         </div>
         } @for (booking of bookingsForCurrentDay; track booking.id) {
         <button
+          type="button"
+          class="booking-item mr-2 -ml-6 items-start my-[1px] p-2 dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex z-10 cursor-pointer data-[late=true]:bg-rose-500/10 data-[late=true]:border-rose-500 data-[paid=true]:bg-indigo-100 dark:data-[paid=true]:bg-blue-900/60 data-[paid=false]:shadow-md data-[paid=false]:dark:shadow-black data-[paid=true]:dark:opacity-60"
           (click)="openModalForHour(booking.startAt)"
           [attr.data-late]="isLate(booking)"
-          type="button"
-          class="booking-item mr-2 -ml-6 items-start my-[1px] p-2 bg-indigo-100 dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex flex-col justify-center z-10 cursor-pointer data-[late=true]:bg-rose-500/10 data-[late=true]:border-rose-500"
+          [attr.data-paid]="booking.status == 'PAID'"
           [ngStyle]="getBookingGridStyle(booking)"
         >
-          <p
-            class="font-semibold text-sm text-indigo-800 dark:text-indigo-200 truncate pointer-events-none"
-          >
-            {{ booking.title }}
-          </p>
-          <p
-            [attr.data-late]="isLate(booking)"
-            class="text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none data-[late=true]:text-red-600"
-          >
-            {{ dayjs(booking.startAt).format('HH:mm') }} -
-            {{ dayjs(booking.endAt).format('HH:mm') }}
-          </p>
+          <div class="flex flex-col items-start">
+            <span
+              class="font-semibold text-sm text-indigo-800 dark:text-indigo-200 truncate pointer-events-none"
+            >
+              {{ booking.title }}
+            </span>
+            <span
+              [attr.data-late]="isLate(booking)"
+              class="text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none data-[late=true]:text-red-600"
+            >
+              {{ dayjs(booking.startAt).format('HH:mm') }} -
+              {{ dayjs(booking.endAt).format('HH:mm') }}
+            </span>
+          </div>
+
+          <div class="flex justify-end items-end flex-1" *ngIf="booking.status === 'PAID'">
+            <div class="w-10 h-10 rounded-full grid place-items-center">
+              <i class="material-icons-outlined !text-2xl dark:text-blue-500">paid</i>
+            </div>
+          </div>
         </button>
         } @if (isToday) {
         <div

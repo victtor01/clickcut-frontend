@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
@@ -7,14 +7,15 @@ import { BookingsByDay, BookingService } from '@app/core/services/booking.servic
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { WeekComponent } from '../components/week/week.component';
 import { DetailsBookingComponent } from './details/details-booking-modal.component';
 dayjs.locale('pt-br');
 
 @Component({
   templateUrl: './booking.component.html',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, WeekComponent],
 })
-export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BookingComponent implements OnInit, OnDestroy {
   public currentDate: Dayjs = dayjs();
   public isLoading = true;
   private _bookingsByDay: BookingsByDay = {};
@@ -47,11 +48,24 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.fetchBookings();
+    this.ensureBookingsAreLoaded();
 
     this.timer = setInterval(() => {
-      this.currentDate = this.currentDate.add(30, 'second');
+      if (this.isToday) {
+        this.currentDate = this.currentDate.add(30, 'second');
+      }
     }, 30000);
+  }
+
+  private ensureBookingsAreLoaded(): void {
+    const dateKey = this.currentDate.format('YYYY-MM-DD');
+
+    if (this._bookingsByDay[dateKey]) {
+      setTimeout(() => this.scrollToCurrentTime(), 0);
+      return;
+    }
+
+    this.fetchBookingsForWeek(this.currentDate);
   }
 
   public ngOnDestroy(): void {
@@ -74,18 +88,14 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
-  public ngAfterViewInit(): void {
-    this.scrollToCurrentTime();
-  }
-
   public previousDay(): void {
     this.currentDate = this.currentDate.subtract(1, 'day');
-    this.fetchBookings();
+    this.ensureBookingsAreLoaded();
   }
 
   public nextDay(): void {
     this.currentDate = this.currentDate.add(1, 'day');
-    this.fetchBookings();
+    this.ensureBookingsAreLoaded();
   }
 
   get currentTimeIndicatorStyle(): { [key: string]: any } {
@@ -99,13 +109,20 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.currentDate.isSame(dayjs(), 'day');
   }
 
-  private fetchBookings(): void {
+  private fetchBookingsForWeek(date: Dayjs): void {
     this.isLoading = true;
-    const dateKey = this.currentDate.format('YYYY-MM-DD');
-    this.bookingsService.getAll(dateKey).subscribe({
-      next: (value) => {
-        this._bookingsByDay = value;
+
+    const startOfWeek = date.startOf('week').format('YYYY-MM-DD');
+    const endOfWeek = date.endOf('week').format('YYYY-MM-DD');
+
+    this.bookingsService.getAll(startOfWeek, endOfWeek).subscribe({
+      next: (newBookings) => {
+        this._bookingsByDay = { ...this._bookingsByDay, ...newBookings };
         this.isLoading = false;
+
+        setTimeout(() => {
+          this.scrollToCurrentTime();
+        }, 0);
       },
       error: () => {
         this.toastService.error('Não foi possível carregar os agendamentos!');
@@ -114,11 +131,22 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  get countOfDates(): Record<string, number> {
+    if (this._bookingsByDay) {
+      return Object.entries(this._bookingsByDay).reduce((acc, [key, value]) => {
+        acc[key] = value?.length || 0;
+        return acc;
+      }, {} as Record<string, number>);
+    }
+
+    return {};
+  }
+
   private scrollToCurrentTime(): void {
     if (this.isToday && this.timeIndicator?.nativeElement) {
       this.timeIndicator.nativeElement.scrollIntoView({
-        behavior: 'smooth', // Rolagem suave
-        block: 'center', // Centraliza o elemento na tela
+        behavior: 'smooth',
+        block: 'center',
       });
     }
   }
@@ -132,10 +160,6 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
       'grid-row': `${startMinute + 1} / ${endMinute + 1}`,
       'grid-column': '2',
     };
-  }
-
-  public onGridClick(hour: string) {
-    alert(hour);
   }
 
   public openModalForHour(date: Date): void {
@@ -162,5 +186,16 @@ export class BookingComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
+  }
+
+  public isNow() {
+    return this.currentDate.isSame(dayjs(), 'date');
+  }
+
+  public navigateToNow() {
+    if (!this.isNow()) {
+      this.currentDate = dayjs();
+      this.ensureBookingsAreLoaded();
+    }
   }
 }

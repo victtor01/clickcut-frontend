@@ -13,11 +13,12 @@ export class BookingService {
   constructor(private readonly apiService: ApiService) {}
 
   public getAll(startAt?: string, endAt?: string): Observable<BookingsByDay> {
-    const startDate = startAt ?? dayjs().format('YYYY-MM-DD');
+    const startDate = startAt ? dayjs(startAt).startOf('week') : dayjs();
+    const endDate = startDate.endOf('week');
 
-    const endDate = endAt ?? startDate;
-
-    const params = new HttpParams().set('startAt', startDate).set('endAt', endDate);
+    const params = new HttpParams()
+      .set('startAt', startDate.format('YYYY-MM-DD'))
+      .set('endAt', endDate.format('YYYY-MM-DD'));
 
     return this.apiService.get('/bookings/all', params);
   }
@@ -28,5 +29,13 @@ export class BookingService {
 
   public findById(bookingId: string): Observable<Booking> {
     return this.apiService.get<Booking>(`/bookings/${bookingId}`);
+  }
+
+  public start(bookingId: string): Observable<Booking> {
+    return this.apiService.patch(`/bookings/start/${bookingId}`);
+  }
+
+  public finish(bookingId: string): Observable<Booking> {
+    return this.apiService.patch(`/bookings/finish/${bookingId}`);
   }
 }

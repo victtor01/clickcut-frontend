@@ -1,13 +1,26 @@
 @if (booking) {
 <div class="flex flex-col gap-4 p-3 bg-white rounded-lg dark:bg-zinc-950 dark:border-zinc-800">
-  <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
-    <a
-      [routerLink]="['/bookings']"
-      class="w-10 h-10 aspect-square dark:bg-zinc-900 grid place-items-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+  <header
+    class="flex gap-4 items-center flex-wrap justify-between text-gray-500 dark:text-gray-200"
+  >
+    <div class="flex gap-4 items-center">
+      <a
+        [routerLink]="['/bookings']"
+        class="w-10 h-10 aspect-square dark:bg-zinc-900 grid place-items-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+      >
+        <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
+      </a>
+      <h1 class="saira-font text-xl font-bold">Detalhes do Agendamento</h1>
+    </div>
+
+    <button
+      (click)="openModalToPay()"
+      type="button"
+      class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-white/5 dark:bg-zinc-800/20 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-zinc-800/50 active:scale-95"
     >
-      <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
-    </a>
-    <h1 class="saira-font text-xl font-bold">Detalhes do Agendamento</h1>
+      <i class="material-icons-outlined text-base">qr_code</i>
+      <span>Pagar Agora</span>
+    </button>
   </header>
 
   <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-2">
@@ -76,7 +89,9 @@
           </div>
         </div>
       </div>
+      <all-payments *ngIf="!!bookingId" [bookingId]="bookingId"></all-payments>
     </section>
+    
     <aside class="lg:col-span p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg flex flex-col gap-4">
       <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
         Status
@@ -105,7 +120,7 @@
         </div>
 
         <button
-          *ngIf="!isPaid()"
+          *ngIf="!(isCompleted() || isPaid())"
           (click)="advanceStatus()"
           class="relative group w-full flex items-center justify-center gap-2 p-3 mt-4 active:scale-90 font-semibold text-gray-200 bg-white/5 dark:bg-zinc-800/20 border border-white/10 rounded-lg backdrop-blur-lg shadow-lg overflow-hidden transition-all ease-in-out duration-300 hover:border-white/20"
         >
@@ -114,7 +129,7 @@
             id="auroraGlow"
             class="absolute -z-10 h-32 w-32 bg-violet-600 opacity-0 group-active:opacity-50 group-hover:opacity-25 blur-3xl transition-opacity duration-500"
           ></span>
-          <span>Avançar Status</span>
+          <span>{{ getTextButton() }}</span>
           <i class="material-icons-outlined">arrow_forward</i>
         </button>
       </div>

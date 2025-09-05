@@ -2,8 +2,9 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
-import { Business } from '../models/Business';
+import { Business, TimeSlot } from '../models/Business';
 import { BusinessStatement } from '../models/BusinessStatement';
+import { CreateTimeSlotDTO } from '../schemas/create-time-slot.dto';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -20,6 +21,10 @@ export class BusinessService {
     });
   }
 
+  public createTimeSlot(timeSlot: CreateTimeSlotDTO): Observable<TimeSlot> {
+    return this.apiService.put("/business/timeSlot", timeSlot);
+  }
+
   public getStatement(): Observable<BusinessStatement> {
     return this.apiService.get<BusinessStatement>('/business/statement');
   }
@@ -30,5 +35,9 @@ export class BusinessService {
     const params = new HttpParams().set('serviceId', serviceId).set('date', dateValue);
 
     return this.apiService.get('/bookings/available-times', params);
+  }
+
+  public getTimeSlots(): Observable<TimeSlot[]> {
+    return this.apiService.get("/business/timeSlot");
   }
 }

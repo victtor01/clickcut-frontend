@@ -1,0 +1,61 @@
+<div class="px-8 w-full">
+  <h2 class="text-3xl font-bold mb-2 dark:text-zinc-100">Conexões de Pagamento</h2>
+
+  <p class="text-gray-500 dark:text-zinc-400 mb-8">
+    Conecte sua conta de provedores de pagamento para automatizar suas cobranças.
+  </p>
+
+  <div
+    *ngIf="!!isConnected"
+    class="flex mb-4 p-3 bg-green-400 gap-4 rounded items-center text-emerald-950 font-semibold dark:bg-green-900/50 dark:text-green-300"
+  >
+    <i class="material-icons-outlined">check</i>
+    <span class="font-medium saira-font text-lg">Você está conectado ao Mercado Pago!</span>
+  </div>
+
+  <div class="border rounded-lg dark:border-zinc-800">
+    <div class="p-6 flex items-center justify-between">
+      <div class="w-40">
+        <mp-logo></mp-logo>
+      </div>
+      <div class="flex items-center gap-4">
+        <div>
+          <h3 class="font-semibold text-lg">Mercado Pago</h3>
+          <p class="text-sm text-gray-500 dark:text-zinc-400">Receba pagamentos via PIX.</p>
+        </div>
+      </div>
+
+      <div>
+        @if (connectionStatus() === 'success') {
+        <span
+          class="px-4 py-2 rounded-md bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300"
+        >
+          <i class=""></i> Conectado
+        </span>
+        } @else {
+        <button
+          (click)="connectMercadoPago()"
+          class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Conectar
+        </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    *ngIf="!!isConnected"
+    (click)="disconectMercadoPago()"
+    class="flex rounded mt-4 opacity-90 hover:opacity-100 p-2 bg-zinc-100 dark:bg-zinc-900"
+  >
+    <span class=""> Desconectar </span>
+  </button>
+
+  @if (connectionStatus() === 'error') {
+  <p class="text-red-500 mt-4">
+    Ocorreu um erro ao tentar conectar sua conta. Por favor, tente novamente.
+  </p>
+  }
+</div>
