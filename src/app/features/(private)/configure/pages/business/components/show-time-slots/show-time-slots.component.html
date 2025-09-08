@@ -3,7 +3,7 @@
     @for (day of daysOfWeek; track day.value) {
     <div class="flex flex-col sm:flex-row gap-4 py-6 dark:border-zinc-700">
       <div class="flex-shrink-0 w-full sm:w-48 flex justify-between items-center">
-        <h3 class="font-semibold text-gray-900 dark:text-gray-100">
+        <h3 class="font-semibold text-gray-500 dark:text-gray-100">
           {{ day.name }}
         </h3>
         <label class="relative inline-flex items-center cursor-pointer">
@@ -15,7 +15,7 @@
       </div>
 
       <div class="flex-grow flex flex-wrap items-center gap-2">
-        @for (slot of schedule[day.value]?.slots; track $index) {
+        @for (slot of schedule[day.value].slots; track $index) {
         <div
           class="group relative flex items-center justify-between pl-3 pr-2 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-900"
         >

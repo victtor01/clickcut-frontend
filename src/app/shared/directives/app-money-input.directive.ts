@@ -1,4 +1,4 @@
-import { Directive, ElementRef, forwardRef, HostListener, OnInit } from '@angular/core';
+import { Directive, ElementRef, forwardRef, HostListener, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Directive({
@@ -16,6 +16,9 @@ export class MoneyInputDirective implements ControlValueAccessor, OnInit {
   // Funções que o Angular nos dará para atualizar o form model
   private onChange: (value: number | null) => void = () => {};
   private onTouched: () => void = () => {};
+
+  @Input()
+  public showCurrencySymbol: boolean = true;
 
   constructor(private el: ElementRef<HTMLInputElement>) {}
 
@@ -42,7 +45,7 @@ export class MoneyInputDirective implements ControlValueAccessor, OnInit {
   onInput(value: string): void {
     // Remove tudo que não for dígito. A regex correta é /\D/g
     const rawValue = value.replace(/\D/g, '');
-    
+
     // Converte para número (ex: '12345' -> 12345)
     const numericValue = rawValue ? parseInt(rawValue, 10) : null;
 
@@ -52,7 +55,7 @@ export class MoneyInputDirective implements ControlValueAccessor, OnInit {
     // Atualiza o valor na view (o valor formatado que o usuário vê)
     this.el.nativeElement.value = this.formatValue(numericValue);
   }
-  
+
   @HostListener('blur')
   onBlur(): void {
     this.onTouched();
@@ -62,13 +65,14 @@ export class MoneyInputDirective implements ControlValueAccessor, OnInit {
     if (value === null || value === undefined) {
       return '';
     }
-    // Converte o número (ex: 12345) para uma string formatada (ex: '123,45')
+
     const reais = Math.floor(value / 100);
     const centavos = (value % 100).toString().padStart(2, '0');
-    
-    // Adiciona separador de milhar
+
     const formattedReais = reais.toLocaleString('pt-BR');
 
-    return `R$ ${formattedReais},${centavos}`;
+    const prefix = this.showCurrencySymbol ? 'R$ ' : '';
+
+    return `${prefix}${formattedReais},${centavos}`;
   }
 }

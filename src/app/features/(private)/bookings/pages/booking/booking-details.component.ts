@@ -194,7 +194,7 @@ export class BookingDetailsComponent implements OnInit {
 
   public openModalToPay() {
     const dialogRef = this.paymentDialog.open(PaymentBookingModalComponent, {
-      backdropClass: ['bg-transparent', 'dark:bg-zinc-950/60'],
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', "backdrop-blur-sm"],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(35rem, 90%)',

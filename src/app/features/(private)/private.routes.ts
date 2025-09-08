@@ -10,6 +10,8 @@ import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
+import { EditServiceComponent } from './services/pages/edit-service/edit-service.component';
+import { ServicesComponent } from './services/pages/services.component';
 
 export const PRIVATE_ROUTES: Routes = [
   {
@@ -26,6 +28,13 @@ export const PRIVATE_ROUTES: Routes = [
             component: HomeLayoutComponent,
             children: [
               { path: 'home', component: HomePageComponent },
+              {
+                path: 'services',
+                children: [
+                  { path: '', pathMatch: 'full', component: ServicesComponent },
+                  { path: 'edit/:serviceId', component: EditServiceComponent },
+                ],
+              },
               {
                 path: 'bookings',
                 children: [
