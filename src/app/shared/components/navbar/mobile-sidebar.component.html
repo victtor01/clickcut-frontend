@@ -16,7 +16,7 @@
       (click)="selectTab(tab)"
       class="text-gray-600 pointer-events-auto dark:text-gray-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400 data-[active=true]:drop-shadow-[0_0_10px_rgba(59,130,246,1)]"
     >
-      <span class="material-icons-outlined">{{ tab.icon }}</span>
+      <span   [ngClass]="tab.id === activeTabId ? 'material-icons' : 'material-icons-outlined'">{{ tab.icon }}</span>
     </button>
   </div>
 </nav>

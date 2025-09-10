@@ -11,7 +11,7 @@ export class AllTimesComponent implements OnInit {
   ) {}
 
   @Input()
-  public serviceId?: string;
+  public serviceIds?: string[];
 
   @Input()
   public whenSelectAction?: (time: string) => void;
@@ -39,9 +39,9 @@ export class AllTimesComponent implements OnInit {
   }
 
   private loadTimes() {
-    if (this.serviceId) {
+    if (this.serviceIds) {
       const dateValue = this.currentDate || dayjs().format('YYYY-MM-DD');
-      this.businessService.avaibleTimes(this.serviceId, dateValue).subscribe({
+      this.businessService.avaibleTimes(this.serviceIds, dateValue).subscribe({
         next: (value: string[]) => {
           this._times = value;
         },

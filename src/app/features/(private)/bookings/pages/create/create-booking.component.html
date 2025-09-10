@@ -1,8 +1,11 @@
-<section *ngIf="step === 1" class="flex flex-col gap-4 p-5">
+<section
+  *ngIf="step === 1"
+  class="flex flex-col gap-4 p-5 border-b border-zinc-200 dark:border-zinc-700"
+>
   <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
     <a
       [routerLink]="['/bookings']"
-      class="w-10 h-10 aspect-square dark:bg-zinc-900 grid place-items-center rounded-full"
+      class="w-10 h-10 aspect-square bg-zinc-100 dark:bg-zinc-900 grid place-items-center rounded-full"
     >
       <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
     </a>
@@ -14,11 +17,14 @@
   </section>
 </section>
 
-<section *ngIf="step === 2" class="flex flex-col gap-4 p-5">
+<section
+  *ngIf="step === 2"
+  class="flex flex-col gap-4 p-5 border-b border-zinc-200 dark:border-zinc-700"
+>
   <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
     <a
       [routerLink]="['/bookings']"
-      class="w-10 h-10 aspect-square bg-red-200 dark:bg-zinc-900 grid place-items-center rounded-full"
+      class="w-10 h-10 aspect-square bg-zinc-100 dark:bg-zinc-900 grid place-items-center rounded-full"
     >
       <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
     </a>
@@ -26,25 +32,32 @@
     <h1 class="saira-font text-xl">Selecione a hora</h1>
   </header>
 
-  <section
-    *ngIf="selectedService != null"
-    class="h-[6rem] flex bg-zinc-100 dark:text-gray-200 dark:border-zinc-800 shadow-lg dark:shadow-black gap-3 dark:bg-zinc-900 overflow-hidden border rounded-2xl"
-  >
-    <div class="flex-1 max-w-[30%] bg-indigo-500"></div>
-    <div class="flex flex-col flex-1 p-1 py-2">
-      <h1 class="font-semibold flex-1 text-xl">
-        {{ selectedService.title }}
-      </h1>
+  <div class="flex flex-wrap gap-2">
+    @for (item of selectedServices; track $index) {
+    <div
+      class="h-[6rem] flex bg-zinc-100 dark:text-gray-200 flex-1 max-w-[20rem] shadow-zinc-400/20 border-zinc-200 text-zinc-600 dark:border-zinc-800 shadow-lg dark:shadow-black gap-3 dark:bg-zinc-900 overflow-hidden border rounded-2xl"
+    >
+      <div class="aspect-square grid place-items-center bg-white dark:bg-indigo-500">
+        <span class="saira-font font-semibold text-4xl">
+          {{ item.title[0].toLowerCase() }}
+        </span>
+      </div>
+      <div class="flex flex-col flex-1 p-1 py-2">
+        <h1 class="font-semibold flex-1 text-xl">
+          {{ item.title }}
+        </h1>
 
-      <div class="justify-between items-center flex">
-        <div class="text-xs p-px px-2 rounded-full text-indigo-50 bg-indigo-500">
-          {{ selectedService.price | toFormatBrl }}
+        <div class="justify-between items-center flex">
+          <div class="text-xs p-px px-2 rounded-full text-indigo-50 bg-indigo-500">
+            {{ item.price | toFormatBrl }}
+          </div>
+
+          <div class="pr-2">{{ timeStart }} {{ timeEnd ? `- ${timeEnd}` : "" }}</div>
         </div>
-
-        <div class="pr-2">{{ timeStart }} {{ timeEnd ? `- ${timeEnd}` : "" }}</div>
       </div>
     </div>
-  </section>
+    }
+  </div>
   <div class="flex flex-col gap-2 dark:text-gray-200">
     <label for="bookingTitle" class="text-sm font-medium text-gray-600 dark:text-gray-300">
       Título do agendamento (opcional)
@@ -57,12 +70,12 @@
     />
   </div>
 
-  @if (serviceId) {
+  @if (serviceIds) {
   <section class="flex flex-col rounded-xl">
     <all-times
       [selectedTime]="selectedTime"
       [whenSelectAction]="selectTime"
-      [serviceId]="serviceId"
+      [serviceIds]="serviceIds"
       [currentDate]="currentDate?.format('YYYY-MM-DD')"
     ></all-times>
   </section>
@@ -71,7 +84,7 @@
   }
 </section>
 
-<footer class="flex px-6 justify-between">
+<footer class="flex px-2 justify-between mt-2">
   <div></div>
   <button
     (click)="submit()"

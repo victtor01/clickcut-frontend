@@ -1,0 +1,186 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="editServiceForm" class="flex flex-col gap-4 h-full">
+  <header
+    class="flex items-center gap-2 p-4 justify-between border-b border-stone-200 dark:border-stone-800"
+  >
+    <div class="flex gap-2 items-center">
+      <a [routerLink]="['/services']" class="grid place-items-center w-10 h-10 rounded-full bg-white/40 active:bg-stone-200 border-l backdrop-blur-sm border-white dark:bg-zinc-800 dark:border-zinc-800">
+        <i class="material-symbols-outlined"> keyboard_arrow_left </i>
+      </a>
+      <h1 class="text-xl font-saira text-stone-800 dark:text-stone-100">Editar serviço</h1>
+    </div>
+    <div class="flex gap-2 items-center">
+      <button
+        class="py-1 px-4 gap-2 items-center flex rounded-full bg-red-500/10 text-red-600 hover:bg-red-500/20 dark:bg-red-400/10 dark:text-red-400 dark:hover:bg-red-400/20 transition-all"
+      >
+        <i class="material-icons-outlined !text-xl">delete</i>
+        <span class="saira-font">Excluir</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="flex-grow p-4 overflow-y-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-1">
+        <h2 class="text-stone-600 dark:text-stone-300 font-medium mb-1">Foto do serviço</h2>
+        <p class="text-sm text-stone-500 dark:text-stone-400 mb-4">
+          Clique ou arraste uma imagem para fazer o upload.
+        </p>
+
+        <label
+          for="photo-upload"
+          class="group relative aspect-square w-full cursor-pointer flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-100 hover:border-blue-500 hover:bg-blue-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-500 dark:hover:bg-stone-700/60 transition-all"
+        >
+          <img
+            *ngIf="imagemPreview"
+            [src]="imagemPreview"
+            alt="Foto do Serviço"
+            class="absolute h-full w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
+          />
+
+          <div
+            class="z-20 flex flex-col items-center rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm text-stone-500 dark:text-stone-400 text-center p-4"
+            [class.text-white]="service?.photoUrl"
+            [class.opacity-0]="service?.photoUrl"
+            [class.group-hover:opacity-100]="service?.photoUrl"
+          >
+            <i class="material-icons-outlined !text-5xl mb-2">add_photo_alternate</i>
+            <span class="font-medium">
+              {{ service?.photoUrl ? 'Trocar imagem' : 'Selecionar imagem' }}
+            </span>
+            <span class="text-xs mt-1">PNG, JPG até 5MB</span>
+          </div>
+
+          <input id="photo-upload" type="file" class="hidden" (change)="onFileSelected($event)"/>
+        </label>
+      </div>
+
+      <div class="lg:col-span-2 flex flex-col gap-6">
+        <div class="relative">
+          <input
+            id="title"
+            type="text"
+            class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 px-4 py-3 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+            placeholder=""
+            formControlName="title"
+          />
+          <label
+            for="title"
+            class="absolute left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+          >
+            Nome do serviço
+          </label>
+        </div>
+
+        <div class="relative">
+          <textarea
+            formControlName="description"
+            class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 px-4 py-3 text-stone-900 focus:border-blue-600 focus:outline-none min-h-[100px] dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+            placeholder=" "
+          ></textarea>
+          <label
+            for="description"
+            class="absolute left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+          >
+            Descrição (opcional)
+          </label>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+              <i class="material-icons-outlined text-stone-400 dark:text-stone-500">schedule</i>
+            </div>
+            <input
+              type="number"
+              formControlName="durationInMinutes"
+              class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+              placeholder=" "
+            />
+            <label
+              for="duration"
+              class="absolute left-12 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+            >
+              Duração (minutos)
+            </label>
+          </div>
+
+          <div class="relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+              <span class="text-stone-500 dark:text-stone-400 font-medium">R$</span>
+            </div>
+            <input
+              type="number"
+              step="0.01"
+              appMoneyInput
+              formControlName="price"
+              [showCurrencySymbol]="false"
+              class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+              placeholder=""
+            />
+            <label
+              for="price"
+              class="absolute left-12 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+            >
+              Preço
+            </label>
+          </div>
+        </div>
+
+        <label
+          for="isActiveToggle"
+          class="flex cursor-pointer items-center justify-between rounded-lg bg-stone-100 dark:bg-zinc-900/50 p-4"
+        >
+          <div class="text-stone-800 dark:text-stone-200">
+            <h3 class="font-medium">Serviço ativo</h3>
+            <p class="text-sm text-stone-500 dark:text-stone-400">
+              Clientes poderão ver e agendar este serviço.
+            </p>
+          </div>
+          <div class="relative">
+            <input id="isActiveToggle" formControlName="isActive" type="checkbox" class="sr-only" />
+            <div class="block h-8 w-14 rounded-full bg-stone-300 dark:bg-stone-700"></div>
+            <div class="dot absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <footer
+    class="flex items-center justify-end gap-4 p-4 mt-auto border-t border-stone-200 dark:border-stone-800"
+  >
+    <button
+      class="font-medium text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 transition-colors"
+    >
+      Cancelar
+    </button>
+    <button
+      [disabled]="isLoading"
+      [attr.data-loading]="isLoading"
+      class="data-[loading=true]:opacity-70 rounded-full bg-blue-600 px-3 items-center flex gap-1 py-2 font-medium text-white saira-font hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors"
+    >
+      <span *ngIf="isLoading" class="material-symbols-outlined opacity-80 animate-spin">
+        app_badging
+      </span>
+      Salvar Alterações
+    </button>
+  </footer>
+</form>
+
+<style>
+  input:checked ~ .dot {
+    transform: translateX(100%);
+    background-color: #2563eb;
+  }
+  input:checked ~ .block {
+    background-color: #dbeafe;
+  }
+
+  /* Estilos para o Dark Mode */
+  .dark input:checked ~ .block {
+    background-color: #1e3a8a; /* Fundo azul mais escuro quando ativo */
+  }
+  .dark input:checked ~ .dot {
+    background-color: #60a5fa; /* Ponto azul mais claro para contraste */
+  }
+</style>
