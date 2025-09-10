@@ -8,6 +8,7 @@ import { CreateBookingComponent } from './bookings/pages/create/create-booking.c
 import { ConfigureBusinessComponent } from './configure/pages/business/configure-business.component';
 import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
+import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
 import { EditServiceComponent } from './services/pages/edit-service/edit-service.component';
@@ -51,6 +52,7 @@ export const PRIVATE_ROUTES: Routes = [
             children: [
               { path: '', pathMatch: 'full', component: ConnectionsComponent },
               { path: 'business', component: ConfigureBusinessComponent },
+              { path: 'profile', component: ConfigureProfileComponent },
             ],
           },
         ],

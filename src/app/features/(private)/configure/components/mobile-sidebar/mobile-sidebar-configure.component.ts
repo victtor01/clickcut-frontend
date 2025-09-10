@@ -11,7 +11,7 @@ export class MobileSidebarConfigure {
   public navItems = [
     { path: '/configure', icon: 'link', label: 'Conexões' },
     { path: '/configure/business', icon: 'store', label: 'Negócio' },
-    { path: '/configure/perfil', icon: 'account_circle', label: 'Perfil' },
+    { path: '/configure/profile', icon: 'account_circle', label: 'Perfil' },
     { path: '/configure/security', icon: 'admin_panel_settings', label: 'Segurança' },
   ];
 }

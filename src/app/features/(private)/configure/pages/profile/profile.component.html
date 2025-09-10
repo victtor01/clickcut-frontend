@@ -1,0 +1,111 @@
+<div class="px-8 flex flex-col pb-6 max-w-4xl mx-auto">
+  <h2 class="text-3xl font-bold mb-2 dark:text-zinc-100 text-gray-500">Configurar Perfil</h2>
+  <p class="text-gray-500 dark:text-zinc-400">
+    Personalize a aparência da sua página e informações públicas.
+  </p>
+
+  <div
+    class="border rounded-xl mt-6 bg-white dark:bg-zinc-900/50 dark:border-zinc-800 border-zinc-200/80"
+  >
+    <div class="p-6">
+      <h3 class="text-lg font-semibold saira-font text-gray-500 dark:text-gray-100">Informações do Perfil</h3>
+      <p class="text-sm text-gray-500 dark:text-zinc-400">
+        Estes detalhes serão exibidos publicamente na sua loja.
+      </p>
+    </div>
+    <div class="p-6 border-t dark:border-zinc-800 border-zinc-200/80">
+      <div class="space-y-6">
+        <div>
+          <label
+            for="nome"
+            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+          >
+            Nome Completo
+          </label>
+          <input
+            type="text"
+            id="nome"
+            value="Seu Nome Completo"
+            placeholder="Digite seu nome"
+            class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-900/50 border border-zinc-300 dark:border-zinc-700 rounded-lg placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+
+        <div>
+          <label
+            for="nome-loja"
+            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+          >
+            Nome da Loja
+          </label>
+          <input
+            type="text"
+            id="nome-loja"
+            value="Minha Loja Incrível"
+            placeholder="Digite o nome da sua loja"
+            class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-900/50 border border-zinc-300 dark:border-zinc-700 rounded-lg placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+
+        <div>
+          <label
+            for="data-criacao"
+            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+          >
+            Membro desde
+          </label>
+          <div
+            class="block w-full px-4 py-2.5 bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 rounded-lg text-gray-600 dark:text-zinc-400"
+          >
+            Setembro de 2025
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="border rounded-xl mt-5 bg-white dark:bg-zinc-900/50 dark:border-zinc-800 border-zinc-200/80"
+  >
+    <div class="p-6">
+      <h3 class="text-lg font-semibold saira-font text-gray-500 dark:text-gray-100">Foto de Perfil</h3>
+      <p class="text-sm text-gray-500 dark:text-zinc-400">
+        Esta será sua imagem de avatar na plataforma.
+      </p>
+    </div>
+    <div
+      class="p-6 border-t dark:border-zinc-800 border-zinc-200/80 flex flex-col sm:flex-row items-start sm:items-center gap-6"
+    >
+      <div class="shrink-0">
+        <img
+          class="h-20 w-20 rounded-full object-cover ring-2 ring-offset-2 ring-blue-500 dark:ring-offset-zinc-900"
+          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop"
+          alt="Avatar atual do usuário"
+        />
+      </div>
+      <div class="flex items-center gap-3">
+        <button
+          type="button"
+          class="px-4 py-2 text-sm font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+        >
+          Alterar
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors duration-200"
+        >
+          Remover
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end mt-6">
+    <button
+      type="button"
+      class="px-8 py-2.5 saira-font bg-indigo-50 dark:bg-indigo-500 dark:text-indigo-50 rounded-full text-indigo-950/70 hover:bg-indigo-100 dark:hover:bg-blue-700 transition-colors duration-200"
+    >
+      Salvar Alterações
+    </button>
+  </div>
+</div>
