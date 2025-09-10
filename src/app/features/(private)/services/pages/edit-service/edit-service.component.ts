@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Service } from '@app/core/models/Service';
 import { UpdateServiceDTO } from '@app/core/schemas/update-service.dto';
 import { ServicesService } from '@app/core/services/services.service';
@@ -18,15 +18,18 @@ export class EditServiceComponent implements OnInit {
     private readonly servicesService: ServicesService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly router: Router
   ) {}
+
+  private serviceId: string | null = null;
 
   public service?: Service;
   public editServiceForm!: FormGroup;
-
   public isLoading: boolean = false;
 
-  private serviceId: string | null = null;
+  public selectedFile: File | null = null;
+  public imagemPreview: string | null = null;
 
   public ngOnInit(): void {
     this.initForm();
@@ -37,9 +40,12 @@ export class EditServiceComponent implements OnInit {
 
     if (this.serviceId) {
       this.servicesService.findById(this.serviceId).subscribe({
-        next: (service) => {
-          console.log(service);
+        next: (service: Service) => {
           this.editServiceForm.patchValue(service);
+
+          if (service.photoUrl) {
+            this.imagemPreview = service.photoUrl;
+          }
         },
       });
     }
@@ -74,6 +80,7 @@ export class EditServiceComponent implements OnInit {
       description: updatedServiceData.description || null,
       durationInMinutes: updatedServiceData.durationInMinutes,
       isActive: updatedServiceData.isActive,
+      file: this.selectedFile
     } satisfies UpdateServiceDTO;
 
     this.isLoading = true;
@@ -83,9 +90,22 @@ export class EditServiceComponent implements OnInit {
       .subscribe({
         next: (data: Service) => {
           this.service = data;
-          this.editServiceForm.patchValue(data);
-          this.toastService.success("Atualizado com sucesso!");
+          this.router.navigate(["/services"]);
+          this.toastService.success('Atualizado com sucesso!');
         },
       });
+  }
+
+  public onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagemPreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

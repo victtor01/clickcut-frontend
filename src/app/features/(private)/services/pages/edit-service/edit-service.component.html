@@ -31,14 +31,14 @@
           class="group relative aspect-square w-full cursor-pointer flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-100 hover:border-blue-500 hover:bg-blue-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-500 dark:hover:bg-stone-700/60 transition-all"
         >
           <img
-            *ngIf="service?.photoUrl"
-            [src]="service?.photoUrl"
+            *ngIf="imagemPreview"
+            [src]="imagemPreview"
             alt="Foto do Serviço"
             class="absolute h-full w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
           />
 
           <div
-            class="z-20 flex flex-col items-center text-stone-500 dark:text-stone-400 text-center p-4"
+            class="z-20 flex flex-col items-center rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm text-stone-500 dark:text-stone-400 text-center p-4"
             [class.text-white]="service?.photoUrl"
             [class.opacity-0]="service?.photoUrl"
             [class.group-hover:opacity-100]="service?.photoUrl"
@@ -50,7 +50,7 @@
             <span class="text-xs mt-1">PNG, JPG até 5MB</span>
           </div>
 
-          <input id="photo-upload" type="file" class="hidden" />
+          <input id="photo-upload" type="file" class="hidden" (change)="onFileSelected($event)"/>
         </label>
       </div>
 

@@ -4,14 +4,14 @@
     type="button"
     (click)="onClick(time)"
     [attr.data-selected]="selectedTime == time"
-    class="flex items-center transition-all justify-center p-2 flex-1 px-4 dark:text-white rounded-full bg-white border dark:border-zinc-800 dark:bg-zinc-900 data-[selected=true]:ring-2 ring-indigo-500 data-[selected=true]:border-indigo-500 data-[selected=true]:dark:bg-zinc-800 ring-offset-2 dark:ring-offset-zinc-800 ring-offset-white"
+    class="flex items-center max-w-[7rem] transition-all text-gray-500 border-zinc-400 data-[selected=true]:bg-gray-200/50 justify-center p-2 flex-1 px-4 dark:text-white rounded-full bg-white border dark:border-zinc-800 dark:bg-zinc-900 data-[selected=true]:ring-2 ring-indigo-500 data-[selected=true]:border-indigo-500 data-[selected=true]:dark:bg-zinc-800 ring-offset-2 dark:ring-offset-zinc-800 ring-offset-white"
   >
     <span>
       {{ time }}
     </span>
   </button>
   } @empty {
-    <div class="flex dark:text-gray-400">
+    <div class="flex dark:text-gray-400 text-gray-500">
       Horários indisponíveis
     </div>
   }

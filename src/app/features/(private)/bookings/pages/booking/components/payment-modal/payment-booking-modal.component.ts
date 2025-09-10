@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BookingStatus } from '@app/core/models/Booking';
 import { BookingPayment } from '@app/core/models/BookingPayment';
 import { CreateManualPaymentDTO } from '@app/core/schemas/create-manual-payment.dto';
+import { InvalidationService } from '@app/core/services/invalidation.service';
 import { PaymentService } from '@app/core/services/payment.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs';
@@ -22,7 +23,8 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
     private readonly dialogRef: MatDialogRef<PaymentBookingModalComponent>,
     @Inject(MAT_DIALOG_DATA)
     private data: { bookingId: string; status: BookingStatus },
-    private readonly paymentsService: PaymentService
+    private readonly paymentsService: PaymentService,
+    private readonly invalidationService: InvalidationService
   ) {}
 
   private timerInterval?: any;
@@ -89,7 +91,8 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
 
     this.paymentsService.createManual(createBookingDTO).subscribe({
       next: (value) => {
-        console.log(value);
+        this.invalidationService.invalidate(this.invalidationService.INVALIDATE_KEYS.service);
+        this.dialogRef.close(value);
       },
     });
   }
@@ -109,7 +112,6 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
         this.isPixLoading = false;
       },
       error: () => {
-        // Lidar com o erro, talvez mostrar uma mensagem para o utilizador
         this.isPixLoading = false;
       },
     });

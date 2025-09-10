@@ -3,4 +3,5 @@ export interface CreateServiceDTO {
 	price: number;
 	duration: number;
 	description?: string;
+	photo?: File | null;
 }

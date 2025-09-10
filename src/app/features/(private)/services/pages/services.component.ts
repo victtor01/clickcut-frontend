@@ -36,6 +36,8 @@ export class ServicesComponent {
       exitAnimationDuration: '200ms',
     });
 
-    dialogRef
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(value)
+    })
   }
 }

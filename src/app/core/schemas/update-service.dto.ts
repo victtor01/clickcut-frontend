@@ -4,4 +4,5 @@ export interface UpdateServiceDTO {
   price: number;
   isActive: boolean;
   description?: string;
+  file?: File | null
 }

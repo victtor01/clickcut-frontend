@@ -33,7 +33,7 @@ export class BookingDetailsComponent implements OnInit {
     private readonly bookingService: BookingService,
     private readonly paymentDialog: MatDialog,
     private readonly toastService: ToastService,
-    private readonly scrollStrategies: ScrollStrategyOptions,
+    private readonly scrollStrategies: ScrollStrategyOptions
   ) {}
 
   public bookingId: string | null = null;
@@ -166,7 +166,7 @@ export class BookingDetailsComponent implements OnInit {
     return this.booking?.status === 'PAID';
   }
 
-    public isCompleted(): boolean {
+  public isCompleted(): boolean {
     return this.booking?.status === 'COMPLETED';
   }
 
@@ -194,7 +194,7 @@ export class BookingDetailsComponent implements OnInit {
 
   public openModalToPay() {
     const dialogRef = this.paymentDialog.open(PaymentBookingModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', "backdrop-blur-sm"],
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(35rem, 90%)',
@@ -205,7 +205,9 @@ export class BookingDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      if (result?.id) {
+        this.toastService.success('Pagamento registrado');
+      }
     });
   }
 }

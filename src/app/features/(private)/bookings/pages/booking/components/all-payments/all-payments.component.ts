@@ -1,28 +1,56 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   BookingPayment,
   BookingPaymentMethod,
   BookingPaymentStatus,
 } from '@app/core/models/BookingPayment';
+import { InvalidationService } from '@app/core/services/invalidation.service';
 import { PaymentService } from '@app/core/services/payment.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
+import { Subject, takeUntil } from 'rxjs';
 
-@Component({ templateUrl: './all-payments.component.html', selector: 'all-payments', imports: [CommonModule, ToFormatBrlPipe] })
-export class AllPaymentsComponent implements OnInit {
-  constructor(private readonly paymentsService: PaymentService) {}
+@Component({
+  templateUrl: './all-payments.component.html',
+  selector: 'all-payments',
+  imports: [CommonModule, ToFormatBrlPipe],
+})
+export class AllPaymentsComponent implements OnInit, OnDestroy {
+  constructor(
+    private readonly paymentsService: PaymentService,
+    private readonly invalidationService: InvalidationService
+  ) {}
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   @Input({ required: true })
   public bookingId?: string | null;
 
   public payments: BookingPayment[] = [];
 
+  private destroy$ = new Subject<void>();
+
   ngOnInit(): void {
     if (!this.bookingId) return;
 
-    this.paymentsService.findAll(this.bookingId).subscribe({
+    this.loadAllServices();
+
+    this.invalidationService.invalidation$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((invalidatedKey: string) => {
+        if (invalidatedKey === this.invalidationService.INVALIDATE_KEYS.service) {
+          this.loadAllServices();
+        }
+      });
+  }
+
+  private loadAllServices(): void {
+    this.paymentsService.findAll(this.bookingId!).subscribe({
       next: (value) => {
-        console.log(value)
+        console.log(value);
         this.payments = value;
       },
     });

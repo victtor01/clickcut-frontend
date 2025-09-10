@@ -28,14 +28,21 @@
           for="photo-upload"
           class="group relative flex aspect-square w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-100 transition-all hover:border-blue-500 hover:bg-blue-50 dark:border-stone-700 dark:bg-zinc-800 dark:hover:border-blue-500 dark:hover:bg-stone-700/60"
         >
+         <img
+            *ngIf="previewPhoto"
+            [src]="previewPhoto"
+            alt="Foto do Serviço"
+            class="absolute h-full w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
+          />
+          
           <div
-            class="z-20 flex flex-col items-center p-4 text-center text-stone-500 dark:text-stone-400"
+           class="z-20 flex flex-col items-center rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm text-stone-500 dark:text-stone-400 text-center p-4"
           >
             <i class="material-icons-outlined !text-5xl mb-2">add_photo_alternate</i>
-            <span class="font-medium">Selecionar imagem</span>
+            <span class="font-medium text-sm">Selecionar imagem</span>
             <span class="mt-1 text-xs">PNG, JPG até 5MB</span>
           </div>
-          <input id="photo-upload" type="file" class="hidden" />
+          <input id="photo-upload" type="file" class="hidden" (change)="onFileSelected($event)" />
         </label>
       </div>
 

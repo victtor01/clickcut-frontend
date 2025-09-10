@@ -25,14 +25,15 @@ export class CreateBookingComponent implements OnInit {
     private readonly router: Router
   ) {}
 
-  private _selectedService?: Service;
+  private _selectedServices: Service[] = [];
+
   private _selectedTime?: string;
   private _currentDate?: Dayjs;
   private _buttonActive: boolean = false;
   private _step: number = 1;
 
-  get selectedService() {
-    return this._selectedService;
+  get selectedServices() {
+    return this._selectedServices;
   }
 
   get step(): number {
@@ -46,15 +47,20 @@ export class CreateBookingComponent implements OnInit {
   }
 
   get timeEnd(): string | void {
-    if (this._selectedTime && this._selectedService?.durationInMinutes) {
+    if (this._selectedTime) {
       const startTime = dayjs(this._selectedTime, 'HH:mm');
-      const endTime = startTime.add(this._selectedService.durationInMinutes, 'minute');
+
+      const endTime = startTime.add(
+        this._selectedServices.reduce((curr, value) => curr + value.durationInMinutes, 0),
+        'minute'
+      );
+
       return endTime.format('HH:mm');
     }
   }
 
-  get serviceId(): string | undefined {
-    return this._selectedService?.id;
+  get serviceIds(): string[] | undefined {
+    return this._selectedServices?.map((s) => s.id);
   }
 
   get selectedTime(): string | undefined {
@@ -100,7 +106,7 @@ export class CreateBookingComponent implements OnInit {
   public submit(): void {
     switch (this._step) {
       case 1:
-        if (this._selectedService) {
+        if (this._selectedServices) {
           this.nextStep();
           this.disabledButton();
         } else {
@@ -117,7 +123,7 @@ export class CreateBookingComponent implements OnInit {
   }
 
   public createBooking(): void {
-    if (!this.serviceId || !this._selectedTime || !this._currentDate) {
+    if (!this.serviceIds || !this._selectedTime || !this._currentDate) {
       this.toastService.error('Dados faltando');
       return;
     }
@@ -131,7 +137,7 @@ export class CreateBookingComponent implements OnInit {
 
     const createBookingDTO = {
       title: '',
-      serviceId: this.serviceId,
+      serviceId: this.serviceIds,
       startAt: bookingDayjsObject.toDate().toISOString(),
     } satisfies CreateBookingDTO;
 
@@ -154,11 +160,18 @@ export class CreateBookingComponent implements OnInit {
   };
 
   public isActive = (service: Service) => {
-    return service?.id == this._selectedService?.id;
+    return this._selectedServices?.map((s) => s.id)?.includes(service.id);
   };
 
   public selectItem = (service: Service) => {
-    this._selectedService = service;
+    const exists: Service[] = this._selectedServices?.filter((s) => s.id == service.id) || [];
+
+    if (exists?.length) {
+      this._selectedServices = [...this._selectedServices.filter((s) => s.id !== service.id)];
+    } else {
+      this._selectedServices = [...this._selectedServices, service];
+    }
+
     this.activeButton();
   };
 }
