@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Service } from '@app/core/models/Service';
@@ -15,7 +15,7 @@ dayjs.extend(customParseFormat);
 
 @Component({
   templateUrl: './create-booking.component.html',
-  imports: [AllServicesComponent, RouterLink, CommonModule, AllTimesComponent, ToFormatBrlPipe],
+  imports: [AllServicesComponent, RouterLink, CommonModule, AllTimesComponent, ToFormatBrlPipe, NgOptimizedImage],
 })
 export class CreateBookingComponent implements OnInit {
   constructor(

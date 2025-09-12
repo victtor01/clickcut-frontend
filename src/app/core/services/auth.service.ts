@@ -20,7 +20,7 @@ export class AuthService {
   constructor(private readonly apiService: ApiService) {}
 
   public checkAuthStatus(): Observable<boolean> {
-    return this.apiService.get<User>(`/users/mine`).pipe(
+    return this.apiService.get<User>(`/users/summary`).pipe(
       tap((user) => {
         this.currentUserSubject.next(user);
       }),

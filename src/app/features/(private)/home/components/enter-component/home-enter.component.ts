@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BusinessStatement } from '@app/core/models/BusinessStatement';
@@ -10,7 +11,7 @@ import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-
 @Component({
   templateUrl: './home-enter.component.html',
   selector: 'home-enter',
-  imports: [ToFormatBrlPipe, RouterLink],
+  imports: [ToFormatBrlPipe, RouterLink, CommonModule],
 })
 export class HomeEnterComponent implements OnInit {
   constructor(
