@@ -5,7 +5,7 @@ import { Service } from '@app/core/models/Service';
 import { InvalidationService } from '@app/core/services/invalidation.service';
 import { ServicesService } from '@app/core/services/services.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
-import { Subject, takeUntil } from 'rxjs';
+import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 @Component({
   templateUrl: './all-services.component.html',
@@ -82,15 +82,10 @@ export class AllServicesComponent<T> implements OnInit, OnDestroy {
       });
   }
 
-  private fetch(): void {
-    this.serviceService.getAll().subscribe({
-      next: (v) => {
-        this._services = v;
-      },
-
-      error: (err) => {
-        console.log(err);
-      },
+  private async fetch(): Promise<void> {
+    this._services = await firstValueFrom(this.serviceService.getAll()).catch((err) => {
+      console.log(err);
+      return [];
     });
   }
 }

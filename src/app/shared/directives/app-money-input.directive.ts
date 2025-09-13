@@ -13,66 +13,108 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class MoneyInputDirective implements ControlValueAccessor, OnInit {
-  // Funções que o Angular nos dará para atualizar o form model
+   // --- Propriedades Internas ---
   private onChange: (value: number | null) => void = () => {};
   private onTouched: () => void = () => {};
+  private internalValue: number | null = null;
 
+  // --- Inputs da Diretiva (convertidos para o padrão com setters) ---
+  @Input() public showCurrencySymbol: boolean = true;
+  
+  private _min: number | null | undefined;
   @Input()
-  public showCurrencySymbol: boolean = true;
+  set min(value: string | number | null | undefined) {
+    this._min = this.coerceToNumber(value);
+  }
+  get min(): number | null | undefined { return this._min; }
 
+  private _max: number | null | undefined;
+  @Input()
+  set max(value: string | number | null | undefined) {
+    this._max = this.coerceToNumber(value);
+  }
+  get max(): number | null | undefined { return this._max; }
+
+  private _step: number | null | undefined;
+  @Input()
+  set step(value: string | number | null | undefined) {
+    this._step = this.coerceToNumber(value);
+  }
+  get step(): number | null | undefined { return this._step; }
+  
   constructor(private el: ElementRef<HTMLInputElement>) {}
 
   ngOnInit(): void {
     this.el.nativeElement.type = 'text';
+    this.el.nativeElement.inputMode = 'decimal';
   }
 
-  // O Angular chama este método para escrever um valor do model na view
+  // O resto da sua diretiva continua igual...
+
   writeValue(value: number | null): void {
+    this.internalValue = value;
     this.el.nativeElement.value = this.formatValue(value);
   }
 
-  // Registra a função de callback para quando o valor mudar
   registerOnChange(fn: (value: number | null) => void): void {
     this.onChange = fn;
   }
 
-  // Registra a função de callback para o evento 'touched'
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
-
+  
   @HostListener('input', ['$event.target.value'])
-  onInput(value: string): void {
-    // Remove tudo que não for dígito. A regex correta é /\D/g
-    const rawValue = value.replace(/\D/g, '');
+  onInput(viewValue: string): void {
+    let numericValue = this.parseValue(viewValue);
 
-    // Converte para número (ex: '12345' -> 12345)
-    const numericValue = rawValue ? parseInt(rawValue, 10) : null;
-
-    // Atualiza o valor no model do formulário (o valor "real")
-    this.onChange(numericValue);
-
-    // Atualiza o valor na view (o valor formatado que o usuário vê)
-    this.el.nativeElement.value = this.formatValue(numericValue);
+    if (this.max !== null && this.max !== undefined && numericValue !== null && numericValue > this.max) {
+      numericValue = this.max;
+    }
+    
+    this.internalValue = numericValue;
+    this.onChange(this.internalValue);
+    this.el.nativeElement.value = this.formatValue(this.internalValue);
   }
 
   @HostListener('blur')
   onBlur(): void {
+    let constrainedValue = this.internalValue;
+
+    if (this.step && constrainedValue !== null) {
+      const minVal = this.min ?? 0;
+      constrainedValue = Math.round((constrainedValue - minVal) / this.step) * this.step + minVal;
+    }
+
+    if (this.min !== null && this.min !== undefined && (constrainedValue === null || constrainedValue < this.min)) {
+      constrainedValue = this.min;
+    }
+    
+    this.internalValue = constrainedValue;
+    this.onChange(this.internalValue);
+    this.el.nativeElement.value = this.formatValue(this.internalValue);
     this.onTouched();
   }
 
   private formatValue(value: number | null | undefined): string {
-    if (value === null || value === undefined) {
-      return '';
-    }
-
+    // ...
+    if (value === null || value === undefined) return '';
     const reais = Math.floor(value / 100);
     const centavos = (value % 100).toString().padStart(2, '0');
-
     const formattedReais = reais.toLocaleString('pt-BR');
-
     const prefix = this.showCurrencySymbol ? 'R$ ' : '';
-
     return `${prefix}${formattedReais},${centavos}`;
+  }
+  
+  private parseValue(viewValue: string): number | null {
+    // ...
+    if (!viewValue) return null;
+    const rawValue = viewValue.replace(/\D/g, '');
+    return rawValue ? parseInt(rawValue, 10) : null;
+  }
+  
+  private coerceToNumber(value: any): number | null {
+    const num = Number(value);
+    return isNaN(num) ? null : num;
   }
 }

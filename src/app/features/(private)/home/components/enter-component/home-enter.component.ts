@@ -35,9 +35,10 @@ export class HomeEnterComponent implements OnInit {
 
   public get porcetage() {
     if (this.statement) {
-      if(!this.statement.revenueGoal) return 0;
+      if (!this.statement.revenueGoal) return 0;
 
-      return (this.statement?.revenue / this.statement?.revenueGoal) * 100;
+      const porcetage = (this.statement?.revenue / this.statement?.revenueGoal) * 100;
+      return porcetage > 100 ? 100 : porcetage.toFixed(2);
     }
 
     return 0;

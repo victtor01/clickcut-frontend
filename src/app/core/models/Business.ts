@@ -5,7 +5,7 @@ export interface Business {
   name: string;
   owner?: User;
   timeZoneId?: string;
-  revenueGoal?: string;
+  revenueGoal?: number;
   isOpen?: boolean;
 }
 

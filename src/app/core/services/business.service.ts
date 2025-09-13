@@ -39,6 +39,10 @@ export class BusinessService {
     return this.apiService.post('/bookings/available-times', params);
   }
 
+  public getBusinessSession(): Observable<Business> {
+    return this.apiService.get('/business/session');
+  }
+
   public getTimeSlots(): Observable<TimeSlot[]> {
     return this.apiService.get('/business/timeSlot');
   }

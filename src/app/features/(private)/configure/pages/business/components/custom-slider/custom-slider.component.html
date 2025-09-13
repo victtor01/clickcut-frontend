@@ -1,0 +1,18 @@
+<div 
+  class="slider-container"
+  (pointerdown)="onDragStart($event)"
+  (touchstart)="onDragStart($event)"
+>
+  <div #track class="track  pointer-events-none cursor-default">
+    <div class="fill pointer-events-none cursor-default" [style.width.%]="fillPercentage"></div>
+  </div>
+
+  <div 
+    class="thumb pointer-events-none cursor-default" 
+    role="slider"
+    [style.left.%]="fillPercentage" 
+    [attr.aria-valuenow]="value"
+    [attr.aria-valuemin]="min"
+    [attr.aria-valuemax]="max"
+  ></div>
+</div>
