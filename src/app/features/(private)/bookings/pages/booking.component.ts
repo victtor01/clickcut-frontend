@@ -171,7 +171,7 @@ export class BookingComponent implements OnInit, OnDestroy {
     const end = dateFormated.endOf('hour').add(1, 'minute');
 
     const bookingsInHour = bookings.filter((booking) => {
-      return dayjs(booking.startAt).isAfter(start) && dayjs(booking.endAt).isBefore(end);
+      return dayjs(booking.startAt).isAfter(start) && dayjs(booking.startAt).isBefore(end);
     });
 
     const dialogRef = this.dialogDetails.open(DetailsBookingComponent, {

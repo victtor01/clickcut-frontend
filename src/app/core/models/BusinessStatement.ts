@@ -5,6 +5,8 @@ export interface BusinessStatement {
   revenue: number;
   revenueGoal: number;
   userSession: User;
+  logoUrl?: string;
+  bannerUrl?: string;
   count: {
     finished: number;
     canceled: number;

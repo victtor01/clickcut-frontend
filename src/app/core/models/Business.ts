@@ -7,6 +7,9 @@ export interface Business {
   timeZoneId?: string;
   revenueGoal?: number;
   isOpen?: boolean;
+
+  bannerUrl?: string;
+  logoUrl?: string;
 }
 
 export interface TimeSlot {

@@ -27,7 +27,7 @@
         </label>
       </div>
 
-      <div class="flex-grow flex flex-wrap items-center gap-2" *ngIf="this.schedule">
+      <div class="flex-grow flex flex-wrap items-center gap-2" *ngIf="!!this.schedule[0]">
         @for (slot of schedule[day.value].slots; track $index) {
         <div
           class="group relative flex items-center justify-between pl-3 pr-2 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-900"

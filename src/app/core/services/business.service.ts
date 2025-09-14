@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { objectToFormData } from '@app/shared/utils/object-to-form';
 import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { Business, TimeSlot } from '../models/Business';
 import { BusinessStatement } from '../models/BusinessStatement';
 import { CreateTimeSlotDTO } from '../schemas/create-time-slot.dto';
+import { UpdateBusinessDTO } from '../schemas/update-business.dto';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -37,6 +39,11 @@ export class BusinessService {
     };
 
     return this.apiService.post('/bookings/available-times', params);
+  }
+
+  public update(updateDTO: UpdateBusinessDTO): Observable<Business> {
+    const form = objectToFormData(updateDTO);
+    return this.apiService.putForm('/business', form);
   }
 
   public getBusinessSession(): Observable<Business> {
