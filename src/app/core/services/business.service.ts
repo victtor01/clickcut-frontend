@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { Business, TimeSlot } from '../models/Business';
 import { BusinessStatement } from '../models/BusinessStatement';
+import { CreateBusinessDTO } from '../schemas/create-business.dto';
 import { CreateTimeSlotDTO } from '../schemas/create-time-slot.dto';
 import { UpdateBusinessDTO } from '../schemas/update-business.dto';
 import { ApiService } from './api.service';
@@ -14,6 +15,10 @@ export class BusinessService {
 
   public getAll(): Observable<Business[]> {
     return this.apiService.get<Business[]>('/business/all');
+  }
+
+  public create(createBusinessDTO: CreateBusinessDTO): Observable<Business> {
+    return this.apiService.post<Business>('/business', createBusinessDTO);
   }
 
   public select(businessId: string): Observable<boolean> {

@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { BusinessService } from '@app/core/services/business.service';
 import { ToastService } from '@app/core/services/toast.service';
-import { DecorativeShapesComponent } from '../components/decorative-shapes/decorative-shapes.components';
 
 @Component({
   templateUrl: './select-business.component.html',
   styleUrl: './select-business.component.css',
-  imports: [CommonModule, DecorativeShapesComponent],
+  imports: [CommonModule, RouterLink],
 })
 export class SelectBusinessComponent implements OnInit {
   public business?: Business[];

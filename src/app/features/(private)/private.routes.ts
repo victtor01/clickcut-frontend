@@ -10,6 +10,7 @@ import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { HomePageComponent } from './home/pages/home-page.component';
+import { CreateBusinessComponent } from './select/pages/create/create-business.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
 import { EditServiceComponent } from './services/pages/edit-service/edit-service.component';
 import { ServicesComponent } from './services/pages/services.component';
@@ -20,6 +21,7 @@ export const PRIVATE_ROUTES: Routes = [
     component: PrivateLayoutComponent,
     children: [
       { path: 'select', pathMatch: 'full', component: SelectBusinessComponent },
+      { path: 'create-business', component: CreateBusinessComponent },
       {
         path: '',
         canActivate: [BusinessGuard],

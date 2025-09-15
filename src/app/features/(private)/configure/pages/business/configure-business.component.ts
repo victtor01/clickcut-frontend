@@ -14,7 +14,7 @@ import { ToastService } from '@app/core/services/toast.service';
 import { MoneyInputDirective } from '@app/shared/directives/app-money-input.directive';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import { firstValueFrom } from 'rxjs';
-import { CustomSliderComponent } from './components/custom-slider/custom-slider.component';
+import { CustomSliderComponent } from '../../../../../shared/components/custom-slider/custom-slider.component';
 import { ShowTimeSlotsComponent } from './components/show-time-slots/show-time-slots.component';
 
 export interface WeeklySchedule {
@@ -53,9 +53,9 @@ export class ConfigureBusinessComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   public readonly form: FormGroup;
 
+  public isLoading: boolean = false;
   public minRevenue: number = 5000;
   public maxRevenue: number = 50_000_00;
-  public isLoading: boolean = false;
   public stepRevenue: number = 10_00;
   public business?: Business;
 
