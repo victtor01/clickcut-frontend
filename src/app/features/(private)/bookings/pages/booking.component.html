@@ -28,7 +28,7 @@
       <a
         [routerLink]="['/bookings/create']"
         [queryParams]="{ currentDate: currentDate.format('YYYY-MM-DD') }"
-        class="bg-indigo-500 text-indigo-50 items-center flex gap-4 active:bg-indigo-600 focus:ring-offset-2 dark:ring-offset-slate-900 rounded-lg transition-all active:scale-110 ease-in-out active:ring-2 dark:active:ring-indigo-700 p-2 px-4"
+        class="bg-indigo-500 text-indigo-50 items-center flex gap-4 active:bg-indigo-600 focus:ring-offset-2 dark:ring-offset-slate-900 rounded-full transition-all active:scale-110 ease-in-out active:ring-2 dark:active:ring-indigo-700 p-2 px-4"
       >
         <i class="material-icons-outlined">add</i>
         <span class="saira-font">Agendamento</span>
@@ -39,7 +39,7 @@
       type="button"
       (click)="navigateToNow()"
       [attr.data-now]="isNow()"
-      class="p-2 px-4 rounded bg-stone-100 dark:bg-zinc-900 active:bg-stone-300 dark:active:bg-zinc-800 data-[now=false]:bg-indigo-500 data-[now=false]:text-white dark:text-white text-gray-500"
+      class="p-2 px-4 rounded-full bg-stone-100 dark:bg-zinc-900 active:bg-stone-300 dark:active:bg-zinc-800 data-[now=false]:bg-indigo-500 data-[now=false]:text-white dark:text-white text-gray-500"
     >
       <span class="saira-font">Hoje</span>
     </button>
