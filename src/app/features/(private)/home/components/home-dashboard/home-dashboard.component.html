@@ -15,19 +15,30 @@
     class="flex gap-[1rem] relative p-3 items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto border-r border-zinc-200 dark:border-zinc-800"
   >
     <div
-      class="flex flex-[0_0_20rem] border rounded-lg p-3 h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col min-w-[20rem] border rounded-lg h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
     >
-      Agendamentos no mês de Agosto
+      <span class="relative p-2"> Agendamentos no mês de agosto </span>
+      <div class="flex rounded-lg overflow-hidden">
+        <div class="flex h-full">
+          <line-graph></line-graph>
+        </div>
+      </div>
     </div>
     <div
-      class="flex flex-[0_0_20rem] border rounded-lg p-3 h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col border min-w-[20rem] rounded-lg h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
     >
-      Agendamentos Hoje
+      <span class="relative p-2"> Agendamentos Hoje </span>
+     
     </div>
     <div
-      class="flex flex-[0_0_20rem] border rounded-lg p-3 h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col border rounded-lg h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
     >
-      Agendamentos futuros
+      <span class="relative p-2"> Agendamentos futuros </span>
+      <div class="flex rounded-lg overflow-hidden">
+        <div class="flex h-full">
+          <line-graph></line-graph>
+        </div>
+      </div>
     </div>
     <div
       class="flex flex-[0_0_20rem] border rounded-lg p-3 h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
