@@ -12,38 +12,154 @@
   </button>
 
   <div
-    class="flex gap-[1rem] relative p-3 items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto border-r border-zinc-200 dark:border-zinc-800"
+    class="flex gap-[1rem] *:text-nowrap relative p-3 items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto border-r border-zinc-200 dark:border-zinc-800"
   >
     <div
-      class="flex flex-col min-w-[20rem] border rounded-lg h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col justify-between border p-2 rounded-xl h-[10rem] min-w-[20rem] bg-white/50 dark:bg-zinc-900/50 dark:border-zinc-700 border-zinc-200 backdrop-blur-lg"
     >
-      <span class="relative p-2"> Agendamentos no mês de agosto </span>
-      <div class="flex rounded-lg overflow-hidden">
-        <div class="flex h-full">
-          <line-graph></line-graph>
+      <header class="justify-between flex items-center gap-2">
+        <span class="relative"> Receita do Mês </span>
+        <i class="material-icons-outlined !text-lg px-2">trending_up</i>
+      </header>
+
+      <div class="text-left">
+        <p class="text-4xl font-bold text-zinc-600 dark:text-zinc-100 saira-font">R$ 4.250,00</p>
+      </div>
+
+      <div class="flex items-center gap-1 text-green-600 dark:text-green-400">
+        <span class="text-sm font-semibold">+15.2%</span>
+        <span class="text-xs text-zinc-500">vs. Mês Anterior</span>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col border min-w-[20rem] rounded-lg h-[10rem] relative bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+    >
+      <header class="justify-between flex items-center gap-2 p-2">
+        <span class="relative"> Visão Geral </span>
+        <i class="material-icons-outlined !text-lg px-2">analytics</i>
+      </header>
+      <div class="flex-1 flex justify-around items-center px-4 gap-2 relative">
+        <div class="flex flex-col items-center gap-1 opacity-60 relative -top-3">
+          <div
+            class="w-14 h-14 grid place-items-center rounded-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700"
+          >
+            <span class="text-xl font-bold text-zinc-500 dark:text-zinc-400 saira-font">8</span>
+          </div>
+          <span class="text-xs text-zinc-400 dark:text-zinc-500">Passados</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1 relative top-0">
+          <div
+            class="w-16 h-16 grid place-items-center rounded-full bg-indigo-50 dark:bg-indigo-900/40 border-2 border-indigo-300 dark:border-indigo-700"
+          >
+            <span class="text-3xl font-bold text-indigo-700 dark:text-indigo-200 saira-font"
+              >12</span
+            >
+          </div>
+          <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-300">Hoje</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1 relative -top-5">
+          <div
+            class="w-14 h-14 grid place-items-center rounded-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700"
+          >
+            <span class="text-xl font-bold text-zinc-700 dark:text-zinc-300 saira-font">5</span>
+          </div>
+          <span class="text-xs text-zinc-500 dark:text-zinc-400">Amanhã</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1 relative -top-2">
+          <div
+            class="w-14 h-14 grid place-items-center rounded-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700"
+          >
+            <span class="text-xl font-bold text-zinc-700 dark:text-zinc-300 saira-font">21</span>
+          </div>
+          <span class="text-xs text-zinc-500 dark:text-zinc-400">Futuros</span>
         </div>
       </div>
     </div>
+
     <div
-      class="flex flex-col border min-w-[20rem] rounded-lg h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col border rounded-lg h-[10rem] relative bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
     >
-      <span class="relative p-2"> Agendamentos Hoje </span>
-     
-    </div>
-    <div
-      class="flex flex-col border rounded-lg h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
-    >
-      <span class="relative p-2"> Agendamentos futuros </span>
-      <div class="flex rounded-lg overflow-hidden">
+      <header class="justify-between flex items-center gap-2 p-2">
+        <span class="relative"> Agendamentos no mês de agosto </span>
+        <i class="material-icons-outlined !text-lg px-2">timeline</i>
+      </header>
+
+      <div class="flex rounded-b-lg overflow-hidden relative">
         <div class="flex h-full">
-          <line-graph></line-graph>
+          <line-graph
+            *ngIf="bookingHistory?.bookings?.length"
+            [labels]="labels"
+            [data]="values"
+          ></line-graph>
         </div>
       </div>
+
+      <div
+        class="absolute right-4 bottom-4 backdrop-blur-sm z-50 px-4 p-1 grid place-items-center rounded-full bg-violet-500/10"
+      >
+        <span class="text-gray-600 font-semibold dark:text-gray-200 saira-font text-base">
+          34 Agendamentos
+        </span>
+      </div>
     </div>
+
     <div
-      class="flex flex-[0_0_20rem] border rounded-lg p-3 h-[10rem] backdrop-blur-xl bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col justify-between border rounded-xl p-2 h-[10rem] min-w-[18rem] bg-white/50 dark:bg-zinc-900/50 dark:border-zinc-700 border-zinc-200 backdrop-blur-lg dark:shadow-black/20"
     >
-      Receita no mês de agosto
+      <header class="justify-between flex items-center gap-2">
+        <span class="relative"> Serviços populares </span>
+        <i class="material-symbols-outlined !text-lg">cards_star</i>
+      </header>
+
+      <div class="text-left">
+        <p class="text-2xl font-bold text-zinc-600 dark:text-zinc-100 saira-font truncate">
+          Corte Moderno
+        </p>
+      </div>
+
+      <div class="flex items-baseline gap-2">
+        <span class="text-xl font-semibold text-indigo-600 dark:text-indigo-400 saira-font"
+          >42x</span
+        >
+        <span class="text-xs text-zinc-500">realizado em Setembro</span>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col border rounded-lg h-[10rem] relative bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+    >
+      <header class="justify-between flex items-center gap-2 p-2">
+        <span class="relative"> Agendamentos no mês de agosto </span>
+        <i class="material-icons-outlined !text-lg px-2">timeline</i>
+      </header>
+
+      <div class="flex-1 flex relative p-3">
+        <div class="flex flex-col justify-between items-end">
+          <div class="flex gap-2 items-center">
+            <span class="text-sm saira-font"> 15% Dinheiro </span>
+            <i class="w-2 h-2 bg-emerald-500 rounded-sm"></i>
+          </div>
+          <div class="flex gap-2 items-center">
+            <span class="text-sm saira-font"> 3% Débito </span>
+            <i class="w-2 h-2 bg-yellow-500 rounded-sm"></i>
+          </div>
+        </div>
+        <app-doughnut-chart class="w-[6rem] h-[6rem]"></app-doughnut-chart>
+        <div class="flex flex-col justify-between">
+          <div class="flex gap-2 items-center">
+            <i class="w-2 h-2 bg-indigo-500 rounded-sm"></i>
+            <span class="text-sm saira-font"> 3% Pix </span>
+          </div>
+          <div class="flex gap-2 items-center">
+            <i class="w-2 h-2 bg-purple-500 rounded-sm"></i>
+            <span class="text-sm saira-font"> 15 Crédito </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
