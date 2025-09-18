@@ -14,7 +14,7 @@ import { firstValueFrom } from 'rxjs';
   selector: 'home-dashboard',
   templateUrl: './home-dashboard.component.html',
   imports: [LineGraph, DoughnutChartComponent, CommonModule, ToFormatBrlPipe],
-})
+}) 
 export class HomeDashboardComponent implements OnInit {
   private readonly summaryService = inject(SummaryService);
 
