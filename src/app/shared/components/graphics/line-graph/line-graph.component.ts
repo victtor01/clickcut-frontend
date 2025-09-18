@@ -31,7 +31,6 @@ export class LineGraph implements AfterViewInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    // Verifica se os inputs 'data' ou 'labels' mudaram
     if (changes['data'] || changes['labels']) {
       // Atualiza os dados do gráfico com os novos valores recebidos
       this.lineChartData.datasets[0].data = this.data || [];
@@ -55,7 +54,7 @@ export class LineGraph implements AfterViewInit, OnChanges {
         data: [],
         label: 'Receita',
         fill: true,
-        tension: 0.3,
+        tension: 0.5,
         borderColor: this.primaryColor,
         backgroundColor: 'rgba(0,0,0,0)',
         pointRadius: 0,

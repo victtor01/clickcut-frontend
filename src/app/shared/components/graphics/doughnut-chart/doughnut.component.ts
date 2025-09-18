@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -17,22 +17,39 @@ import { BaseChartDirective } from 'ng2-charts';
     </canvas>
   `,
 })
-export class DoughnutChartComponent {
+export class DoughnutChartComponent implements OnChanges {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   public readonly doughnutChartType = 'doughnut';
 
+  @Input()
+  public labels?: string[];
+
+  @Input()
+  public data?: any[];
+
+  @Input()
+  public colors?: string[];
+
   public doughnutChartData: ChartData<'doughnut'> = {
-    labels: ['Pix', 'Dinheiro', 'Débito', 'Crédito'],
+    labels: [],
     datasets: [
       {
-        data: [300, 50, 100, 150],
-        backgroundColor: ['#615fff', '#ad46ff', '#efb100', '#00bc7d'], // Roxo, Verde, Laranja, Azul
+        data: [],
+        backgroundColor: [], // Roxo, Verde, Laranja, Azul
         borderWidth: 0,
       },
     ],
   };
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] || changes['labels']) {
+      this.doughnutChartData.datasets[0].data = this.data || [];
+      this.doughnutChartData.labels = this.labels || [];
+      this.doughnutChartData.datasets[0].backgroundColor = this.colors;
+      this.chart?.update();
+    }
+  }
   public doughnutChartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -59,7 +76,5 @@ export class DoughnutChartComponent {
   };
 
   // Plugin customizado para desenhar o texto no centro do gráfico
-  public doughnutChartPlugins: Plugin<'doughnut'>[] = [
-   
-  ];
+  public doughnutChartPlugins: Plugin<'doughnut'>[] = [];
 }

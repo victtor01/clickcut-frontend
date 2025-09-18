@@ -24,7 +24,6 @@ const DEFAULT_BUTTON_LABEL = 'Avançar status';
   selector: 'app-booking-details',
   templateUrl: './booking-details.component.html',
   styleUrls: ['./booking-details.component.scss'], // Adicione o SCSS
-  standalone: true, // Adicione standalone: true
   imports: [RouterLink, CommonModule, ToFormatBrlPipe, AllPaymentsComponent], // Adicione CommonModule e RouterLink
 })
 export class BookingDetailsComponent implements OnInit {
