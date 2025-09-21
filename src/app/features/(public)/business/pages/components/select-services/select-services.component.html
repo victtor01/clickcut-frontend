@@ -1,0 +1,125 @@
+<div class="flex flex-col lg:flex-row gap-8 w-full max-w-6xl mx-auto p-4 md:p-8">
+  <div class="flex-1">
+    <header class="mb-8 text-center lg:text-left">
+      <h1 class="text-3xl font-bold text-zinc-600 dark:text-zinc-100">Selecione os serviços</h1>
+      <p class="mt-2 text-zinc-600 dark:text-zinc-400">
+        Escolha um ou mais serviços que deseja agendar.
+      </p>
+    </header>
+
+    <div class="flex flex-col gap-4">
+      @for (service of availableServices; track service.id) {
+        <div
+          (click)="toggleService(service)"
+          class="relative flex cursor-pointer flex-col md:flex-row md:items-center justify-between gap-4 rounded-xl border-2 p-5 transition-all duration-200"
+          [ngClass]="{
+            'border-purple-500 bg-purple-500/5 dark:bg-purple-500/10 ring-2 ring-purple-500':
+              isSelected(service),
+            'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-700':
+              !isSelected(service),
+          }"
+        >
+          <div class="pr-8 flex gap-2 items-center flex-1">
+            <div
+              class="h-14 w-14 flex-shrink-0 overflow-hidden rounded-2xl rounded-tl-sm bg-zinc-100 dark:bg-zinc-800 md:h-20 md:w-20"
+            >
+              @if (service.photoUrl) {
+                <img
+                  [src]="service.photoUrl"
+                  [alt]="service.title"
+                  [attr.data-selected]="isSelected(service)"
+                  class="h-full w-full object-cover transition-all data-[selected=true]:scale-125"
+                />
+              } @else {
+                <div class="grid h-full w-full place-items-center">
+                  <i class="material-icons-outlined !text-3xl text-zinc-400 dark:text-zinc-500"
+                    >image</i
+                  >
+                </div>
+              }
+            </div>
+            <h3 class="text-lg font-semibold text-zinc-600 saira-font dark:text-zinc-100">
+              {{ service.title }}
+            </h3>
+            @if (service.description) {
+              <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                {{ service.description }}
+              </p>
+            }
+          </div>
+
+          <div
+            class="flex items-center gap-6 mt-2 md:mt-0 text-zinc-700 dark:text-zinc-300 border-t border-zinc-200 dark:border-zinc-800 md:border-none pt-4 md:pt-0"
+          >
+            <div class="flex items-center gap-1.5 text-sm">
+              <i class="material-icons-outlined !text-xl text-zinc-400">schedule</i>
+              <span>{{ service.durationInMinutes }} min</span>
+            </div>
+            <div class="text-lg font-medium">
+              {{ service.price | toFormatBrl }}
+            </div>
+          </div>
+          <div
+            class="relative grid h-8 w-8 place-items-center rounded-full border-2"
+            [ngClass]="{
+              'border-purple-600 bg-purple-600': isSelected(service),
+              'border-zinc-300 dark:border-zinc-600': !isSelected(service),
+            }"
+          >
+            @if (isSelected(service)) {
+              <i class="material-icons-outlined !text-base text-white">done</i>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="w-full lg:w-80 xl:w-96">
+    <div
+      class="lg:sticky lg:top-8 rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900/50"
+    >
+      <h2 class="text-xl font-bold text-zinc-800 dark:text-zinc-100">Resumo</h2>
+
+      <div class="mt-6 space-y-4">
+        @if (selectedServices.size > 0) {
+          @for (item of getSelectedServicesArray(); track item.id) {
+            <div class="flex justify-between items-center text-zinc-700 dark:text-zinc-300">
+              <span>{{ item.title }}</span>
+              <span class="font-medium">{{ item.price | toFormatBrl }}</span>
+            </div>
+          }
+        } @else {
+          <div class="text-center text-zinc-500 dark:text-zinc-400 py-8">
+            <p>Nenhum serviço selecionado.</p>
+          </div>
+        }
+      </div>
+
+      @if (selectedServices.size > 0) {
+        <hr class="my-6 border-zinc-200 dark:border-zinc-700" />
+        <div class="space-y-4">
+          <div class="flex justify-between text-zinc-600 dark:text-zinc-400">
+            <span>Duração total</span>
+            <span class="font-medium">{{ totalDuration }} min</span>
+          </div>
+          <div class="flex justify-between text-lg font-bold text-zinc-800 dark:text-zinc-100">
+            <span>Total</span>
+            <span>{{ totalPrice | toFormatBrl }}</span>
+          </div>
+        </div>
+      }
+
+      <footer class="mt-8">
+        <button
+          type="button"
+          (click)="next()"
+          [disabled]="selectedServices.size === 0"
+          class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-purple-500 to-purple-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-950"
+        >
+          <span>Verificar disponibilidade</span>
+        </button>
+      </footer>
+    </div>
+  </div>
+</div>

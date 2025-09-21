@@ -36,10 +36,11 @@ export interface WeeklySchedule {
     ReactiveFormsModule,
   ],
   styles: `
-  :host {
-    display: block;
-    width: 100%;
-  }`,
+    :host {
+      display: block;
+      width: 100%;
+    }
+  `,
 })
 export class ConfigureBusinessComponent implements OnInit {
   constructor(private readonly formBuilder: FormBuilder) {
@@ -65,14 +66,72 @@ export class ConfigureBusinessComponent implements OnInit {
   public fileLogo?: File;
   public fileBanner?: File;
 
+  public appointmentLink = '';
+  public copyState: 'idle' | 'copied' = 'idle';
+
   public ngOnInit(): void {
     this.getSessionBusiness();
+  }
+
+  private setupAppointmentLink(): void {
+    if (this.business?.id) {
+      this.appointmentLink = `${window.location.origin}/appointments/${this.business.id}`;
+    }
+  }
+
+  public copyLink = () => {
+    if (!this.appointmentLink) return;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(this.appointmentLink).catch((err) => {
+        console.error('Falha ao copiar com a API moderna, tentando método legado.', err);
+        this.copyLegacy();
+      });
+    } else {
+      this.copyLegacy();
+    }
+
+    this.copyState = 'copied';
+
+    setTimeout(() => {
+      this.copyState = 'idle';
+    }, 5000);
+  };
+
+  /**
+   * Método de fallback para copiar texto em navegadores mais antigos.
+   */
+  private copyLegacy() {
+    const textArea = document.createElement('textarea');
+    textArea.value = this.appointmentLink;
+
+    // Esconde o textarea da tela
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.opacity = '0';
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (!successful) {
+        console.error('Falha ao executar o comando de cópia legado.');
+      }
+    } catch (err) {
+      console.error('Erro ao tentar copiar com o método legado: ', err);
+    }
+
+    document.body.removeChild(textArea);
   }
 
   public async getSessionBusiness() {
     this.business = await firstValueFrom(this.businessService.getBusinessSession());
     this.reviewBannerUrl = this.business.bannerUrl;
     this.reviewLogoUrl = this.business.logoUrl;
+    this.setupAppointmentLink();
     this.form.patchValue({
       name: this.business.name,
       revenueGoal: this.business.revenueGoal,

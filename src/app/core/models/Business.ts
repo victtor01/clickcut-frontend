@@ -10,6 +10,7 @@ export interface Business {
 
   bannerUrl?: string;
   logoUrl?: string;
+  members?: User[]
 }
 
 export interface TimeSlot {

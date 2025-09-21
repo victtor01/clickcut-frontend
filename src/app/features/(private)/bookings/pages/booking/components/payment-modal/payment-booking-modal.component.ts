@@ -24,7 +24,7 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA)
     private data: { bookingId: string; status: BookingStatus },
     private readonly paymentsService: PaymentService,
-    private readonly invalidationService: InvalidationService
+    private readonly invalidationService: InvalidationService,
   ) {}
 
   private timerInterval?: any;
@@ -153,6 +153,10 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
     return this.payment?.qrCodeBase64 || null;
   }
 
+  public close() {
+    this.dialogRef.close();
+  }
+
   public copyCode = () => {
     if (!this.pixCopyPasteCode) return;
 
@@ -176,10 +180,6 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
       this.isCopied = false;
     }, 5000);
   };
-
-  public close() {
-    this.dialogRef.close();
-  }
 
   private copyLegacy() {
     const textArea = document.createElement('textarea');
