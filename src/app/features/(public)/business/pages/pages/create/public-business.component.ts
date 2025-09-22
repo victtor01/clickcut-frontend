@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { Service } from '@app/core/models/Service';
 import { User } from '@app/core/models/User';
+import {
+  CreateAppointmentClientDTO,
+  CreateAppointmentDTO,
+} from '@app/core/schemas/create-appointment.dto';
 import { AppointmentsService } from '@app/core/services/appointments.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
@@ -24,8 +28,8 @@ export interface AppointmentsProps {
 @Component({
   templateUrl: './public-business.component.html',
   imports: [
-    SelectAssignComponent,
     CommonModule,
+    SelectAssignComponent,
     SelectServicesComponent,
     SelectDateTimeComponent,
     ConfirmBookingComponent,
@@ -33,6 +37,7 @@ export interface AppointmentsProps {
   ],
 })
 export class AppointMeetComponent implements OnInit {
+  public client?: CreateAppointmentClientDTO;
   public services: Service[] = [];
   public assignedTo?: User | null;
   public assignedToId?: string;
@@ -41,10 +46,16 @@ export class AppointMeetComponent implements OnInit {
   public date?: Dayjs;
 
   public isLoading: boolean = true;
-
   public step = 1;
 
-  public get allProps(): AppointmentsProps {
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly appointmentsService: AppointmentsService,
+    private readonly toastService: ToastService,
+    private readonly router: Router,
+  ) {}
+
+  public get props(): AppointmentsProps {
     return {
       assignTo: this.assignedTo,
       businessId: this.businessId,
@@ -61,17 +72,12 @@ export class AppointMeetComponent implements OnInit {
         return this.services.length > 0;
       case 3:
         return !!this.date;
+      case 4:
+        return !!this.client;
       default:
         return false;
     }
   }
-
-  constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly appointmentsService: AppointmentsService,
-    private readonly router: Router,
-    private readonly toastService: ToastService,
-  ) {}
 
   public ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -138,9 +144,21 @@ export class AppointMeetComponent implements OnInit {
       case 2:
         this.validServices();
         break;
+      case 3:
+        this.validateTimes();
+        break;
+      case 4:
+        this.submit();
+        break;
     }
 
-    this.step++;
+    if (this.step < 4) {
+      this.step++;
+    }
+  }
+
+  public selectClient(client: CreateAppointmentClientDTO | null) {
+    this.client = client || undefined;
   }
 
   private setAssignInURL() {
@@ -157,9 +175,31 @@ export class AppointMeetComponent implements OnInit {
     });
   }
 
-  private validServices() {
+  private validServices(): void {
     if (this.services.length === 0) {
       this.toastService.error('Selecione ao menos 1 serviço!');
+    }
+  }
+
+  private validateTimes(): void {
+    if (!this.date) {
+      this.toastService.error('Selecione a data e hora para o agendamento!');
+    }
+  }
+
+  public async submit(): Promise<void> {
+    const data = {
+      assignedToId: this.assignedTo?.id!,
+      businessId: this.business?.id!,
+      serviceIds: this.services.map((s) => s.id),
+      startAt: this.date?.toISOString()!,
+      client: this.client!,
+    } satisfies CreateAppointmentDTO;
+
+    const boookingCreated = await firstValueFrom(this.appointmentsService.create(data));
+
+    if (boookingCreated?.id) {
+      this.router.navigate(['appointments', 'confirm', boookingCreated.id]);
     }
   }
 }

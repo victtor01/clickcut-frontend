@@ -17,17 +17,17 @@
 
       @case (2) {
         <app-select-service
-          [props]="allProps"
-          class="flex w-full max-w-[50rem]"
+          [props]="props"
           (changesServices)="selectServices($event)"
+          class="flex w-full max-w-[50rem]"
         ></app-select-service>
       }
 
       @case (3) {
         <app-select-date-time
-          [props]="allProps"
-          class="flex w-full max-w-[50rem]"
+          [props]="props"
           (onChangeDateOutput)="selectDateTime($event)"
+          class="flex w-full max-w-[50rem]"
         >
         </app-select-date-time>
       }
@@ -37,13 +37,14 @@
           class="flex-1"
           [selectedServices]="services"
           [selectedAssigner]="assignedTo"
+          (submitOutput)="selectClient($event)"
         >
         </app-confirm-booking>
       }
     }
 
     <app-booking-summary
-      [data]="this.allProps"
+      [data]="this.props"
       [isValid]="this.isValid"
       (nextStep)="next()"
     ></app-booking-summary>

@@ -22,14 +22,23 @@ export class BookingSummaryComponent implements OnChanges {
   @Output()
   public nextStep = new EventEmitter<void>();
 
+  public isSummaryOpen = false;
+  public totalPrice = 0;
+  public totalDuration = 0;
+
   public next() {
     if (this.nextStep) {
       this.nextStep.emit();
     }
   }
 
-  public totalPrice = 0;
-  public totalDuration = 0;
+  public openSummary(): void {
+    this.isSummaryOpen = true;
+  }
+
+  public closeSummary(): void {
+    this.isSummaryOpen = false;
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] && this.data) {
@@ -46,19 +55,5 @@ export class BookingSummaryComponent implements OnChanges {
 
     this.totalPrice = this.data.services.reduce((sum, srv) => sum + srv.price, 0);
     this.totalDuration = this.data.services.reduce((sum, srv) => sum + srv.durationInMinutes, 0);
-  }
-
-  // NOVA PROPRIEDADE para controlar o modal
-  public isSummaryOpen = false;
-
-  // ... ngOnChanges e outros métodos
-
-  // NOVAS FUNÇÕES para abrir e fechar
-  public openSummary(): void {
-    this.isSummaryOpen = true;
-  }
-
-  public closeSummary(): void {
-    this.isSummaryOpen = false;
   }
 }

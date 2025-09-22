@@ -1,19 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router'; // Para o routerLink no botão de login/cadastro
 import { Service } from '@app/core/models/Service'; // Assumindo este modelo
 import { User } from '@app/core/models/User';
+import { CreateAppointmentClientDTO } from '@app/core/schemas/create-appointment.dto';
+import { debounceTime, Subscription } from 'rxjs';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
-
-const MOCK_SELECTED_SERVICES: Service[] = [
-  { id: '1', title: 'Corte de Cabelo', price: 50, durationInMinutes: 30, photoUrl: '' },
-  { id: '2', title: 'Barba Terapia', price: 35, durationInMinutes: 20, photoUrl: '' },
-];
-
-const MOCK_SELECTED_DATE: Date = new Date(2025, 8, 21);
-
-const MOCK_SELECTED_TIME: string = '14:30';
 
 @Component({
   selector: 'app-confirm-booking',
@@ -22,24 +15,25 @@ const MOCK_SELECTED_TIME: string = '14:30';
   imports: [CommonModule, ReactiveFormsModule, RouterModule, CreateAccountComponent],
   templateUrl: './confirm-booking.component.html',
 })
-export class ConfirmBookingComponent implements OnInit {
+export class ConfirmBookingComponent implements OnInit, OnDestroy {
   @Input()
   public selectedServices: Service[] = [];
 
   @Input()
-  public selectedDate: Date | null = MOCK_SELECTED_DATE;
+  public selectedDate: Date | null = null;
 
   @Input()
-  public selectedTime: string | null = MOCK_SELECTED_TIME;
+  public selectedTime: string | null = null;
 
   @Input()
   public selectedAssigner?: User | null;
 
   @Output()
+  public submitOutput = new EventEmitter<CreateAppointmentClientDTO | null>();
+
   public bookingForm!: FormGroup;
-  public totalPrice: number = 0;
-  public totalDuration: number = 0;
   public isLoading: boolean = false;
+  private formChangesSubscription!: Subscription;
 
   constructor(private fb: FormBuilder) {}
 
@@ -51,39 +45,38 @@ export class ConfirmBookingComponent implements OnInit {
       bookingTitle: [''], // Opcional
     });
 
-    this.calculateTotals();
+    this.formChangesSubscription = this.bookingForm.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe(() => {
+        this.verifyFormState();
+      });
   }
 
-  private calculateTotals(): void {
-    this.totalPrice = this.selectedServices.reduce((sum, srv) => sum + srv.price, 0);
-    this.totalDuration = this.selectedServices.reduce((sum, srv) => sum + srv.durationInMinutes, 0);
-  }
-
-  public onSubmit(): void {
-    if (this.bookingForm.valid && this.selectedDate && this.selectedTime) {
-      this.isLoading = true;
-      const formData = this.bookingForm.value;
-      const bookingDetails = {
-        ...formData,
-        serviceIds: this.selectedServices.map((s) => s.id),
-        date: this.selectedDate.toISOString().split('T')[0],
-        time: this.selectedTime,
-        totalPrice: this.totalPrice,
-      };
-
-      console.log('Dados para agendamento:', bookingDetails);
-
-      setTimeout(() => {
-        this.isLoading = false;
-        alert('Agendamento realizado com sucesso!');
-      }, 2000);
-    } else {
-      alert('Por favor, preencha todos os campos obrigatórios e selecione a data e o horário.');
-      this.bookingForm.markAllAsTouched(); // Marca todos os campos como "touched" para exibir erros
+  public ngOnDestroy(): void {
+    if (this.formChangesSubscription) {
+      this.formChangesSubscription.unsubscribe();
     }
   }
 
-  // Helper para exibir erros de validação
+  public verifyFormState(): void {
+    if (this.bookingForm.valid) {
+      this.isLoading = true;
+      const formData = this.bookingForm.value;
+
+      const bookingClient: CreateAppointmentClientDTO = {
+        fullName: formData.fullname,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+      };
+
+      this.submitOutput.emit(bookingClient);
+
+      this.isLoading = false;
+    } else {
+      this.submitOutput.emit(null);
+    }
+  }
+
   public getErrorMessage(controlName: string): string | null {
     const control = this.bookingForm.get(controlName);
     if (control?.touched && control?.errors) {

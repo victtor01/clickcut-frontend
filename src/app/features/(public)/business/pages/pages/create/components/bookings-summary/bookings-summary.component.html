@@ -1,4 +1,4 @@
-<div class="hidden w-full lg:block lg:w-80 xl:w-96">
+<div class="hidden w-full lg:block lg:w-80 xl:w-96 pr-4 pt-4">
   <div class="lg:sticky lg:top-8">
     <div
       class="rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900/50"
@@ -129,11 +129,11 @@
 @if (isSummaryOpen) {
   <div
     (click)="closeSummary()"
-    class="lg:hidden h-[100vh] fixed top-0 left-0 inset-0 z-50 bg-white/40 backdrop-blur-sm animate-fade-in"
+    class="lg:hidden h-screen overflow-auto fixed top-0 left-0 inset-0 z-50 bg-white/40 backdrop-blur-sm animate-fade-in"
   >
     <div
       (click)="$event.stopPropagation()"
-      class="fixed bottom-0 left-0 right-0 max-h-[85vh] transform-gpu animate-slide-up overflow-y-auto rounded-t-2xl border-t border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-700 dark:bg-zinc-900"
+      class="fixed bottom-5 left-0 right-0 mx-4 max-h-[85vh] transform-gpu animate-slide-up overflow-y-auto rounded-2xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-700 dark:bg-zinc-900"
     >
       <button
         (click)="closeSummary()"

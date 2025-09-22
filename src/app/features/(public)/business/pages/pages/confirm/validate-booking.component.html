@@ -1,0 +1,281 @@
+<div class="flex h-screen flex-col overflow-auto bg-zinc-50 dark:bg-zinc-950">
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-b from-purple-500/10 via-white/5 to-white dark:from-zinc-900 dark:via-zinc-900/80 dark:to-zinc-900"
+  ></div>
+
+  <div
+    class="relative z-10 py-20 mx-auto flex h-auto max-w-md flex-col items-center gap-6 p-8 text-center"
+    *ngIf="confirmed"
+  >
+    <div class="h-24 w-24 text-green-500">
+      <app-finish-svg></app-finish-svg>
+    </div>
+
+    <header class="flex flex-col gap-2">
+      <h1 class="text-3xl font-semibold text-zinc-700 dark:text-zinc-100 saira-font">Agendamento Confirmado!</h1>
+      <p class="text-zinc-600 dark:text-zinc-400">
+        Seu horário foi agendado com sucesso. Enviamos todos os detalhes para o seu e-mail.
+      </p>
+    </header>
+
+    <div class="mt-4 w-full">
+      <button
+        type="button"
+        class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
+      >
+        Ver Detalhes do Agendamento
+      </button>
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto h-auto p-8" *ngIf="!confirmed">
+    @if (!booking && !error) {
+      <div class="flex flex-col items-center gap-4 py-8">
+        <svg
+          class="h-12 w-12 animate-spin text-purple-500"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        <p class="text-zinc-600 dark:text-zinc-400">Carregando detalhes do agendamento...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error) {
+      <header class="flex flex-col items-center gap-4 text-center">
+        <div class="h-24 w-24 text-red-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+            />
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-zinc-800 dark:text-zinc-100">
+          Agendamento não encontrado
+        </h1>
+        <p class="max-w-md text-zinc-600 dark:text-zinc-400">
+          O link que você usou pode estar incorreto ou o agendamento pode ter sido cancelado.
+        </p>
+      </header>
+    }
+
+    <!-- Booking Found State -->
+    @if (booking) {
+      <main class="flex w-full max-w-md flex-col gap-6">
+        <header class="flex flex-col items-center gap-4 text-center">
+          <div class="w-full max-w-[20rem] text-purple-500">
+            <svg-send-email></svg-send-email>
+          </div>
+          <h1 class="text-3xl font-bold text-zinc-700 dark:text-zinc-100">
+            @if (codeSent) {
+              <span>Verifique seu E-mail</span>
+            } @else {
+              <span>Valide seu Agendamento</span>
+            }
+          </h1>
+          <p class="text-zinc-600 dark:text-zinc-400">
+            @if (codeSent) {
+              <span>
+                Olá, {{ booking.title }}. Inseria abaixo o código de 6 dígitos que enviamos para o
+                seu e-mail.
+              </span>
+            } @else {
+              <span>
+                Olá, {{ booking.title }}. Para confirmar seu horário, por favor, solicite o código
+                de validação.
+              </span>
+            }
+          </p>
+        </header>
+
+        <!-- Dynamic Content based on codeSent -->
+        @if (codeSent) {
+          <!-- Code Verification Section -->
+          <div class="mt-4 flex flex-col gap-4">
+            <div>
+              <input
+                type="tel"
+                maxlength="6"
+                [value]="validationCode()"
+                (input)="onCodeInput($event)"
+                placeholder="000000"
+                class="w-full rounded-lg border border-zinc-300 bg-white p-4 text-center text-3xl font-bold tracking-[0.5em] text-zinc-800 placeholder:tracking-normal placeholder:text-zinc-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder:text-zinc-500"
+              />
+            </div>
+            <button
+              type="button"
+              (click)="verifyCode()"
+              [disabled]="validationCode().length !== 6 || isVerifyingCode"
+              class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-zinc-950"
+            >
+              @if (isVerifyingCode) {
+                <svg
+                  class="h-5 w-5 animate-spin text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span>Verificando...</span>
+              } @else {
+                <span>Verificar Código</span>
+              }
+            </button>
+          </div>
+
+          <div class="mt-4 text-center">
+            <button
+              type="button"
+              (click)="requestValidationCode()"
+              class="text-sm font-medium text-purple-600 transition-colors hover:text-purple-500 disabled:cursor-not-allowed disabled:text-zinc-400 dark:text-purple-400 dark:hover:text-purple-300 dark:disabled:text-zinc-500"
+            >
+              @if (isVerifyingCode) {
+                <span>Reenviando...</span>
+              } @else {
+                <span>Não recebi o código. Reenviar.</span>
+              }
+            </button>
+          </div>
+        } @else {
+          <!-- Request Code Section -->
+          <div class="flex flex-col gap-4">
+            <div
+              class="rounded-lg border border-blue-200 bg-blue-50 p-4 text-center dark:border-blue-800 dark:bg-blue-950"
+            >
+              <p class="text-sm text-blue-700 dark:text-blue-300">
+                Um código será enviado para o seu e-mail para finalizar o agendamento.
+              </p>
+            </div>
+            <footer class="mt-2">
+              <button
+                type="button"
+                (click)="requestValidationCode()"
+                [disabled]="isRequestingCode"
+                class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-zinc-950"
+              >
+                @if (isRequestingCode) {
+                  <svg
+                    class="h-5 w-5 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <span>Enviando...</span>
+                } @else {
+                  <span>Pedir Código</span>
+                }
+              </button>
+            </footer>
+          </div>
+        }
+      </main>
+    }
+  </div>
+
+  <footer
+    class="relative z-10 flex-1 w-full border-t border-zinc-200 bg-white/50 dark:border-zinc-800 dark:bg-zinc-950/50"
+  >
+    <div
+      class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-8 md:flex-row"
+    >
+      <div class="text-center text-sm text-zinc-600 dark:text-zinc-400 md:text-left">
+        <p>&copy; 2025 ClickCut.</p>
+        <p>Todos os direitos reservados.</p>
+      </div>
+
+      <div class="flex items-center gap-x-8">
+        <nav class="flex gap-x-6">
+          <a
+            href="#"
+            class="text-sm text-zinc-600 transition hover:text-purple-600 dark:text-zinc-400 dark:hover:text-purple-400"
+            >Termos</a
+          >
+          <a
+            href="#"
+            class="text-sm text-zinc-600 transition hover:text-purple-600 dark:text-zinc-400 dark:hover:text-purple-400"
+            >Privacidade</a
+          >
+        </nav>
+
+        <div class="hidden h-6 w-px bg-zinc-300 dark:bg-zinc-700 sm:block"></div>
+
+        <div class="flex items-center gap-x-4">
+          <a
+            href="#"
+            aria-label="LinkedIn"
+            class="text-zinc-500 transition hover:text-purple-600 dark:hover:text-purple-400"
+          >
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            href="#"
+            aria-label="GitHub"
+            class="text-zinc-500 transition hover:text-purple-600 dark:hover:text-purple-400"
+          >
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill-rule="evenodd"
+                d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
