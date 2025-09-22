@@ -9,11 +9,43 @@
     </button>
   </div>
 
-  <select-assign
-    [selectedUser]="assignedTo"
-    *ngIf="step === 1 && !isLoading"
-    (selectAssignOutput)="selectAssigner($event)"
-  ></select-assign>
+  <section class="flex mb-[10rem] gap-5 m-auto w-full max-w-[70rem] flex-col lg:flex-row">
+    @switch (step) {
+      @case (1) {
+        <select-assign [selectedUser]="assignedTo" (selectAssignOutput)="selectAssigner($event)" />
+      }
 
-  <app-select-service *ngIf="step === 2"></app-select-service>
+      @case (2) {
+        <app-select-service
+          [props]="allProps"
+          class="flex w-full max-w-[50rem]"
+          (changesServices)="selectServices($event)"
+        ></app-select-service>
+      }
+
+      @case (3) {
+        <app-select-date-time
+          [props]="allProps"
+          class="flex w-full max-w-[50rem]"
+          (onChangeDateOutput)="selectDateTime($event)"
+        >
+        </app-select-date-time>
+      }
+
+      @case (4) {
+        <app-confirm-booking
+          class="flex-1"
+          [selectedServices]="services"
+          [selectedAssigner]="assignedTo"
+        >
+        </app-confirm-booking>
+      }
+    }
+
+    <app-booking-summary
+      [data]="this.allProps"
+      [isValid]="this.isValid"
+      (nextStep)="next()"
+    ></app-booking-summary>
+  </section>
 </section>

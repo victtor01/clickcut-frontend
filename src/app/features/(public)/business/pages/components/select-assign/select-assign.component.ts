@@ -18,7 +18,12 @@ export class SelectAssignComponent implements OnInit {
   @Input()
   public selectedUser?: User | null = null;
 
-  public selectedName = this.selectedUser?.username;
+  @Output()
+  public selectAssignOutput = new EventEmitter<User | null>();
+
+  public get selectedName() {
+    return this.selectedUser?.username;
+  }
 
   get business() {
     return this._business;
@@ -38,10 +43,6 @@ export class SelectAssignComponent implements OnInit {
         this.fetchBusiness(this.businessId!);
       }
     });
-
-    if (this.selectedUser) {
-      this.selectedName = this.selectedUser.username;
-    }
   }
 
   public async fetchBusiness(businessId: string): Promise<void> {
@@ -53,17 +54,15 @@ export class SelectAssignComponent implements OnInit {
     });
   }
 
-  public selectAssigner(usuario: User): void {
-    if (this.selectedUser && this.selectedUser.id === usuario.id) {
+  public selectAssigner(user: User): void {
+    if (this.selectedUser && this.selectedUser.id === user.id) {
       this.selectedUser = null;
+      this.selectAssignOutput.emit(null);
     } else {
-      this.selectedUser = usuario;
-      this.selectedName = usuario.username;
+      this.selectedUser = user;
+      this.selectAssignOutput.emit(user);
     }
   }
-
-  @Output()
-  public selectAssignOutput = new EventEmitter<User>();
 
   public next(): void {
     if (this.selectAssignOutput && this.selectedUser) {

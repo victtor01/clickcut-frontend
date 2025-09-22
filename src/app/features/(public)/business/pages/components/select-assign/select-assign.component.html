@@ -1,14 +1,14 @@
 <div
   id="store-page"
-  class="relative min-h-screen w-full overflow-hidden bg-white font-sans text-zinc-800 antialiased dark:bg-zinc-950 dark:text-zinc-200"
+  class="relative w-full overflow-hidden bg-white font-sans text-zinc-800 antialiased dark:bg-zinc-950 dark:text-zinc-200"
 >
   <div
-    class="absolute -top-1/4 -left-1/4 -z-0 hidden h-[800px] w-[800px] bg-gradient-radial from-indigo-900/40 via-zinc-950 to-zinc-950 blur-3xl dark:block"
+    class="absolute -top-1/4 -left-1/4 -z-0 hidden aspect-square bg-gradient-radial from-indigo-900/40 via-zinc-950 to-zinc-950 blur-3xl dark:block"
   ></div>
 
   <header class="relative flex w-full flex-col">
     <div
-      class="relative h-[25vh] w-full bg-gradient-to-br from-indigo-500 via-violet-600 to-indigo-700"
+      class="relative aspect-[3/1] overflow-hidden w-full bg-gradient-to-br from-indigo-500 via-violet-600 to-indigo-700"
     >
       <img
         *ngIf="business?.bannerUrl"
@@ -67,7 +67,7 @@
       </h2>
     </header>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
       @for (usuario of business?.members; track usuario.id) {
         <button
           type="button"
@@ -110,16 +110,6 @@
           </div>
         </button>
       }
-    </div>
-
-    <div class="mt-12 flex justify-center">
-      <button
-        (click)="next()"
-        [attr.data-selected]="!!selectedUser"
-        class="rounded-full bg-gradient-to-r scale-0 data-[selected=true]:scale-100 from-indigo-600 to-violet-600 px-8 py-3 text-lg font-bold text-white transition-all duration-200 hover:scale-105 ease-in-out"
-      >
-        Avançar com {{ selectedName }}
-      </button>
     </div>
   </main>
 </div>
