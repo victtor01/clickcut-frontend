@@ -33,12 +33,12 @@
         class="flex items-center gap-1"
         [ngClass]="{
           'text-green-600 dark:text-green-400': isRevenueIncrease,
-          'text-red-600 dark:text-red-400': !isRevenueIncrease
+          'text-red-600 dark:text-red-400': !isRevenueIncrease,
         }"
       >
         <span class="text-sm">
           <ng-container *ngIf="isRevenueIncrease">+</ng-container>
-          {{ revenuePercentageChange | number : '1.0-1' }}%
+          {{ revenuePercentageChange | number: '1.0-1' }}%
         </span>
         <span class="text-xs text-zinc-500">vs. Mês Anterior</span>
       </div>
@@ -122,24 +122,33 @@
     </div>
 
     <div
-      class="flex flex-col justify-between border rounded-xl p-2 h-[10rem] min-w-[18rem] bg-white/50 dark:bg-zinc-900/50 dark:border-zinc-700 border-zinc-200 backdrop-blur-lg dark:shadow-black/20"
+      class="flex flex-col border rounded-xl p-2 h-[10rem] min-w-[18rem] bg-white/50 dark:bg-zinc-900/50 dark:border-zinc-700 border-zinc-200 backdrop-blur-lg dark:shadow-black/20"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative"> Serviços populares </span>
-        <i class="material-symbols-outlined !text-lg">cards_star</i>
+        <i class="material-icons-outlined !text-lg">cards_star</i>
       </header>
 
-      <div class="text-left">
-        <p class="text-2xl font-bold text-zinc-600 dark:text-zinc-100 saira-font truncate">
-          Corte Moderno
-        </p>
-      </div>
+      <div class="flex flex-col gap-1 mt-5">
+        <div class="flex gap-2 items-center animate-fade-in">
+          <div class="flex-shrink-0 rounded-lg flex items-center justify-center">
+            <i
+              class="material-symbols-outlined !text-xl text-yellow-500 !drop-shadow-sm !drop-shadow-yellow-500/50"
+            >
+              crown
+            </i>
+          </div>
 
-      <div class="flex items-baseline gap-2">
-        <span class="text-xl font-semibold text-indigo-600 dark:text-indigo-400 saira-font"
-          >42x</span
-        >
-        <span class="text-xs text-zinc-500">realizado em Setembro</span>
+          <div class="flex flex-grow items-baseline justify-between gap-4">
+            <span
+              class="text-sm font-medium text-zinc-600 saira-font dark:text-zinc-200 truncate"
+              [title]="popularService?.[0]?.service?.title"
+            >
+              {{ popularService?.[0]?.service?.title }}
+            </span>
+            <span class="text-sm font-semibold"> {{ popularService?.[0]?.count }}x </span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -153,7 +162,7 @@
 
       <div class="flex-1 flex relative p-3 justify-center">
         <div class="flex flex-col justify-between items-end gap-4">
-          <ng-container *ngFor="let method of payMethodsArray | slice : 2 : 4">
+          <ng-container *ngFor="let method of payMethodsArray | slice: 2 : 4">
             <div class="flex gap-2 items-center">
               <span class="text-sm saira-font"> {{ method.count }} {{ method.name }} </span>
               <i class="w-2 h-2 rounded-sm" [ngClass]="method.colorClass"></i>
@@ -169,7 +178,7 @@
         ></app-doughnut-chart>
 
         <div class="flex flex-col justify-between items-start gap-4">
-          <ng-container *ngFor="let method of payMethodsArray | slice : 0 : 2">
+          <ng-container *ngFor="let method of payMethodsArray | slice: 0 : 2">
             <div class="flex gap-2 items-center">
               <i class="w-2 h-2 rounded-sm" [ngClass]="method.colorClass"></i>
               <span class="text-sm saira-font"> {{ method.count }} {{ method.name }} </span>

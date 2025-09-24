@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { BookingHistory } from '@app/core/DTOs/booking-history-response';
 import { GeneralHistoryDTO } from '@app/core/DTOs/general-history-response';
 import { MethodHistoryDTO } from '@app/core/DTOs/methods-history-response';
+import { PopularService } from '@app/core/DTOs/popular-services-response';
 import { RevenueHistoryDTO } from '@app/core/DTOs/revenue-history-response';
 import { SummaryService } from '@app/core/services/summary.service';
 import { DoughnutChartComponent } from '@app/shared/components/graphics/doughnut-chart/doughnut.component';
@@ -10,22 +11,51 @@ import { LineGraph } from '@app/shared/components/graphics/line-graph/line-graph
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import { firstValueFrom } from 'rxjs';
 
+
 @Component({
   selector: 'home-dashboard',
   templateUrl: './home-dashboard.component.html',
   imports: [LineGraph, DoughnutChartComponent, CommonModule, ToFormatBrlPipe],
-}) 
+})
 export class HomeDashboardComponent implements OnInit {
   private readonly summaryService = inject(SummaryService);
 
   private _bookingsHistory?: BookingHistory;
+  private _popularServices?: PopularService[];
   private _revenue?: RevenueHistoryDTO;
   private _general?: GeneralHistoryDTO;
   private _methods?: MethodHistoryDTO;
+  
+  public topServices = [
+    {
+      name: 'Corte Degradê Navalhado',
+      count: 125,
+      icon: 'crown',
+      color: 'text-yellow-500', // Destaque dourado
+    },
+    {
+      name: 'Barba Modelada',
+      count: 98,
+      icon: 'star', // Ícone de estrela para o 2º lugar
+      color: 'text-sky-500', // Destaque azul
+    },
+    {
+      name: 'Platinado Masculino',
+      count: 72,
+      icon: 'local_fire_department', // Ícone de fogo para o 3º lugar
+      color: 'text-orange-500', // Destaque laranja
+    },
+  ];
+
 
   get revenue() {
     return this._revenue;
   }
+
+  get popularService() {
+    return this._popularServices;
+  }
+
   get general() {
     return this._general?.count;
   }
@@ -55,7 +85,7 @@ export class HomeDashboardComponent implements OnInit {
     if (!this.doughnutChartKeys) return [];
     return this.doughnutChartKeys.map((key) => this.getPaymentMethodHexColor(key));
   }
-  
+
   get payMethodsArray() {
     if (!this._methods?.methods) return [];
     return Object.entries(this._methods.methods).map(([key, value]) => ({
@@ -105,13 +135,16 @@ export class HomeDashboardComponent implements OnInit {
     this.fetchDashboardData();
   }
 
-  public async fetchDashboardData(): Promise<void> {
-    [this._bookingsHistory, this._revenue, this._general, this._methods] = await Promise.all([
+  private async fetchDashboardData(): Promise<void> {
+    [this._bookingsHistory, this._revenue, this._general, this._methods, this._popularServices] = await Promise.all([
       firstValueFrom(this.summaryService.getBookingHistory()),
       firstValueFrom(this.summaryService.getRevenue()),
       firstValueFrom(this.summaryService.getGeneral()),
       firstValueFrom(this.summaryService.getMethodsHistory()),
+      firstValueFrom(this.summaryService.getPopularServices())
     ]);
+
+    console.log(this._popularServices)
   }
 
   private formatPaymentMethodName(methodKey: string): string {

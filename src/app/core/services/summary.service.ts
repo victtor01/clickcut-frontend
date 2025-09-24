@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { BookingHistory as BookingHistoryDTO } from '../DTOs/booking-history-response';
 import { GeneralHistoryDTO } from '../DTOs/general-history-response';
 import { MethodHistoryDTO } from '../DTOs/methods-history-response';
+import { PopularService } from '../DTOs/popular-services-response';
 import { RevenueHistoryDTO } from '../DTOs/revenue-history-response';
 import { Booking } from '../models/Booking';
 import { ApiService } from './api.service';
@@ -27,5 +28,9 @@ export class SummaryService {
 
   public getMethodsHistory(): Observable<MethodHistoryDTO> {
     return this.apiService.get('/summary/methods');
+  }
+
+  public getPopularServices(): Observable<PopularService[]> {
+    return this.apiService.get('/summary/popular');
   }
 }
