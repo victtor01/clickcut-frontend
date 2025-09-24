@@ -1,0 +1,133 @@
+<div
+  class="rounded-2xl relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 p-8 border border-zinc-300 w-full font-sans"
+>
+  <section class="flex flex-col flex-1">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold tracking-tight text-zinc-700 dark:text-white">
+        Acesse sua conta
+      </h2>
+      <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        Bem-vindo de volta! Por favor, insira seus dados.
+      </p>
+    </div>
+
+    <form class="mt-8 space-y-6">
+      <div class="relative">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+          <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">email</i>
+        </div>
+        <input
+          id="login_email"
+          type="login_email"
+          class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
+          placeholder=" "
+        />
+        <label
+          for="login_email"
+          class="absolute left-12 top-0 flex h-full transform items-center pl-2 text-zinc-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-1/2 peer-focus:scale-75 peer-focus:bg-zinc-50 peer-focus:px-1 dark:text-zinc-400 dark:peer-focus:bg-zinc-900 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+        >
+          Email
+        </label>
+      </div>
+
+      <div class="relative">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+          <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">lock</i>
+        </div>
+        <input
+          id="password"
+          type="password"
+          class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
+          placeholder=" "
+        />
+        <label
+          for="password"
+          class="absolute left-12 top-0 flex h-full transform items-center pl-2 text-zinc-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-1/2 peer-focus:scale-75 peer-focus:bg-zinc-50 peer-focus:px-1 dark:text-zinc-400 dark:peer-focus:bg-zinc-900 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+        >
+          Senha
+        </label>
+      </div>
+
+      <div class="flex items-center justify-end">
+        <div class="text-sm">
+          <a
+            href="#"
+            class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+          >
+            Esqueceu a senha?
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="flex w-full justify-center rounded-lg bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-200"
+        >
+          Entrar
+        </button>
+      </div>
+    </form>
+
+    <div class="relative mt-8">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-zinc-300 dark:border-zinc-700"></div>
+      </div>
+      <div class="relative flex justify-center text-sm">
+        <span class="bg-white px-2 text-zinc-500 dark:bg-zinc-950 dark:text-zinc-400"
+          >Ou continue com</span
+        >
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <a
+        href="#"
+        class="flex w-full opacity-60 hover:opacity-100 items-center justify-center gap-3 rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-200 hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          width="20"
+          height="20"
+          viewBox="0 0 50 50"
+        >
+          <path
+            d="M 25.996094 48 C 13.3125 48 2.992188 37.683594 2.992188 25 C 2.992188 12.316406 13.3125 2 25.996094 2 C 31.742188 2 37.242188 4.128906 41.488281 7.996094 L 42.261719 8.703125 L 34.675781 16.289063 L 33.972656 15.6875 C 31.746094 13.78125 28.914063 12.730469 25.996094 12.730469 C 19.230469 12.730469 13.722656 18.234375 13.722656 25 C 13.722656 31.765625 19.230469 37.269531 25.996094 37.269531 C 30.875 37.269531 34.730469 34.777344 36.546875 30.53125 L 24.996094 30.53125 L 24.996094 20.175781 L 47.546875 20.207031 L 47.714844 21 C 48.890625 26.582031 47.949219 34.792969 43.183594 40.667969 C 39.238281 45.53125 33.457031 48 25.996094 48 Z"
+          ></path>
+        </svg>
+        <span class="text-sm font-semibold leading-6">Google</span>
+      </a>
+    </div>
+
+    <!-- Link para Cadastro -->
+    <p class="mt-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
+      Não é um membro?
+      <a
+        [routerLink]="['/hub', 'signup']"
+        class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+      >
+        Cadastre-se agora
+      </a>
+    </p>
+  </section>
+
+  <span class="w-px flex bg-zinc-200 dark:bg-zinc-800"> </span>
+
+  <svg-login
+    class="flex-1 hidden md:flex after:content-[''] after:w-full after:h-full relative after:absolute after:z-20 after:bg-gradient-to-b after:from-transparent after:from-60% after:via-white after:via-78% after:to-[100%] after:to-white"
+  ></svg-login>
+
+  <div class="flex absolute top-0 pointer-events-none left-0 w-full h-full overflow-hidden z-20">
+    <div
+      class="bubble-bg absolute -top-10 right-40 w-48 h-48 bg-violet-300 dark:bg-violet-700 rounded-full opacity-10 blur-2xl animate-bubble-1"
+    ></div>
+    <div
+      class="bubble-bg absolute -bottom-10 -right-10 w-40 h-40 bg-violet-400 dark:bg-violet-600 rounded-full opacity-10 blur-2xl animate-bubble-2"
+    ></div>
+    <div
+      class="bubble-bg absolute top-1/4 left-1/4 w-32 h-32 bg-violet-200 dark:bg-violet-500 rounded-full opacity-10 blur-xl animate-bubble-3"
+    ></div>
+  </div>
+</div>

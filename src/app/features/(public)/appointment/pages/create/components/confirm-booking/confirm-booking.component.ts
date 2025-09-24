@@ -31,6 +31,9 @@ export class ConfirmBookingComponent implements OnInit, OnDestroy {
   @Output()
   public submitOutput = new EventEmitter<CreateAppointmentClientDTO | null>();
 
+  @Output()
+  public clickToLogin = new EventEmitter<void>();
+
   public bookingForm!: FormGroup;
   public isLoading: boolean = false;
   private formChangesSubscription!: Subscription;

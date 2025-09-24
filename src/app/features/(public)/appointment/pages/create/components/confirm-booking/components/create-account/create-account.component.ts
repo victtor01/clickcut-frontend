@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'create-account-client',
@@ -850,12 +850,30 @@ import { RouterModule } from '@angular/router';
         <button
           type="button"
           [routerLink]="['/auth/register']"
+          (click)="openLoginModal()"
           class="inline-flex items-center justify-center gap-2 rounded-full bg-violet-600 p-3 px-7 text-md font-semibold text-white transition-all hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
         >
           <i class="material-icons-outlined !text-xl">person_add</i>
-          <span>Criar minha conta</span>
+          <span>Login / Criar conta</span>
         </button>
       </div>
     </div>`,
 })
-export class CreateAccountComponent {}
+export class CreateAccountComponent {
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+  ) {}
+
+  public openLoginModal() {
+    const currentParams = this.activatedRoute.snapshot.queryParams;
+
+    const newParams = { ...currentParams, modal: 'login' };
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: newParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+}
