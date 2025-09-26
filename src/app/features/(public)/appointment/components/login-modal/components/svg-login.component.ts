@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { LoginModalComponent } from '../login-modal.component';
 
 @Component({
   selector: 'svg-login',
@@ -649,4 +652,12 @@ import { Component } from '@angular/core';
     </g>
   </svg>`,
 })
-export class SvgLogin {}
+export class SvgLogin {
+  private readonly dialogRef = inject(MatDialogRef<LoginModalComponent>);
+  private readonly router = inject(Router);
+
+  public goToRegisterPage(): void {
+    this.dialogRef.close();
+    this.router.navigate(['/hub/signup']);
+  }
+}

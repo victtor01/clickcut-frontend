@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, Observable, of, tap } from 'rxjs';
 import { Business } from '../models/Business';
+import { ClientAccount } from '../models/ClientAccount';
 import { User } from '../models/User';
 import { ApiService } from './api.service';
 
@@ -9,26 +10,43 @@ interface AuthResponse {
   refreshToken: string;
 }
 
+export interface ClientSession {
+  type: 'client';
+  client: ClientAccount;
+}
+
+export interface ManagerSession {
+  type: 'manager';
+  business?: Business | null;
+  user: User;
+}
+
+export type Session = ManagerSession | ClientSession;
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private isAuthenticated: boolean = false;
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  private currentUserSubject = new BehaviorSubject<Session | null>(null);
   private currentBusinessSubject = new BehaviorSubject<Business | null>(null);
 
-  public currentUser$ = this.currentUserSubject.asObservable();
+  public session$ = this.currentUserSubject.asObservable();
 
   constructor(private readonly apiService: ApiService) {}
 
   public checkAuthStatus(): Observable<boolean> {
-    return this.apiService.get<User>(`/users/summary`).pipe(
-      tap((user) => {
-        this.currentUserSubject.next(user);
+    return this.apiService.get<ManagerSession>('/users/summary').pipe(
+      map((payload) => {
+        const session: ManagerSession = {
+          type: 'manager',
+          user: payload.user,
+          business: payload.business,
+        };
+        this.currentUserSubject.next(session);
+        return true;
       }),
-      map(() => true),
       catchError(() => {
-        this.currentUserSubject.next(null);
         return of(false);
-      })
+      }),
     );
   }
 
@@ -41,7 +59,20 @@ export class AuthService {
       catchError(() => {
         this.currentBusinessSubject.next(null);
         return of(false);
-      })
+      }),
+    );
+  }
+
+  public checkClientSession(): Observable<boolean> {
+    return this.apiService.get<ClientAccount>('/auth/attendee/me').pipe(
+      map((clientData) => {
+        const session: ClientSession = { type: 'client', client: clientData };
+        this.currentUserSubject.next(session);
+        return true;
+      }),
+      catchError(() => {
+        return of(false);
+      }),
     );
   }
 
@@ -54,13 +85,29 @@ export class AuthService {
       .pipe(
         tap(() => {
           this.checkAuthStatus().subscribe();
-        })
+        }),
       );
     return res;
   }
 
-  public getCurrentUserSnapshot(): User | null {
+  public loginClient(email: string, password: string): Observable<AuthResponse> {
+    return this.apiService.post<AuthResponse>('/auth/attendee', { email, password }).pipe(
+      tap(() => {
+        this.checkClientSession().subscribe();
+      }),
+    );
+  }
+
+  public get currentUserSnapshot(): Session | null {
     return this.currentUserSubject?.value;
+  }
+
+  public isClient(): boolean {
+    return this.currentUserSnapshot?.type === 'client';
+  }
+
+  public isManager(): boolean {
+    return this.currentUserSnapshot?.type === 'manager';
   }
 
   public getCurrentBusinessSnapshot(): Business | null {
@@ -70,4 +117,19 @@ export class AuthService {
   public isLogged(): boolean {
     return this.isAuthenticated;
   }
+
+  public currentClient$: Observable<ClientAccount> = this.session$.pipe(
+    filter((session): session is ClientSession => session?.type === 'client'),
+    map((session) => session.client),
+  );
+
+  public currentUser$: Observable<User> = this.session$.pipe(
+    filter((session): session is ManagerSession => session?.type === 'manager'),
+    map((session) => session.user),
+  );
+
+  public currentBusiness$: Observable<Business | null | undefined> = this.session$.pipe(
+    filter((session): session is ManagerSession => session?.type === 'manager'),
+    map((session) => session.business),
+  );
 }

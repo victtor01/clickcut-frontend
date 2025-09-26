@@ -56,8 +56,8 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly appointmentsService: AppointmentsService,
     private readonly toastService: ToastService,
-    private readonly router: Router,
     private readonly loginDialog: MatDialog,
+    private readonly router: Router,
   ) {}
 
   public ngOnDestroy(): void {
@@ -228,16 +228,11 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
       exitAnimationDuration: '200ms',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       this.router.navigate([], {
-        relativeTo: this.activatedRoute,
         queryParams: { modal: null },
         queryParamsHandling: 'merge',
       });
-
-      if (result?.id) {
-        this.toastService.success('Pagamento registrado');
-      }
     });
   }
 }

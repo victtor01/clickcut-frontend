@@ -8,6 +8,8 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { CreateClientAccountDTO } from '@app/core/schemas/create-account.dto';
+import { ClientAccountService } from '@app/core/services/clients-account.service';
 
 @Component({
   templateUrl: './signup-hub.component.html',
@@ -34,7 +36,10 @@ export class SignupComponent {
   step = 1;
   signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private readonly clientsService: ClientAccountService,
+  ) {
     this.signupForm = this.fb.group(
       {
         fullName: ['', Validators.required],
@@ -47,28 +52,35 @@ export class SignupComponent {
     );
   }
 
-  // Validador customizado para verificar se as senhas são iguais
-  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+  public passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { mismatch: true };
   }
 
-  nextStep(): void {
+  public nextStep(): void {
     this.step++;
   }
 
-  prevStep(): void {
+  public prevStep(): void {
     this.step--;
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.signupForm.valid) {
-      console.log('Formulário enviado!', this.signupForm.value);
-      // Aqui você adicionaria a lógica para enviar os dados para o seu backend
+      const form = this.signupForm.value;
+
+      const data: CreateClientAccountDTO = {
+        fullName: form.fullName,
+        email: form.email,
+        password: form.password,
+        phoneNumber: form.phone,
+      };
+
+      this.clientsService.createAccount(data).subscribe();
     } else {
       console.log('Formulário inválido.');
-      this.signupForm.markAllAsTouched(); // Mostra os erros de validação em todos os campos
+      this.signupForm.markAllAsTouched();
     }
   }
 }

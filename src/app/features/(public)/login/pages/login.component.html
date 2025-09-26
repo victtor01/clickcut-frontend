@@ -1,28 +1,23 @@
 <section
   class="min-h-screen flex flex-col items-center justify-center bg-stone-50 dark:bg-zinc-900 text-gray-700 dark:text-gray-300"
 >
-
-	<div class="absolute top-0 left-0 w-full h-[45vh] bg-stone-100 dark:bg-zinc-800/30"></div>
+  <div class="absolute top-0 left-0 w-full h-[45vh] bg-stone-100 dark:bg-zinc-800/30"></div>
 
   <div class="w-full max-w-md p-6 relative">
     <div class="text-center mb-8">
       <h1 class="text-3xl saira-font font-semibold text-zinc-700 dark:text-white">
         Acesse sua conta
       </h1>
-      <p class="text-sm mt-2">
-        Bem-vindo de volta! Por favor, insira seus dados.
-      </p>
+      <p class="text-sm mt-2">Bem-vindo de volta! Por favor, insira seus dados.</p>
     </div>
 
     <form
-     [formGroup]="loginForm"
+      [formGroup]="loginForm"
       (ngSubmit)="onSubmit()"
       class="bg-white dark:bg-zinc-800/80 backdrop-blur-xl shadow dark:shadow-2xl rounded-lg p-8 space-y-6"
     >
       <div>
-        <label for="email" class="block text-sm font-medium mb-2">
-          E-mail
-        </label>
+        <label for="email" class="block text-sm font-medium mb-2"> E-mail </label>
         <input
           type="email"
           id="email"
@@ -34,9 +29,7 @@
       </div>
 
       <div>
-        <label for="password" class="block text-sm font-medium mb-2">
-          Senha
-        </label>
+        <label for="password" class="block text-sm font-medium mb-2"> Senha </label>
         <input
           type="password"
           id="password"
@@ -68,9 +61,7 @@
     </form>
   </div>
 
-  <footer
-    class="w-full text-center p-6 text-sm text-gray-500 dark:text-gray-400"
-  >
+  <footer class="w-full text-center p-6 text-sm text-gray-500 dark:text-gray-400">
     <p>&copy; 2025 ClickCut. Todos os direitos reservados.</p>
   </footer>
 </section>
