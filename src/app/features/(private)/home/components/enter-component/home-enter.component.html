@@ -1,15 +1,6 @@
 <div
   class="w-full h-[12rem] absolute bg-transparent overflow-hidden -z-10 flex rounded-b-2xl dark:bg-zinc-900/40"
->
-  <div class="flex flex-1 overflow-hidden relative">
-    <!-- <img
-      *ngIf="statement?.bannerUrl"
-      [src]="statement?.bannerUrl"
-      alt="Banner da loja"
-      class="absolute h-full w-full object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
-    /> -->
-  </div>
-</div>
+></div>
 
 <div class="flex relative flex-col p-5 gap-4">
   <header
@@ -59,8 +50,9 @@
       <div class="relative" #menuContainer>
         <div
           (click)="toggleMenu()"
-          class="h-12 w-12 shrink-0 overflow-hidden rounded-full cursor-pointer ring-2 ring-white/50 hover:ring-violet-400 transition-all"
+          class="h-12 w-12 bg-white shadow grid text-gray-400 dark:text-zinc-700 place-items-center shrink-0 overflow-hidden rounded-full cursor-pointer ring-2 ring-white/50 hover:ring-violet-400 transition-all"
         >
+          <i *ngIf="!user?.photoUrl" class="material-icons-outlined !text-2xl">person</i>
           <img
             *ngIf="user?.photoUrl"
             [src]="user?.photoUrl"
@@ -70,31 +62,30 @@
         </div>
 
         @if (isMenuOpen()) {
-        <div
-          class="transform-gpu absolute right-0 mt-2 w-48 top-[100%] rounded-md bg-white/80 !backdrop-blur-xl dark:bg-zinc-800/80 shadow-lg ring-1 ring-black/5 focus:outline-none z-20"
-        >
-          <div class="py-1">
-            <a
-              href="#"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
-              >Meu Perfil</a
-            >
-            <a
-              [routerLink]="['/configure']"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
-              >Configurações</a
-            >
-            <a
-              href="#"
-              class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-zinc-700"
-              >Sair</a
-            >
+          <div
+            class="transform-gpu absolute right-0 mt-2 w-48 top-[100%] rounded-md bg-white/80 !backdrop-blur-xl dark:bg-zinc-800/80 shadow-lg ring-1 ring-black/5 focus:outline-none z-20"
+          >
+            <div class="py-1">
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
+                >Meu Perfil</a
+              >
+              <a
+                [routerLink]="['/configure']"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
+                >Configurações</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                >Sair</a
+              >
+            </div>
           </div>
-        </div>
         }
       </div>
     </div>
-
   </header>
 
   <div

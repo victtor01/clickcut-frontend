@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, filter, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Business } from '../models/Business';
 import { ClientAccount } from '../models/ClientAccount';
 import { User } from '../models/User';
@@ -17,7 +17,6 @@ export interface ClientSession {
 
 export interface ManagerSession {
   type: 'manager';
-  business?: Business | null;
   user: User;
 }
 
@@ -25,37 +24,44 @@ export type Session = ManagerSession | ClientSession;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private isAuthenticated: boolean = false;
   private currentUserSubject = new BehaviorSubject<Session | null>(null);
-  private currentBusinessSubject = new BehaviorSubject<Business | null>(null);
-
   public session$ = this.currentUserSubject.asObservable();
+
+  private currentBusinessSubject = new BehaviorSubject<Business | null>(null);
+  public currentBusiness$ = this.currentBusinessSubject.asObservable();
 
   constructor(private readonly apiService: ApiService) {}
 
+  /**
+   * Verifica a autenticação do USUÁRIO (manager). Não se preocupa com o business.
+   * Retorna 'true' se o usuário estiver logado.
+   */
   public checkAuthStatus(): Observable<boolean> {
-    return this.apiService.get<ManagerSession>('/users/summary').pipe(
-      map((payload) => {
-        const session: ManagerSession = {
-          type: 'manager',
-          user: payload.user,
-          business: payload.business,
-        };
+    return this.apiService.get<User>('/users/summary').pipe(
+      map((user) => {
+        const session: ManagerSession = { type: 'manager', user: user };
         this.currentUserSubject.next(session);
+        // Ao verificar o usuário, limpamos o contexto de negócio anterior.
+        this.currentBusinessSubject.next(null);
         return true;
       }),
       catchError(() => {
+        this.logout(); // Se falhar, limpa tudo.
         return of(false);
       }),
     );
   }
 
+  /**
+   * Tenta carregar o CONTEXTO de um negócio para o manager já logado.
+   * Retorna 'true' se um negócio for carregado com sucesso.
+   */
   public checkAuthBusiness(): Observable<boolean> {
     return this.apiService.get<Business>('/auth/business').pipe(
-      tap((message) => {
-        this.currentBusinessSubject.next(message);
+      tap((business) => {
+        this.currentBusinessSubject.next(business);
       }),
-      map(() => true),
+      map(() => true), // Se a chamada funcionou, retorna true
       catchError(() => {
         this.currentBusinessSubject.next(null);
         return of(false);
@@ -63,6 +69,7 @@ export class AuthService {
     );
   }
 
+  // checkClientSession permanece o mesmo
   public checkClientSession(): Observable<boolean> {
     return this.apiService.get<ClientAccount>('/auth/attendee/me').pipe(
       map((clientData) => {
@@ -71,53 +78,51 @@ export class AuthService {
         return true;
       }),
       catchError(() => {
+        this.logout();
         return of(false);
       }),
     );
   }
 
+  /**
+   * Realiza o login do Manager e, em seguida, verifica a sessão do usuário.
+   */
   public login(email: string, password: string): Observable<AuthResponse> {
-    const res = this.apiService
-      .post<AuthResponse>('/auth', {
-        email,
-        password,
-      })
-      .pipe(
-        tap(() => {
-          this.checkAuthStatus().subscribe();
-        }),
-      );
-    return res;
-  }
-
-  public loginClient(email: string, password: string): Observable<AuthResponse> {
-    return this.apiService.post<AuthResponse>('/auth/attendee', { email, password }).pipe(
-      tap(() => {
-        this.checkClientSession().subscribe();
-      }),
+    return this.apiService.post<AuthResponse>('/auth', { email, password }).pipe(
+      switchMap((authResponse) => this.checkAuthStatus().pipe(map(() => authResponse))),
     );
   }
 
+  public loginClient(email: string, password: string): Observable<AuthResponse> {
+    return this.apiService
+      .post<AuthResponse>('/auth/attendee', { email, password })
+      .pipe(switchMap((authResponse) => this.checkClientSession().pipe(map(() => authResponse))));
+  }
+
+  /**
+   * Limpa AMBOS os estados: usuário e negócio.
+   */
+  public logout(): void {
+    this.currentUserSubject.next(null);
+    this.currentBusinessSubject.next(null);
+    // Adicionar chamada à API para /auth/logout se necessário
+  }
+
+  // --- Selectors e Getters ---
+
   public get currentUserSnapshot(): Session | null {
-    return this.currentUserSubject?.value;
+    return this.currentUserSubject.value;
   }
 
-  public isClient(): boolean {
-    return this.currentUserSnapshot?.type === 'client';
-  }
-
-  public isManager(): boolean {
-    return this.currentUserSnapshot?.type === 'manager';
-  }
-
-  public getCurrentBusinessSnapshot(): Business | null {
-    return this.currentBusinessSubject?.value;
+  public get currentBusinessSnapshot(): Business | null {
+    return this.currentBusinessSubject.value;
   }
 
   public isLogged(): boolean {
-    return this.isAuthenticated;
+    return !!this.currentUserSubject.value;
   }
 
+  // Observables derivados das fontes de estado corretas
   public currentClient$: Observable<ClientAccount> = this.session$.pipe(
     filter((session): session is ClientSession => session?.type === 'client'),
     map((session) => session.client),
@@ -126,10 +131,5 @@ export class AuthService {
   public currentUser$: Observable<User> = this.session$.pipe(
     filter((session): session is ManagerSession => session?.type === 'manager'),
     map((session) => session.user),
-  );
-
-  public currentBusiness$: Observable<Business | null | undefined> = this.session$.pipe(
-    filter((session): session is ManagerSession => session?.type === 'manager'),
-    map((session) => session.business),
   );
 }

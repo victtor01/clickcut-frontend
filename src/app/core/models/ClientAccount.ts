@@ -3,4 +3,5 @@ export interface ClientAccount {
   fullName: string;
   email: string;
   phoneNumber?: string;
+  avatarUrl?: string;
 }

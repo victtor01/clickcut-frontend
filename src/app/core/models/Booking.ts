@@ -1,5 +1,6 @@
 import { Client } from './Client';
 import { Service } from './Service';
+import { User } from './User';
 
 export interface Booking {
   id: string;
@@ -9,6 +10,7 @@ export interface Booking {
   services?: Service[]
   client?: Client;
   status: BookingStatus;
+  assignedTo: User
 }
 
 export type BookingStatus =

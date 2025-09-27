@@ -5,11 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { Service } from '@app/core/models/Service';
 import { User } from '@app/core/models/User';
+import { CreateAppointmentAttendeeDTO } from '@app/core/schemas/create-appointment-attendee.dto';
 import {
   CreateAppointmentClientDTO,
   CreateAppointmentDTO,
 } from '@app/core/schemas/create-appointment.dto';
 import { AppointmentsService } from '@app/core/services/appointments.service';
+import { AttendeeService } from '@app/core/services/attendee.service';
+import { AuthService } from '@app/core/services/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import { firstValueFrom, Subscription } from 'rxjs';
@@ -57,6 +60,8 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
     private readonly appointmentsService: AppointmentsService,
     private readonly toastService: ToastService,
     private readonly loginDialog: MatDialog,
+    private readonly attendeeService: AttendeeService,
+    private readonly authService: AuthService,
     private readonly router: Router,
   ) {}
 
@@ -203,19 +208,39 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
   }
 
   public async submit(): Promise<void> {
-    const data = {
-      assignedToId: this.assignedTo?.id!,
-      businessId: this.business?.id!,
-      serviceIds: this.services.map((s) => s.id),
-      startAt: this.date?.toISOString()!,
-      client: this.client!,
-    } satisfies CreateAppointmentDTO;
+    this.authService.currentClient$.subscribe({
+      next: async (session) => {
+        if (session.id) {
+          const data = {
+            businessId: this.business?.id!,
+            serviceIds: this.services.map((s) => s.id),
+            startAt: this.date?.toISOString()!,
+            attendeeId: session.id,
+            assignedToId: this.assignedToId!,
+          } satisfies CreateAppointmentAttendeeDTO;
 
-    const boookingCreated = await firstValueFrom(this.appointmentsService.create(data));
+          const boookingCreated = await firstValueFrom(this.attendeeService.createBooking(data));
 
-    if (boookingCreated?.id) {
-      this.router.navigate(['appointments', 'confirm', boookingCreated.id]);
-    }
+          if (boookingCreated?.id) {
+            this.router.navigate(['appointments', 'confirm', boookingCreated.id]);
+          }
+        } else {
+          const data = {
+            businessId: this.business?.id!,
+            assignedToId: this.assignedToId!,
+            serviceIds: this.services.map((s) => s.id),
+            startAt: this.date?.toISOString()!,
+            client: this.client!,
+          } satisfies CreateAppointmentDTO;
+
+          const boookingCreated = await firstValueFrom(this.appointmentsService.create(data));
+
+          if (boookingCreated?.id) {
+            this.router.navigate(['appointments', 'confirm', boookingCreated.id]);
+          }
+        }
+      },
+    });
   }
 
   public openLoginModal() {

@@ -1,96 +1,141 @@
-<div class="hidden w-full lg:block lg:w-80 xl:w-96 pr-4 pt-4">
+<div class="hidden lg:block w-[28rem] pr-4 pt-4">
   <div class="lg:sticky lg:top-8">
     <div
-      class="rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900/50"
+      class="rounded-2xl border border-zinc-200/80 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900"
     >
-      <h2 class="text-xl font-bold text-zinc-800 dark:text-zinc-100">Resumo do Agendamento</h2>
+      <h2 class="text-xl font-semibold saira-font  text-zinc-600 dark:text-zinc-100">Resumo do Agendamento</h2>
 
-      @if (data && data.services.length > 0) {
-        <h3 class="mt-6 mb-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400">SERVIÇOS</h3>
-        <div class="space-y-4">
-          @for (item of data.services; track item.id) {
-            <div class="flex justify-between items-center text-zinc-700 dark:text-zinc-300">
-              <span>{{ item.title }}</span>
-              <span class="font-medium">{{ item.price | toFormatBrl }}</span>
-            </div>
-          }
-        </div>
-      } @else {
-        <div class="text-center text-zinc-500 dark:text-zinc-400 py-4">
-          <p>Nenhum serviço selecionado.</p>
-        </div>
-      }
+      <div class="mt-8 space-y-4">
+        <h3
+          class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400"
+        >
+          <i class="material-icons-outlined text-base">receipt_long</i>
+          <span>Serviços</span>
+        </h3>
 
-      <hr class="my-6 border-zinc-200 dark:border-zinc-700" />
-
-      <h3 class="mb-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400">PROFISSIONAL</h3>
-      @if (data && data.assignTo) {
-        <div class="flex items-center gap-3">
-          <div
-            class="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700"
-          >
-            @if (data.assignTo.photoUrl) {
-              <img
-                [src]="data.assignTo.photoUrl"
-                [alt]="data.assignTo.username"
-                class="h-full w-full object-cover"
-              />
-            } @else {
-              <div class="grid h-full w-full place-items-center">
-                <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">person</i>
-              </div>
+        @if (data && data.services.length > 0) {
+          <ul class="space-y-3 pt-2">
+            @for (item of data.services; track item.id) {
+              <li class="flex items-baseline justify-between text-zinc-700 dark:text-zinc-300">
+                <span>{{ item.title }}</span>
+                <span class="font-medium text-zinc-900 dark:text-zinc-100">{{
+                  item.price | toFormatBrl
+                }}</span>
+              </li>
             }
+          </ul>
+        } @else {
+          <div
+            class="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-200 p-6 text-center text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
+          >
+            <i class="material-icons-outlined text-4xl text-zinc-300 dark:text-zinc-600"
+              >list_alt</i
+            >
+            <p class="text-sm">Nenhum serviço selecionado.</p>
           </div>
-          <div>
-            <p class="font-semibold text-zinc-800 dark:text-zinc-200">
-              {{ data.assignTo.username }}
-            </p>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ data.assignTo.email }}</p>
+        }
+      </div>
+
+      <hr class="my-6 border-zinc-200/80 dark:border-zinc-800" />
+
+      <div class="space-y-4">
+        <h3
+          class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400"
+        >
+          <i class="material-icons-outlined text-base">person_outline</i>
+          <span>Profissional</span>
+        </h3>
+        @if (data && data.assignTo) {
+          <div class="flex items-center gap-4 pt-2">
+            <div
+              class="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700"
+            >
+              @if (data.assignTo.photoUrl) {
+                <img
+                  [src]="data.assignTo.photoUrl"
+                  [alt]="data.assignTo.username"
+                  class="h-full w-full object-cover"
+                />
+              } @else {
+                <div class="grid h-full w-full place-items-center">
+                  <i class="material-icons-outlined text-2xl text-zinc-400 dark:text-zinc-500"
+                    >person</i
+                  >
+                </div>
+              }
+            </div>
+            <div>
+              <p class="font-semibold text-zinc-900 dark:text-zinc-100">
+                {{ data.assignTo.username }}
+              </p>
+              <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ data.assignTo.email }}</p>
+            </div>
           </div>
-        </div>
-      } @else {
-        <div class="text-center text-zinc-500 dark:text-zinc-400 py-4">
-          <p>Nenhum profissional selecionado.</p>
-        </div>
-      }
+        } @else {
+          <div class="flex animate-pulse items-center gap-4 pt-2">
+            <div class="h-12 w-12 rounded-full bg-zinc-200 dark:bg-zinc-700"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-4 rounded bg-zinc-200 dark:bg-zinc-700"></div>
+              <div class="h-3 w-3/4 rounded bg-zinc-200 dark:bg-zinc-700"></div>
+            </div>
+          </div>
+        }
+      </div>
 
-      <hr class="my-6 border-zinc-200 dark:border-zinc-700" />
+      <hr class="my-6 border-zinc-200/80 dark:border-zinc-800" />
 
-      <h3 class="mb-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400">DATA E HORA</h3>
-      @if (data && data.date) {
-        <div class="flex justify-between items-center text-zinc-700 dark:text-zinc-300">
-          <span>Data</span>
-          <span class="font-medium">{{ data.date.toDate() | date: 'dd/MM/yyyy' }}</span>
-        </div>
-        <div class="flex justify-between items-center text-zinc-700 dark:text-zinc-300 mt-2">
-          <span>Horário</span>
-          <span class="font-medium">{{ data.date.toDate() | date: 'HH:mm' }}</span>
-        </div>
-      } @else {
-        <div class="text-center text-zinc-500 dark:text-zinc-400 py-4">
-          <p>Data e/ou hora não selecionadas.</p>
-        </div>
-      }
+      <div class="space-y-4">
+        <h3
+          class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400"
+        >
+          <i class="material-icons-outlined text-base">calendar_today</i>
+          <span>Data e Hora</span>
+        </h3>
+        @if (data && data.date) {
+          <div class="space-y-3 pt-2">
+            <div class="flex items-baseline justify-between">
+              <span class="text-zinc-600 dark:text-zinc-400">Data</span>
+              <span class="font-medium text-zinc-900 dark:text-zinc-100">{{
+                data.date.toDate() | date: 'dd/MM/yyyy'
+              }}</span>
+            </div>
+            <div class="flex items-baseline justify-between">
+              <span class="text-zinc-600 dark:text-zinc-400">Horário</span>
+              <span class="font-medium text-zinc-900 dark:text-zinc-100">{{
+                data.date.toDate() | date: 'HH:mm'
+              }}</span>
+            </div>
+          </div>
+        } @else {
+          <div class="animate-pulse space-y-3 pt-2">
+            <div class="h-4 rounded bg-zinc-200 dark:bg-zinc-700"></div>
+            <div class="h-4 rounded bg-zinc-200 dark:bg-zinc-700"></div>
+          </div>
+        }
+      </div>
 
-      <hr class="my-6 border-zinc-200 dark:border-zinc-700" />
+      <hr class="my-6 border-zinc-200/80 dark:border-zinc-800" />
 
       <div class="space-y-4">
         <div class="flex justify-between text-zinc-600 dark:text-zinc-400">
           <span>Duração total</span>
           <span class="font-medium">{{ totalDuration }} min</span>
         </div>
-        <div class="flex justify-between text-lg font-bold text-zinc-800 dark:text-zinc-100">
+        <div
+          class="flex items-baseline justify-between text-xl font-bold text-zinc-900 dark:text-zinc-100"
+        >
           <span>Total</span>
           <span>{{ totalPrice | toFormatBrl }}</span>
         </div>
-        <footer class="mt-8">
+        <footer class="pt-6">
           <button
             type="button"
             (click)="next()"
             [disabled]="!isValid"
-            class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-950"
+            class="flex w-full transform items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-base text-white shadow-lg shadow-indigo-500/30 transition-all duration-300 ease-in-out hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 dark:focus:ring-offset-zinc-900"
           >
-            <span>Confirmar Horário</span>
+            <span class="saira-font font-semibold">Próximo</span>
+            <i class="material-icons-outlined !text-lg">arrow_forward</i>
           </button>
         </footer>
       </div>
