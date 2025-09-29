@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SummaryAround } from '../DTOs/around-bookings-response';
 import { BookingHistory as BookingHistoryDTO } from '../DTOs/booking-history-response';
 import { GeneralHistoryDTO } from '../DTOs/general-history-response';
 import { MethodHistoryDTO } from '../DTOs/methods-history-response';
@@ -20,6 +21,10 @@ export class SummaryService {
 
   public getRevenue(): Observable<RevenueHistoryDTO> {
     return this.apiService.get('/summary/revenue');
+  }
+
+  public getAround(): Observable<SummaryAround> {
+    return this.apiService.get('/summary/around');
   }
 
   public getGeneral(): Observable<GeneralHistoryDTO> {
