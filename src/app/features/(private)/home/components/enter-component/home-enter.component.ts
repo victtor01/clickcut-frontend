@@ -1,38 +1,68 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Booking } from '@app/core/models/Booking';
 import { BusinessStatement } from '@app/core/models/BusinessStatement';
+import { Notification } from '@app/core/models/Notification';
 import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
+import { NotificationsService } from '@app/core/services/notifications.service';
+import { RealTimeService } from '@app/core/services/real-time.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './home-enter.component.html',
   selector: 'home-enter',
   imports: [ToFormatBrlPipe, RouterLink, CommonModule],
+  animations: [
+    trigger('fadeScale', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.95) translateY(-10px)' }),
+        animate('150ms ease-out', style({ opacity: 1, transform: 'scale(1) translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('100ms ease-in', style({ opacity: 0, transform: 'scale(0.95) translateY(-10px)' })),
+      ]),
+    ]),
+  ],
 })
-export class HomeEnterComponent implements OnInit {
+export class HomeEnterComponent implements OnInit, OnDestroy {
   constructor(
     private readonly businessService: BusinessService,
     private readonly toastService: ToastService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly notificationsService: NotificationsService,
+    private readonly realTimeService: RealTimeService
   ) {}
 
+  private subscriptions = new Subscription();
+  public confirmedBookings: Booking[] = [];
+  
   @ViewChild('menuContainer') menuContainerRef!: ElementRef;
 
   public isMenuOpen = signal(false);
+  public isNotificationsOpen = signal(false);
   public statement?: BusinessStatement;
+  public notifications: Notification[] = [];
   public user?: User;
-
+  
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
     if (this.isMenuOpen() && !this.menuContainerRef.nativeElement.contains(event.target)) {
       this.isMenuOpen.set(false);
     }
   }
-
+  
+  
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    this.realTimeService.stopConnection();
+  }
+  
   public get porcetage() {
     if (this.statement) {
       if (!this.statement.revenueGoal) return 0;
@@ -46,6 +76,10 @@ export class HomeEnterComponent implements OnInit {
 
   public toggleMenu(): void {
     this.isMenuOpen.update((value) => !value);
+  }
+
+  public async toggleNotifications(): Promise<void> {
+    this.isNotificationsOpen.update((value) => !value);
   }
 
   public ngOnInit(): void {
@@ -64,5 +98,29 @@ export class HomeEnterComponent implements OnInit {
         this.user = e || undefined;
       },
     });
+
+    this.realTimeService.startConnection();
+    this.subscribeToEvents();
+
+    this.fetchNotifications();
+  }
+
+  public hasNotRead(): boolean {
+    const filter = this.notifications.filter((b) => !b.isRead)?.[0];
+
+    return !!filter?.id;
+  }
+
+
+  private subscribeToEvents(): void {
+    const bookingSub = this.realTimeService.bookingConfirmed$.subscribe(booking => {
+      this.confirmedBookings.unshift(booking);
+    });
+
+    this.subscriptions.add(bookingSub);
+  }
+
+  private async fetchNotifications(): Promise<void> {
+    this.notifications = await firstValueFrom(this.notificationsService.getNotifications());
   }
 }
