@@ -16,7 +16,7 @@
           <i class="material-icons-outlined !text-base">add</i>
           <span>Adicionar Agendamento</span>
         </button>
-        <div class="flex items-center gap-2 rounded-full bg-slate-200 p-1 dark:bg-slate-800">
+        <div class="flex items-center gap-2 rounded-full bg-slate-200 p-1 dark:bg-zinc-800">
           <button
             (click)="setViewMode('list')"
             [ngClass]="
@@ -49,13 +49,13 @@
       <div *ngIf="viewMode === 'card'" class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         <div
           *ngFor="let booking of bookings"
-          class="flex flex-col rounded-xl bg-white border border-gray-200 dark:border-zinc-800 dark:bg-slate-900"
+          class="flex flex-col rounded-xl bg-white border border-gray-200 dark:border-zinc-800 dark:bg-zinc-900"
         >
           <div class="p-6">
             <div class="flex items-start justify-between">
               <div class="flex items-center gap-4">
                 <div
-                  class="flex w-14 flex-shrink-0 flex-col items-center justify-center rounded-md bg-slate-100 py-2 dark:bg-slate-800"
+                  class="flex w-14 flex-shrink-0 flex-col items-center justify-center rounded-md bg-slate-100 py-2 dark:bg-zinc-800"
                 >
                   <span class="text-xs font-bold uppercase text-indigo-500 dark:text-indigo-400">{{
                     booking.startAt | date: 'MMM'

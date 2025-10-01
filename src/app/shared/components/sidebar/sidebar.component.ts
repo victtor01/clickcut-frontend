@@ -5,6 +5,7 @@ import {
   ElementRef,
   HostListener,
   QueryList,
+  signal,
   ViewChildren,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -30,6 +31,8 @@ export class SidebarComponent implements AfterViewInit {
     { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/home' },
     { id: 'bookings', icon: 'event', label: 'Agenda', route: '/bookings' },
   ];
+
+  public isBusinessOpen = signal(true); 
 
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };

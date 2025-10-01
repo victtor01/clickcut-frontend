@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import * as signalR from '@microsoft/signalr';
 import { Subject } from 'rxjs';
-import { Booking } from '../models/Booking';
+import { Notification } from '../models/Notification';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RealTimeService {
   private hubConnection: signalR.HubConnection | undefined;
-  public bookingConfirmed$ = new Subject<Booking>();
+  public notifications$ = new Subject<Notification>();
   public bookingCancelled$ = new Subject<{ bookingId: string }>(); // Exemplo para outro evento
 
   constructor() { }
@@ -53,10 +53,9 @@ export class RealTimeService {
    * Registra os 'listeners' para os eventos enviados pelo servidor.
    */
   private addRealTimeEventListeners(): void {
-    // Ouve pelo evento 'BookingConfirmed'
-    this.hubConnection?.on('BookingConfirmed', (data: Booking) => {
+    this.hubConnection?.on('Notifications', (data: Notification) => {
       console.log('Evento BookingConfirmed recebido:', data);
-      this.bookingConfirmed$.next(data);
+      this.notifications$.next(data);
     });
   }
 }

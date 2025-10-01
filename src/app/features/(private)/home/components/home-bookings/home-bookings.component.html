@@ -18,15 +18,15 @@
           class="px-4 relative border-l-3 flex-1 rounded-r-lg active:backdrop-blur-xl hover:backdrop-blur-xl border-violet-500 text-gray-500 dark:text-white flex items-center gap-4"
         >
           <div class="flex flex-col flex-1">
-            <h2 class="font-bold text-gray-600 dark:text-white">Corte e Barba com João</h2>
+            <h2 class="font-bold text-gray-600 dark:text-white">{{ booking.title }}</h2>
             <p class="text-sm text-gray-500 dark:text-gray-400">
               Status:
               <span
                 class="text-indigo-500 font-medium saira-font bg-indigo-500/10 px-2 rounded-full"
-                >Confirmado</span
+                >{{ booking.status }}</span
               >
             </p>
-            <span class="text-sm text-gray-500 dark:text-gray-400"> Hoje às 14:00 - 15:00 </span>
+            <span class="text-sm text-gray-500 dark:text-gray-400"> {{ booking.startAt }}</span>
           </div>
 
           <div
@@ -46,7 +46,7 @@
   <div class="relative flex flex-col gap-6 timeline after:bg-gray-200 before:bg-gray-200">
     @for (booking of aroundBookings?.upcomingBookings; track $index) {
       <a
-        href="#"
+        [routerLink]="['/bookings', booking.id]"
         class="flex mt-3 gap-6 items-center group opacity-90 hover:opacity-100 active:opacity-100"
       >
         <div
@@ -58,15 +58,15 @@
           class="px-4 relative border-l-3 flex-1 rounded-r-lg active:backdrop-blur-xl hover:backdrop-blur-xl border-violet-500 text-gray-500 dark:text-white flex items-center gap-4"
         >
           <div class="flex flex-col flex-1">
-            <h2 class="font-bold text-gray-600 dark:text-white">Corte e Barba com João</h2>
+            <h2 class="font-bold text-gray-600 dark:text-white">{{ booking.title }}</h2>
             <p class="text-sm text-gray-500 dark:text-gray-400">
               Status:
               <span
                 class="text-indigo-500 font-medium saira-font bg-indigo-500/10 px-2 rounded-full"
-                >Confirmado</span
+                >{{ booking.status }}</span
               >
             </p>
-            <span class="text-sm text-gray-500 dark:text-gray-400"> Hoje às 14:00 - 15:00 </span>
+            <span class="text-sm text-gray-500 dark:text-gray-400"> {{ booking.startAt }}</span>
           </div>
 
           <div

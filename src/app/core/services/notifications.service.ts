@@ -10,4 +10,8 @@ export class NotificationsService {
   public getNotifications(): Observable<Notification[]> {
     return this.apiService.get('/notifications');
   }
+
+  public markAsRead(): Observable<{ message: string }> {
+    return this.apiService.post("/notifications/mark-as-read");
+  }
 }
