@@ -207,15 +207,14 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
     }
   }
 
-  public async submit(): Promise<void> {
-    this.authService.currentClient$.subscribe({
+  public submit(): void {
+    this.authService.checkClientSession().subscribe({
       next: async (session) => {
-        if (session.id) {
+        if (session) {
           const data = {
             businessId: this.business?.id!,
             serviceIds: this.services.map((s) => s.id),
             startAt: this.date?.toISOString()!,
-            attendeeId: session.id,
             assignedToId: this.assignedToId!,
           } satisfies CreateAppointmentAttendeeDTO;
 

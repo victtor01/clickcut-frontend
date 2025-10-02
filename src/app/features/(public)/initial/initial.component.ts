@@ -11,12 +11,10 @@ import { LoginModalComponent } from '../appointment/components/login-modal/login
 
 })
 export class InitialComponent {
-
   constructor(private readonly loginDialog: MatDialog) {}
+
   public themeService = inject(ThemeService);
 
-  public theme = signal<'light' | 'dark'>('light');
-  
   public billingCycle = signal<'monthly' | 'yearly'>('monthly');
 
   public openLoginModal() {
@@ -31,7 +29,7 @@ export class InitialComponent {
     }
 
   toggleTheme() {
-    this.theme.update((current) => (current === 'light' ? 'dark' : 'light'));
+    this.themeService.toggleTheme();
   }
 
   setBillingCycle(cycle: 'monthly' | 'yearly') {

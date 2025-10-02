@@ -25,7 +25,7 @@
           </div>
           <button
             (click)="this.themeService.toggleTheme()"
-            class="rounded-full p-2 transition-colors hover:bg-slate-200 dark:hover:bg-zinc-800"
+            class="rounded-full w-10 h-10 p-2 transition-colors hover:bg-slate-200 dark:hover:bg-zinc-800"
           >
             <i class="material-icons-outlined text-slate-600 dark:text-slate-300">
                 @if (themeService.theme() === 'light') { light_mode } @else { dark_mode }

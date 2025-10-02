@@ -121,8 +121,6 @@ export class HomeDashboardComponent implements OnInit {
       firstValueFrom(this.summaryService.getMethodsHistory()),
       firstValueFrom(this.summaryService.getPopularServices())
     ]);
-
-    console.log(this._popularServices)
   }
 
   private formatPaymentMethodName(methodKey: string): string {

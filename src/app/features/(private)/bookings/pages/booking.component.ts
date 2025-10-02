@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
@@ -11,6 +11,8 @@ import { WeekComponent } from '../components/week/week.component';
 import { DetailsBookingComponent } from './details/details-booking-modal.component';
 dayjs.locale('pt-br');
 
+type BookingFilter = 'all' | 'paid' | 'pending';
+
 @Component({
   templateUrl: './booking.component.html',
   imports: [CommonModule, RouterLink, WeekComponent],
@@ -20,7 +22,6 @@ export class BookingComponent implements OnInit, OnDestroy {
   public isLoading = true;
   private _bookingsByDay: BookingsByDay = {};
   private timer: any;
-  public dayjs = dayjs;
   public scale = 2;
 
   @ViewChild('timeIndicator')
@@ -29,8 +30,12 @@ export class BookingComponent implements OnInit, OnDestroy {
   constructor(
     private readonly bookingsService: BookingService,
     private readonly toastService: ToastService,
-    private readonly dialogDetails: MatDialog
+    private readonly dialogDetails: MatDialog,
   ) {}
+
+  get day() {
+    return dayjs;
+  }
 
   get bookingsForCurrentDay(): Booking[] {
     const dateKey = this.currentDate.format('YYYY-MM-DD');
@@ -55,6 +60,18 @@ export class BookingComponent implements OnInit, OnDestroy {
         this.currentDate = this.currentDate.add(30, 'second');
       }
     }, 30000);
+  }
+
+  public activeFilter = signal<BookingFilter>('all');
+
+  // Método para atualizar o filtro quando um botão é clicado
+  public setFilter(filter: BookingFilter): void {
+    this.activeFilter.set(filter);
+    //
+    // AQUI você adicionaria a lógica para recarregar ou filtrar sua lista de agendamentos
+    // Ex: this.loadBookings(filter);
+    //
+    console.log('Filtro ativo:', this.activeFilter());
   }
 
   private ensureBookingsAreLoaded(): void {
@@ -133,10 +150,13 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   get countOfDates(): Record<string, number> {
     if (this._bookingsByDay) {
-      return Object.entries(this._bookingsByDay).reduce((acc, [key, value]) => {
-        acc[key] = value?.length || 0;
-        return acc;
-      }, {} as Record<string, number>);
+      return Object.entries(this._bookingsByDay).reduce(
+        (acc, [key, value]) => {
+          acc[key] = value?.length || 0;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
     }
 
     return {};
@@ -191,6 +211,10 @@ export class BookingComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
+  }
+
+  public hourToDay(hour: number) {
+  return this.currentDate.hour(hour).minute(0).second(0).toDate();
   }
 
   public isNow() {
