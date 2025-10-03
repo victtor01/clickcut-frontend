@@ -1,6 +1,8 @@
-<main class="flex h-screen w-full bg-gradient-to-br from-white dark:from-zinc-950 dark:to-black to-violet-50/60 bg-white dark:bg-slate-950">
+<main
+  class="flex h-screen w-full bg-gradient-to-br from-white dark:from-zinc-950 dark:to-black to-violet-50/60 bg-white dark:bg-slate-950"
+>
   <aside
-    class="hidden w-72 flex-shrink-0 m-4 flex-col	rounded-xl overflow-y-auto border border-slate-200 bg-white dark:border-zinc-800 dark:bg-black lg:flex"
+    class="hidden w-72 flex-shrink-0 m-4 flex-col rounded-xl overflow-y-auto border border-slate-200 bg-white dark:border-zinc-800 dark:bg-black lg:flex"
   >
     <div class="flex flex-1 flex-col p-4">
       <div class="mb-8">
@@ -18,42 +20,28 @@
             Menu
           </h3>
           <ul class="flex flex-col gap-1">
-            <li>
+            <li *ngFor="let link of navLinks">
               <a
-                href="#"
-                class="group flex items-center gap-3 rounded-lg bg-indigo-50 px-4 py-2 font-medium text-indigo-950/70 dark:bg-indigo-500/10 dark:text-indigo-400"
+                [routerLink]="link.path"
+                routerLinkActive
+                #rla="routerLinkActive"
+                class="group flex items-center gap-3 rounded-lg px-4 py-2 font-medium"
+                [ngClass]="{
+                  'bg-indigo-50 text-indigo-950/70 dark:bg-indigo-500/10 dark:text-indigo-400':
+                    rla.isActive,
+                  'text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200':
+                    !rla.isActive,
+                }"
               >
-                <i class="material-icons-outlined" [ngClass]="{ 'material-icons': true }"
-                  >calendar_month</i
+                <i
+                  class="material-symbols-outlined"
+                  [ngStyle]="{
+                    'font-variation-settings': rla.isActive ? '\'FILL\' 1' : '\'FILL\' 0',
+                  }"
                 >
-                <span>Agendamentos</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="group flex items-center gap-3 rounded-lg px-4 py-2 font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-              >
-                <i class="material-icons-outlined">favorite_border</i>
-                <span>Favoritos</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="group flex items-center gap-3 rounded-lg px-4 py-2 font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-              >
-                <i class="material-icons-outlined">history</i>
-                <span>Histórico</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="group flex items-center gap-3 rounded-lg px-4 py-2 font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-              >
-                <i class="material-icons-outlined">credit_card</i>
-                <span>Pagamentos</span>
+                  {{ link.icon }}
+                </i>
+                <span>{{ link.label }}</span>
               </a>
             </li>
           </ul>

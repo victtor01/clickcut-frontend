@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Business } from '@app/core/models/Business';
+import { ClientAccount } from '@app/core/models/ClientAccount';
 import { Service } from '@app/core/models/Service';
 import { User } from '@app/core/models/User';
 import { CreateAppointmentAttendeeDTO } from '@app/core/schemas/create-appointment-attendee.dto';
@@ -13,6 +14,7 @@ import {
 import { AppointmentsService } from '@app/core/services/appointments.service';
 import { AttendeeService } from '@app/core/services/attendee.service';
 import { AuthService } from '@app/core/services/auth.service';
+import { FavoriteBusinessService } from '@app/core/services/favorite-business.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import { firstValueFrom, Subscription } from 'rxjs';
@@ -43,6 +45,7 @@ export interface AppointmentsProps {
 })
 export class AppointMeetComponent implements OnInit, OnDestroy {
   public client?: CreateAppointmentClientDTO;
+  public session?: ClientAccount;
   public services: Service[] = [];
   public assignedTo?: User | null;
   public assignedToId?: string;
@@ -63,6 +66,7 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
     private readonly attendeeService: AttendeeService,
     private readonly authService: AuthService,
     private readonly router: Router,
+    private readonly favoritesService: FavoriteBusinessService,
   ) {}
 
   public ngOnDestroy(): void {
@@ -116,6 +120,16 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
       if (!this.business && this.businessId) {
         this.fetchBusiness(this.businessId);
       }
+    });
+
+    this.authService.checkClientSession().subscribe({
+      next: (isLogged) => {
+        if (isLogged) {
+          this.authService.currentClient$.subscribe((data) => {
+            this.session = data;
+          });
+        }
+      },
     });
   }
 
@@ -258,5 +272,19 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
         queryParamsHandling: 'merge',
       });
     });
+  }
+
+  public async favorite() {
+    if (this.session) {
+      firstValueFrom(this.favoritesService.favorite(this.businessId!))
+        .then(() => {
+          this.toastService.success('Favoritado com sucesso!');
+        })
+        .catch((_) => {
+          this.toastService.error('Não foi possível favoritar');
+        });
+    } else {
+      this.openLoginModal();
+    }
   }
 }

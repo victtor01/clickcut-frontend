@@ -172,6 +172,7 @@ export class ConfigureBusinessComponent implements OnInit {
   public async update() {
     if (!this.form.valid) {
       this.toastService.error('Formulário incompleto!');
+      return;
     }
 
     this.isLoading = true;
