@@ -3,7 +3,10 @@
     <h1 class="font-saira text-gray-500 dark:text-gray-100 text-base">Eventos atrasados</h1>
   </header>
 
-  <div class="relative flex flex-col gap-6 timeline after:bg-gray-200 before:bg-gray-200">
+  <div
+    *ngIf="aroundBookings?.pastBookings?.length; else notAround"
+    class="relative flex flex-col gap-6 timeline dark:after:bg-zinc-800 dark:before:bg-zinc-800 after:bg-gray-200 before:bg-gray-200"
+  >
     @for (booking of aroundBookings?.pastBookings; track $index) {
       <a
         [routerLink]="['/bookings', booking.id]"
@@ -36,6 +39,12 @@
       </a>
     }
   </div>
+
+  <ng-template #notAround>
+    <div>
+      <p class="text-gray-500">Nenhum agendamento passado encontrado.</p>
+    </div>
+  </ng-template>
 </section>
 
 <section class="flex flex-col p-3 gap-3">
@@ -43,14 +52,16 @@
     <h1 class="font-saira text-gray-500 dark:text-gray-100 text-base">Próximos eventos</h1>
   </header>
 
-  <div class="relative flex flex-col gap-6 timeline after:bg-gray-200 before:bg-gray-200">
+  <div
+    class="relative flex flex-col gap-6 timeline after:bg-gray-200 dark:after:bg-zinc-800 dark:before:bg-zinc-800 before:bg-gray-200"
+  >
     @for (booking of aroundBookings?.upcomingBookings; track $index) {
       <a
         [routerLink]="['/bookings', booking.id]"
         class="flex mt-3 gap-6 items-center group opacity-90 hover:opacity-100 active:opacity-100"
       >
         <div
-          class="z-10 flex-shrink-0 w-14 h-14 bg-gray-100 dark:bg-zinc-700 rounded-full flex items-center justify-center"
+          class="z-10 flex-shrink-0 w-14 h-14 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center"
         >
           <i class="material-symbols-outlined !text-2xl">pace</i>
         </div>

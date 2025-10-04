@@ -66,12 +66,13 @@
     <div class="md:col-span-2">
       <button
         type="button"
-        class="w-full rounded-full bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        *ngIf="!currentManager?.id"
+        class="w-full rounded-full mb-8 bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         Agendar Horário
       </button>
 
-      <section class="mt-8">
+      <section>
         <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Sobre a Barbearia</h2>
         <p class="mt-2 text-zinc-600 dark:text-zinc-400">
           Bem-vindo à Barbearia Clássica, onde a tradição encontra o estilo moderno. Oferecemos uma
@@ -123,9 +124,9 @@
                   />
                   <div
                     *ngIf="!service.photoUrl"
-                    class="flex h-full w-full items-center justify-center text-indigo-500"
+                    class="flex h-full w-full items-center justify-center text-gray-500"
                   >
-                    <i class="material-symbols-outlined text-2xl">content_cut</i>
+                    <i class="material-symbols-outlined text-2xl">deployed_code</i>
                   </div>
                 </div>
 
@@ -153,20 +154,22 @@
         </div>
       </section>
 
-      <section class="mt-8">
+      <section class="mt-8 pb-4">
         <h2 class="text-xl font-bold text-zinc-900 dark:text-white">O que nossos clientes dizem</h2>
 
         <form
+          *ngIf="this.currentClient?.id"
           [formGroup]="reviewForm"
           (ngSubmit)="submitReview()"
-          class="my-6 flex gap-4 rounded-xl border border-zinc-200 p-4 dark:border-zinc-800"
+          class="flex gap-4 rounded-xl mt-4 border border-zinc-200 p-4 dark:border-zinc-800"
         >
           <img
-            *ngIf="currentUser?.avatarUrl"
-            [src]="currentUser?.avatarUrl"
-            [alt]="'Foto de ' + currentUser?.fullName"
+            *ngIf="currentClient?.avatarUrl"
+            [src]="currentClient?.avatarUrl"
+            [alt]="'Foto de ' + currentClient?.fullName"
             class="h-10 w-10 flex-shrink-0 rounded-full"
           />
+
           <div class="flex-1">
             <p class="font-semibold text-zinc-800 dark:text-zinc-200">Deixe sua avaliação</p>
 
@@ -194,13 +197,14 @@
             </div>
 
             <textarea
-              formControlName="comment"
               rows="3"
+              formControlName="comment"
               placeholder="Como foi sua experiência? (mín. 10 caracteres)"
-              class="mt-3 w-full rounded-md border-zinc-300 bg-white text-sm text-gray-500 outline-none transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
+              class="mt-3 w-full rounded-md border-zinc-300 bg-white text-sm text-gray-500 !outline-none transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
               [class.border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
               [class.dark:border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
             ></textarea>
+
             <div
               *ngIf="comment?.invalid && (comment?.dirty || comment?.touched)"
               class="mt-1 text-xs text-red-500"
@@ -222,31 +226,39 @@
             </div>
           </div>
         </form>
-        <div class="mt-4 space-y-6">
-          <div *ngFor="let review of reviews" class="flex gap-4"></div>
-        </div>
       </section>
 
-      <section >
-        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">O que nossos clientes dizem</h2>
-        <div class="mt-4 space-y-6">
+      <section>
+        <div class="space-y-6">
           <div *ngFor="let review of reviews" class="flex gap-4">
-            <img
-              *ngIf="review.avatarUrl"
-              [src]="review.avatarUrl"
-              alt=""
-              class="h-10 w-10 flex-shrink-0 rounded-full"
-            />
+            <div
+              class="w-10 h-10 rounded-full bg-slate-100 dark:bg-zinc-800 grid place-items-center"
+            >
+              <span
+                class="saira-font font-semibold text-slate-700 dark:text-zinc-300"
+                *ngIf="!review.avatarUrl"
+                >{{ review?.authorName?.[0] }}</span
+              >
+              <img
+                *ngIf="review.avatarUrl"
+                [src]="review.avatarUrl"
+                alt=""
+                class="h-10 w-10 flex-shrink-0 rounded-full"
+              />
+            </div>
             <div class="flex-1">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="font-semibold text-zinc-900 dark:text-white">{{ review.authorName }}</p>
+                  <p class="font-semibold text-zinc-700 dark:text-white px-1">
+                    {{ review.authorName }}
+                  </p>
                   <div class="flex items-center">
                     <i
                       *ngFor="let star of getStarArray(review.rating)"
                       class="material-symbols-outlined text-sm"
                       [class.text-amber-400]="star <= review.rating"
                       [class.text-zinc-300]="star > review.rating"
+                      [class.dark:text-zinc-500]="star > review.rating"
                       [style.font-variation-settings]="
                         star <= review.rating ? '\'FILL\' 1' : '\'FILL\' 0'
                       "
@@ -256,16 +268,60 @@
                 </div>
                 <p class="text-xs text-zinc-500">{{ review.createdAt | date: 'dd/MM/yyyy' }}</p>
               </div>
+
               <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ review.comment }}</p>
 
               <div
-                *ngIf="review.ownerReply"
-                class="mt-3 rounded-lg border-l-4 border-indigo-400 bg-zinc-50 p-3 dark:border-indigo-600 dark:bg-zinc-800/50"
+                *ngIf="review.reply"
+                class="mt-4 rounded-lg border-l-4 border-indigo-400 bg-zinc-50 p-3 dark:border-indigo-600 dark:bg-zinc-800/50"
               >
-                <p class="text-sm font-semibold text-indigo-800 dark:text-indigo-300">
-                  Resposta do proprietário
-                </p>
-                <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{{ review.ownerReply }}</p>
+                <div class="flex items-center justify-between">
+                  <p class="text-sm font-semibold text-indigo-800 dark:text-indigo-300">
+                    Resposta do proprietário
+                  </p>
+                  <p class="text-xs text-zinc-500">{{ review.repliedAt | date: 'dd/MM/yyyy' }}</p>
+                </div>
+                <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{{ review.reply }}</p>
+              </div>
+
+              <div
+                *ngIf="!review.reply && replyingToReviewId !== review.id && currentManager?.id"
+                class="mt-3"
+              >
+                <button
+                  (click)="startReply(review)"
+                  type="button"
+                  class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-indigo-500/20"
+                >
+                  <i class="material-icons-outlined !text-sm">reply</i>
+                  Responder
+                </button>
+              </div>
+
+              <div *ngIf="!review.reply && replyingToReviewId === review.id" class="mt-4">
+                <textarea
+                  [(ngModel)]="replyText"
+                  rows="3"
+                  placeholder="Digite sua resposta..."
+                  class="w-full outline-none focus:ring-2 ring-indigo-500 text-gray-500 rounded-md border-zinc-300 bg-white p-2 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
+                ></textarea>
+
+                <div class="mt-2 flex items-center justify-end gap-2">
+                  <button
+                    (click)="cancelReply()"
+                    type="button"
+                    class="rounded-full px-4 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-700/50"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    (click)="submitReply(review)"
+                    type="button"
+                    class="rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500"
+                  >
+                    Salvar Resposta
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -278,7 +334,7 @@
         href="https://www.google.com/maps/search/?api=1&query=Rua+das+Tesouras,123,Sousa,PB"
         target="_blank"
         rel="noopener noreferrer"
-        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border border-slate-100 hover:shadow dark:bg-zinc-800/50"
+        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border dark:border-zinc-800 border-slate-100 hover:shadow dark:bg-zinc-800/50"
       >
         <div
           class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 transition-colors group-hover:bg-indigo-500 dark:bg-indigo-900/50 dark:group-hover:bg-indigo-600"
@@ -297,7 +353,7 @@
 
       <a
         href="tel:+5583912345678"
-        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border border-slate-100 hover:shadow dark:bg-zinc-800/50"
+        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border border-slate-100 dark:border-zinc-800 hover:shadow dark:bg-zinc-800/50"
       >
         <div
           class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-sky-100 transition-colors group-hover:bg-sky-500 dark:bg-indigo-900/50 dark:group-hover:bg-indigo-600"

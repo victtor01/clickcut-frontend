@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BusinessReview } from '../models/BusinessReview';
 import { CreateBusinessReview } from '../schemas/create-business-review.dto';
+import { ReplyReviewDTO } from '../schemas/reply-review.dto';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -16,5 +17,9 @@ export class ReviewsService {
 
   public create(data: CreateBusinessReview): Observable<BusinessReview> {
     return this.apiService.post('/reviews/business', data);
+  }
+  
+  public reply(data: ReplyReviewDTO): Observable<BusinessReview> {
+    return this.apiService.post("/reviews/business/reply", data);
   }
 }

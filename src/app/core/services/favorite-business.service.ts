@@ -11,6 +11,10 @@ export class FavoriteBusinessService {
     return this.apiService.post(`/favorites/${businessId}`);
   }
 
+  public unfavorite(businessId: string): Observable<void> {
+    return this.apiService.delete(`/favorites/${businessId}`);
+  }
+
   public findAll(): Observable<Business[]> {
     return this.apiService.get(`/favorites`);
   }

@@ -7,7 +7,6 @@ import { FavoriteBusinessService } from '@app/core/services/favorite-business.se
 import { BusinessModalComponent } from '@app/shared/components/business-details/business-modal.component';
 import { firstValueFrom } from 'rxjs';
 
-
 @Component({
   templateUrl: './favorites.component.html',
   imports: [CommonModule],
@@ -24,7 +23,10 @@ import { firstValueFrom } from 'rxjs';
   ],
 })
 export class FavoritesComponent implements OnInit {
-  constructor(private readonly favoritesService: FavoriteBusinessService, private readonly businessDialog: MatDialog) {}
+  constructor(
+    private readonly favoritesService: FavoriteBusinessService,
+    private readonly businessDialog: MatDialog,
+  ) {}
 
   public favorites: Business[] = [];
 
@@ -46,16 +48,16 @@ export class FavoritesComponent implements OnInit {
     });
   }
 
-  public toggleFavorite(business: Business): void {
+  public async toggleFavorite(business: Business): Promise<void> {
     const businessId = business.id;
 
     const isCurrentlyFavorited = this.favoritedStatus[businessId];
     this.favoritedStatus[businessId] = !isCurrentlyFavorited;
 
     if (isCurrentlyFavorited) {
-      console.log(`Enviando requisição para DESFAVORITAR o negócio: ${businessId}`);
+      await firstValueFrom(this.favoritesService.unfavorite(businessId));
     } else {
-      console.log(`Enviando requisição para FAVORITAR o negócio: ${businessId}`);
+      await firstValueFrom(this.favoritesService.favorite(businessId));
     }
   }
 
@@ -67,7 +69,7 @@ export class FavoritesComponent implements OnInit {
       width: 'min(70rem, 90%)',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
-      data: { businessId: businessId }
+      data: { businessId: businessId },
     });
   }
 }

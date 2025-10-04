@@ -8,9 +8,13 @@ import {
   signal,
   ViewChildren,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
+import { Business } from '@app/core/models/Business';
+import { AuthService } from '@app/core/services/auth.service';
+import { firstValueFrom } from 'rxjs';
+import { BusinessModalComponent } from '../business-details/business-modal.component';
 
-// 1. Adicionamos a propriedade 'label' para o texto
 interface Tab {
   id: string;
   icon: string;
@@ -32,7 +36,8 @@ export class SidebarComponent implements AfterViewInit {
     { id: 'bookings', icon: 'event', label: 'Agenda', route: '/bookings' },
   ];
 
-  public isBusinessOpen = signal(true); 
+  public isBusinessOpen = signal(true);
+  public business: Business | null = null;
 
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
@@ -40,13 +45,19 @@ export class SidebarComponent implements AfterViewInit {
   @ViewChildren('tabElement') private tabElements!: QueryList<ElementRef<HTMLElement>>;
   private animationTimeout?: number;
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly businessDialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     const currentTab = this.tabs.find((tab) => this.router.url.startsWith(tab.route));
     if (currentTab) {
       this.activeTabId = currentTab.id;
     }
+
+    this.getSessionBusiness();
   }
 
   ngAfterViewInit(): void {
@@ -56,6 +67,24 @@ export class SidebarComponent implements AfterViewInit {
   @HostListener('window:resize')
   onResize(): void {
     this.updateIndicatorPosition();
+  }
+
+  public openBusinessDetails() {
+    if (!this.business?.id) return;
+
+    this.businessDialog.open(BusinessModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(70rem, 90%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { businessId: this.business.id },
+    });
+  }
+
+  public async getSessionBusiness(): Promise<void> {
+    this.business = await firstValueFrom(this.authService.currentBusiness$);
   }
 
   public selectTab(tab: Tab): void {

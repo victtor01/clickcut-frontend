@@ -13,7 +13,7 @@ export interface Review {
 export interface BusinessReview extends Review {
   businessId: string;
   business?: Business;
-  ownerReply?: string;
+  reply?: string;
   repliedAt?: Date;
 }
 

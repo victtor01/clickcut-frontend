@@ -61,7 +61,7 @@ export class AuthService {
       tap((business) => {
         this.currentBusinessSubject.next(business);
       }),
-      map(() => true), // Se a chamada funcionou, retorna true
+      map(() => true), 
       catchError(() => {
         this.currentBusinessSubject.next(null);
         return of(false);
@@ -122,7 +122,6 @@ export class AuthService {
     return !!this.currentUserSubject.value;
   }
 
-  // Observables derivados das fontes de estado corretas
   public currentClient$: Observable<ClientAccount> = this.session$.pipe(
     filter((session): session is ClientSession => session?.type === 'client'),
     map((session) => session.client),

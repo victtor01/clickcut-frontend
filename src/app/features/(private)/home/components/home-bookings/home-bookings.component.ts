@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SummaryAround } from '@app/core/DTOs/around-bookings-response';
@@ -8,7 +9,7 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './home-bookings.component.html',
   styleUrl: `./home-bookings.component.scss`,
   selector: 'home-bookings',
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
 })
 export class HomeBookingsComponent implements OnInit {
   constructor(private readonly summaryService: SummaryService) {}

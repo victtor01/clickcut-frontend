@@ -17,6 +17,7 @@ import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
 import { NotificationsService } from '@app/core/services/notifications.service';
 import { RealTimeService } from '@app/core/services/real-time.service';
+import { ThemeService } from '@app/core/services/theme.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { NotificationColorPipe } from '@app/shared/pipes/notification-color-pipe/notification-color.pipe';
 import { NotificationIconPipe } from '@app/shared/pipes/notification-icon-pipe/notification-icon.pipe';
@@ -46,6 +47,7 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly notificationsService: NotificationsService,
     private readonly realTimeService: RealTimeService,
+    private readonly themeService: ThemeService,
   ) {}
 
   private subscriptions = new Subscription();
@@ -68,6 +70,10 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.realTimeService.stopConnection();
+  }
+
+  public handleTheme () {
+    this.themeService.toggleTheme();
   }
 
   public get porcetage() {

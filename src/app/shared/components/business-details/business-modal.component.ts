@@ -1,10 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Business } from '@app/core/models/Business';
 import { BusinessReview, ReviewRatingScore } from '@app/core/models/BusinessReview';
 import { ClientAccount } from '@app/core/models/ClientAccount';
+import { User } from '@app/core/models/User';
 import { CreateBusinessReview as CreateBusinessReviewDTO } from '@app/core/schemas/create-business-review.dto';
 import { AppointmentsService } from '@app/core/services/appointments.service';
 import { AuthService } from '@app/core/services/auth.service';
@@ -15,7 +22,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   templateUrl: 'business-modal.component.html',
-  imports: [CommonModule, ToFormatBrlPipe, ReactiveFormsModule],
+  imports: [CommonModule, ToFormatBrlPipe, ReactiveFormsModule, FormsModule],
 })
 export class BusinessModalComponent implements OnInit {
   constructor(
@@ -46,39 +53,45 @@ export class BusinessModalComponent implements OnInit {
   public hoveredRating: number = 0;
   public reviewForm!: FormGroup;
   public business?: Business;
-  public currentUser?: ClientAccount;
+  public currentClient?: ClientAccount;
+  public currentManager?: User;
+
+  public replyingToReviewId: string | null = null;
+  public replyText: string = '';
+
+  public startReply(review: BusinessReview): void {
+    this.replyingToReviewId = review.id;
+    this.replyText = ''; // Limpa o texto de respostas anteriores
+  }
+
+  public cancelReply(): void {
+    this.replyingToReviewId = null;
+    this.replyText = '';
+  }
+
+  public submitReply(review: BusinessReview): void {
+    if (!this.replyText || this.replyText.trim() === '') {
+      alert('A resposta não pode estar vazia.');
+      return;
+    }
+
+    this.reviewService.reply({ comment: this.replyText, replyId: review.id }).subscribe({
+      next: () => {
+        review.reply = this.replyText;
+        review.repliedAt = new Date();
+      },
+
+      complete: () => {
+        this.cancelReply();
+      },
+    });
+  }
 
   public setRating(ratingValue: number): void {
     this.rating?.setValue(ratingValue as ReviewRatingScore);
   }
 
   public reviews: BusinessReview[] = [];
-  // reviews: BusinessReview[] = [
-  //   {
-  //     id: 'r-01',
-  //     businessId: 'b-01',
-  //     rating: 5,
-  //     authorId: 'c-01',
-  //     authorName: 'Ana Clara',
-  //     avatarUrl: 'https://randomuser.me/api/portraits/women/44.jpg',
-  //     comment:
-  //       'Atendimento impecável e o corte ficou exatamente como pedi. O Bruno é um profissional excelente! Com certeza voltarei.',
-  //     createdAt: new Date(2025, 8, 28),
-  //     ownerReply:
-  //       'Muito obrigado pela confiança, Ana! Ficamos felizes que tenha gostado. Volte sempre!',
-  //     repliedAt: new Date(2025, 8, 29),
-  //   },
-  //   {
-  //     id: 'r-02',
-  //     businessId: 'b-01',
-  //     rating: 4,
-  //     authorId: 'c-02',
-  //     authorName: 'Marcos Vinícius',
-  //     comment:
-  //       'Lugar agradável e profissionais competentes. Só demorou um pouco para ser atendido, mesmo com hora marcada.',
-  //     createdAt: new Date(2025, 8, 15),
-  //   },
-  // ];
 
   public setHoveredRating(rating: number): void {
     this.hoveredRating = rating;
@@ -103,12 +116,12 @@ export class BusinessModalComponent implements OnInit {
     };
 
     const created = await firstValueFrom(this.reviewService.create(data)).catch((err) => {
-      console.log(err);
       this.toastService.error('Houve um erro ao tentar criar um novo comentário!');
     });
 
     if (created) {
       this.toastService.success('Criado com sucesso!');
+      this.fetchReviews(this.data.businessId);
     }
 
     this.reviewForm.reset({ rating: 0, comment: '' });
@@ -126,11 +139,24 @@ export class BusinessModalComponent implements OnInit {
 
   private async fetchReviews(businessId: string): Promise<void> {
     this.reviews = await firstValueFrom(this.reviewService.findForBusiness(businessId));
-    console.log(this.reviews);
   }
 
   private async getSession(): Promise<void> {
-    this.currentUser = await firstValueFrom(this.authService.currentClient$);
+    this.authService.currentClient$.subscribe({
+      next: (data) => {
+        if (data?.id) {
+          this.currentClient = data?.id ? data : undefined;
+        }
+      },
+    });
+
+    this.authService.currentUser$.subscribe({
+      next: (data) => {
+        if (data?.id) {
+          this.currentManager = data?.id ? data : undefined;
+        }
+      },
+    });
   }
 
   private initForm(): void {
