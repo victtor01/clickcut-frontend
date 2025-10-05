@@ -1,9 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ThemeService } from '@app/core/services/theme.service';
 
 @Component({ templateUrl: './hub-layout.component.html', imports: [RouterModule, CommonModule] })
 export class HubLayoutComponent {
+  constructor(public readonly themeService: ThemeService) {}
+
+  public handleTheme() {
+    this.themeService.toggleTheme();
+  }
+
+  public get isDark() {
+    return this.themeService.theme() === 'dark';
+  }
+
   public navLinks = [
     {
       label: 'Agendamentos',

@@ -32,7 +32,7 @@ export class SidebarComponent implements AfterViewInit {
   public tabs: Tab[] = [
     { id: 'home', icon: 'home', label: 'Início', route: '/home' },
     { id: 'services', icon: 'shopping_bag', label: 'Serviços', route: '/services' },
-    { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/home' },
+    { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/clients' },
     { id: 'bookings', icon: 'event', label: 'Agenda', route: '/bookings' },
   ];
 

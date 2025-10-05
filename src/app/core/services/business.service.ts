@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { objectToFormData } from '@app/shared/utils/object-to-form';
 import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
+import { ClientsSummaryResponse } from '../DTOs/clients-summary-response';
 import { Business, TimeSlot } from '../models/Business';
 import { BusinessStatement } from '../models/BusinessStatement';
 import { CreateBusinessDTO } from '../schemas/create-business.dto';
@@ -57,5 +58,9 @@ export class BusinessService {
 
   public getTimeSlots(): Observable<TimeSlot[]> {
     return this.apiService.get('/business/timeSlot');
+  }
+
+  public getClients(): Observable<ClientsSummaryResponse> {
+    return this.apiService.get('/business/clients');
   }
 }

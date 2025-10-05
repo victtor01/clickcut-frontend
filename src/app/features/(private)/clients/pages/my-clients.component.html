@@ -1,0 +1,68 @@
+<div class="p-4 sm:p-6 lg:p-8">
+
+  <!-- <div *ngIf="isLoading" class="text-center py-10">
+    <p class="text-zinc-500 dark:text-zinc-400">Carregando clientes...</p>
+  </div> -->
+
+  <div *ngIf="clientsSummary">
+
+    <header class="mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Meus Clientes</h1>
+          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            Você tem {{ clientsSummary.clientsCount }} clientes cadastrados.
+          </p>
+        </div>
+        <button type="button" class="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          <i class="material-icons-outlined !text-base">add</i>
+          Adicionar Cliente
+        </button>
+      </div>
+    </header>
+
+    <div *ngIf="clientsSummary.clientsCount > 0; else noClientsTemplate">
+      
+      <div class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+        <ul class="divide-y divide-zinc-200 dark:divide-zinc-800">
+
+          <li *ngFor="let item of clientsSummary.summary" class="group flex items-center justify-between p-4 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+            
+            <div class="flex items-center gap-4">
+              <div class="relative h-10 w-10 flex-shrink-0">
+                <img *ngIf="item.client.avatarUrl" [src]="item.client.avatarUrl" [alt]="item.client.fullName" class="h-full w-full rounded-full object-cover">
+                <div *ngIf="!item.client.avatarUrl" class="flex h-full w-full items-center justify-center rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400">
+                  <span class="text-sm font-semibold">{{ item.client.fullName[0] }}</span>
+                </div>
+              </div>
+              <div class="flex-1">
+                <p class="font-semibold text-zinc-800 dark:text-zinc-100">{{ item.client.fullName }}</p>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ item.client.email }}</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+              <div class="hidden sm:block text-right">
+                <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{{ item.countOfBookings }}</p>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400">Agendamentos</p>
+              </div>
+              <button type="button" class="flex-shrink-0 rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-200 hover:text-zinc-800 dark:hover:bg-zinc-700 dark:hover:text-zinc-100">
+                <i class="material-icons-outlined !text-xl">more_vert</i>
+              </button>
+            </div>
+            
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <ng-template #noClientsTemplate>
+      <div class="text-center rounded-xl border-2 border-dashed border-zinc-200 p-12 dark:border-zinc-800">
+        <i class="material-icons-outlined text-5xl text-zinc-400">people</i>
+        <h3 class="mt-4 text-lg font-semibold text-zinc-800 dark:text-zinc-200">Nenhum cliente encontrado</h3>
+        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Comece adicionando um novo cliente para ver seus dados aqui.</p>
+      </div>
+    </ng-template>
+
+  </div>
+</div>
