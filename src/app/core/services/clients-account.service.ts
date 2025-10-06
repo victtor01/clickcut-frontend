@@ -14,4 +14,8 @@ export class ClientAccountService {
   public createAccount(data: CreateClientAccountDTO): Observable<ClientAccount> {
     return this.apiService.post('/clients', data);
   }
+
+  public findClientById(clientId: string) {
+    return this.apiService.get(`/clients/${clientId}`);
+  }
 }

@@ -15,4 +15,14 @@ export class AttendeeService {
   public createBooking(data: CreateAppointmentAttendeeDTO): Observable<Booking> {
     return this.apiService.post('/attendee/bookings', data);
   }
+
+  /**
+   * Busca o histórico de bookings do participante atual.
+   * É válido somente para o clientSession.
+   *
+   * @returns Observable com a lista de bookings.
+   */
+  public findHistoryForAttendee(): Observable<Booking[]> {
+    return this.apiService.get('/attendee/bookings/history');
+  }
 }

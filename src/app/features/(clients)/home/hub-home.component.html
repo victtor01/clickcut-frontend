@@ -21,7 +21,7 @@
             (click)="setViewMode('list')"
             [ngClass]="
               viewMode === 'list'
-                ? 'bg-white text-indigo-600 shadow-sm dark:bg-slate-700 dark:text-white'
+                ? 'bg-white text-indigo-600 shadow-sm dark:bg-zinc-700 dark:text-white'
                 : 'text-slate-500 dark:text-slate-400'
             "
             class="rounded-full p-2 transition-all grid place-items-center aspect-square"
@@ -33,7 +33,7 @@
             (click)="setViewMode('card')"
             [ngClass]="
               viewMode === 'card'
-                ? 'bg-white text-indigo-600 shadow-sm dark:bg-slate-700 dark:text-white'
+                ? 'bg-white text-indigo-600 shadow-sm dark:bg-zinc-700 dark:text-white'
                 : 'text-slate-500 dark:text-slate-400'
             "
             class="rounded-full p-2 transition-all grid place-items-center aspect-square"
@@ -105,7 +105,7 @@
               </div>
             </div>
           </div>
-          <div class="space-y-3 rounded-b-xl border-t border-slate-100 p-4 px-6 dark:border-slate-800">
+          <div class="space-y-3 rounded-b-xl border-t border-slate-100 p-4 px-6 dark:border-zinc-800">
             <ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
               <li *ngFor="let service of booking.services" class="flex justify-between">
                 <span>{{ service.title }}</span>
@@ -123,7 +123,7 @@
       <div *ngIf="viewMode === 'list'" class="flex flex-col gap-4">
         <div
           *ngFor="let booking of bookings"
-          class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-slate-900"
+          class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900"
         >
           <div class="flex items-center gap-4 p-4">
             <div
@@ -182,14 +182,13 @@
               </div>
             </div>
           </div>
-          <div class="space-y-2 border-t border-slate-100 px-6 py-4 text-sm dark:border-slate-800">
+          <div class="space-y-2 border-t border-slate-100 px-6 py-4 text-sm dark:border-zinc-800">
             <ul class="space-y-2 text-slate-500 dark:text-slate-400">
               <li *ngFor="let service of booking.services" class="flex justify-between">
                 <span>{{ service.title }}</span>
                 <span class="font-medium">{{ service.price | currency: 'BRL' }}</span>
               </li>
             </ul>
-            <hr class="border-slate-200 dark:border-slate-700 !my-3" />
             <div class="flex justify-between font-semibold text-slate-800 dark:text-slate-100">
               <span>Total</span>
               <span>{{ getTotalPrice(booking.services) | toFormatBrl }}</span>

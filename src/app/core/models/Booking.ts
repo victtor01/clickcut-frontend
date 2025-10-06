@@ -1,3 +1,4 @@
+import { Business } from './Business';
 import { Client } from './Client';
 import { Service } from './Service';
 import { User } from './User';
@@ -7,10 +8,11 @@ export interface Booking {
   title: string;
   startAt: Date;
   endAt: Date;
-  services?: Service[]
+  services?: Service[];
+  business?: Business;
   client?: Client;
   status: BookingStatus;
-  assignedTo: User
+  assignedTo: User;
 }
 
 export type BookingStatus =
