@@ -7,7 +7,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { BusinessReview, ReviewRatingScore } from '@app/core/models/BusinessReview';
 import { ClientAccount } from '@app/core/models/ClientAccount';
@@ -22,7 +23,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   templateUrl: 'business-modal.component.html',
-  imports: [CommonModule, ToFormatBrlPipe, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ToFormatBrlPipe, ReactiveFormsModule, FormsModule, RouterModule],
 })
 export class BusinessModalComponent implements OnInit {
   constructor(
@@ -33,6 +34,7 @@ export class BusinessModalComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly reviewService: ReviewsService,
     private readonly toastService: ToastService,
+    private readonly modal: MatDialogRef<BusinessModalComponent>,
   ) {}
 
   public ngOnInit(): void {
@@ -62,6 +64,10 @@ export class BusinessModalComponent implements OnInit {
   public startReply(review: BusinessReview): void {
     this.replyingToReviewId = review.id;
     this.replyText = ''; // Limpa o texto de respostas anteriores
+  }
+
+  public close() {
+    this.modal.close();
   }
 
   public cancelReply(): void {

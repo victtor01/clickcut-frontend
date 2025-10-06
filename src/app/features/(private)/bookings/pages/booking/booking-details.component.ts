@@ -32,10 +32,11 @@ export class BookingDetailsComponent implements OnInit {
     private readonly bookingService: BookingService,
     private readonly paymentDialog: MatDialog,
     private readonly toastService: ToastService,
-    private readonly scrollStrategies: ScrollStrategyOptions
+    private readonly scrollStrategies: ScrollStrategyOptions,
   ) {}
 
   public bookingId: string | null = null;
+  public totalPaid: number = 0;
   public dayjs = dayjs;
 
   private _booking?: Booking;
@@ -75,6 +76,23 @@ export class BookingDetailsComponent implements OnInit {
       'CANCELLED',
       'NO_SHOW',
     ];
+  }
+
+  public get totalPrice() {
+    return (
+      this._booking?.services?.reduce((curr, service) => {
+        return curr + (service.price || 0);
+      }, 0) || 0
+    );
+  }
+
+  public updateTotalPaid = (paid: number) => {
+    this.totalPaid = paid
+  }
+  
+  public get porcetagePaid() {
+    if (!this.totalPrice || this.totalPrice === 0) return 0;
+    return (this.totalPaid / this.totalPrice) * 100;
   }
 
   public isBookingTerminated(): boolean {

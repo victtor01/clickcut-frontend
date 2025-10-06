@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col relative bg-white rounded-xl dark:bg-zinc-900 overflow-hidden text-zinc-800 dark:text-zinc-200 min-h-[400px]"
+  class="flex flex-col mx-5 relative bg-white rounded-xl dark:bg-zinc-900 overflow-hidden text-zinc-800 dark:text-zinc-200 min-h-[400px]"
 >
   <header class="flex justify-between px-4 pt-4 pb-2 items-center">
     <h1 class="text-gray-500 dark:text-indigo-50 saira-font text-xl">
@@ -17,7 +17,7 @@
 
   <section class="flex flex-1 flex-col sm:flex-row">
     <aside
-      class="w-full sm:w-[14rem] flex-shrink-0 p-4 border-b border-zinc-200 dark:border-zinc-800"
+      class="w-full sm:w-[14rem] overflow-auto flex-shrink-0 p-4 border-b border-zinc-200 dark:border-zinc-800"
     >
       <nav class="flex flex-row sm:flex-col gap-2">
         <button
@@ -130,53 +130,23 @@
               </p>
             </div>
 
-            <div class="relative">
-              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">email</i>
-              </div>
-              <input
-                formControlName="email"
-                id="login_email"
-                type="login_email"
-                class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
-                placeholder=" "
-              />
-              <label
-                for="login_email"
-                class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-zinc-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-zinc-50 px-1 dark:text-zinc-400 dark:peer-focus:text-violet-400 dark:bg-zinc-900"
-              >
-                Email
-              </label>
-            </div>
-
-            <div
-              *ngIf="
-                userProfileForm.get('fullName')?.invalid && userProfileForm.get('fullName')?.touched
-              "
-              class="text-red-500 text-xs mt-1"
-            >
-              Nome completo é obrigatório.
-            </div>
-
             <div>
-              <div class="relative">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                  <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">person</i>
-                </div>
-                <input
-                  formControlName="name"
-                  id="name"
-                  type="name"
-                  class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
-                  placeholder=" "
-                />
+              <div>
                 <label
-                  for="name"
-                  class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-zinc-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-zinc-50 px-1 dark:text-zinc-400 dark:peer-focus:text-violet-400 dark:bg-zinc-900"
+                  for="nome"
+                  class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
                 >
-                  Nome completo
+                  Nome
                 </label>
+                <input
+                  id="nome"
+                  type="text"
+                  formControlName="fullName"
+                  placeholder="Digite seu email"
+                  class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 rounded-md placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                />
               </div>
+
               <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                 Você tem 3 mudanças de nome restantes para hoje.
               </p>
@@ -210,14 +180,18 @@
             </h2>
 
             <div>
-              <label for="email" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                >Endereço de Email</label
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
               >
+                Endereço de Email
+              </label>
               <input
                 id="email"
-                type="email"
+                type="text"
                 formControlName="email"
-                class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 shadow-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                placeholder="Digite seu email"
+                class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 rounded-md placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
               />
               <div
                 *ngIf="
@@ -239,7 +213,7 @@
                 id="phoneNumber"
                 type="text"
                 formControlName="phoneNumber"
-                class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 shadow-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 rounded-md placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
               />
             </div>
 
@@ -249,7 +223,7 @@
               >
               <button
                 type="button"
-                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Alterar Senha
               </button>
@@ -320,28 +294,12 @@
               >
               <select
                 id="themePreference"
+                [value]="currentTheme()"
                 formControlName="themePreference"
-                class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 shadow-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="mt-1 block w-full rounded-md p-3 border-zinc-300 dark:border-zinc-700 shadow-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value="light">Claro</option>
                 <option value="dark">Escuro</option>
-                <option value="system">Sistema</option>
-              </select>
-            </div>
-
-            <div>
-              <label
-                for="language"
-                class="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                >Idioma</label
-              >
-              <select
-                id="language"
-                class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 shadow-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              >
-                <option>Português (Brasil)</option>
-                <option>English (US)</option>
-                <option>Español</option>
               </select>
             </div>
 
@@ -368,14 +326,14 @@
           <button
             type="button"
             (click)="close()"
-            class="inline-flex items-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm text-sm font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="inline-flex items-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 rounded-full shadow-sm text-sm font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Cancelar
           </button>
           <button
             type="submit"
             [disabled]="userProfileForm.invalid"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Salvar Alterações
           </button>

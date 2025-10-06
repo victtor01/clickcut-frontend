@@ -9,7 +9,7 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BusinessStatement } from '@app/core/models/BusinessStatement';
 import { Notification } from '@app/core/models/Notification';
 import { User } from '@app/core/models/User';
@@ -48,6 +48,7 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
     private readonly notificationsService: NotificationsService,
     private readonly realTimeService: RealTimeService,
     private readonly themeService: ThemeService,
+    private readonly router: Router,
   ) {}
 
   private subscriptions = new Subscription();
@@ -72,7 +73,13 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
     this.realTimeService.stopConnection();
   }
 
-  public handleTheme () {
+  public openLink(link?: string) {
+    if (link) {
+      this.router.navigateByUrl(link);
+    }
+  }
+
+  public handleTheme() {
     this.themeService.toggleTheme();
   }
 
@@ -126,7 +133,7 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
 
   private subscribeToEvents(): void {
     const bookingSub = this.realTimeService.notifications$.subscribe((notification) => {
-      this.toastService.success("Nova notificação disponível");
+      this.toastService.success('Nova notificação disponível');
       this.notifications = [...this.notifications, notification];
     });
 
@@ -143,5 +150,6 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
 
   private async fetchNotifications(): Promise<void> {
     this.notifications = await firstValueFrom(this.notificationsService.getNotifications());
+    console.log(this.notifications);
   }
 }

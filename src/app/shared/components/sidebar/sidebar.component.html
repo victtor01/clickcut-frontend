@@ -182,18 +182,28 @@
       <div
         class="p-2 rounded-xl border-slate-200 dark:border-zinc-800 mt-4 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors"
       >
-        <a href="#" class="group flex w-full items-center justify-between">
+        <a
+          [routerLink]="['configure/profile']"
+          class="group flex w-full items-center justify-between"
+        >
           <div class="flex items-center gap-3 flex-1">
             <div
-              class="w-10 h-10 rounded-full bg-gray-200 dark:bg-zinc-800 overflow-hidden grid place-items-center"
+              class="w-10 h-10 relative rounded-full bg-gray-200 dark:bg-zinc-800 overflow-hidden grid place-items-center"
             >
-              <i class="material-icons-outlined !text-lg">person</i>
+              <i *ngIf="!session?.photoUrl" class="material-icons-outlined !text-2xl">person</i>
+              <img
+                *ngIf="session?.photoUrl"
+                [src]="session?.photoUrl"
+                alt="Foto do Usuário"
+                class="h-full w-full object-cover"
+              />
             </div>
             <div>
               <p class="text-sm font-semibold text-slate-600 dark:text-slate-100">José Victor</p>
               <p class="text-xs text-slate-500 dark:text-slate-400">Ver Perfil</p>
             </div>
           </div>
+
           <button
             class="relative flex flex-col opacity-70 mx-auto p-2 rounded-full items-center justify-center text-gray-500 dark:text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors duration-200"
           >

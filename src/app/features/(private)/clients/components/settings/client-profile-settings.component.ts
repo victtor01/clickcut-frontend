@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ClientAccount } from '@app/core/models/ClientAccount';
+import { ThemeService } from '@app/core/services/theme.service';
 
 @Component({
   templateUrl: './client-profile-settings.component.html',
@@ -11,17 +12,19 @@ import { ClientAccount } from '@app/core/models/ClientAccount';
 export class ClientProfileSettingsComponent {
   public userProfileForm!: FormGroup;
   public activeView: 'profile' | 'account' | 'privacy' | 'preferences' = 'profile';
-  public currentUser!: ClientAccount; // Dados do usuário a serem editados
-
-  // Simula o tema atual para as preferências
-  public currentTheme: 'light' | 'dark' | 'system' = 'light';
+  public currentUser!: ClientAccount;
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public dialogRef: MatDialogRef<ClientProfileSettingsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { user: ClientAccount },
+    private readonly themeService: ThemeService,
   ) {
     this.currentUser = data.user;
+  }
+
+  public get currentTheme() {
+    return this.themeService.theme;
   }
 
   ngOnInit(): void {

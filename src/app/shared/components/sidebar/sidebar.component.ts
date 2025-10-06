@@ -11,6 +11,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { Business } from '@app/core/models/Business';
+import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
@@ -38,6 +39,7 @@ export class SidebarComponent implements AfterViewInit {
 
   public isBusinessOpen = signal(true);
   public business: Business | null = null;
+  public session: User | null = null;
 
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
@@ -58,6 +60,7 @@ export class SidebarComponent implements AfterViewInit {
     }
 
     this.getSessionBusiness();
+    this.getSession();
   }
 
   ngAfterViewInit(): void {
@@ -87,6 +90,10 @@ export class SidebarComponent implements AfterViewInit {
     this.business = await firstValueFrom(this.authService.currentBusiness$);
   }
 
+  public async getSession(): Promise<void> {
+    this.session = await firstValueFrom(this.authService.currentUser$);
+  }
+
   public selectTab(tab: Tab): void {
     if (this.activeTabId === tab.id) return;
     this.activeTabId = tab.id;
@@ -101,7 +108,6 @@ export class SidebarComponent implements AfterViewInit {
     }
   }
 
-  // 2. A principal mudança está aqui: adaptamos a lógica para um eixo vertical
   private moveIndicator(activeTab: Tab, animated: boolean): void {
     if (this.animationTimeout) clearTimeout(this.animationTimeout);
 
@@ -110,7 +116,6 @@ export class SidebarComponent implements AfterViewInit {
 
     if (!tabElement) return;
 
-    // Usamos offsetTop e clientHeight para o posicionamento vertical
     const destinationCenter = tabElement.offsetTop + tabElement.clientHeight / 2;
     const finalHeight = '2.5rem'; // 40px ou h-10 no Tailwind
 

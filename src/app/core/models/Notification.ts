@@ -6,9 +6,10 @@ export interface Notification {
   type: NotificationType;
   status: NotificationStatus;
   category: NotificationCategory;
-  sentAt?: Date;            // DateTime? em C#
+  sentAt?: Date;
+  actionPath?: string;
   isRead: boolean;
-  metadata?: string;        // string? em C#
+  metadata?: string;
 }
 
 // NotificationStatus.ts

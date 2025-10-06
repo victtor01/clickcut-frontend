@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col relative bg-white rounded-xl dark:bg-zinc-900 overflow-hidden text-zinc-800 dark:text-zinc-200"
+  class="flex flex-col mx-4 relative bg-white rounded-xl dark:bg-zinc-900 overflow-hidden text-zinc-800 dark:text-zinc-200"
 >
   <header class="flex justify-between px-4 pt-4 pb-2 items-center">
     <h1 class="text-gray-500 dark:text-indigo-50 saira-font text-xl">Perfil</h1>
@@ -13,7 +13,7 @@
     </button>
   </header>
 
-  <section class="flex flex-1">
+  <section class="flex flex-1 flex-col md:flex-row">
     <aside class="w-full sm:w-[14rem] flex-shrink-0 p-4">
       <nav class="flex flex-row sm:flex-col gap-2">
         <button
@@ -119,7 +119,7 @@
                 <div>
                   <p class="text-xs text-zinc-500 dark:text-zinc-400">Total de Agendamentos</p>
                   <p class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                    {{ summary?.countOfBookings ?? 0 }}
+                    {{ summary!.countOfBookings || 0 }}
                   </p>
                 </div>
               </div>

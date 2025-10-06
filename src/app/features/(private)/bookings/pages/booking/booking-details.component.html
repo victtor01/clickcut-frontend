@@ -13,14 +13,22 @@
         <h1 class="saira-font text-xl font-bold">Detalhes do Agendamento</h1>
       </div>
 
-      <button
-        (click)="openModalToPay()"
-        type="button"
-        class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-violet-50 dark:bg-zinc-800/20 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-zinc-800/50 active:scale-95"
-      >
-        <i class="material-icons-outlined text-base">qr_code</i>
-        <span>Pagar Agora</span>
-      </button>
+      <div class="flex flex-col">
+        <button
+          (click)="openModalToPay()"
+          type="button"
+          class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-violet-50 dark:bg-zinc-800/20 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-zinc-800/50 active:scale-95"
+        >
+          <i class="material-icons-outlined text-base">qr_code</i>
+          <span>Pagar Agora</span>
+        </button>
+
+        <div
+          class="flex flex-1 min-h-2 rounded-full overflow-hidden mx-2 mt-1 bg-zinc-100 dark:bg-zinc-700"
+        >
+          <span class="flex bg-violet-500 rounded-r-xl" [style.width.%]="porcetagePaid"></span>
+        </div>
+      </div>
     </header>
 
     <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-2">
@@ -103,7 +111,12 @@
             </div>
           </div>
         </div>
-        <all-payments *ngIf="!!bookingId" [bookingId]="bookingId"></all-payments>
+        <all-payments
+          *ngIf="!!bookingId"
+          [bookingId]="bookingId"
+          [totalPrice]="totalPrice"
+          (handleTotalPaid)="updateTotalPaid($event)"
+        ></all-payments>
       </section>
 
       <div class="lg:col-span">

@@ -199,13 +199,16 @@ export class BookingComponent implements OnInit, OnDestroy {
       return isAfterOrOnStart && isBeforeNextHour;
     });
 
+    const dailyBookings: Booking[] = this._bookingsByDay[dayjs(date).format('YYYY-MM-DD')] || [];
+
     const dialogRef = this.dialogDetails.open(DetailsBookingComponent, {
-      width: 'min(50rem, 90%)',
-      backdropClass: ['bg-transparent', 'dark:bg-zinc-950/10', 'backdrop-blur-lg'],
-      panelClass: 'dialog-no-container',
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(60rem, 90%)',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
-      data: { bookings: bookingsInHour },
+      data: { bookings: dailyBookings, initialDate: date },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -214,7 +217,7 @@ export class BookingComponent implements OnInit, OnDestroy {
   }
 
   public hourToDay(hour: number) {
-  return this.currentDate.hour(hour).minute(0).second(0).toDate();
+    return this.currentDate.hour(hour).minute(0).second(0).toDate();
   }
 
   public isNow() {

@@ -127,7 +127,7 @@ export class HubLayoutComponent {
       return;
     }
 
-    const dialogRef = this.clientModalRef.open(ClientProfileSettingsComponent, {
+    this.clientModalRef.open(ClientProfileSettingsComponent, {
       width: '100%',
       maxWidth: '800px', // A largura pode ser ajustada para o modal de edição
       height: '90%', // Altura ajustada para permitir scroll interno
@@ -137,16 +137,6 @@ export class HubLayoutComponent {
       data: {
         user: clientAccount, // Passando os dados do usuário para o modal de edição
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('Dados atualizados:', result);
-        // Aqui você pode fazer algo com os dados atualizados,
-        // como recarregar o perfil do usuário na tela principal.
-      } else {
-        console.log('Edição cancelada ou modal fechado sem salvar.');
-      }
     });
   }
 
