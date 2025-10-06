@@ -5,11 +5,17 @@ import {
   ElementRef,
   HostListener,
   QueryList,
+  signal,
   ViewChildren,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
+import { Business } from '@app/core/models/Business';
+import { User } from '@app/core/models/User';
+import { AuthService } from '@app/core/services/auth.service';
+import { firstValueFrom } from 'rxjs';
+import { BusinessModalComponent } from '../business-details/business-modal.component';
 
-// 1. Adicionamos a propriedade 'label' para o texto
 interface Tab {
   id: string;
   icon: string;
@@ -27,9 +33,13 @@ export class SidebarComponent implements AfterViewInit {
   public tabs: Tab[] = [
     { id: 'home', icon: 'home', label: 'Início', route: '/home' },
     { id: 'services', icon: 'shopping_bag', label: 'Serviços', route: '/services' },
-    { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/home' },
+    { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/clients' },
     { id: 'bookings', icon: 'event', label: 'Agenda', route: '/bookings' },
   ];
+
+  public isBusinessOpen = signal(true);
+  public business: Business | null = null;
+  public session: User | null = null;
 
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
@@ -37,13 +47,20 @@ export class SidebarComponent implements AfterViewInit {
   @ViewChildren('tabElement') private tabElements!: QueryList<ElementRef<HTMLElement>>;
   private animationTimeout?: number;
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly businessDialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     const currentTab = this.tabs.find((tab) => this.router.url.startsWith(tab.route));
     if (currentTab) {
       this.activeTabId = currentTab.id;
     }
+
+    this.getSessionBusiness();
+    this.getSession();
   }
 
   ngAfterViewInit(): void {
@@ -53,6 +70,28 @@ export class SidebarComponent implements AfterViewInit {
   @HostListener('window:resize')
   onResize(): void {
     this.updateIndicatorPosition();
+  }
+
+  public openBusinessDetails() {
+    if (!this.business?.id) return;
+
+    this.businessDialog.open(BusinessModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(70rem, 90%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { businessId: this.business.id },
+    });
+  }
+
+  public async getSessionBusiness(): Promise<void> {
+    this.business = await firstValueFrom(this.authService.currentBusiness$);
+  }
+
+  public async getSession(): Promise<void> {
+    this.session = await firstValueFrom(this.authService.currentUser$);
   }
 
   public selectTab(tab: Tab): void {
@@ -69,7 +108,6 @@ export class SidebarComponent implements AfterViewInit {
     }
   }
 
-  // 2. A principal mudança está aqui: adaptamos a lógica para um eixo vertical
   private moveIndicator(activeTab: Tab, animated: boolean): void {
     if (this.animationTimeout) clearTimeout(this.animationTimeout);
 
@@ -78,7 +116,6 @@ export class SidebarComponent implements AfterViewInit {
 
     if (!tabElement) return;
 
-    // Usamos offsetTop e clientHeight para o posicionamento vertical
     const destinationCenter = tabElement.offsetTop + tabElement.clientHeight / 2;
     const finalHeight = '2.5rem'; // 40px ou h-10 no Tailwind
 

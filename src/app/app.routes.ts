@@ -8,17 +8,18 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./features/(public)/public.routes').then(
-            (e) => e.PUBLIC_ROUTES
-          ),
+          import('./features/(public)/public.routes').then((e) => e.PUBLIC_ROUTES),
       },
       {
         path: '',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('./features/(private)/private.routes').then(
-            (e) => e.PRIVATE_ROUTES
-          ),
+          import('./features/(private)/private.routes').then((e) => e.PRIVATE_ROUTES),
+      },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/(clients)/clients.routes').then((e) => e.CLIENT_ROUTES),
       },
     ],
   },

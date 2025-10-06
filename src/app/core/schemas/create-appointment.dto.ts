@@ -7,6 +7,7 @@ export interface CreateAppointmentDTO {
 }
 
 export interface CreateAppointmentClientDTO {
+  id?: string;
   fullName: string;
   phoneNumber: string;
   email: string;

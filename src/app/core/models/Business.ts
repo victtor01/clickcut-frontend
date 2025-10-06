@@ -1,3 +1,4 @@
+import { Service } from './Service';
 import { User } from './User';
 
 export interface Business {
@@ -7,10 +8,11 @@ export interface Business {
   timeZoneId?: string;
   revenueGoal?: number;
   isOpen?: boolean;
+  services?: Service[];
 
   bannerUrl?: string;
   logoUrl?: string;
-  members?: User[]
+  members?: User[];
 }
 
 export interface TimeSlot {

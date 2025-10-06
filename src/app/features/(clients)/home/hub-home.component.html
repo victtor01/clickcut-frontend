@@ -1,0 +1,282 @@
+<div class="max-w-7xl p-4">
+  <div class="w-full space-y-8">
+    <header class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+      <div>
+        <h2 class="text-2xl font-semibold saira-font text-slate-700 dark:text-slate-100">
+          Próximos Agendamentos
+        </h2>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          Você tem {{ bookings.length }} agendamentos para hoje, Sexta-feira, 26 de Setembro.
+        </p>
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700"
+        >
+          <i class="material-icons-outlined !text-base">add</i>
+          <span>Adicionar Agendamento</span>
+        </button>
+        <div class="flex items-center gap-2 rounded-full bg-slate-200 p-1 dark:bg-zinc-800">
+          <button
+            (click)="setViewMode('list')"
+            [ngClass]="
+              viewMode === 'list'
+                ? 'bg-white text-indigo-600 shadow-sm dark:bg-zinc-700 dark:text-white'
+                : 'text-slate-500 dark:text-slate-400'
+            "
+            class="rounded-full p-2 transition-all grid place-items-center aspect-square"
+            aria-label="Visualização em Lista"
+          >
+            <i class="material-icons-outlined text-base">list</i>
+          </button>
+          <button
+            (click)="setViewMode('card')"
+            [ngClass]="
+              viewMode === 'card'
+                ? 'bg-white text-indigo-600 shadow-sm dark:bg-zinc-700 dark:text-white'
+                : 'text-slate-500 dark:text-slate-400'
+            "
+            class="rounded-full p-2 transition-all grid place-items-center aspect-square"
+            aria-label="Visualização em Cards"
+          >
+            <i class="material-icons-outlined text-base">grid_view</i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div>
+      <div
+        *ngIf="viewMode === 'card'"
+        class="grid cursor-default grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
+      >
+        <div
+          *ngFor="let booking of bookings"
+          class="flex flex-col relative overflow-hidden rounded-xl bg-white border border-slate-200/40 hover:scale-105 transition-all hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900"
+        >
+          <div class="p-6 pb-4">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-4">
+                <div
+                  class="flex w-14 flex-shrink-0 flex-col items-center justify-center rounded-md bg-slate-100 py-2 dark:bg-zinc-800"
+                >
+                  <span class="text-xs font-bold uppercase text-indigo-500 dark:text-indigo-400">{{
+                    booking.startAt | date: 'MMM'
+                  }}</span>
+                  <span class="text-xl font-bold text-slate-700 dark:text-slate-200">{{
+                    booking.startAt | date: 'dd'
+                  }}</span>
+                </div>
+                <div>
+                  <p class="text-slate-500 dark:text-slate-100">
+                    {{ booking.title }}
+                  </p>
+                  <p class="text-sm text-slate-500 dark:text-slate-400">
+                    {{ booking.startAt | date: 'HH:mm' }} - {{ booking.endAt | date: 'HH:mm' }}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                (click)="toggleOpenedSettings(booking.id)"
+                class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                <i class="material-icons-outlined">more_vert</i>
+              </button>
+            </div>
+            <button
+              type="button"
+              class="mt-4 flex-1 w-full text-start cursor-pointer flex items-center gap-3 border p-2 rounded-lg border-gray-200 dark:border-zinc-700 opacity-90 hover:opacity-100"
+            >
+              <img
+                [src]="booking?.assignedTo?.photoUrl"
+                [alt]="booking?.assignedTo?.photoUrl"
+                class="h-10 w-10 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-semibold text-slate-600 dark:text-slate-100">
+                  {{ booking?.assignedTo?.username }}
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                  {{ booking?.assignedTo?.email }}
+                </p>
+              </div>
+            </button>
+            <div class="px-1 mt-3">
+              <div
+                class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium"
+                [ngClass]="statusStyles[booking.status].classes"
+              >
+                <i class="material-icons-outlined text-sm">{{
+                  statusStyles[booking.status].icon
+                }}</i>
+                <span>{{ statusStyles[booking.status].text }}</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="space-y-3 rounded-b-xl border-t border-slate-100 p-4 px-6 dark:border-zinc-800"
+          >
+            <ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+              <li *ngFor="let service of booking.services" class="flex justify-between">
+                <span>{{ service.title }}</span>
+                <span class="font-medium">{{ service.price | toFormatBrl }}</span>
+              </li>
+            </ul>
+            <div class="flex justify-between text-slate-600 dark:text-slate-100">
+              <span>Total</span>
+              <span>{{ getTotalPrice(booking.services) | toFormatBrl }}</span>
+            </div>
+          </div>
+
+          @if (openedSettings === booking.id) {
+            <div
+              class="absolute top-0 left-0 z-10 flex h-full w-full items-center justify-center bg-white/20 p-4 backdrop-blur-sm dark:bg-zinc-950/40"
+            >
+              <div
+                class="flex w-full max-w-xs flex-col rounded-xl border border-slate-200/50 bg-white shadow-2xl dark:border-zinc-700/50 dark:bg-zinc-800"
+              >
+                <header class="flex items-center justify-between p-2 pl-4">
+                  <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-300">Opções</h3>
+                  <button
+                    type="button"
+                    (click)="closeSettings()"
+                    class="grid h-8 w-8 place-items-center rounded-full text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-zinc-700 dark:hover:text-slate-100"
+                  >
+                    <i class="material-icons-outlined !text-xl">close</i>
+                  </button>
+                </header>
+
+                <div class="border-t border-slate-100 p-2 dark:border-zinc-700/50">
+                  <ul class="text-slate-700 dark:text-slate-200">
+                    <li>
+                      <button
+                        class="flex w-full items-center gap-3 rounded-md p-2 text-left text-sm transition-colors hover:bg-slate-100 dark:hover:bg-zinc-700"
+                      >
+                        <i
+                          class="material-icons-outlined !text-base text-slate-500 dark:text-slate-400"
+                          >visibility</i
+                        >
+                        <span>Ver detalhes</span>
+                      </button>
+                    </li>
+
+                    <li>
+                      <button
+                        class="flex w-full items-center gap-3 rounded-md p-2 text-left text-sm transition-colors hover:bg-slate-100 dark:hover:bg-zinc-700"
+                      >
+                        <i
+                          class="material-icons-outlined !text-base text-slate-500 dark:text-slate-400"
+                          >edit_calendar</i
+                        >
+                        <span>Reagendar</span>
+                      </button>
+                    </li>
+
+                    <li *ngIf="booking.status === 'COMPLETED'">
+                      <button
+                        class="flex w-full items-center gap-3 text-emerald-500 rounded-md p-2 text-left text-sm transition-colors hover:bg-slate-100 dark:hover:bg-zinc-700"
+                      >
+                        <i
+                          class="material-icons-outlined !text-base text-emerald-500 dark:text-emerald-400"
+                          >paid</i
+                        >
+                        <span>Pagar</span>
+                      </button>
+                    </li>
+
+                    <li>
+                      <button
+                        class="flex w-full items-center gap-3 rounded-md p-2 text-left text-sm text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-500/10"
+                      >
+                        <i class="material-icons-outlined !text-base">event_busy</i>
+                        <span>Cancelar agendamento</span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div *ngIf="viewMode === 'list'" class="flex flex-col gap-4">
+        <div
+          *ngFor="let booking of bookings"
+          class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900"
+        >
+          <div class="flex items-center gap-4 p-4">
+            <div
+              class="flex w-20 flex-shrink-0 flex-col items-center justify-center rounded-lg bg-slate-100 p-3 dark:bg-slate-800"
+            >
+              <span class="text-xs font-bold uppercase text-indigo-500 dark:text-indigo-400">{{
+                booking.startAt | date: 'MMM'
+              }}</span>
+              <span class="text-3xl font-bold text-slate-700 dark:text-slate-200">{{
+                booking.startAt | date: 'dd'
+              }}</span>
+              <span class="text-xs text-slate-500 dark:text-slate-400">{{
+                booking.startAt | date: 'EEE'
+              }}</span>
+            </div>
+            <div class="grid flex-1 grid-cols-1 gap-4 md:grid-cols-3">
+              <div class="flex items-center gap-4">
+                <div>
+                  <p class="font-semibold text-slate-700 dark:text-slate-200">
+                    {{ booking.startAt | date: 'HH:mm' }} - {{ booking.endAt | date: 'HH:mm' }}
+                  </p>
+                  <p class="text-sm text-slate-500 dark:text-slate-400">{{ booking.title }}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="mt-4 flex-1 w-full text-start cursor-pointer flex items-center gap-3 border p-2 rounded-lg border-gray-200 dark:border-zinc-700 opacity-90 hover:opacity-100"
+              >
+                <img
+                  [src]="booking?.assignedTo?.photoUrl"
+                  [alt]="booking?.assignedTo?.photoUrl"
+                  class="h-10 w-10 rounded-full object-cover"
+                />
+                <div>
+                  <p class="font-semibold text-slate-600 dark:text-slate-100">
+                    {{ booking?.assignedTo?.username }}
+                  </p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">
+                    {{ booking?.assignedTo?.email }}
+                  </p>
+                </div>
+              </button>
+              <div class="flex items-center justify-end gap-4">
+                <div
+                  class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium"
+                  [ngClass]="statusStyles[booking.status].classes"
+                >
+                  <i class="material-icons-outlined text-sm">{{
+                    statusStyles[booking.status].icon
+                  }}</i>
+                  <span>{{ statusStyles[booking.status].text }}</span>
+                </div>
+                <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                  <i class="material-icons-outlined">more_vert</i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-2 border-t border-slate-100 px-6 py-4 text-sm dark:border-zinc-800">
+            <ul class="space-y-2 text-slate-500 dark:text-slate-400">
+              <li *ngFor="let service of booking.services" class="flex justify-between">
+                <span>{{ service.title }}</span>
+                <span class="font-medium">{{ service.price | currency: 'BRL' }}</span>
+              </li>
+            </ul>
+            <div class="flex justify-between font-semibold text-slate-800 dark:text-slate-100">
+              <span>Total</span>
+              <span>{{ getTotalPrice(booking.services) | toFormatBrl }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

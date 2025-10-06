@@ -1,0 +1,185 @@
+<main class="relative flex h-screen w-full bg-slate-50 dark:bg-zinc-950">
+  <!-- Sidebar para Desktop -->
+  <aside
+    class="hidden w-72 flex-shrink-0 m-4 flex-col overflow-y-auto rounded-xl border border-slate-200 bg-white dark:border-zinc-800 dark:bg-black lg:flex"
+  >
+    <div class="flex flex-1 flex-col p-4">
+      <div class="mb-8">
+        <a href="#" class="flex items-center gap-2 px-2">
+          <i class="material-icons-outlined text-3xl text-indigo-500">bolt</i>
+          <span class="text-lg font-bold text-slate-800 dark:text-slate-100">ClickCut</span>
+        </a>
+      </div>
+
+      <nav>
+        <div class="space-y-2">
+          <h3
+            class="px-4 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+          >
+            Menu
+          </h3>
+          <ul class="flex flex-col gap-1">
+            <li *ngFor="let link of navLinks">
+              <a
+                [routerLink]="link.path"
+                routerLinkActive
+                #rla="routerLinkActive"
+                class="group flex items-center gap-3 rounded-lg px-4 py-2 font-medium transition-colors"
+                [ngClass]="{
+                  'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400':
+                    rla.isActive,
+                  'text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-zinc-900/50 dark:hover:text-slate-200':
+                    !rla.isActive,
+                }"
+              >
+                <i
+                  class="material-symbols-outlined"
+                  [ngStyle]="{
+                    'font-variation-settings': rla.isActive ? '\'FILL\' 1' : '\'FILL\' 0',
+                  }"
+                >
+                  {{ link.icon }}
+                </i>
+                <span>{{ link.label }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="border-t border-slate-200 dark:border-zinc-800 p-4 mt-6">
+      <button
+        type="button"
+        (click)="openEditProfileModal()"
+        class="group flex w-full items-center justify-between rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-zinc-900/50"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-full bg-slate-200 dark:bg-zinc-800 overflow-hidden grid place-items-center"
+          >
+            <i class="material-icons-outlined !text-lg text-slate-500 dark:text-slate-400"
+              >person</i
+            >
+          </div>
+
+          <div>
+            <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">José Victor</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Ver Perfil</p>
+          </div>
+        </div>
+        <i
+          class="material-icons-outlined text-slate-400 transition-transform group-hover:translate-x-1"
+          >arrow_forward</i
+        >
+      </button>
+    </div>
+  </aside>
+
+  <div class="flex-1 overflow-y-auto pb-24 lg:pb-0">
+    <router-outlet></router-outlet>
+  </div>
+
+  <nav
+    class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-t border-slate-200 dark:border-zinc-800"
+  >
+    <ul class="flex justify-around items-center h-16">
+      <li *ngFor="let link of mobileNavLinks">
+        <a
+          [routerLink]="link.path"
+          routerLinkActive
+          #rla="routerLinkActive"
+          class="flex flex-col items-center justify-center gap-1 w-20 transition-colors"
+          [ngClass]="
+            rla.isActive
+              ? 'text-indigo-600 dark:text-indigo-400'
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+          "
+        >
+          <i
+            class="material-symbols-outlined"
+            [ngStyle]="{ 'font-variation-settings': rla.isActive ? '\'FILL\' 1' : '\'FILL\' 0' }"
+            >{{ link.icon }}</i
+          >
+          <span class="text-xs font-medium">{{ link.label }}</span>
+        </a>
+      </li>
+
+      <li>
+        <button
+          (click)="toggleMenu()"
+          class="flex flex-col items-center justify-center gap-1 w-20 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
+        >
+          <i class="material-symbols-outlined">menu</i>
+          <span class="text-xs font-medium">Menu</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-40" (click)="toggleMenu()">
+    <div
+      @menuBackdrop
+      class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+      [ngClass]="{ 'opacity-100': isMenuOpen, 'opacity-0': !isMenuOpen }"
+    ></div>
+
+    <div
+      @menuDrawer
+      class="absolute bottom-0 pb-[10rem] left-0 right-0 p-4 bg-white dark:bg-zinc-900 rounded-t-2xl transform transition-transform duration-300 ease-out"
+      [ngClass]="{ 'translate-y-0': isMenuOpen, 'translate-y-full': !isMenuOpen }"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="relative text-center mb-4">
+        <div
+          class="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 dark:bg-zinc-700"
+        ></div>
+        <button
+          (click)="toggleMenu()"
+          class="absolute -top-2 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-slate-400 dark:hover:bg-zinc-700"
+        >
+          <i class="material-symbols-outlined !text-xl">close</i>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        (click)="openEditProfileModal()"
+        class="group text-left mt-10 flex w-full items-center justify-between rounded-lg p-3 mb-4 bg-slate-50 dark:bg-zinc-800/50"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-zinc-800 grid place-items-center">
+            <i class="material-icons-outlined !text-xl text-slate-500 dark:text-slate-400"
+              >person</i
+            >
+          </div>
+          <div>
+            <p class="font-semibold text-slate-700 dark:text-slate-200">José Victor</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Ver Perfil & Configurações</p>
+          </div>
+        </div>
+        <i class="material-icons-outlined text-slate-400">arrow_forward_ios</i>
+      </button>
+
+      <div class="flex items-center justify-between rounded-lg p-3">
+        <div class="flex items-center gap-4">
+          <i class="material-icons-outlined text-slate-500 dark:text-slate-400">dark_mode</i>
+          <p class="font-medium text-slate-700 dark:text-slate-300">Modo Escuro</p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          (click)="handleTheme()"
+          [attr.aria-checked]="isDark"
+          class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors"
+          [ngClass]="isDark ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-zinc-700'"
+        >
+          <span
+            class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition"
+            [ngClass]="isDark ? 'translate-x-5' : 'translate-x-0'"
+          ></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

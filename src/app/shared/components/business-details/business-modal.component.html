@@ -1,0 +1,375 @@
+<div
+  class="rounded-2xl flex-col relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 my-10 border border-slate-200 dark:border-zinc-800 w-full font-sans"
+>
+  <header class="relative" *ngIf="business">
+    <div
+      class="h-[20rem] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-900/50 dark:to-violet-900/50"
+    >
+      <img
+        *ngIf="business.bannerUrl"
+        [src]="business.bannerUrl"
+        [alt]="'Banner de ' + business.name"
+        class="h-full w-full object-cover"
+      />
+    </div>
+
+    <div class="absolute -bottom-16 left-8 flex items-end gap-4">
+      <div
+        class="relative h-28 w-28 flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
+      >
+        <img
+          *ngIf="business.logoUrl"
+          [src]="business.logoUrl"
+          [alt]="'Logo de ' + business.name"
+          class="h-full w-full rounded-full object-cover"
+        />
+        <div
+          *ngIf="!business.logoUrl"
+          class="flex h-full w-full items-center justify-center rounded-full"
+        >
+          <i class="material-symbols-outlined text-4xl text-zinc-500">store</i>
+        </div>
+      </div>
+      <div class="flex flex-col translate-y-3">
+        <h1 class="text-3xl font-bold text-slate-700 dark:text-white">{{ business.name }}</h1>
+        <div class="mt-1 flex items-center gap-2 text-sm">
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium"
+            [ngClass]="
+              business.isOpen
+                ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
+                : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+            "
+          >
+            <span
+              class="h-1.5 w-1.5 rounded-full"
+              [ngClass]="business.isOpen ? 'bg-green-500' : 'bg-red-500'"
+            ></span>
+            {{ business.isOpen ? 'Aberto agora' : 'Fechado' }}
+          </span>
+          <span class="text-zinc-500 dark:text-zinc-400">·</span>
+          <div class="flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
+            <i
+              class="material-symbols-outlined text-base text-amber-400"
+              style="font-variation-settings: 'FILL' 1"
+              >star</i
+            >
+            <span class="font-semibold">4.8</span>
+            <span class="text-xs">({{ reviews.length }} avaliações)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="mt-20 grid grid-cols-1 gap-8 p-8 md:grid-cols-3" *ngIf="business">
+    <div class="md:col-span-2">
+      <a
+        *ngIf="!currentManager?.id"
+        [routerLink]="['/appointments', business.id]"
+        (click)="close()"
+        class="w-full rounded-full mb-8 relative bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
+        Agendar Horário
+      </a>
+
+      <section class="flex mt-5 flex-col">
+        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Sobre a Barbearia</h2>
+        <p class="mt-2 text-zinc-600 dark:text-zinc-400">
+          Bem-vindo à Barbearia Clássica, onde a tradição encontra o estilo moderno. Oferecemos uma
+          experiência premium com os melhores profissionais da cidade, prontos para cuidar do seu
+          visual com cortes, barbas e tratamentos de primeira linha. Relaxe em nosso ambiente e saia
+          renovado.
+        </p>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Nossa Equipe</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div
+            *ngFor="let member of business.members"
+            class="text-center border flex flex-col g p-2 border-zinc-200 dark:border-zinc-800 rounded-xl"
+          >
+            <img
+              [src]="member.photoUrl"
+              [alt]="'Foto de ' + member.username"
+              class="mx-auto h-20 w-20 rounded-full object-cover"
+            />
+            <p class="mt-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+              {{ member.username }}
+            </p>
+            <p class="text-xs opacity-80 font-medium text-zinc-800 dark:text-zinc-200">
+              {{ member.email }}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Nossos Serviços</h2>
+        <div class="mt-4 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <div class="divide-y divide-zinc-200 dark:divide-zinc-800">
+            <div
+              *ngFor="let service of business.services"
+              class="flex items-center justify-between p-3 transition-colors duration-200 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
+            >
+              <div class="flex items-center gap-4">
+                <div
+                  class="h-14 w-14 flex-shrink-0 overflow-hidden rounded-tl-md rounded-xl bg-zinc-100 dark:bg-zinc-700"
+                >
+                  <img
+                    *ngIf="service.photoUrl"
+                    [src]="service.photoUrl"
+                    [alt]="'Imagem do serviço: ' + service.title"
+                    class="h-full w-full object-cover"
+                  />
+                  <div
+                    *ngIf="!service.photoUrl"
+                    class="flex h-full w-full items-center justify-center text-gray-500"
+                  >
+                    <i class="material-symbols-outlined text-2xl">deployed_code</i>
+                  </div>
+                </div>
+
+                <div>
+                  <p class="font-semibold text-zinc-800 dark:text-zinc-100">{{ service.title }}</p>
+                  <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                    {{ service.description }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="ml-4 flex-shrink-0 text-right">
+                <p class="font-bold text-zinc-900 dark:text-white">
+                  {{ service.price | toFormatBrl }}
+                </p>
+                <div
+                  class="mt-1 flex items-center justify-end gap-1 text-xs text-zinc-500 dark:text-zinc-400"
+                >
+                  <i class="material-symbols-outlined !text-base">schedule</i>
+                  <span>{{ service.durationInMinutes }} min</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-8 pb-4">
+        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">O que nossos clientes dizem</h2>
+
+        <form
+          *ngIf="this.currentClient?.id"
+          [formGroup]="reviewForm"
+          (ngSubmit)="submitReview()"
+          class="flex gap-4 rounded-xl mt-4 border border-zinc-200 p-4 dark:border-zinc-800"
+        >
+          <img
+            *ngIf="currentClient?.avatarUrl"
+            [src]="currentClient?.avatarUrl"
+            [alt]="'Foto de ' + currentClient?.fullName"
+            class="h-10 w-10 flex-shrink-0 rounded-full"
+          />
+
+          <div class="flex-1">
+            <p class="font-semibold text-zinc-800 dark:text-zinc-200">Deixe sua avaliação</p>
+
+            <div class="mt-2 flex items-center" (mouseleave)="resetHoveredRating()">
+              <button
+                type="button"
+                *ngFor="let star of [1, 2, 3, 4, 5]"
+                (click)="setRating(star)"
+                (mouseenter)="setHoveredRating(star)"
+                class="text-2xl text-zinc-300 transition-transform duration-150 hover:scale-125 dark:text-zinc-600"
+                [class.text-amber-400]="star <= (hoveredRating || rating?.value)"
+                [class.dark:text-amber-400]="star <= (hoveredRating || rating?.value)"
+              >
+                <i
+                  class="material-symbols-outlined text-yellow-400"
+                  [style.font-variation-settings]="
+                    star <= (hoveredRating || rating?.value) ? '\'FILL\' 1' : '\'FILL\' 0'
+                  "
+                  >star</i
+                >
+              </button>
+            </div>
+            <div *ngIf="rating?.invalid && rating?.touched" class="mt-1 text-xs text-red-500">
+              Por favor, selecione uma nota.
+            </div>
+
+            <textarea
+              rows="3"
+              formControlName="comment"
+              placeholder="Como foi sua experiência? (mín. 10 caracteres)"
+              class="mt-3 w-full rounded-md border-zinc-300 bg-white text-sm text-gray-500 !outline-none transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
+              [class.border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
+              [class.dark:border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
+            ></textarea>
+
+            <div
+              *ngIf="comment?.invalid && (comment?.dirty || comment?.touched)"
+              class="mt-1 text-xs text-red-500"
+            >
+              <span *ngIf="comment?.errors?.['required']">O comentário é obrigatório.</span>
+              <span *ngIf="comment?.errors?.['minlength']"
+                >O comentário precisa ter no mínimo 10 caracteres.</span
+              >
+            </div>
+
+            <div class="mt-2 flex justify-end">
+              <button
+                type="submit"
+                [disabled]="reviewForm.invalid"
+                class="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 disabled:opacity-70 dark:disabled:bg-indigo-800"
+              >
+                Publicar Avaliação
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <div class="space-y-6">
+          <div *ngFor="let review of reviews" class="flex gap-4">
+            <div
+              class="w-10 h-10 rounded-full bg-slate-100 dark:bg-zinc-800 grid place-items-center"
+            >
+              <span
+                class="saira-font font-semibold text-slate-700 dark:text-zinc-300"
+                *ngIf="!review.avatarUrl"
+                >{{ review?.authorName?.[0] }}</span
+              >
+              <img
+                *ngIf="review.avatarUrl"
+                [src]="review.avatarUrl"
+                alt=""
+                class="h-10 w-10 flex-shrink-0 rounded-full"
+              />
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="font-semibold text-zinc-700 dark:text-white px-1">
+                    {{ review.authorName }}
+                  </p>
+                  <div class="flex items-center">
+                    <i
+                      *ngFor="let star of getStarArray(review.rating)"
+                      class="material-symbols-outlined text-sm"
+                      [class.text-amber-400]="star <= review.rating"
+                      [class.text-zinc-300]="star > review.rating"
+                      [class.dark:text-zinc-500]="star > review.rating"
+                      [style.font-variation-settings]="
+                        star <= review.rating ? '\'FILL\' 1' : '\'FILL\' 0'
+                      "
+                      >star</i
+                    >
+                  </div>
+                </div>
+                <p class="text-xs text-zinc-500">{{ review.createdAt | date: 'dd/MM/yyyy' }}</p>
+              </div>
+
+              <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ review.comment }}</p>
+
+              <div
+                *ngIf="review.reply"
+                class="mt-4 rounded-lg border-l-4 border-indigo-400 bg-zinc-50 p-3 dark:border-indigo-600 dark:bg-zinc-800/50"
+              >
+                <div class="flex items-center justify-between">
+                  <p class="text-sm font-semibold text-indigo-800 dark:text-indigo-300">
+                    Resposta do proprietário
+                  </p>
+                  <p class="text-xs text-zinc-500">{{ review.repliedAt | date: 'dd/MM/yyyy' }}</p>
+                </div>
+                <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{{ review.reply }}</p>
+              </div>
+
+              <div
+                *ngIf="!review.reply && replyingToReviewId !== review.id && currentManager?.id"
+                class="mt-3"
+              >
+                <button
+                  (click)="startReply(review)"
+                  type="button"
+                  class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-indigo-500/20"
+                >
+                  <i class="material-icons-outlined !text-sm">reply</i>
+                  Responder
+                </button>
+              </div>
+
+              <div *ngIf="!review.reply && replyingToReviewId === review.id" class="mt-4">
+                <textarea
+                  [(ngModel)]="replyText"
+                  rows="3"
+                  placeholder="Digite sua resposta..."
+                  class="w-full outline-none focus:ring-2 ring-indigo-500 text-gray-500 rounded-md border-zinc-300 bg-white p-2 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
+                ></textarea>
+
+                <div class="mt-2 flex items-center justify-end gap-2">
+                  <button
+                    (click)="cancelReply()"
+                    type="button"
+                    class="rounded-full px-4 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-700/50"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    (click)="submitReply(review)"
+                    type="button"
+                    class="rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500"
+                  >
+                    Salvar Resposta
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="md:col-span-1 flex flex-col gap-4">
+      <a
+        href="https://www.google.com/maps/search/?api=1&query=Rua+das+Tesouras,123,Sousa,PB"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border dark:border-zinc-800 border-slate-100 hover:shadow dark:bg-zinc-800/50"
+      >
+        <div
+          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 transition-colors group-hover:bg-indigo-500 dark:bg-indigo-900/50 dark:group-hover:bg-indigo-600"
+        >
+          <i
+            style="font-variation-settings: 'FILL' 1"
+            class="material-symbols-outlined text-indigo-600 transition-colors group-hover:text-white dark:text-indigo-300 dark:group-hover:text-white"
+            >location_on</i
+          >
+        </div>
+        <div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400">Endereço</p>
+          <p class="font-semibold text-zinc-800 dark:text-zinc-100">Rua das Tesouras, 123</p>
+        </div>
+      </a>
+
+      <a
+        href="tel:+5583912345678"
+        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border border-slate-100 dark:border-zinc-800 hover:shadow dark:bg-zinc-800/50"
+      >
+        <div
+          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-sky-100 transition-colors group-hover:bg-sky-500 dark:bg-indigo-900/50 dark:group-hover:bg-indigo-600"
+        >
+          <i
+            class="material-symbols-outlined text-sky-600 transition-colors group-hover:text-white dark:text-sky-300 dark:group-hover:text-white"
+            style="font-variation-settings: 'FILL' 1"
+            >call</i
+          >
+        </div>
+        <div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400">Contato</p>
+          <p class="font-semibold text-zinc-800 dark:text-zinc-100">(83) 91234-5678</p>
+        </div>
+      </a>
+    </aside>
+  </main>
+</div>

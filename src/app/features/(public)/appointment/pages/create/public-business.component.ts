@@ -3,13 +3,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Business } from '@app/core/models/Business';
+import { ClientAccount } from '@app/core/models/ClientAccount';
 import { Service } from '@app/core/models/Service';
 import { User } from '@app/core/models/User';
+import { CreateAppointmentAttendeeDTO } from '@app/core/schemas/create-appointment-attendee.dto';
 import {
   CreateAppointmentClientDTO,
   CreateAppointmentDTO,
 } from '@app/core/schemas/create-appointment.dto';
 import { AppointmentsService } from '@app/core/services/appointments.service';
+import { AttendeeService } from '@app/core/services/attendee.service';
+import { AuthService } from '@app/core/services/auth.service';
+import { FavoriteBusinessService } from '@app/core/services/favorite-business.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import { firstValueFrom, Subscription } from 'rxjs';
@@ -40,6 +45,7 @@ export interface AppointmentsProps {
 })
 export class AppointMeetComponent implements OnInit, OnDestroy {
   public client?: CreateAppointmentClientDTO;
+  public session?: ClientAccount;
   public services: Service[] = [];
   public assignedTo?: User | null;
   public assignedToId?: string;
@@ -56,8 +62,11 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly appointmentsService: AppointmentsService,
     private readonly toastService: ToastService,
-    private readonly router: Router,
     private readonly loginDialog: MatDialog,
+    private readonly attendeeService: AttendeeService,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly favoritesService: FavoriteBusinessService,
   ) {}
 
   public ngOnDestroy(): void {
@@ -111,6 +120,16 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
       if (!this.business && this.businessId) {
         this.fetchBusiness(this.businessId);
       }
+    });
+
+    this.authService.checkClientSession().subscribe({
+      next: (isLogged) => {
+        if (isLogged) {
+          this.authService.currentClient$.subscribe((data) => {
+            this.session = data;
+          });
+        }
+      },
     });
   }
 
@@ -202,20 +221,39 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
     }
   }
 
-  public async submit(): Promise<void> {
-    const data = {
-      assignedToId: this.assignedTo?.id!,
-      businessId: this.business?.id!,
-      serviceIds: this.services.map((s) => s.id),
-      startAt: this.date?.toISOString()!,
-      client: this.client!,
-    } satisfies CreateAppointmentDTO;
+  public submit(): void {
+    this.authService.checkClientSession().subscribe({
+      next: async (session) => {
+        if (session) {
+          const data = {
+            businessId: this.business?.id!,
+            serviceIds: this.services.map((s) => s.id),
+            startAt: this.date?.toISOString()!,
+            assignedToId: this.assignedToId!,
+          } satisfies CreateAppointmentAttendeeDTO;
 
-    const boookingCreated = await firstValueFrom(this.appointmentsService.create(data));
+          const boookingCreated = await firstValueFrom(this.attendeeService.createBooking(data));
 
-    if (boookingCreated?.id) {
-      this.router.navigate(['appointments', 'confirm', boookingCreated.id]);
-    }
+          if (boookingCreated?.id) {
+            this.router.navigate(['appointments', 'confirm', boookingCreated.id]);
+          }
+        } else {
+          const data = {
+            businessId: this.business?.id!,
+            assignedToId: this.assignedToId!,
+            serviceIds: this.services.map((s) => s.id),
+            startAt: this.date?.toISOString()!,
+            client: this.client!,
+          } satisfies CreateAppointmentDTO;
+
+          const boookingCreated = await firstValueFrom(this.appointmentsService.create(data));
+
+          if (boookingCreated?.id) {
+            this.router.navigate(['appointments', 'confirm', boookingCreated.id]);
+          }
+        }
+      },
+    });
   }
 
   public openLoginModal() {
@@ -228,16 +266,25 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
       exitAnimationDuration: '200ms',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       this.router.navigate([], {
-        relativeTo: this.activatedRoute,
         queryParams: { modal: null },
         queryParamsHandling: 'merge',
       });
-
-      if (result?.id) {
-        this.toastService.success('Pagamento registrado');
-      }
     });
+  }
+
+  public async favorite() {
+    if (this.session) {
+      firstValueFrom(this.favoritesService.favorite(this.businessId!))
+        .then(() => {
+          this.toastService.success('Favoritado com sucesso!');
+        })
+        .catch((_) => {
+          this.toastService.error('Não foi possível favoritar');
+        });
+    } else {
+      this.openLoginModal();
+    }
   }
 }

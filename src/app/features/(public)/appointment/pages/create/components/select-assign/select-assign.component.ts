@@ -21,6 +21,9 @@ export class SelectAssignComponent implements OnInit {
   @Output()
   public selectAssignOutput = new EventEmitter<User | null>();
 
+  @Output()
+  public onFavorite = new EventEmitter<void>();
+
   public get selectedName() {
     return this.selectedUser?.username;
   }
@@ -43,6 +46,10 @@ export class SelectAssignComponent implements OnInit {
         this.fetchBusiness(this.businessId!);
       }
     });
+  }
+
+  public favorite(): void {
+    this.onFavorite.emit();
   }
 
   public async fetchBusiness(businessId: string): Promise<void> {

@@ -20,7 +20,8 @@ export class AuthGuard implements CanActivate {
       map((isAuthenticated) => {
         console.log(isAuthenticated)
         if (isAuthenticated) {
-          const t = this.authService.getCurrentUserSnapshot();
+          const t = this.authService.currentUserSnapshot;
+          console.log(t)
           return true;
         } else {
           return this.router.createUrlTree(['/login']);

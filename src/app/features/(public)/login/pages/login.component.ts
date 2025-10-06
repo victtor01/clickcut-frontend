@@ -37,7 +37,8 @@ export class LoginComponent {
     }
 
     this.apiService.post('/auth', this.loginForm.value).subscribe({
-      next: (_) => {
+      next: (data) => {
+        console.log(data)
         this.toastService.success(`Login bem-sucedido`);
         this.router.navigate(['/select']);
       },

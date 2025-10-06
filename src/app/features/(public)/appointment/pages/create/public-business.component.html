@@ -9,10 +9,10 @@
     </button>
   </div>
 
-  <section class="flex mb-[10rem] gap-5 m-auto w-full max-w-[70rem] flex-col lg:flex-row">
+  <section class="flex mb-[10rem] gap-5 m-auto w-full max-w-[80rem] flex-col lg:flex-row">
     @switch (step) {
       @case (1) {
-        <select-assign [selectedUser]="assignedTo" (selectAssignOutput)="selectAssigner($event)" />
+        <select-assign (onFavorite)="favorite()" class="flex-1" [selectedUser]="assignedTo" (selectAssignOutput)="selectAssigner($event)" />
       }
 
       @case (2) {

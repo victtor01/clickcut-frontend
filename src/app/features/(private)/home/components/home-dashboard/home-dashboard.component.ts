@@ -25,28 +25,6 @@ export class HomeDashboardComponent implements OnInit {
   private _revenue?: RevenueHistoryDTO;
   private _general?: GeneralHistoryDTO;
   private _methods?: MethodHistoryDTO;
-  
-  public topServices = [
-    {
-      name: 'Corte Degradê Navalhado',
-      count: 125,
-      icon: 'crown',
-      color: 'text-yellow-500', // Destaque dourado
-    },
-    {
-      name: 'Barba Modelada',
-      count: 98,
-      icon: 'star', // Ícone de estrela para o 2º lugar
-      color: 'text-sky-500', // Destaque azul
-    },
-    {
-      name: 'Platinado Masculino',
-      count: 72,
-      icon: 'local_fire_department', // Ícone de fogo para o 3º lugar
-      color: 'text-orange-500', // Destaque laranja
-    },
-  ];
-
 
   get revenue() {
     return this._revenue;
@@ -143,8 +121,6 @@ export class HomeDashboardComponent implements OnInit {
       firstValueFrom(this.summaryService.getMethodsHistory()),
       firstValueFrom(this.summaryService.getPopularServices())
     ]);
-
-    console.log(this._popularServices)
   }
 
   private formatPaymentMethodName(methodKey: string): string {

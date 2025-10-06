@@ -5,6 +5,7 @@ import { PrivateLayoutComponent } from '../../shared/layouts/private-layout/priv
 import { BookingComponent } from './bookings/pages/booking.component';
 import { BookingDetailsComponent } from './bookings/pages/booking/booking-details.component';
 import { CreateBookingComponent } from './bookings/pages/create/create-booking.component';
+import { MyClientsComponent } from './clients/pages/my-clients.component';
 import { ConfigureBusinessComponent } from './configure/pages/business/configure-business.component';
 import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
@@ -31,6 +32,7 @@ export const PRIVATE_ROUTES: Routes = [
             component: HomeLayoutComponent,
             children: [
               { path: 'home', component: HomePageComponent },
+              { path: 'clients', component: MyClientsComponent },
               {
                 path: 'services',
                 children: [

@@ -1,6 +1,6 @@
 <div
   id="store-page"
-  class="relative w-full overflow-hidden bg-white font-sans text-zinc-800 antialiased dark:bg-zinc-950 dark:text-zinc-200"
+  class="relative w-full overflow-hidden lg:pt-5 lg:pl-4 bg-white font-sans text-zinc-800 antialiased dark:bg-zinc-950 dark:text-zinc-200"
 >
   <div
     class="absolute -top-1/4 -left-1/4 -z-0 hidden aspect-square bg-gradient-radial from-indigo-900/40 via-zinc-950 to-zinc-950 blur-3xl dark:block"
@@ -8,7 +8,7 @@
 
   <header class="relative flex w-full flex-col">
     <div
-      class="relative aspect-[3/1] overflow-hidden lg:rounded-bl-4xl rounded-br-lg w-full bg-gradient-to-br from-indigo-500 via-violet-600 to-indigo-700"
+      class="relative aspect-[3/1] overflow-hidden lg:rounded-3xl w-full bg-gradient-to-br from-indigo-500 via-violet-600 to-indigo-700"
     >
       <img
         *ngIf="business?.bannerUrl"
@@ -39,13 +39,23 @@
             <p class="text-sm text-zinc-600 md:text-base dark:text-zinc-400">
               Produtos incríveis e atendimento de primeira.
             </p>
+
+            <a
+              class="mt-1 flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-indigo-500 dark:text-zinc-400 dark:hover:text-indigo-400"
+            >
+              <i class="material-symbols-outlined !text-base">call</i>
+              <span>(83) 99999-9999</span>
+            </a>
           </div>
 
           <div class="items-center justify-center flex gap-2">
             <button
-              class="rounded-lg bg-indigo-600 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-indigo-500"
+              type="button"
+              (click)="favorite()"
+              class="rounded-lg items-center flex gap-3 bg-indigo-600 px-4 py-2 font-semibold text-indigo-100 transition-colors duration-300 hover:bg-indigo-500"
             >
-              Seguir
+              <i class="material-symbols-outlined">heart_plus</i>
+              <span> Favoritar </span>
             </button>
             <button
               class="rounded-lg bg-zinc-200 px-4 py-2 font-semibold text-zinc-800 transition-colors duration-300 hover:bg-zinc-300 dark:bg-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-600"

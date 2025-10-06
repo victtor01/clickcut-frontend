@@ -1,5 +1,5 @@
 <div
-  class="rounded-2xl relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 p-8 border border-zinc-300 w-full font-sans"
+  class="rounded-2xl relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 p-8 border border-zinc-300 dark:border-zinc-800 w-full font-sans"
 >
   <section class="flex flex-col flex-1">
     <div class="text-center">
@@ -11,12 +11,13 @@
       </p>
     </div>
 
-    <form class="mt-8 space-y-6">
+    <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" class="mt-8 space-y-6">
       <div class="relative">
         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
           <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">email</i>
         </div>
         <input
+          formControlName="email"
           id="login_email"
           type="login_email"
           class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
@@ -24,7 +25,7 @@
         />
         <label
           for="login_email"
-          class="absolute left-12 top-0 flex h-full transform items-center pl-2 text-zinc-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-1/2 peer-focus:scale-75 peer-focus:bg-zinc-50 peer-focus:px-1 dark:text-zinc-400 dark:peer-focus:bg-zinc-900 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+          class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-zinc-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-zinc-50 px-1 dark:text-zinc-400 dark:peer-focus:text-violet-400 dark:bg-zinc-900"
         >
           Email
         </label>
@@ -35,14 +36,16 @@
           <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">lock</i>
         </div>
         <input
-          id="password"
-          type="password"
+          formControlName="password"
+          id="login_password"
+          type="login_password"
+          autocomplete="off"
           class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
           placeholder=" "
         />
         <label
-          for="password"
-          class="absolute left-12 top-0 flex h-full transform items-center pl-2 text-zinc-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-1/2 peer-focus:scale-75 peer-focus:bg-zinc-50 peer-focus:px-1 dark:text-zinc-400 dark:peer-focus:bg-zinc-900 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+          for="login_password"
+          class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-zinc-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-zinc-50 px-1 dark:text-zinc-400 dark:peer-focus:text-violet-400 dark:bg-zinc-900"
         >
           Senha
         </label>
@@ -102,21 +105,21 @@
     </div>
 
     <!-- Link para Cadastro -->
-    <p class="mt-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
+    <div class="mt-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
       Não é um membro?
-      <a
-        [routerLink]="['/hub', 'signup']"
+      <div
+        (click)="goToRegisterPage()"
         class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
       >
         Cadastre-se agora
-      </a>
-    </p>
+      </div>
+    </div>
   </section>
 
   <span class="w-px flex bg-zinc-200 dark:bg-zinc-800"> </span>
 
   <svg-login
-    class="flex-1 hidden md:flex after:content-[''] after:w-full after:h-full relative after:absolute after:z-20 after:bg-gradient-to-b after:from-transparent after:from-60% after:via-white after:via-78% after:to-[100%] after:to-white"
+    class="flex-1 hidden md:flex after:content-[''] after:w-full after:h-full relative after:absolute after:z-20 after:bg-gradient-to-b after:from-transparent after:from-60% after:via-white after:via-78% after:to-[100%] after:to-white dark:after:to-zinc-950 dark:after:via-zinc-950"
   ></svg-login>
 
   <div class="flex absolute top-0 pointer-events-none left-0 w-full h-full overflow-hidden z-20">

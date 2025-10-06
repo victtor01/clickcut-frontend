@@ -35,7 +35,8 @@ export class ValidateBookingComponent implements OnInit {
   public isRequestingCode = false;
   public isVerifyingCode = false;
   public codeSent = false;
-  public confirmed = false;
+  public isConfirmed = false;
+  public isPaid = false;
 
   public ngOnInit(): void {
     this.routerActivated.params.subscribe((params) => {
@@ -68,7 +69,11 @@ export class ValidateBookingComponent implements OnInit {
       }
 
       if (this.booking.status == 'CONFIRMED') {
-        this.confirmed = true;
+        this.isConfirmed = true;
+      }
+
+      if(this.booking.status == "PAID") {
+        this.isPaid = true;
       }
 
     } catch (err) {
@@ -121,7 +126,7 @@ export class ValidateBookingComponent implements OnInit {
       );
 
       if (validate.id) {
-        this.confirmed = true;
+        this.isConfirmed = true;
       }
     } catch (err) {
       const message = err instanceof HttpErrorResponse ? err?.error?.message : 'Erro desconhecido!';

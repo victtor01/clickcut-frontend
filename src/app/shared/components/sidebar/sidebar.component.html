@@ -1,12 +1,12 @@
 <span
-  class="absolute pointer-events-none -top-30 -left-30 blur-3xl bg-indigo-500 dark:bg-indigo-900 dark:opacity-0 rounded-full w-[20rem] h-[20rem] opacity-50"
+  class="absolute pointer-events-none -top-30 -left-30 blur-[6rem] bg-indigo-500 dark:bg-indigo-900 dark:opacity-0 rounded-full w-[20rem] h-[20rem] opacity-10"
 ></span>
 
 <div
-  class="hidden lg:flex flex-col gap-2 py-2 pl-2 overflow-auto overflow-x-hidden scroll-hidden h-full"
+  class="hidden md:flex px-2 lg:hidden flex-col gap-2 py-2 pl-2 overflow-auto overflow-x-hidden scroll-hidden h-full"
 >
   <aside
-    class="z-30 w-auto border border-zinc-200 dark:border-zinc-900 hidden rounded-xl lg:flex flex-col justify-center bg-white/50 dark:bg-zinc-950/70 backdrop-blur-sm"
+    class="z-30 w-auto border border-zinc-200 dark:border-zinc-900 rounded-xl flex flex-col justify-center bg-white/50 dark:bg-zinc-950/70 backdrop-blur-sm"
   >
     <div class="relative flex flex-col gap-2">
       <span
@@ -21,28 +21,196 @@
         (click)="selectTab(tab)"
         class="relative flex flex-col mx-auto items-center justify-center w-20 h-20 rounded-lg text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
       >
-        <span [ngClass]="tab.id === activeTabId ? 'material-icons' : 'material-icons-outlined'" class="text-3xl transition-all">{{ tab.icon }}</span>
+        <span
+          [ngClass]="tab.id === activeTabId ? 'material-icons' : 'material-icons-outlined'"
+          class="text-3xl transition-all"
+          >{{ tab.icon }}</span
+        >
         <span class="text-xs font-medium mt-1">{{ tab.label }}</span>
       </button>
     </div>
   </aside>
 
   <aside
-    class="z-30 w-auto border border-zinc-200 dark:border-zinc-900 hidden rounded-xl lg:flex flex-col justify-center bg-white/50 dark:bg-zinc-950/70 backdrop-blur-sm"
+    class="z-30 w-auto border border-zinc-200 dark:border-zinc-900 rounded-xl flex flex-col justify-center bg-white/50 dark:bg-zinc-950/70 backdrop-blur-sm mt-auto"
   >
     <div class="relative flex flex-col py-3 gap-2">
       <button
-        class="relative flex flex-col mx-auto py-2 px-1 rounded-full items-center justify-center text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
+        class="relative flex flex-col mx-auto py-2 px-1 rounded-full items-center justify-center text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
       >
         <i class="material-icons-outlined">settings</i>
-        <span class="text-xs font-medium mt-1">config.</span>
       </button>
       <button
-        class="relative flex flex-col mx-auto items-center py-2 px-1 rounded-full justify-center text-gray-500 dark:text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
+        class="relative flex flex-col mx-auto items-center py-2 px-1 rounded-full justify-center text-gray-500 dark:text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors duration-200"
       >
         <i class="material-icons-outlined">logout</i>
-        <span class="text-xs font-medium mt-1">Sair</span>
       </button>
     </div>
   </aside>
 </div>
+
+<aside
+  class="hidden w-[18rem] flex-shrink-0 m-4 flex-col rounded-2xl overflow-y-auto border border-slate-200 bg-white dark:border-zinc-800 dark:bg-zinc-950/70 backdrop-blur-lg lg:flex"
+>
+  <div class="flex flex-1 flex-col">
+    <div class="mb-4 p-5">
+      <a href="#" class="flex items-center gap-2">
+        <div class="flex flex-1 items-center gap-2">
+          <i class="material-icons-outlined text-3xl text-indigo-500">bolt</i>
+          <span class="text-lg font-bold text-slate-500 dark:text-slate-100">ClickCut</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span
+            class="text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300"
+          >
+            Manager
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="px-5 mb-6">
+      <button
+        type="button"
+        class="group flex w-full items-center gap-3 rounded-full border border-slate-200 bg-white/80 p-2 text-sm text-slate-500 transition-colors hover:border-slate-300 dark:border-zinc-700 dark:bg-zinc-800 dark:text-slate-400 dark:hover:border-zinc-600"
+      >
+        <i class="material-icons-outlined ml-1">search</i>
+        <span>Buscar...</span>
+        <kbd
+          class="ml-auto block rounded saira-font border border-slate-200 px-1.5 py-0.5 font-mono text-xs font-medium dark:border-zinc-600"
+          >⌘K</kbd
+        >
+      </button>
+    </div>
+
+    <h3
+      class="px-9 text-xs mb-2 font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+    >
+      Menu
+    </h3>
+
+    <nav class="flex-1 px-5">
+      <ul class="flex flex-col gap-1">
+        <li *ngFor="let tab of tabs">
+          <a
+            (click)="selectTab(tab)"
+            href="javascript:void(0)"
+            class="group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors duration-200"
+            [ngClass]="{
+              'bg-indigo-50 text-indigo-950 dark:bg-indigo-500/10 dark:text-indigo-400':
+                tab.id === activeTabId,
+              'text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-zinc-800 dark:hover:text-slate-200':
+                tab.id !== activeTabId,
+            }"
+          >
+            <i [ngClass]="tab.id === activeTabId ? 'material-icons' : 'material-icons-outlined'">{{
+              tab.icon
+            }}</i>
+            <span>{{ tab.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="px-5 mb-4" *ngIf="business?.id">
+      <div
+        class="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-zinc-800 dark:bg-zinc-800/50"
+      >
+        <button
+          type="button"
+          (click)="openBusinessDetails()"
+          class="group flex text-left w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-700/50"
+        >
+          <div class="relative h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 dark:bg-zinc-700">
+            <img
+              *ngIf="business?.logoUrl"
+              [src]="business?.logoUrl"
+              [alt]="'Logo de ' + business?.name"
+              class="h-full w-full rounded-full object-cover"
+            />
+            <div
+              *ngIf="!business?.logoUrl"
+              class="flex h-full w-full items-center justify-center rounded-full"
+            >
+              <i class="material-icons-outlined text-zinc-500">store</i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+              {{ business?.name }}
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 group-hover:text-indigo-500">
+              Ver vitrine
+            </p>
+          </div>
+        </button>
+
+        <hr class="my-3 border-slate-200 dark:border-zinc-700" />
+
+        <div class="flex items-center justify-between px-2">
+          <div>
+            <p class="text-sm font-semibold text-slate-600 dark:text-slate-300">Status</p>
+            <span
+              class="text-xs font-medium"
+              [ngClass]="
+                isBusinessOpen()
+                  ? 'text-green-600 dark:text-green-400'
+                  : 'text-slate-500 dark:text-slate-400'
+              "
+            >
+              {{ isBusinessOpen() ? 'Aberto agora' : 'Fechado' }}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            role="switch"
+            [attr.aria-checked]="isBusinessOpen()"
+            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
+            [ngClass]="isBusinessOpen() ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-zinc-700'"
+          >
+            <span
+              aria-hidden="true"
+              class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+              [ngClass]="isBusinessOpen() ? 'translate-x-5' : 'translate-x-0'"
+            ></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-auto px-5 pb-5">
+      <div
+        class="p-2 rounded-xl border-slate-200 dark:border-zinc-800 mt-4 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors"
+      >
+        <a
+          [routerLink]="['configure/profile']"
+          class="group flex w-full items-center justify-between"
+        >
+          <div class="flex items-center gap-3 flex-1">
+            <div
+              class="w-10 h-10 relative rounded-full bg-gray-200 dark:bg-zinc-800 overflow-hidden grid place-items-center"
+            >
+              <i *ngIf="!session?.photoUrl" class="material-icons-outlined !text-2xl">person</i>
+              <img
+                *ngIf="session?.photoUrl"
+                [src]="session?.photoUrl"
+                alt="Foto do Usuário"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-slate-600 dark:text-slate-100">José Victor</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Ver Perfil</p>
+            </div>
+          </div>
+
+          <button
+            class="relative flex flex-col opacity-70 mx-auto p-2 rounded-full items-center justify-center text-gray-500 dark:text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors duration-200"
+          >
+            <i class="material-icons-outlined !text-lg">logout</i>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</aside>
