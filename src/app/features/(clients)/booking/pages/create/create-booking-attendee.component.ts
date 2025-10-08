@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { FavoriteBusinessService } from '@app/core/services/favorite-business.service';
 import { firstValueFrom } from 'rxjs';
-import { CreateBookingSvg } from '../components/create-booking-svg/create-booking-svg.component';
+import { CreateBookingSvg } from '../../components/create-booking-svg/create-booking-svg.component';
 
 @Component({
   templateUrl: './create-booking-attendee.component.html',
@@ -17,8 +17,6 @@ export class CreateBookingAttendee implements OnInit {
   ) {}
 
   public favorites: Business[] = [];
-  
-  
   
   ngOnInit(): void {
     this.fetchFavorites();

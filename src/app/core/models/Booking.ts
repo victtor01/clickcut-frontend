@@ -12,7 +12,7 @@ export interface Booking {
   business?: Business;
   client?: Client;
   status: BookingStatus;
-  assignedTo: User;
+  assignedTo?: User;
 }
 
 export type BookingStatus =

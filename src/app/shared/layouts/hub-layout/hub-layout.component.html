@@ -126,7 +126,7 @@
 
     <div
       @menuDrawer
-      class="absolute bottom-0 pb-[10rem] left-0 right-0 p-4 bg-white dark:bg-zinc-900 rounded-t-2xl transform transition-transform duration-300 ease-out"
+      class="fixed bottom-0 pb-[10rem] left-0 right-0 p-4 bg-white dark:bg-zinc-900 rounded-t-2xl transform transition-transform duration-300 ease-out"
       [ngClass]="{ 'translate-y-0': isMenuOpen, 'translate-y-full': !isMenuOpen }"
       (click)="$event.stopPropagation()"
     >
@@ -179,6 +179,17 @@
             [ngClass]="isDark ? 'translate-x-5' : 'translate-x-0'"
           ></span>
         </button>
+      </div>
+
+      <div class="flex items-center justify-between rounded-lg px-3 gap-4 mt-2">
+        <a
+          (click)="toggleMenu()"
+          [routerLink]="['/hub', 'favorites']"
+          class="relative flex-1 flex text-left items-center gap-4 text-rose-600 dark:text-rose-500"
+        >
+          <i class="material-symbols-outlined"> favorite </i>
+          <span class="">Favoritos</span>
+        </a>
       </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { Service } from '@app/core/models/Service';
 import { AttendeeService } from '@app/core/services/attendee.service';
@@ -11,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
   imports: [CommonModule, DatePipe, ToFormatBrlPipe],
 })
 export class HubHomeComponent implements OnInit {
-  constructor(private readonly attendeeService: AttendeeService) {}
+  constructor(private readonly attendeeService: AttendeeService, private readonly router: Router) {}
 
   public statusStyles: { [key in BookingStatus]: { text: string; icon: string; classes: string } } =
     {
@@ -71,6 +72,10 @@ export class HubHomeComponent implements OnInit {
 
   public setViewMode(mode: 'card' | 'list'): void {
     this.viewMode = mode;
+  }
+
+  public seeDetails(bookingId: string) {
+    this.router.navigate(["/hub", "bookings", bookingId])
   }
 
   public toggleOpenedSettings(open: string): void {

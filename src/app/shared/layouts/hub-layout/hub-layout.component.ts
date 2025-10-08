@@ -12,14 +12,12 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './hub-layout.component.html',
   imports: [RouterModule, CommonModule],
   animations: [
-    // Animação para o fade-in do layout principal
     trigger('fade', [
       transition(':enter', [
         style({ opacity: 0 }),
         animate('500ms ease-in-out', style({ opacity: 1 })),
       ]),
     ]),
-    // Animação para o backdrop do menu mobile
     trigger('menuBackdrop', [
       transition(':enter', [
         style({ opacity: 0 }),
@@ -27,7 +25,6 @@ import { firstValueFrom } from 'rxjs';
       ]),
       transition(':leave', [animate('300ms ease-in', style({ opacity: 0 }))]),
     ]),
-    // Animação para a gaveta (drawer) do menu mobile
     trigger('menuDrawer', [
       transition(':enter', [
         style({ transform: 'translateY(100%)' }),
@@ -145,7 +142,6 @@ export class HubLayoutComponent {
     return `transform: translateY(${this.currentTranslateY}px); transition: ${transition};`;
   }
 
-  // Opcional: Fecha o menu com a tecla 'Escape'
   @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
     if (this.isMenuOpen) {

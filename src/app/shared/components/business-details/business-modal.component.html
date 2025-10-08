@@ -1,77 +1,89 @@
 <div
-  class="rounded-2xl flex-col relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 my-10 border border-slate-200 dark:border-zinc-800 w-full font-sans"
+  class="xl:rounded-2xl flex-col relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 my-0 xl:my-10 border border-slate-200 dark:border-zinc-800 w-full font-sans"
 >
-  <header class="relative" *ngIf="business">
-    <div
-      class="h-[20rem] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-900/50 dark:to-violet-900/50"
-    >
-      <img
-        *ngIf="business.bannerUrl"
-        [src]="business.bannerUrl"
-        [alt]="'Banner de ' + business.name"
-        class="h-full w-full object-cover"
-      />
-    </div>
-
-    <div class="absolute -bottom-16 left-8 flex items-end gap-4">
-      <div
-        class="relative h-28 w-28 flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
+  @if (business) {
+    <header class="relative">
+      <button
+        type="button"
+        (click)="close()"
+        class="absolute right-10 top-10 w-12 h-12 rounded-full backdrop-blur-lg bg-white/80 dark:bg-zinc-900/80 text-gray-900 dark:text-white grid place-items-center"
       >
-        <img
-          *ngIf="business.logoUrl"
-          [src]="business.logoUrl"
-          [alt]="'Logo de ' + business.name"
-          class="h-full w-full rounded-full object-cover"
-        />
-        <div
-          *ngIf="!business.logoUrl"
-          class="flex h-full w-full items-center justify-center rounded-full"
-        >
-          <i class="material-symbols-outlined text-4xl text-zinc-500">store</i>
-        </div>
+        <i class="material-icons-outlined">close</i>
+      </button>
+
+      <div
+        class="h-[30vh] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-900/50 dark:to-violet-900/50"
+      >
+        @if (business.bannerUrl) {
+          <img
+            [src]="business.bannerUrl"
+            [alt]="'Banner de ' + business.name"
+            class="h-full w-full object-cover"
+          />
+        }
       </div>
-      <div class="flex flex-col translate-y-3">
-        <h1 class="text-3xl font-bold text-slate-700 dark:text-white">{{ business.name }}</h1>
-        <div class="mt-1 flex items-center gap-2 text-sm">
-          <span
-            class="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium"
-            [ngClass]="
-              business.isOpen
-                ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
-                : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
-            "
-          >
+
+      <div class="px-9 -bottom-16 left-8 flex gap-4">
+        <div
+          class="-translate-y-1/2 h-28 w-28 absolute flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
+        >
+          @if (business.logoUrl) {
+            <img
+              [src]="business.logoUrl"
+              [alt]="'Logo de ' + business.name"
+              class="h-full w-full rounded-full object-cover"
+            />
+          } @else {
+            <div class="flex h-full w-full items-center justify-center rounded-full">
+              <i class="material-symbols-outlined text-4xl text-zinc-500">store</i>
+            </div>
+          }
+        </div>
+
+        <div class="flex flex-col mt-14">
+          <h1 class="text-3xl font-bold text-slate-700 dark:text-white">{{ business.name }}</h1>
+          <div class="mt-1 flex items-center gap-2 text-sm flex-wrap">
             <span
-              class="h-1.5 w-1.5 rounded-full"
-              [ngClass]="business.isOpen ? 'bg-green-500' : 'bg-red-500'"
-            ></span>
-            {{ business.isOpen ? 'Aberto agora' : 'Fechado' }}
-          </span>
-          <span class="text-zinc-500 dark:text-zinc-400">·</span>
-          <div class="flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
-            <i
-              class="material-symbols-outlined text-base text-amber-400"
-              style="font-variation-settings: 'FILL' 1"
-              >star</i
+              class="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium"
+              [ngClass]="
+                business.isOpen
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
+                  : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+              "
             >
-            <span class="font-semibold">4.8</span>
-            <span class="text-xs">({{ reviews.length }} avaliações)</span>
+              <span
+                class="h-1.5 w-1.5 rounded-full"
+                [ngClass]="business.isOpen ? 'bg-green-500' : 'bg-red-500'"
+              ></span>
+              {{ business.isOpen ? 'Aberto agora' : 'Fechado' }}
+            </span>
+            <span class="text-zinc-500 dark:text-zinc-400">·</span>
+            <div class="flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
+              <i
+                class="material-symbols-outlined !text-base text-amber-400"
+                style="font-variation-settings: 'FILL' 1"
+                >star</i
+              >
+              <span class="font-semibold">4.8</span>
+              <span class="text-xs">({{ reviews.length }} avaliações)</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+  }
 
-  <main class="mt-20 grid grid-cols-1 gap-8 p-8 md:grid-cols-3" *ngIf="business">
+  <main class="mt-0 grid grid-cols-1 gap-8 p-8 md:grid-cols-3" *ngIf="business">
     <div class="md:col-span-2">
-      <a
-        *ngIf="!currentManager?.id"
-        [routerLink]="['/appointments', business.id]"
-        (click)="close()"
-        class="w-full rounded-full mb-8 relative bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      >
-        Agendar Horário
-      </a>
+      @if (!currentManager?.id) {
+        <a
+          [routerLink]="['/appointments', business.id]"
+          (click)="close()"
+          class="w-full rounded-full mb-8 relative bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Agendar Horário
+        </a>
+      }
 
       <section class="flex mt-5 flex-col">
         <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Sobre a Barbearia</h2>
@@ -330,15 +342,16 @@
       </section>
     </div>
 
-    <aside class="md:col-span-1 flex flex-col gap-4">
+    <aside class="md:col-span-1 p-5 border border-slate-200 relative self-start dark:border-zinc-800 rounded-xl flex flex-col gap-4 ">
+      <h1 class="font-semibold absolute text-gray-600 saira-font dark:text-indigo-50 top-0 bg-gradient-to-r from-white/70 dark:from-zinc-950 to-white/70 dark:to-zinc-950 via-white dark:via-zinc-950 px-3 left-5 -translate-y-1/2">Informações</h1>
       <a
         href="https://www.google.com/maps/search/?api=1&query=Rua+das+Tesouras,123,Sousa,PB"
         target="_blank"
         rel="noopener noreferrer"
-        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border dark:border-zinc-800 border-slate-100 hover:shadow dark:bg-zinc-800/50"
+        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border dark:border-zinc-800 border-slate-100 hover:shadow dark:bg-zinc-900/50"
       >
         <div
-          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 transition-colors group-hover:bg-indigo-500 dark:bg-indigo-900/50 dark:group-hover:bg-indigo-600"
+          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 transition-colors group-hover:bg-indigo-500 dark:bg-zinc-800 dark:group-hover:bg-indigo-600"
         >
           <i
             style="font-variation-settings: 'FILL' 1"
@@ -354,10 +367,10 @@
 
       <a
         href="tel:+5583912345678"
-        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border border-slate-100 dark:border-zinc-800 hover:shadow dark:bg-zinc-800/50"
+        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border border-slate-100 dark:border-zinc-800 hover:shadow dark:bg-zinc-900/50"
       >
         <div
-          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-sky-100 transition-colors group-hover:bg-sky-500 dark:bg-indigo-900/50 dark:group-hover:bg-indigo-600"
+          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-sky-100 transition-colors group-hover:bg-sky-500 dark:bg-zinc-800 dark:group-hover:bg-indigo-600"
         >
           <i
             class="material-symbols-outlined text-sky-600 transition-colors group-hover:text-white dark:text-sky-300 dark:group-hover:text-white"
