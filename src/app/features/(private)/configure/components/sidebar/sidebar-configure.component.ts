@@ -12,6 +12,7 @@ export class SidebarConfigureComponent {
     { path: '/configure', icon: 'link', label: 'Conexões' },
     { path: '/configure/business', icon: 'store', label: 'Negócio' },
     { path: '/configure/profile', icon: 'account_circle', label: 'Perfil' },
+    { path: '/configure/invites', icon: 'outgoing_mail', label: 'Convites' },
     { path: '/configure/security', icon: 'admin_panel_settings', label: 'Segurança' },
   ];
 }

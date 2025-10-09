@@ -9,6 +9,7 @@ import { MyClientsComponent } from './clients/pages/my-clients.component';
 import { ConfigureBusinessComponent } from './configure/pages/business/configure-business.component';
 import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
+import { InvitesComponent } from './configure/pages/invites/invites.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { CreateBusinessComponent } from './select/pages/create/create-business.component';
@@ -57,6 +58,7 @@ export const PRIVATE_ROUTES: Routes = [
               { path: '', pathMatch: 'full', component: ConnectionsComponent },
               { path: 'business', component: ConfigureBusinessComponent },
               { path: 'profile', component: ConfigureProfileComponent },
+              { path: 'invites', component: InvitesComponent },
             ],
           },
         ],

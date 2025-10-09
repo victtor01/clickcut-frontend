@@ -1,0 +1,72 @@
+<form class="px-4" [formGroup]="inviteForm" (ngSubmit)="onSubmit()" novalidate>
+  <div
+    class="rounded-xl border border-zinc-200/80 bg-white dark:border-zinc-800 dark:bg-zinc-900/50"
+  >
+    <!-- Cabeçalho do Card -->
+    <div class="p-6">
+      <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-100">Convidar Novo Membro</h3>
+      <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
+        O membro convidado terá acesso para gerenciar agendamentos e serviços.
+      </p>
+    </div>
+
+    <!-- Corpo do Card com o Input -->
+    <div class="border-t border-zinc-200/80 p-6 dark:border-zinc-800">
+      <label for="inviteEmail" class="text-sm font-medium text-gray-700 dark:text-zinc-300">
+        E-mail do Convidado
+      </label>
+      <div class="mt-2 flex flex-col gap-4 sm:flex-row">
+        <div class="relative w-full">
+          <i
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+            >alternate_email</i
+          >
+          <input
+            id="inviteEmail"
+            type="email"
+            formControlName="email"
+            placeholder="nome@exemplo.com"
+            class="w-full rounded-lg border placeholder:text-zinc-400 border-zinc-300 bg-transparent py-2.5 pl-10 pr-4 text-zinc-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:text-zinc-100"
+            [class.border-red-500]="email?.invalid && (email?.dirty || email?.touched)"
+          />
+        </div>
+        <button
+          type="submit"
+          [disabled]="inviteForm.invalid || submissionState() === 'loading'"
+          class="flex w-full text-nowrap items-center justify-center gap-2 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800 dark:disabled:text-zinc-400 disabled:text-zinc-200 sm:w-auto"
+        >
+          @if (submissionState() === 'loading') {
+            <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
+            <span>Enviando...</span>
+          } @else {
+            <i class="material-symbols-outlined !text-base">send</i>
+            <span>Enviar Convite</span>
+          }
+        </button>
+      </div>
+
+      <!-- Mensagens de Validação e Feedback -->
+      <div class="mt-2 min-h-[1.5rem]">
+        @if (email?.invalid && (email?.dirty || email?.touched)) {
+          <div @fade class="text-sm text-red-500 dark:text-red-400">
+            Por favor, insira um e-mail válido.
+          </div>
+        }
+
+        @if (submissionState() === 'success') {
+          <div @fade class="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+            <i class="material-symbols-outlined !text-base">check_circle</i>
+            <span>Convite enviado com sucesso!</span>
+          </div>
+        }
+
+        @if (submissionState() === 'error') {
+          <div @fade class="flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
+            <i class="material-symbols-outlined !text-base">error</i>
+            <span>Ocorreu um erro. Tente novamente.</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</form>

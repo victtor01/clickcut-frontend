@@ -14,6 +14,7 @@ import { AppointmentsProps } from '../../public-business.component';
 })
 export class SelectServicesComponent implements OnInit {
   private businessId?: string;
+  private userId?: string;
   public availableServices: Service[] = [];
   public selectedServices = new Map<string, Service>();
 
@@ -26,9 +27,12 @@ export class SelectServicesComponent implements OnInit {
     this.router.params.subscribe((params) => {
       this.businessId = params['businessId'];
 
-      if (this.businessId) {
-        this.fetchServices(this.businessId);
-      }
+      this.router.queryParams.subscribe((query) => {
+        this.userId = query['assignedTo'];
+        if (this.businessId && this.userId) {
+          this.fetchServices(this.businessId, this.userId);
+        }
+      });
     });
 
     this.setupServices();
@@ -48,8 +52,10 @@ export class SelectServicesComponent implements OnInit {
     }
   }
 
-  private async fetchServices(businessId: string): Promise<void> {
-    this.availableServices = await firstValueFrom(this.apointmentService.findServices(businessId));
+  private async fetchServices(businessId: string, userId: string): Promise<void> {
+    this.availableServices = await firstValueFrom(
+      this.apointmentService.findServices(businessId, userId),
+    );
   }
 
   public toggleService(service: Service): void {

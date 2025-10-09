@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Booking } from '../models/Booking';
@@ -24,8 +25,11 @@ export class AppointmentsService {
     return this.apiService.get(`/users/assigners/${userId}`);
   }
 
-  public findServices(businessId: string): Observable<Service[]> {
-    return this.apiService.get(`/appointments/${businessId}/services`);
+  public findServices(businessId: string, userId: string): Observable<Service[]> {
+    const params = new HttpParams()
+      .set("userId", userId);
+
+    return this.apiService.get(`/appointments/${businessId}/services`, params);
   }
 
   public availableTimes(avaibleTimes: AvaibleTimesDTO): Observable<string[]> {
