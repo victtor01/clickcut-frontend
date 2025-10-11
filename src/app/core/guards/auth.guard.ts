@@ -18,10 +18,7 @@ export class AuthGuard implements CanActivate {
   canActivate(_: ActivatedRouteSnapshot): MaybeAsync<GuardResult> {
     return this.authService.checkAuthStatus().pipe(
       map((isAuthenticated) => {
-        console.log(isAuthenticated)
         if (isAuthenticated) {
-          const t = this.authService.currentUserSnapshot;
-          console.log(t)
           return true;
         } else {
           return this.router.createUrlTree(['/login']);

@@ -41,12 +41,11 @@ export class AuthService {
       map((user) => {
         const session: ManagerSession = { type: 'manager', user: user };
         this.currentUserSubject.next(session);
-        // Ao verificar o usuário, limpamos o contexto de negócio anterior.
         this.currentBusinessSubject.next(null);
         return true;
       }),
       catchError(() => {
-        this.logout(); // Se falhar, limpa tudo.
+        this.logout();
         return of(false);
       }),
     );

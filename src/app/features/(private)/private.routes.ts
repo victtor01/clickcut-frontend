@@ -9,7 +9,9 @@ import { MyClientsComponent } from './clients/pages/my-clients.component';
 import { ConfigureBusinessComponent } from './configure/pages/business/configure-business.component';
 import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
+import { AcceptInviteComponent } from './configure/pages/invites/accept/accept-invite.component';
 import { InvitesComponent } from './configure/pages/invites/invites.component';
+import { MembersComponent } from './configure/pages/members/members.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { CreateBusinessComponent } from './select/pages/create/create-business.component';
@@ -24,6 +26,7 @@ export const PRIVATE_ROUTES: Routes = [
     children: [
       { path: 'select', pathMatch: 'full', component: SelectBusinessComponent },
       { path: 'create-business', component: CreateBusinessComponent },
+      { path: "invites/accept", component: AcceptInviteComponent },
       {
         path: '',
         canActivate: [BusinessGuard],
@@ -59,6 +62,7 @@ export const PRIVATE_ROUTES: Routes = [
               { path: 'business', component: ConfigureBusinessComponent },
               { path: 'profile', component: ConfigureProfileComponent },
               { path: 'invites', component: InvitesComponent },
+              { path: "members", component: MembersComponent }
             ],
           },
         ],
