@@ -22,6 +22,8 @@
           </p>
         </div>
         <button
+          type="button"
+          (click)="openRoleModal()"
           class="flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
         >
           <i class="material-symbols-outlined !text-base">add</i>
@@ -40,7 +42,9 @@
                 </p>
               </div>
               <button
-                class="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                type="button"
+                (click)="openRoleModal(role.id)"
+                class="rounded-full grid place-items-center w-12 h-12 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
               >
                 <i class="material-symbols-outlined">edit</i>
               </button>
@@ -113,7 +117,7 @@
                       >{{ role.name }}</span
                     >
                   }
-                  @if (member.roles?.length === 0) {
+                  @if (member.roles.length === 0) {
                     <span
                       class="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300"
                       >Sem cargo</span

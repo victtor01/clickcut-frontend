@@ -7,4 +7,6 @@ import { SidebarConfigureComponent } from '../components/sidebar/sidebar-configu
   templateUrl: './configure.component.html',
   imports: [SidebarConfigureComponent, RouterOutlet, MobileSidebarConfigure],
 })
-export class ConfigureComponent {}
+export class ConfigureComponent {
+
+}

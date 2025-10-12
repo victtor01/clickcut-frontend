@@ -8,7 +8,6 @@ import { LoginModalComponent } from '../appointment/components/login-modal/login
 @Component({
   templateUrl: 'initial.component.html',
   imports: [CommonModule, RouterModule],
-
 })
 export class InitialComponent {
   constructor(private readonly loginDialog: MatDialog) {}
@@ -18,15 +17,15 @@ export class InitialComponent {
   public billingCycle = signal<'monthly' | 'yearly'>('monthly');
 
   public openLoginModal() {
-      this.loginDialog.open(LoginModalComponent, {
-        backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
-        panelClass: ['dialog-no-container'],
-        maxWidth: '100rem',
-        width: 'min(55rem, 90%)',
-        enterAnimationDuration: '300ms',
-        exitAnimationDuration: '200ms',
-      });
-    }
+    this.loginDialog.open(LoginModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(55rem, 90%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+    });
+  }
 
   toggleTheme() {
     this.themeService.toggleTheme();

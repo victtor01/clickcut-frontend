@@ -7,6 +7,7 @@ import { BookingPayment } from '@app/core/models/BookingPayment';
 import { CreateManualPaymentDTO } from '@app/core/schemas/create-manual-payment.dto';
 import { InvalidationService } from '@app/core/services/invalidation.service';
 import { PaymentService } from '@app/core/services/payment.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration'; // Importar o plugin de duração
@@ -25,6 +26,7 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
     private data: { bookingId: string; status: BookingStatus },
     private readonly paymentsService: PaymentService,
     private readonly invalidationService: InvalidationService,
+    private readonly toastService: ToastService
   ) {}
 
   private timerInterval?: any;

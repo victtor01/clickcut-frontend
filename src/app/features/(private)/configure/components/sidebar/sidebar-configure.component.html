@@ -1,4 +1,6 @@
-<nav class="hidden lg:flex flex-col border-r h-full flex-1 w-64 px-3 border-zinc-200 dark:border-zinc-800 text-gray-500 dark:text-white">
+<nav
+  class="hidden lg:flex flex-col border-r h-full flex-1 w-64 px-3 border-zinc-200 dark:border-zinc-800 text-gray-500 dark:text-white"
+>
   <a
     routerLink="/home"
     class="w-10 h-10 bg-zinc-100 dark:bg-zinc-900 my-1 mb-4 rounded-full grid place-items-center"
@@ -7,23 +9,62 @@
   </a>
 
   <header class="mb-8">
-    <h1 class="text-2xl saira-font font-semibold text-gray-500 dark:text-zinc-100">Configurações</h1>
+    <h1 class="text-2xl saira-font font-semibold text-gray-500 dark:text-zinc-100">
+      Configurações
+    </h1>
     <p class="text-sm text-gray-500 dark:text-zinc-400">Gerencie suas preferências</p>
   </header>
 
   <ul class="flex flex-col gap-2">
-    @for (item of navItems; track item.path) {
-    <li>
-      <a
-        [routerLink]="item.path"
-        [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-zinc-800 dark:text-zinc-50"
-        class="flex items-center gap-3 p-2 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
-      >
-        <i class="text-xl w-6 material-symbols-outlined">{{ item.icon }}</i>
-        <span class="font-medium">{{ item.label }}</span>
-      </a>
-    </li>
+    @for (item of navItems; track item.label) {
+      <li>
+        @if (!item.subItems) {
+          <a
+            [routerLink]="item.path"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="bg-violet-100 text-violet-700 dark:bg-zinc-800 dark:text-zinc-50"
+            class="flex w-full items-center gap-3 p-2 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+          >
+            <i class="text-xl w-6 material-symbols-outlined">{{ item.icon }}</i>
+            <span class="font-medium">{{ item.label }}</span>
+          </a>
+        } @else {
+          <div>
+            <button
+              (click)="toggleSubmenu(item)"
+              class="flex w-full items-center justify-between gap-3 p-2 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+            >
+              <div class="flex items-center gap-3">
+                <i class="text-xl w-6 material-symbols-outlined">{{ item.icon }}</i>
+                <span class="font-medium">{{ item.label }}</span>
+              </div>
+              <i
+                class="material-symbols-outlined transition-transform"
+                [class.rotate-180]="item.isExpanded"
+              >
+                keyboard_arrow_down
+              </i>
+            </button>
+
+            @if (item.isExpanded) {
+              <ul class="pl-6 pt-2 flex flex-col gap-1">
+                @for (subItem of item.subItems; track subItem.path) {
+                  <li>
+                    <a
+                      [routerLink]="subItem.path"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      routerLinkActive="bg-violet-100 text-violet-700 dark:bg-zinc-800 dark:text-zinc-50"
+                      class="flex w-full items-center gap-3 p-2 rounded-md text-sm transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+                    >
+                      {{ subItem.label }}
+                    </a>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        }
+      </li>
     }
   </ul>
 </nav>

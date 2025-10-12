@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { objectToFormData } from '@app/shared/utils/object-to-form';
 import dayjs from 'dayjs';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, filter, first, Observable, tap } from 'rxjs';
 import { ClientsSummaryResponse } from '../DTOs/clients-summary-response';
 import { Business, TimeSlot } from '../models/Business';
 import { BusinessStatement } from '../models/BusinessStatement';
@@ -12,7 +12,28 @@ import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class BusinessService {
+  private businessSession$$ = new BehaviorSubject<Business | null>(null);
+  public businessSession$ = this.businessSession$$.asObservable();
+
   constructor(private readonly apiService: ApiService) {}
+
+  public loadBusinessSession(): Observable<Business> {
+    // 3. Verifica se os dados já existem para não fazer outra chamada.
+    if (this.businessSession$$.getValue()) {
+      // Se já tem valor, retorna o observable existente.
+      return this.businessSession$.pipe(
+        filter((business): business is Business => business !== null), // Garante que não é nulo
+        first(), // Pega o primeiro valor e completa
+      );
+    }
+
+    // 4. Se não tem dados, faz a chamada HTTP (substitua pelo seu método real).
+    return this.getBusinessSession().pipe(
+      tap((business) => {
+        this.businessSession$$.next(business);
+      }),
+    );
+  }
 
   public getAll(): Observable<Business[]> {
     return this.apiService.get<Business[]>('/business/all');

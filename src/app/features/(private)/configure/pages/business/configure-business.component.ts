@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'; // Importante para gerenciar a inscrição!
 import {
   FormBuilder,
   FormGroup,
@@ -13,7 +14,7 @@ import { BusinessService } from '@app/core/services/business.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { MoneyInputDirective } from '@app/shared/directives/app-money-input.directive';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
-import { firstValueFrom } from 'rxjs';
+import { filter, firstValueFrom } from 'rxjs';
 import { CustomSliderComponent } from '../../../../../shared/components/custom-slider/custom-slider.component';
 import { ShowTimeSlotsComponent } from './components/show-time-slots/show-time-slots.component';
 
@@ -50,6 +51,8 @@ export class ConfigureBusinessComponent implements OnInit {
     });
   }
 
+  private readonly destroyRef = inject(DestroyRef);
+
   private readonly businessService = inject(BusinessService);
   private readonly toastService = inject(ToastService);
   public readonly form: FormGroup;
@@ -66,76 +69,28 @@ export class ConfigureBusinessComponent implements OnInit {
   public fileLogo?: File;
   public fileBanner?: File;
 
-  public appointmentLink = '';
-  public copyState: 'idle' | 'copied' = 'idle';
-
   public ngOnInit(): void {
     this.getSessionBusiness();
   }
 
-  private setupAppointmentLink(): void {
-    if (this.business?.id) {
-      this.appointmentLink = `${window.location.origin}/appointments/${this.business.id}`;
-    }
-  }
-
-  public copyLink = () => {
-    if (!this.appointmentLink) return;
-
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(this.appointmentLink).catch((err) => {
-        console.error('Falha ao copiar com a API moderna, tentando método legado.', err);
-        this.copyLegacy();
-      });
-    } else {
-      this.copyLegacy();
-    }
-
-    this.copyState = 'copied';
-
-    setTimeout(() => {
-      this.copyState = 'idle';
-    }, 5000);
-  };
-
-  /**
-   * Método de fallback para copiar texto em navegadores mais antigos.
-   */
-  private copyLegacy() {
-    const textArea = document.createElement('textarea');
-    textArea.value = this.appointmentLink;
-
-    // Esconde o textarea da tela
-    textArea.style.position = 'fixed';
-    textArea.style.top = '0';
-    textArea.style.left = '0';
-    textArea.style.opacity = '0';
-
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-
-    try {
-      const successful = document.execCommand('copy');
-      if (!successful) {
-        console.error('Falha ao executar o comando de cópia legado.');
-      }
-    } catch (err) {
-      console.error('Erro ao tentar copiar com o método legado: ', err);
-    }
-
-    document.body.removeChild(textArea);
-  }
-
   public async getSessionBusiness() {
-    this.business = await firstValueFrom(this.businessService.getBusinessSession());
-    this.reviewBannerUrl = this.business.bannerUrl;
-    this.reviewLogoUrl = this.business.logoUrl;
-    this.setupAppointmentLink();
-    this.form.patchValue({
-      name: this.business.name,
-      revenueGoal: this.business.revenueGoal,
-    });
+    this.businessService.loadBusinessSession().subscribe();
+
+    this.businessService.businessSession$
+      .pipe(
+        filter((business): business is Business => business !== null),
+        takeUntilDestroyed(this.destroyRef) 
+      )
+      .subscribe(business => {
+        this.business = business;
+        this.reviewBannerUrl = this.business.bannerUrl;
+        this.reviewLogoUrl = this.business.logoUrl;
+
+        this.form.patchValue({
+          name: this.business.name,
+          revenueGoal: this.business.revenueGoal,
+        });
+      });
   }
 
   public onBannerSelectedChange(event: any): void {
