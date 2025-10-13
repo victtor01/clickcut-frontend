@@ -103,15 +103,15 @@
             class="text-center border flex flex-col g p-2 border-zinc-200 dark:border-zinc-800 rounded-xl"
           >
             <img
-              [src]="member.photoUrl"
-              [alt]="'Foto de ' + member.username"
+              [src]="member?.photoUrl"
+              [alt]="'Foto de ' + member?.username"
               class="mx-auto h-20 w-20 rounded-full object-cover"
             />
             <p class="mt-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-              {{ member.username }}
+              {{ member?.username }}
             </p>
             <p class="text-xs opacity-80 font-medium text-zinc-800 dark:text-zinc-200">
-              {{ member.email }}
+              {{ member?.email }}
             </p>
           </div>
         </div>

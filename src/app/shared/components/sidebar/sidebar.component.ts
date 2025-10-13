@@ -34,6 +34,7 @@ export class SidebarComponent implements AfterViewInit {
     { id: 'home', icon: 'home', label: 'Início', route: '/home' },
     { id: 'services', icon: 'shopping_bag', label: 'Serviços', route: '/services' },
     { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/clients' },
+    { id: 'payroll', icon: 'sell', label: 'Pagamentos', route: '/payroll' },
     { id: 'bookings', icon: 'event', label: 'Agenda', route: '/bookings' },
   ];
 

@@ -141,6 +141,7 @@ export class BusinessModalComponent implements OnInit {
 
   private async fetchBusiness(businessId: string): Promise<void> {
     this.business = await firstValueFrom(this.appointmentsService.getBusinessById(businessId));
+    console.log(this.business)
   }
 
   private async fetchReviews(businessId: string): Promise<void> {
