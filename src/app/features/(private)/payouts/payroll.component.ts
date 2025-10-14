@@ -6,6 +6,7 @@ import { PayrollReviewResponse } from '@app/core/DTOs/payroll-review-response';
 import { MemberShip } from '@app/core/models/MemberShip';
 import { MembersService } from '@app/core/services/members.service';
 import { PayrollService } from '@app/core/services/payroll.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { firstValueFrom } from 'rxjs';
 
 interface CalendarDay {
@@ -34,12 +35,15 @@ export class PayrollComponent implements OnInit {
 
   private unavailableRanges: { start: Date; end: Date }[] = [];
 
-  public payrollService = inject(PayrollService);
+  private payrollService = inject(PayrollService);
   private membersService = inject(MembersService);
+  private toastService = inject(ToastService);
 
   async ngOnInit(): Promise<void> {
     this.generateCalendar();
+
     await Promise.all([this.fetchPayroll(), this.fetchMembers()]);
+
     this.updateUnavailableRanges();
     this.validatePeriod();
   }
@@ -65,6 +69,30 @@ export class PayrollComponent implements OnInit {
     this.updateUnavailableRanges();
   }
 
+  public async generate(): Promise<void> {
+    if (!this.selectedMember) {
+      this.toastService.error('Selecione o membro para gerar');
+      return;
+    }
+
+    if (!this.periodStart || !this.periodEnd) {
+      this.toastService.error('selecione o começo e fim!');
+      return;
+    }
+
+    try {
+      await firstValueFrom(
+        this.payrollService.generate({
+          memberId: this.selectedMember.user.id!,
+          periodStart: this.periodStart,
+          periodEnd: this.periodEnd,
+        }),
+      );
+    } catch (err) {
+      this.toastService.error("Houve um erro ao tentar gerar uma comissão");
+    }
+  }
+
   private updateUnavailableRanges(): void {
     if (!this.selectedMember) {
       this.unavailableRanges = [];
@@ -74,9 +102,9 @@ export class PayrollComponent implements OnInit {
     this.unavailableRanges = this.payouts
       .filter((payout) => payout.user.id === this.selectedMember?.user.id)
       .map((payout) => {
-        // Normaliza as datas para ignorar o horário e evitar bugs de fuso horário
         const start = new Date(payout.payroll.start);
         start.setHours(0, 0, 0, 0);
+
         const end = new Date(payout.payroll.end);
         end.setHours(0, 0, 0, 0);
         return { start, end };
@@ -84,15 +112,11 @@ export class PayrollComponent implements OnInit {
   }
 
   private validatePeriod(): void {
-    // Se o período não está completo, não pode ser inválido.
     if (!this.periodStart || !this.periodEnd) {
       this.isPeriodInvalid = false;
       return;
     }
 
-    // Verifica se algum intervalo indisponível colide com o período selecionado.
-    // A colisão ocorre se o início do intervalo inválido for antes do fim da nossa seleção,
-    // E o fim do intervalo inválido for depois do início da nossa seleção.
     const hasOverlap = this.unavailableRanges.some(
       (range) => range.start <= (this.periodEnd as Date) && range.end >= (this.periodStart as Date),
     );
@@ -142,21 +166,18 @@ export class PayrollComponent implements OnInit {
   }
 
   public prevMonth(): void {
-    // ... (seu código existente, sem alterações)
     this.currentDate.setMonth(this.currentDate.getMonth() - 1);
     this.currentDate = new Date(this.currentDate);
     this.generateCalendar();
   }
 
   public nextMonth(): void {
-    // ... (seu código existente, sem alterações)
     this.currentDate.setMonth(this.currentDate.getMonth() + 1);
     this.currentDate = new Date(this.currentDate);
     this.generateCalendar();
   }
 
   public selectDay(day: CalendarDay): void {
-    // --- ALTERADO: Adiciona uma guarda para não selecionar dias indisponíveis ---
     if (this.isUnavailable(day.date)) {
       return; // Impede a seleção
     }

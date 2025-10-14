@@ -13,6 +13,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
+import { BusinessService } from '@app/core/services/business.service';
 import { firstValueFrom } from 'rxjs';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
 
@@ -52,6 +53,7 @@ export class SidebarComponent implements AfterViewInit {
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly businessDialog: MatDialog,
+    private readonly businessService: BusinessService,
   ) {}
 
   ngOnInit(): void {
@@ -87,8 +89,18 @@ export class SidebarComponent implements AfterViewInit {
     });
   }
 
+  public async openOrClose(): Promise<void> {
+    if (!this.business) return;
+
+    const data = await firstValueFrom(this.businessService.openOrClose(!this.business?.isOpen));
+    this.business.isOpen = data.status;
+    this.isBusinessOpen.set(data.status);
+  }
+
   public async getSessionBusiness(): Promise<void> {
     this.business = await firstValueFrom(this.authService.currentBusiness$);
+
+    this.isBusinessOpen.set(this.business?.isOpen ?? true);
   }
 
   public async getSession(): Promise<void> {

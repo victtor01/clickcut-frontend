@@ -18,12 +18,10 @@ export class BusinessService {
   constructor(private readonly apiService: ApiService) {}
 
   public loadBusinessSession(): Observable<Business> {
-    // 3. Verifica se os dados já existem para não fazer outra chamada.
     if (this.businessSession$$.getValue()) {
-      // Se já tem valor, retorna o observable existente.
       return this.businessSession$.pipe(
         filter((business): business is Business => business !== null), // Garante que não é nulo
-        first(), // Pega o primeiro valor e completa
+        first(),
       );
     }
 
@@ -47,6 +45,10 @@ export class BusinessService {
     return this.apiService.post('/auth/business', {
       businessId,
     });
+  }
+
+  public openOrClose(isOpen: boolean): Observable<{ status: boolean }> {
+    return this.apiService.put('/business/status', { isOpen });
   }
 
   public createTimeSlot(timeSlot: CreateTimeSlotDTO): Observable<TimeSlot> {

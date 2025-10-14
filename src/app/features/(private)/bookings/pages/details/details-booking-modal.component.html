@@ -6,7 +6,7 @@
       <i class="material-icons-outlined text-gray-500 dark:text-gray-400 !text-xl"
         >calendar_month</i
       >
-      <h2 class="text-lg text-gray-500 dark:text-gray-400">Agendamentos</h2>
+      <h2 class="text-lg text-gray-500 dark:text-gray-400">Agendamentos para {{currentHour.format("HH:mm")}}</h2>
     </div>
 
     <button
@@ -22,14 +22,14 @@
     <div class="flex flex-col mt-5 gap-2">
       <button
         type="button"
-        (click)="nextHour()"
+        (click)="previousHour()"
         class="flex items-center justify-center rounded-full w-12 h-12 bg-slate-50 dark:bg-zinc-800/60 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-800"
       >
         <i class="material-symbols-outlined">arrow_upward_alt</i>
       </button>
       <button
         type="button"
-        (click)="previousHour()"
+        (click)="nextHour()"
         class="flex items-center justify-center rounded-full w-12 h-12 bg-slate-50 dark:bg-zinc-800/60 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-800"
       >
         <i class="material-symbols-outlined">arrow_downward_alt</i>

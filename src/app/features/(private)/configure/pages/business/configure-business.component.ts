@@ -16,7 +16,6 @@ import { MoneyInputDirective } from '@app/shared/directives/app-money-input.dire
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import { filter, firstValueFrom } from 'rxjs';
 import { CustomSliderComponent } from '../../../../../shared/components/custom-slider/custom-slider.component';
-import { ShowTimeSlotsComponent } from './components/show-time-slots/show-time-slots.component';
 
 export interface WeeklySchedule {
   [day: number]: {
@@ -29,7 +28,6 @@ export interface WeeklySchedule {
   templateUrl: 'configure-business.component.html',
   imports: [
     CommonModule,
-    ShowTimeSlotsComponent,
     CustomSliderComponent,
     ToFormatBrlPipe,
     MoneyInputDirective,

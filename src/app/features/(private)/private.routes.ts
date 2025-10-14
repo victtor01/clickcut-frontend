@@ -8,6 +8,7 @@ import { CreateBookingComponent } from './bookings/pages/create/create-booking.c
 import { MyClientsComponent } from './clients/pages/my-clients.component';
 import { ConfigureBusinessComponent } from './configure/pages/business/configure-business.component';
 import { BusinessLinksComponent } from './configure/pages/business/pages/links/business-links.component';
+import { BusinessTimesComponent } from './configure/pages/business/pages/times/business-times.component';
 import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
 import { AcceptInviteComponent } from './configure/pages/invites/accept/accept-invite.component';
@@ -64,6 +65,7 @@ export const PRIVATE_ROUTES: Routes = [
               { path: '', pathMatch: 'full', component: ConnectionsComponent },
               { path: 'business', component: ConfigureBusinessComponent },
               { path: 'business/links', component: BusinessLinksComponent },
+              { path: 'business/times', component: BusinessTimesComponent },
               { path: 'profile', component: ConfigureProfileComponent },
               { path: 'invites', component: InvitesComponent },
               { path: 'members', component: MembersComponent },

@@ -52,39 +52,47 @@
     <h1 class="font-saira text-gray-500 dark:text-gray-100 text-base">Próximos eventos</h1>
   </header>
 
-  <div
-    class="relative flex flex-col gap-6 timeline after:bg-gray-200 dark:after:bg-zinc-800 dark:before:bg-zinc-800 before:bg-gray-200"
-  >
-    @for (booking of aroundBookings?.upcomingBookings; track $index) {
-      <a
-        [routerLink]="['/bookings', booking.id]"
-        class="flex mt-3 gap-6 items-center group opacity-90 hover:opacity-100 active:opacity-100"
-      >
-        <div
-          class="z-10 flex-shrink-0 w-14 h-14 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center"
+  @if (aroundBookings?.upcomingBookings?.length) {
+    <div
+      class="relative flex flex-col gap-6 timeline after:bg-gray-200 dark:after:bg-zinc-800 dark:before:bg-zinc-800 before:bg-gray-200"
+    >
+      @for (booking of aroundBookings?.upcomingBookings; track $index) {
+        <a
+          [routerLink]="['/bookings', booking.id]"
+          class="flex mt-3 gap-6 items-center group opacity-90 hover:opacity-100 active:opacity-100"
         >
-          <i class="material-symbols-outlined !text-2xl">pace</i>
-        </div>
-        <div
-          class="px-4 relative border-l-3 flex-1 rounded-r-lg active:backdrop-blur-xl hover:backdrop-blur-xl border-violet-500 text-gray-500 dark:text-white flex items-center gap-4"
-        >
-          <div class="flex flex-col flex-1">
-            <h2 class="font-bold text-gray-600 dark:text-white">{{ booking.title }}</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              Status:
-              <span
-                class="text-indigo-500 font-medium saira-font bg-indigo-500/10 px-2 rounded-full"
-                >{{ booking.status }}</span
-              >
-            </p>
-            <span class="text-sm text-gray-500 dark:text-gray-400"> {{ booking.startAt }}</span>
-          </div>
-
           <div
-            class="w-4 h-4 absolute right-4 group-active:scale-100 group-hover:scale-100 transition-all ease-in-out scale-0 bg-violet-600 rounded-full"
-          ></div>
-        </div>
-      </a>
-    }
-  </div>
+            class="z-10 flex-shrink-0 w-14 h-14 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center"
+          >
+            <i class="material-symbols-outlined !text-2xl">pace</i>
+          </div>
+          <div
+            class="px-4 relative border-l-3 flex-1 rounded-r-lg active:backdrop-blur-xl hover:backdrop-blur-xl border-violet-500 text-gray-500 dark:text-white flex items-center gap-4"
+          >
+            <div class="flex flex-col flex-1">
+              <h2 class="font-bold text-gray-600 dark:text-white">{{ booking.title }}</h2>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                Status:
+                <span
+                  class="text-indigo-500 font-medium saira-font bg-indigo-500/10 px-2 rounded-full"
+                  >{{ booking.status }}</span
+                >
+              </p>
+              <span class="text-sm text-gray-500 dark:text-gray-400"> {{ booking.startAt }}</span>
+            </div>
+
+            <div
+              class="w-4 h-4 absolute right-4 group-active:scale-100 group-hover:scale-100 transition-all ease-in-out scale-0 bg-violet-600 rounded-full"
+            ></div>
+          </div>
+        </a>
+      }
+    </div>
+  } @else {
+    <div>
+      <div>
+        <p class="text-gray-500">Nenhum agendamento futuro encontrado.</p>
+      </div>
+    </div>
+  }
 </section>

@@ -187,6 +187,8 @@
         </div>
 
         <button
+          type="button"
+          (click)="generate()"
           class="mt-6 w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:bg-indigo-400"
           [disabled]="!periodStart || !periodEnd"
         >
@@ -241,7 +243,7 @@
             </div>
             <div class="flex items-center gap-6">
               <p class="text-lg font-semibold text-zinc-900 dark:text-white">
-                {{ review.payroll.totalAmount | number: '1.2-2' }}
+                {{ review.payroll.totalAmount | currency: 'BRL' }}
               </p>
               <span
                 class="rounded-full px-2.5 py-0.5 text-xs font-medium"

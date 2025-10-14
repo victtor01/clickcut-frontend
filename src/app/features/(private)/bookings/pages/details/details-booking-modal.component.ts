@@ -32,7 +32,7 @@ export interface DialogData {
                   '100ms ease-in-out',
                   style({
                     opacity: 0,
-                    transform: 'translateY(40px)', // Itens saem para baixo
+                    transform: 'translateY(-40px)', // Itens saem para baixo
                   }),
                 ),
               ]),
@@ -43,7 +43,7 @@ export interface DialogData {
           query(
             ':enter',
             [
-              style({ opacity: 0, transform: 'translateY(-40px)' }), // Itens entram de cima
+              style({ opacity: 0, transform: 'translateY(40px)' }), // Itens entram de cima
               stagger('50ms', [
                 animate(
                   '300ms ease-in-out',
@@ -73,7 +73,7 @@ export interface DialogData {
                   '300ms ease-in-out',
                   style({
                     opacity: 0,
-                    transform: 'translateY(-20px)', // Itens saem para cima
+                    transform: 'translateY(20px)', // Itens saem para cima
                   }),
                 ),
               ]),
@@ -84,7 +84,7 @@ export interface DialogData {
           query(
             ':enter',
             [
-              style({ opacity: 0, transform: 'translateY(20px)'}), // Itens entram de baixo
+              style({ opacity: 0, transform: 'translateY(-20px)'}), // Itens entram de baixo
               stagger('50ms', [
                 animate(
                   '300ms ease-in-out',
@@ -111,7 +111,6 @@ export class DetailsBookingComponent implements OnInit {
   public currentHour!: dayjs.Dayjs;
 
   ngOnInit(): void {
-    // this.bookings = this.data.bookings || [];
     this.currentHour = dayjs(this.data.initialDate);
     this.filterBookingsForCurrentHour();
   }

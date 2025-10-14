@@ -6,6 +6,7 @@ import { MembersService } from '@app/core/services/members.service';
 import { RolesService } from '@app/core/services/roles.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { firstValueFrom } from 'rxjs';
+import { MemberDetailsModalComponent } from './components/member-details/member-details-modal.component';
 import { RoleModalComponent } from './components/role-modal/role-modal.component';
 
 @Component({ templateUrl: 'members.component.html' })
@@ -13,6 +14,7 @@ export class MembersComponent implements OnInit {
   private membersService = inject(MembersService);
   private rolesService = inject(RolesService);
   private toastService = inject(ToastService);
+  private dialog = inject(MatDialog);
 
   public members: MemberShip[] = [];
   public roles: Role[] = [];
@@ -30,6 +32,27 @@ export class MembersComponent implements OnInit {
     ]);
   }
 
+  public openMemberDetails(memberToEdit: MemberShip): void {
+    const dialogRef = this.dialog.open(MemberDetailsModalComponent, {
+      data: {
+        member: memberToEdit,
+        allRoles: this.roles,
+      },
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '40rem',
+      width: 'min(40rem, 100%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Dados atualizados recebidos:', result);
+      }
+    });
+  }
+
   private async update(role: Role): Promise<void> {
     try {
       const updated = await firstValueFrom(this.rolesService.update(role));
@@ -39,7 +62,7 @@ export class MembersComponent implements OnInit {
       this.toastService.error('Não foi possivel atualizar o serviço');
     }
   }
-  
+
   private async create(data: Omit<Role, 'id'>) {}
 
   public openRoleModal(roleId?: string) {
