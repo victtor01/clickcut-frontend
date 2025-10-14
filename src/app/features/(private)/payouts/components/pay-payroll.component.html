@@ -1,0 +1,89 @@
+<section
+  class="flex flex-col sm:rounded-xl border border-zinc-100 bg-stone-50 dark:border-zinc-800 dark:bg-zinc-900 w-full max-w-lg"
+>
+  <header
+    class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700"
+  >
+    <h2 mat-dialog-title class="text-xl font-semibold text-zinc-800 dark:text-zinc-100 m-0">
+      Registrar Pagamento
+    </h2>
+    <button mat-icon-button (click)="closeModal()" aria-label="Fechar modal">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <main mat-dialog-content class="p-6 space-y-6">
+    <div class="space-y-4">
+      <h3 class="text-lg font-medium text-zinc-700 dark:text-zinc-200">Resumo do Pagamento</h3>
+      <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+        <dt class="text-zinc-500">Período:</dt>
+        <dd class="text-zinc-800 dark:text-zinc-100 font-medium">
+          {{ payout.start | date: 'dd/MM/yyyy' }} -
+          {{ payout.end | date: 'dd/MM/yyyy' }}
+        </dd>
+
+        <dt class="text-zinc-500">Salário Base:</dt>
+        <dd class="text-zinc-800 dark:text-zinc-100 font-medium">
+          {{ payout.baseSalary | currency: 'BRL' }}
+        </dd>
+
+        <dt class="text-zinc-500">Total de Comissão:</dt>
+        <dd class="text-zinc-800 dark:text-zinc-100 font-medium">
+          {{ payout.totalCommission | currency: 'BRL' }}
+        </dd>
+
+        <dt
+          class="text-zinc-600 dark:text-zinc-300 text-base font-semibold col-span-2 pt-2 border-t border-zinc-200 dark:border-zinc-700 mt-2"
+        >
+          Valor Total a Pagar:
+        </dt>
+        <dd class="text-emerald-600 dark:text-emerald-400 text-2xl font-bold col-span-2">
+          {{ payout.totalAmount | currency: 'BRL' }}
+        </dd>
+      </dl>
+    </div>
+
+    <div class="space-y-2">
+      <label for="proof-upload" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">
+        Comprovante de Pagamento (Opcional)
+      </label>
+      <button
+        type="button"
+        (click)="fileInput.click()"
+        class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium border border-zinc-300 dark:border-zinc-600 rounded-md shadow-sm text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+      >
+        <mat-icon>attach_file</mat-icon>
+        <span>Anexar Arquivo</span>
+      </button>
+      <input
+        hidden
+        #fileInput
+        type="file"
+        id="proof-upload"
+        (change)="onFileSelected($event)"
+        accept="image/*,.pdf"
+      />
+      @if (proofFile) {
+        <div class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
+          <mat-icon class="text-base w-4 h-4">check_circle</mat-icon>
+          <span>{{ proofFile.name }}</span>
+        </div>
+      }
+    </div>
+  </main>
+
+  <footer
+    mat-dialog-actions
+    align="end"
+    class="p-4 bg-zinc-100 dark:bg-zinc-900/50 border-t border-zinc-200 dark:border-zinc-700 sm:rounded-b-xl"
+  >
+    <button mat-stroked-button (click)="closeModal()">Cancelar</button>
+    <button mat-flat-button color="primary" (click)="registerPayment()" [disabled]="isSubmitting">
+      @if (isSubmitting) {
+        <span>Registrando...</span>
+      } @else {
+        <span>Confirmar Pagamento</span>
+      }
+    </button>
+  </footer>
+</section>

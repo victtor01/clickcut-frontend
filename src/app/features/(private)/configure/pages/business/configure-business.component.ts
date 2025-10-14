@@ -12,10 +12,10 @@ import { Business, TimeSlot } from '@app/core/models/Business';
 import { UpdateBusinessDTO } from '@app/core/schemas/update-business.dto';
 import { BusinessService } from '@app/core/services/business.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { CustomSliderComponent } from '@app/shared/components/custom-slider/custom-slider.component';
 import { MoneyInputDirective } from '@app/shared/directives/app-money-input.directive';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import { filter, firstValueFrom } from 'rxjs';
-import { CustomSliderComponent } from '../../../../../shared/components/custom-slider/custom-slider.component';
 
 export interface WeeklySchedule {
   [day: number]: {
@@ -50,7 +50,6 @@ export class ConfigureBusinessComponent implements OnInit {
   }
 
   private readonly destroyRef = inject(DestroyRef);
-
   private readonly businessService = inject(BusinessService);
   private readonly toastService = inject(ToastService);
   public readonly form: FormGroup;

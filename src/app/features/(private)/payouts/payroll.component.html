@@ -38,7 +38,7 @@
             @for (day of week; track day.date) {
               <div
                 (click)="selectDay(day)"
-                class="relative z-10 grid h-10 w-10 mx-auto place-items-center rounded-full text-sm font-medium transition-colors"
+                class="relative z-10 grid h-10 group w-10 mx-auto place-items-center rounded-full text-sm font-medium transition-colors"
                 [ngClass]="{
                   'text-zinc-700 dark:text-zinc-200': day.isCurrentMonth,
                   'text-zinc-400 dark:text-zinc-600': !day.isCurrentMonth,
@@ -50,8 +50,10 @@
                     !isUnavailable(day.date) &&
                     (day.date.getTime() === periodStart?.getTime() ||
                       day.date.getTime() === periodEnd?.getTime()),
+
                   'bg-indigo-100 dark:bg-indigo-500/10':
                     !isUnavailable(day.date) && isInRange(day.date),
+
                   'hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer':
                     !isUnavailable(day.date) &&
                     day.isCurrentMonth &&
@@ -61,6 +63,30 @@
                     ),
                 }"
               >
+                @if (!isUnavailable(day.date) && day.date.getTime() === periodStart?.getTime()) {
+                  <div
+                    class="absolute scale-50 -top-1 group-hover:scale-100 group-active:scale-100 transition-all -translate-y-1/2"
+                  >
+                    <i
+                      class="material-symbols-outlined text-indigo-500 rotate-90"
+                      [style.font-variation-settings]="'\'FILL\' 1'"
+                      >label</i
+                    >
+                  </div>
+                }
+
+                @if (day.date.getTime() === periodEnd?.getTime()) {
+                  <div
+                    class="absolute scale-50 -bottom-2 group-hover:scale-100 group-active:scale-100 translate-y-1/2 transition-all"
+                  >
+                    <i
+                      class="material-symbols-outlined text-indigo-500 rotate-270"
+                      [style.font-variation-settings]="'\'FILL\' 1'"
+                      >label</i
+                    >
+                  </div>
+                }
+
                 {{ day.date | date: 'd' }}
               </div>
             }
@@ -210,7 +236,10 @@
       </div>
       <ul class="divide-y divide-zinc-200/80 dark:divide-zinc-800">
         @for (review of payouts; track review.payroll.id) {
-          <li class="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <li
+            (click)="openPayroll(review.payroll)"
+            class="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+          >
             <div class="flex items-center gap-4">
               <div
                 class="flex h-10 w-10 items-center justify-center rounded-full"

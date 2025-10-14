@@ -8,5 +8,5 @@ import { SidebarConfigureComponent } from '../components/sidebar/sidebar-configu
   imports: [SidebarConfigureComponent, RouterOutlet, MobileSidebarConfigure],
 })
 export class ConfigureComponent {
-
+  
 }

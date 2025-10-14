@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MemberShip } from '@app/core/models/MemberShip';
 import { Role } from '@app/core/models/Role';
+import { UpdateMemberShipDTO } from '@app/core/schemas/update-membership.dto';
 import { MembersService } from '@app/core/services/members.service';
 import { RolesService } from '@app/core/services/roles.service';
 import { ToastService } from '@app/core/services/toast.service';
@@ -46,11 +47,32 @@ export class MembersComponent implements OnInit {
       exitAnimationDuration: '200ms',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result: MemberShip) => {
       if (result) {
-        console.log('Dados atualizados recebidos:', result);
+        const comission =
+          result.commissionRate > 1 ? result.commissionRate / 100 : result.commissionRate;
+
+        const data: UpdateMemberShipDTO = {
+          memberId: memberToEdit.user.id,
+          commission: comission,
+          salary: result.salary,
+          roles: result.roles.map((r) => r.id),
+        };
+
+        console.log(data)
+        await this.updateMemberShip(data);
       }
     });
+  }
+
+  private async updateMemberShip(data: UpdateMemberShipDTO): Promise<void> {
+    try {
+      await firstValueFrom(this.membersService.update(data));
+      this.toastService.success('Atualizado com sucesso!');
+    } catch (err) {
+      console.log(err);
+      this.toastService.error('Não foi possivel atualizar o serviço');
+    }
   }
 
   private async update(role: Role): Promise<void> {

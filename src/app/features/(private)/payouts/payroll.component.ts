@@ -2,12 +2,15 @@
 
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { PayrollReviewResponse } from '@app/core/DTOs/payroll-review-response';
 import { MemberShip } from '@app/core/models/MemberShip';
+import { Payout } from '@app/core/models/Payout';
 import { MembersService } from '@app/core/services/members.service';
 import { PayrollService } from '@app/core/services/payroll.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { firstValueFrom } from 'rxjs';
+import { PayPayrollModalComponent } from './components/pay-payroll.component';
 
 interface CalendarDay {
   date: Date;
@@ -38,6 +41,7 @@ export class PayrollComponent implements OnInit {
   private payrollService = inject(PayrollService);
   private membersService = inject(MembersService);
   private toastService = inject(ToastService);
+  private dialog = inject(MatDialog);
 
   async ngOnInit(): Promise<void> {
     this.generateCalendar();
@@ -89,8 +93,20 @@ export class PayrollComponent implements OnInit {
         }),
       );
     } catch (err) {
-      this.toastService.error("Houve um erro ao tentar gerar uma comissão");
+      this.toastService.error('Houve um erro ao tentar gerar uma comissão');
     }
+  }
+
+  public openPayroll(payout: Payout) {
+    const modal = this.dialog.open(PayPayrollModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '40rem',
+      width: 'min(40rem, 100%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { payout },
+    });
   }
 
   private updateUnavailableRanges(): void {

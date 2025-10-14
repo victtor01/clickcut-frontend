@@ -141,9 +141,7 @@ export class SidebarComponent implements AfterViewInit {
 
     if (animated) {
       const travelingHeight = '3.5rem'; // Um pouco maior durante a animação
-      // Fase 1: Animação de "viagem"
       this.indicatorStyle = { ...finalStyle, height: travelingHeight };
-      // Fase 2: Animação final
       this.animationTimeout = window.setTimeout(() => {
         this.indicatorStyle = { ...this.indicatorStyle, height: finalHeight };
       }, 150);
