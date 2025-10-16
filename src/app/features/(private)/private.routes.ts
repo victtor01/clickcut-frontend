@@ -16,6 +16,7 @@ import { AcceptInviteComponent } from './configure/pages/invites/accept/accept-i
 import { InvitesComponent } from './configure/pages/invites/invites.component';
 import { MembersComponent } from './configure/pages/members/members.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
+import { SecurityComponent } from './configure/pages/security/security.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { PayrollComponent } from './payouts/payroll.component';
 import { CreateBusinessComponent } from './select/pages/create/create-business.component';
@@ -68,6 +69,7 @@ export const PRIVATE_ROUTES: Routes = [
               { path: 'business/links', component: BusinessLinksComponent },
               { path: 'business/times', component: BusinessTimesComponent },
               { path: "business/address", component: BusinessAddressComponent },
+              { path: 'security', component: SecurityComponent },
               { path: 'profile', component: ConfigureProfileComponent },
               { path: 'invites', component: InvitesComponent },
               { path: 'members', component: MembersComponent },

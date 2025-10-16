@@ -1,107 +1,83 @@
-<section
-  class="min-h-screen flex flex-col items-center justify-center bg-stone-50 dark:bg-zinc-900 text-gray-700 dark:text-gray-300"
->
-  <div class="absolute top-0 left-0 w-full h-[45vh] bg-indigo-500"></div>
+<section class="relative flex h-screen flex-col overflow-auto bg-white p-4 dark:bg-black">
+  <div class="absolute left-1/2 top-0 h-1/3 w-2/3 -translate-x-1/2 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 opacity-5 blur-[50vh]"></div>
+  <div class="absolute bottom-0 right-0 h-1/4 w-1/2 translate-x-1/4 translate-y-1/4 rounded-full bg-gradient-to-tl from-sky-500 to-green-500 opacity-5 blur-[70vh]"></div>
 
-  <div class="w-full max-w-md p-4 relative">
-    <div class="text-center mb-8">
-      <h1 class="text-3xl saira-font text-zinc-800 dark:text-white">
+  <div class="w-full max-w-md space-y-8 m-auto">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
         Crie sua conta
       </h1>
-      <p class="text-sm mt-2">Rápido e fácil, vamos começar.</p>
+      <p class="mt-2 text-zinc-600 dark:text-zinc-400">
+        Rápido e fácil, vamos começar.
+      </p>
     </div>
 
-    <form
-      class="bg-white/80 dark:bg-zinc-900/90 border dark:border-zinc-800/80 shadow-2xl rounded-xl p-8 space-y-6 backdrop-blur-2xl"
-    >
-      <div>
-        <label
-          for="username"
-          class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 mb-1"
-        >
-          Nome de usuário
-        </label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          placeholder="seu usuário"
-          class="block w-full bg-transparent border-0 border-b-2 border-gray-300 dark:border-zinc-700 px-0 py-2 text-zinc-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-indigo-500 transition"
+    <form class="space-y-5">
+      <div class="relative">
+        <label for="username" class="sr-only">Nome de usuário</label>
+        <i class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">person</i>
+        <input 
+          type="text" id="username" name="username" placeholder="Nome de usuário"
+          class="w-full rounded-lg border border-zinc-200 bg-white/50 py-3 pl-10 pr-4 text-zinc-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-indigo-500" 
         />
       </div>
 
-      <div>
-        <label
-          for="email"
-          class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 mb-1"
-        >
-          E-mail
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="voce@exemplo.com"
-          class="block w-full bg-transparent border-0 border-b-2 border-gray-300 dark:border-zinc-700 px-0 py-2 text-zinc-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-indigo-500 transition"
+      <div class="relative">
+        <label for="email" class="sr-only">E-mail</label>
+        <i class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">alternate_email</i>
+        <input 
+          type="email" id="email" name="email" placeholder="voce@exemplo.com"
+          class="w-full rounded-lg border border-zinc-200 bg-white/50 py-3 pl-10 pr-4 text-zinc-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-indigo-500" 
         />
       </div>
 
-      <div>
-        <label
-          for="password"
-          class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 mb-1"
-        >
-          Senha
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="••••••••"
-          class="block w-full bg-transparent border-0 border-b-2 border-gray-300 dark:border-zinc-700 px-0 py-2 text-zinc-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-indigo-500 transition"
+      <div class="relative">
+        <label for="password" class="sr-only">Senha</label>
+        <i class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">lock</i>
+        <input 
+          type="password" id="password" name="password" placeholder="••••••••"
+          class="w-full rounded-lg border border-zinc-200 bg-white/50 py-3 pl-10 pr-4 text-zinc-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-indigo-500" 
+        />
+      </div>
+      
+      <div class="relative">
+        <label for="confirmPassword" class="sr-only">Confirme sua senha</label>
+        <i class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">lock</i>
+        <input 
+          type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••"
+          class="w-full rounded-lg border border-zinc-200 bg-white/50 py-3 pl-10 pr-4 text-zinc-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-indigo-500" 
         />
       </div>
 
-      <div>
-        <label
-          for="confirmPassword"
-          class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 mb-1"
-        >
-          Confirme sua senha
-        </label>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          placeholder="••••••••"
-          class="block w-full bg-transparent border-0 border-b-2 border-gray-300 dark:border-zinc-700 px-0 py-2 text-zinc-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-indigo-500 transition"
-        />
-      </div>
-
-      <button
-        type="submit"
-        class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-zinc-900 transition duration-150 ease-in-out"
+      <button 
+        type="submit" 
+        class="w-full rounded-lg bg-indigo-600 py-3 text-sm font-semibold text-white shadow-sm shadow-indigo-600/20 transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-black"
       >
-        Criar conta
+        Criar Conta
       </button>
 
-      <div class="text-center text-sm pt-4">
-        <p>
-          Já tem uma conta?
-          <a
-            [routerLink]="['/login']"
-            class="font-semibold text-indigo-500 hover:text-indigo-400"
-          >
-            Acesse aqui
-          </a>
-        </p>
+      <div class="relative flex items-center py-2">
+        <div class="flex-grow border-t border-zinc-200 dark:border-zinc-700"></div>
+        <span class="mx-4 flex-shrink text-xs font-medium text-zinc-400 dark:text-zinc-500">OU CONTINUE COM</span>
+        <div class="flex-grow border-t border-zinc-200 dark:border-zinc-700"></div>
       </div>
-    </form>
-  </div>
 
-  <footer
-    class="w-full text-center p-6 text-sm text-gray-500 dark:text-gray-400"
-  >
-    <p>&copy; 2025 SeuNomeDaEmpresa. Todos os direitos reservados.</p>
-  </footer>
+      <button 
+        type="button" 
+        class="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-200 bg-white py-3 text-sm font-semibold text-zinc-800 transition-all hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-zinc-600 dark:focus:ring-offset-black"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.604 4.418 1.582L13.31 9.584h5.69v-5.69L16.53 6.36C14.914 4.938 12.7 4 10.134 4 6.06 4 2.584 6.744.983 10.378l4.283-.613Z" fill="#FBBC04"></path><path d="M12 20c-3.246 0-6.052-2.01-7.14-4.887l-4.148.675C2.695 19.46 6.94 22 12 22c2.905 0 5.51-1.125 7.424-2.95l-3.327-2.732c-1.213.91-2.82 1.482-4.597 1.482Z" fill="#34A853"></path><path d="M21.24 10.182c.333 1.156.51 2.378.51 3.636 0 5.76-3.832 9.49-8.38 9.49-.036 0-.072 0-.108-.002-4.995-.034-8.81-3.666-8.81-8.318 0-4.908 3.996-8.86 8.908-8.86 3.018 0 5.163 1.25 6.39 2.41L24 8.182c-2.3-2.155-5.28-3.41-8.752-3.41C6.918 4.773 2.76 8.24 2.76 13.09c0 4.132 3.01 7.64 6.94 8.163 5.438.72 9.94-3.52 9.94-8.91 0-1.286-.23-2.52-.6-3.637h-3.7Z" fill="#4285F4"></path><path d="M21.24 10.182c.333 1.156.51 2.378.51 3.636 0 5.76-3.832 9.49-8.38 9.49l7.87-7.87Z" fill="#EA4335"></path></svg>
+        <span>Continuar com Google</span>
+      </button>
+    </form>
+
+    <div class="pt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
+      <p>
+        Já tem uma conta?
+        <a [routerLink]="['/login']" class="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">
+          Acesse aqui
+        </a>
+      </p>
+    </div>
+  </div>
 </section>

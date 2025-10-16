@@ -108,7 +108,7 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
         this.statement = data;
       },
 
-      error: () => {
+      error: (err) => {
         this.toastService.error('Houve um erro ao tentar pegar o as informações');
       },
     });

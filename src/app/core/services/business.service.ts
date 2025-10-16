@@ -41,9 +41,10 @@ export class BusinessService {
     return this.apiService.post<Business>('/business', createBusinessDTO);
   }
 
-  public select(businessId: string): Observable<boolean> {
+  public select(businessId: string, password?: string): Observable<boolean> {
     return this.apiService.post('/auth/business', {
       businessId,
+      ...(password && { password }),
     });
   }
 

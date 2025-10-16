@@ -21,4 +21,16 @@ export class UsersService {
     const form = objectToFormData(data);
     return this.apiService.putForm('/users', form);
   }
+
+  public forgotPassword(email: string): Observable<{ message: string }> {
+    return this.apiService.post('/forgot-password', { email });
+  }
+
+  public resetPassword(token: string, pass: string, confirmPass: string): Observable<{}> {
+    return this.apiService.post('/forgot-password/reset', {
+      token: token,
+      confirmPassword: confirmPass,
+      newPassword: pass,
+    });
+  }
 }

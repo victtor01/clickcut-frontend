@@ -13,6 +13,7 @@ export interface Business {
   bannerUrl?: string;
   logoUrl?: string;
   members?: User[];
+  hasPassword?: boolean | number;
 }
 
 export interface TimeSlot {
