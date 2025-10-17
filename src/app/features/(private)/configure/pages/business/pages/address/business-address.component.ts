@@ -3,7 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http'; // Importe 
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Business } from '@app/core/models/Business';
+import { Business, BusinessAddress } from '@app/core/models/Business';
 import { UpdateBusinessAddressDTO } from '@app/core/schemas/update-busienss-address.dto';
 import { BusinessAddressService } from '@app/core/services/business-address.service';
 import { BusinessService } from '@app/core/services/business.service';
@@ -54,15 +54,21 @@ export class BusinessAddressComponent implements OnInit {
       )
       .subscribe((business) => {
         this.business = business;
-        console.log(this.business);
+
         if (business.address) {
           this.form.patchValue(business.address, { emitEvent: false });
           this.unlockAddressFields(false);
 
-          this.form.controls['neighborhood'].disable();
-          this.form.controls['city'].disable();
-          this.form.controls['state'].disable();
-          this.form.controls['street'].disable();
+          const address = this.business.address;
+
+          const invalidates = Object.keys(address);
+
+          invalidates.forEach(k => {
+            if(address?.[k as keyof(BusinessAddress)]) {
+              this.form.controls[k].disable();
+            }
+          })
+
           this.cepAddressLoaded.set(true);
         }
       });
@@ -149,7 +155,6 @@ export class BusinessAddressComponent implements OnInit {
     this.isSubmitting.set(true);
     try {
       const form = this.form.getRawValue();
-      console.log('Dados do endereço para salvar:', this.form.getRawValue());
 
       const data: UpdateBusinessAddressDTO = {
         cep: form.postalCode,

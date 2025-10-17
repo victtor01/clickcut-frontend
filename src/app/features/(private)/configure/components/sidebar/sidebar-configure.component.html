@@ -15,15 +15,27 @@
     <p class="text-sm text-gray-500 dark:text-zinc-400">Gerencie suas preferências</p>
   </header>
 
-  <ul class="flex flex-col gap-2">
-    @for (item of navItems; track item.label) {
+  <ul class="flex flex-col">
+    @for (item of navItems; let index = $index; track item.label) {
+      @if (index == 0) {
+        <span class="px-3 font-bold text-gray-400 dark:text-indigo-200 mb-2 saira-font"
+          >Minha conta</span
+        >
+      }
+
+      @if (index == 3) {
+        <span class="px-3 font-bold mt-5 text-gray-400 dark:text-indigo-200 mb-2 saira-font"
+          >Loja</span
+        >
+      }
+
       <li>
         @if (!item.subItems) {
           <a
             [routerLink]="item.path"
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="bg-violet-100 text-violet-700 dark:bg-zinc-800 dark:text-zinc-50"
-            class="flex w-full items-center gap-3 p-2 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+            class="flex w-full items-center gap-3 p-2 mb-2 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
           >
             <i class="text-xl w-6 material-symbols-outlined">{{ item.icon }}</i>
             <span class="font-medium">{{ item.label }}</span>
@@ -32,7 +44,7 @@
           <div>
             <button
               (click)="toggleSubmenu(item)"
-              class="flex w-full items-center justify-between gap-3 p-2 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+              class="flex w-full items-center mb-2 justify-between gap-3 p-2 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
             >
               <div class="flex items-center gap-3">
                 <i class="text-xl w-6 material-symbols-outlined">{{ item.icon }}</i>
@@ -47,9 +59,13 @@
             </button>
 
             @if (item.isExpanded) {
-              <ul class="pl-6 pt-2 flex flex-col gap-1">
+              <ul class="ml-4 mb-2 flex flex-col gap-1 border-l border-zinc-200 dark:border-zinc-700">
                 @for (subItem of item.subItems; track subItem.path) {
-                  <li>
+                  <li class="relative px-2">
+                    <span
+                      class="bg-zinc-200 dark:bg-zinc-700 rounded-full -translate-y-1/2 -translate-x-1/2 w-2 h-2 absolute left-0 top-1/2"
+                    ></span>
+      
                     <a
                       [routerLink]="subItem.path"
                       [routerLinkActiveOptions]="{ exact: true }"

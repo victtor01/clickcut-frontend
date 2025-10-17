@@ -75,34 +75,56 @@
           <h3 class="text-base font-medium text-gray-700 dark:text-zinc-300">Permissões</h3>
           <ul
             formArrayName="permissions"
-            class="mt-3 divide-y divide-zinc-200/80 rounded-lg border border-zinc-200/80 dark:divide-zinc-800 dark:border-zinc-800"
+            class="divide-y divide-zinc-200/80 rounded-lg dark:divide-zinc-800"
           >
-            @for (permission of allPermissions(); track permission.value; let i = $index) {
-              <li class="flex items-center justify-between p-4">
-                <label [for]="'perm-' + i" class="cursor-pointer pr-4">
-                  <span class="font-medium text-sm text-zinc-800 dark:text-zinc-200">{{
-                    permission.name
-                  }}</span>
-                  <p class="text-xs text-zinc-500 dark:text-zinc-400">
-                    {{ permission.description }}
-                  </p>
-                </label>
+            @for (
+              group of permissionGroups();
+              track trackByGroup($index, group);
+              let groupIndex = $index
+            ) {
+              <div class="mb-3">
+                <!-- Nome do Grupo -->
+                <strong class="block text-md font-medium text-gray-900 dark:text-zinc-100 mb-2">{{
+                  group.groupName
+                }}</strong>
 
-                <label
-                  [for]="'perm-' + i"
-                  class="relative inline-flex flex-shrink-0 cursor-pointer items-center"
+                <ul
+                  class="divide-y divide-zinc-200/80 rounded-lg border border-zinc-200/80 dark:divide-zinc-800 dark:border-zinc-800"
                 >
-                  <input
-                    [id]="'perm-' + i"
-                    type="checkbox"
-                    [formControlName]="i"
-                    class="peer sr-only"
-                  />
-                  <div
-                    class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:bg-zinc-700 dark:peer-focus:ring-indigo-800"
-                  ></div>
-                </label>
-              </li>
+                  @for (
+                    permission of group.permissions;
+                    track trackByPermission($index, permission);
+                    let permIndex = $index
+                  ) {
+                    <li class="flex items-center justify-between p-4 bg-white dark:bg-zinc-800/50">
+                      <label [for]="permission.key" class="cursor-pointer pr-4">
+                        <span class="font-medium text-sm text-zinc-800 dark:text-zinc-200">{{
+                          permission.name
+                        }}</span>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400">
+                          {{ permission.description }}
+                        </p>
+                      </label>
+
+                      <label
+                        [for]="permission.key"
+                        class="relative inline-flex flex-shrink-0 cursor-pointer items-center"
+                      >
+                        <!-- O [formControlName] usa a função para calcular o índice plano correto -->
+                        <input
+                          [id]="permission.key"
+                          type="checkbox"
+                          [formControlName]="getFormControlIndex(groupIndex, permIndex)"
+                          class="peer sr-only"
+                        />
+                        <div
+                          class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:bg-zinc-700 dark:peer-focus:ring-indigo-800"
+                        ></div>
+                      </label>
+                    </li>
+                  }
+                </ul>
+              </div>
             }
           </ul>
         </div>

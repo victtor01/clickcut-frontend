@@ -31,6 +31,8 @@ export class MembersComponent implements OnInit {
       (this.members = await firstValueFrom(this.membersService.findAll())),
       (this.roles = await firstValueFrom(this.rolesService.findAll())),
     ]);
+
+    console.log(this.roles)
   }
 
   public openMemberDetails(memberToEdit: MemberShip): void {

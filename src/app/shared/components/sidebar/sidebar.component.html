@@ -125,18 +125,17 @@
           class="group flex text-left w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-700/50"
         >
           <div class="relative h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 dark:bg-zinc-700">
-            <img
-              *ngIf="business?.logoUrl"
-              [src]="business?.logoUrl"
-              [alt]="'Logo de ' + business?.name"
-              class="h-full w-full rounded-full object-cover"
-            />
-            <div
-              *ngIf="!business?.logoUrl"
-              class="flex h-full w-full items-center justify-center rounded-full"
-            >
-              <i class="material-icons-outlined text-zinc-500">store</i>
-            </div>
+            @if (business?.logoUrl) {
+              <img
+                [src]="business?.logoUrl"
+                [alt]="'Logo de ' + business?.name"
+                class="h-full w-full rounded-full object-cover"
+              />
+            } @else {
+              <div class="flex h-full w-full items-center justify-center rounded-full">
+                <i class="material-icons-outlined text-zinc-500">store</i>
+              </div>
+            }
           </div>
           <div class="flex-1">
             <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">

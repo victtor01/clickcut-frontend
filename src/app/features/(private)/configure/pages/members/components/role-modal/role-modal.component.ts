@@ -11,8 +11,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
 
-// Importe seus modelos e serviços
-import { RoleLegendDTO } from '@app/core/DTOs/roles-legends-response';
+import { Permission, RoleLegendDTO } from '@app/core/DTOs/roles-legends-response';
 import { Role } from '@app/core/models/Role';
 import { RolesService } from '@app/core/services/roles.service';
 
@@ -23,15 +22,13 @@ import { RolesService } from '@app/core/services/roles.service';
   templateUrl: './role-modal.component.html',
 })
 export class RoleModalComponent implements OnInit {
-  // --- Injeção de Dependências ---
   private dialogData = inject<{ roleId?: string } | null>(MAT_DIALOG_DATA);
   private dialogRef = inject(MatDialogRef<RoleModalComponent>);
   private rolesService = inject(RolesService);
   private fb = inject(FormBuilder);
 
-  // --- Estado do Componente ---
   public form: FormGroup;
-  public allPermissions = signal<RoleLegendDTO[]>([]);
+  public permissionGroups = signal<RoleLegendDTO[]>([]);
   public isEditMode = signal<boolean>(false);
   public isLoading = signal<boolean>(true);
 
@@ -42,22 +39,20 @@ export class RoleModalComponent implements OnInit {
     });
   }
 
-  async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {
     const roleId = this.dialogData?.roleId;
     this.isEditMode.set(!!roleId);
 
     try {
-      // Busca a lista de todas as permissões possíveis no sistema
       const permissionsLegend = await firstValueFrom(this.rolesService.findLegends());
-      this.allPermissions.set(permissionsLegend);
+      this.permissionGroups.set(permissionsLegend);
+      console.log(permissionsLegend)
 
       if (this.isEditMode() && roleId) {
-        // --- MODO EDIÇÃO ---
         const roleToEdit = await firstValueFrom(this.rolesService.findById(roleId));
         this.form.patchValue({ name: roleToEdit.name });
         this.buildPermissionsFormArray(roleToEdit.permissions);
       } else {
-        // --- MODO CRIAÇÃO ---
         this.buildPermissionsFormArray();
       }
     } catch (error) {
@@ -68,36 +63,42 @@ export class RoleModalComponent implements OnInit {
     }
   }
 
-  // Getter para facilitar o acesso ao FormArray no template
   get permissionsFormArray(): FormArray {
     return this.form.get('permissions') as FormArray;
   }
 
-  /**
-   * Constrói o FormArray de checkboxes de permissão.
-   * @param selectedPermissions As permissões que devem vir marcadas (para o modo edição).
-   */
   private buildPermissionsFormArray(selectedPermissions: string[] = []): void {
-    this.allPermissions().forEach((permissionInfo) => {
-      const isSelected = selectedPermissions.includes(permissionInfo.value);
-      this.permissionsFormArray.push(new FormControl(isSelected));
+    this.permissionsFormArray.clear();
+
+    this.permissionGroups().forEach((group) => {
+      if (group && Array.isArray(group.permissions)) {
+        group.permissions.forEach((permission) => {
+          const isSelected = selectedPermissions.includes(permission.key);
+          this.permissionsFormArray.push(new FormControl(isSelected));
+        });
+      }
     });
   }
 
-  /**
-   * Chamado ao submeter o formulário.
-   */
-  onFormSubmit(): void {
+  public onFormSubmit(): void {
     if (this.form.invalid) {
       return;
     }
 
     const formValue = this.form.value;
+    const selectedPermissions: string[] = [];
+    let controlIndex = 0;
 
-    // Transforma o array de booleans de volta para um array de strings com os valores das permissões
-    const selectedPermissions = this.allPermissions()
-      .filter((_, index) => formValue.permissions[index])
-      .map((permissionInfo) => permissionInfo.value);
+    this.permissionGroups().forEach((group) => {
+      if (group && Array.isArray(group.permissions)) {
+        group.permissions.forEach((permission) => {
+          if (formValue.permissions[controlIndex]) {
+            selectedPermissions.push(permission.key);
+          }
+          controlIndex++;
+        });
+      }
+    });
 
     const result: Partial<Role> = {
       id: this.dialogData?.roleId,
@@ -108,10 +109,25 @@ export class RoleModalComponent implements OnInit {
     this.closeDialog(result);
   }
 
-  /**
-   * Fecha o modal, opcionalmente passando dados de volta.
-   */
-  closeDialog(data: Partial<Role> | false = false): void {
+  public getFormControlIndex(groupIndex: number, permissionIndex: number): number {
+    let currentIndex = 0;
+
+    for (let i = 0; i < groupIndex; i++) {
+      currentIndex += this.permissionGroups()[i]?.permissions?.length || 0;
+    }
+
+    return currentIndex + permissionIndex;
+  }
+
+  public closeDialog(data: Partial<Role> | false = false): void {
     this.dialogRef.close(data);
+  }
+
+  public trackByGroup(index: number, group: RoleLegendDTO): string {
+    return group.groupName;
+  }
+
+  public trackByPermission(index: number, permission: Permission): string {
+    return permission.key;
   }
 }

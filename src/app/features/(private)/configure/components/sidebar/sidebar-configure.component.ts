@@ -18,6 +18,8 @@ interface NavItem {
 export class SidebarConfigureComponent {
   public navItems: NavItem[] = [
     { path: '/configure', icon: 'link', label: 'Conexões' },
+    { path: '/configure/profile', icon: 'account_circle', label: 'Perfil' },
+    { path: '/configure/security', icon: 'admin_panel_settings', label: 'Segurança' },
     {
       icon: 'store',
       label: 'Negócio',
@@ -29,10 +31,8 @@ export class SidebarConfigureComponent {
         { path: '/configure/business/address', label: 'Endereço' },
       ],
     },
-    { path: '/configure/profile', icon: 'account_circle', label: 'Perfil' },
     { path: '/configure/invites', icon: 'outgoing_mail', label: 'Convites' },
     { path: '/configure/members', icon: 'assignment_ind', label: 'Membros' },
-    { path: '/configure/security', icon: 'admin_panel_settings', label: 'Segurança' },
   ];
 
   toggleSubmenu(item: NavItem) {

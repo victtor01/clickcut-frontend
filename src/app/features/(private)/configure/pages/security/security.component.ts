@@ -62,11 +62,20 @@ export class SecurityComponent implements OnInit {
 
   onUserPasswordSubmit(): void {
     if (this.userPasswordForm.invalid) return;
-    console.log('Alterando senha do usuário:', this.userPasswordForm.value);
   }
 
-  onBusinessPasswordSubmit(): void {
+  public async onBusinessPasswordSubmit(): Promise<void> {
     if (this.businessPasswordForm.invalid) return;
+    try {
+      const password = this.businessPasswordForm.get('newPin')?.value;
+
+      await firstValueFrom(this.businessService.updatePassword(password));
+
+      console.log('Alterando senha do usuário:', this.userPasswordForm.value);
+    } catch (err) {
+      console.log(err);
+    }
+
     console.log('Definindo senha do negócio:', this.businessPasswordForm.value);
   }
 

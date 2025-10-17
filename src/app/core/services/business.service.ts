@@ -33,6 +33,10 @@ export class BusinessService {
     );
   }
 
+  public updatePassword(newPassword: string): Observable<{ message: string }> {
+    return this.apiService.put('/business/password', { newPassword });
+  }
+
   public getAll(): Observable<Business[]> {
     return this.apiService.get<Business[]>('/business/all');
   }

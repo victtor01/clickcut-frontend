@@ -16,12 +16,13 @@
     <div
       class="relative flex items-center gap-2 rounded-full bg-white/60 dark:bg-zinc-800/50 p-1 shadow-sm border border-white/20 dark:border-zinc-700/80"
     >
-      <img
-        *ngIf="statement?.bannerUrl"
-        [src]="statement?.bannerUrl"
-        alt="Banner da loja"
-        class="absolute inset-0 h-full w-full rounded-full object-cover -z-10 opacity-20"
-      />
+      @if (statement?.bannerUrl) {
+        <img
+          [src]="statement?.bannerUrl"
+          alt="Banner da loja"
+          class="absolute inset-0 h-full w-full rounded-full object-cover -z-10 opacity-20"
+        />
+      }
 
       <button
         class="relative grid h-12 w-12 shrink-0 place-items-center rounded-full text-zinc-500 hover:bg-black/5 dark:text-zinc-400 dark:hover:bg-white/10 transition-colors"
@@ -80,7 +81,7 @@
                 (click)="handleTheme()"
                 class="block px-4 py-2 text-sm flex-1 w-full text-left text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
               >
-                Mudar tema  
+                Mudar tema
               </button>
               <a
                 href="#"
@@ -189,14 +190,17 @@
     <section class="flex items-center justify-between gap-1">
       <div class="flex gap-2 flex-1 items-center min-w-0">
         <div
-          class="relative overflow-hidden w-12 h-12 bg-zinc-900 rounded-full shadow-xl grid place-items-center aspect-square"
+          class="relative overflow-hidden w-12 h-12 bg-zinc-200 dark:bg-zinc-800 rounded-full shadow-xl grid place-items-center aspect-square"
         >
-          <img
-            *ngIf="statement?.logoUrl"
-            [src]="statement?.logoUrl"
-            alt="Banner da loja"
-            class="absolute h-full w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
-          />
+          @if (statement?.logoUrl) {
+            <img
+              [src]="statement?.logoUrl"
+              alt="Banner da loja"
+              class="absolute h-full w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
+            />
+          } @else {
+            <i class="material-icons-outlined text-zinc-500 dark:text-gray-400">store</i>
+          }
         </div>
         <div class="flex flex-col min-w-0">
           <h1
@@ -223,6 +227,14 @@
     </section>
 
     <section class="flex flex-col p-2 flex-1 justify-center">
+      <div class="justify-between flex">
+        <span class="text-sm saira-font text-indigo-100">
+          {{ statement?.revenue | toFormatBrl }}
+        </span>
+        <span class="text-sm saira-font text-indigo-100">
+          {{ statement?.revenueGoal | toFormatBrl }}
+        </span>
+      </div>
       <div class="flex h-3 flex-col rounded-full bg-indigo-900/30">
         <span
           [style.width.%]="porcetage"
@@ -235,17 +247,9 @@
           </span>
         </span>
       </div>
-      <div class="justify-between flex">
-        <span class="text-sm saira-font text-indigo-100">
-          {{ statement?.revenue | toFormatBrl }}
-        </span>
-        <span class="text-sm saira-font text-indigo-100">
-          {{ statement?.revenueGoal | toFormatBrl }}
-        </span>
-      </div>
     </section>
 
-    <section class="flex items-end px-2 flex-1 mt-1">
+    <section class="flex items-end px-2 flex-1 mt-6">
       <div class="flex justify-between flex-1 items-center">
         <div class="flex text-indigo-50 flex-col leading-none gap-1 text-sm">
           <span class="saira-font text-xl font-semibold">
