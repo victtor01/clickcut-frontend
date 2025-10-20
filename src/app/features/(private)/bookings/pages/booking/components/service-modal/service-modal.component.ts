@@ -30,15 +30,14 @@ export class ServiceModalComponent implements OnInit {
     notes: [''],
   });
 
-	private data = inject<{ service: BookingService }>(MAT_DIALOG_DATA);
-	
-	public get initialData () {
-		return this.data.service;
-	}
+  private data = inject<{ service: BookingService }>(MAT_DIALOG_DATA);
 
-  ngOnInit(): void {
-		console.log("initi", this.initialData)
-		if(!this.initialData) return;
+  public get initialData() {
+    return this.data.service;
+  }
+
+  public ngOnInit(): void {
+    if (!this.initialData) return;
 
     this.form.patchValue({
       title: this.initialData.title,
@@ -49,10 +48,7 @@ export class ServiceModalComponent implements OnInit {
     });
 
     this.form.valueChanges
-      .pipe(
-        startWith(this.form.value),
-        takeUntilDestroyed(this.destroyRef),
-      )
+      .pipe(startWith(this.form.value), takeUntilDestroyed(this.destroyRef))
       .subscribe((values) => {
         const price = this.initialData.price || 0;
         const extraFee = values.extraFee || 0;
@@ -61,7 +57,7 @@ export class ServiceModalComponent implements OnInit {
       });
   }
 
-  public get price() {
+  public get price(): number {
     if (this.form.get('price')?.value) {
       return this.form.get('price')!.value! / 100;
     } else {
@@ -75,23 +71,16 @@ export class ServiceModalComponent implements OnInit {
       return;
     }
 
-    this.isSubmitting.set(true);
-
     const finalData = {
       ...this.initialData,
       ...this.form.value,
       finalPrice: this.finalPrice(),
     };
 
-    setTimeout(() => {
-      this.isSubmitting.set(false);
-      this.dialogRef.close(finalData); // Fecha o modal e retorna os dados
-    }, 1500);
+    this.dialogRef.close(finalData);
   }
 
   public close(): void {
     this.dialogRef.close();
   }
-
-	
 }

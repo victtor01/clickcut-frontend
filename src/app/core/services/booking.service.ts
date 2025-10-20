@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { Booking } from '../models/Booking';
 import { CreateBookingDTO } from '../schemas/create-booking.dto';
+import { UpdateBookingServiceDTO } from '../schemas/update-booking-service.dto';
 import { ApiService } from './api.service';
 
 export type BookingsByDay = Record<string, Booking[]>;
@@ -28,7 +29,11 @@ export class BookingsService {
   }
 
   public updateServices(bookingId: string, services: string[]): Observable<{ message: string }> {
-    return this.apiService.patch("/bookings/services", { services, bookingId });
+    return this.apiService.patch('/bookings/services', { services, bookingId });
+  }
+
+  public updateService(bookingId: string, data: UpdateBookingServiceDTO) {
+    return this.apiService.put(`/bookings/services/${bookingId}`, data);
   }
 
   public findById(bookingId: string): Observable<Booking> {

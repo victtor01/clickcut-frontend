@@ -4,6 +4,7 @@ import { Client } from './Client';
 import { User } from './User';
 
 export interface Booking {
+  finalPrice: number;
   id: string;
   title: string;
   startAt: Date;

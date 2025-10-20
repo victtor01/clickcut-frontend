@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Service } from '@app/core/models/Service';
 import { BookingsService } from '@app/core/services/booking.service';
 import { ServicesService } from '@app/core/services/services.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -15,8 +17,11 @@ import { firstValueFrom } from 'rxjs';
 export class EditAppointmentServicesModalComponent implements OnInit {
   private readonly servicesService = inject(ServicesService);
   private readonly bookingsService = inject(BookingsService);
+  private readonly toastService = inject(ToastService);
 
   public data = inject<{ selectedIds: string[]; bookingId: string }>(MAT_DIALOG_DATA);
+
+  public dialogRef = inject(MatDialogRef<EditAppointmentServicesModalComponent>);
 
   public get selectedIds() {
     return this.data.selectedIds || [];
@@ -58,6 +63,10 @@ export class EditAppointmentServicesModalComponent implements OnInit {
     return this.selectedServiceIds().has(service.id);
   }
 
+  public close() {
+    this.dialogRef.close();
+  }
+
   public toggleServiceSelection(service: Service): void {
     this.selectedServiceIds.update((currentIds) => {
       const newIds = new Set(currentIds);
@@ -71,10 +80,21 @@ export class EditAppointmentServicesModalComponent implements OnInit {
   }
 
   public async saveChanges(): Promise<void> {
-    await firstValueFrom(
-      this.bookingsService.updateServices(this.bookingId, [...this.selectedServiceIds()]),
-    );
-		
-    console.log('Salvando os seguintes IDs de serviço:', Array.from(this.selectedServiceIds()));
+    try {
+      const servicesIds = [...this.selectedServiceIds()];
+
+      await firstValueFrom(this.bookingsService.updateServices(this.bookingId, servicesIds));
+
+      this.toastService.success('Novos serviços atualizados!');
+
+      this.dialogRef.close();
+    } catch (err) {
+      const defaultError = 'Houve um erro desconhecido!';
+      if (err instanceof HttpErrorResponse) {
+        this.toastService.error(err.error?.data?.message || defaultError);
+      } else {
+        this.toastService.error(defaultError);
+      }
+    }
   }
 }

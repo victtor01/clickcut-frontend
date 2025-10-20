@@ -1,14 +1,23 @@
 <div
   class="flex flex-col rounded-xl border border-zinc-100 bg-stone-50 dark:border-zinc-800 dark:bg-zinc-900"
 >
-  <div class="px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-        Editar Serviços
-      </h1>
-      <p class="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
-        Selecione os serviços que fazem parte deste agendamento.
-      </p>
+  <div class="p-7">
+    <header class="mb-8 flex items-center gap-2 justify-between">
+      <div class="block">
+        <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
+          Editar Serviços
+        </h1>
+        <p class="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
+          Selecione os serviços que fazem parte deste agendamento.
+        </p>
+      </div>
+
+      <button
+        class="w-10 h-10 grid place-items-center rounded-full bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 hover:bg-zinc-100"
+        (click)="close()"
+      >
+        <i class="material-icons-outlined">close</i>
+      </button>
     </header>
 
     @if (isLoading()) {
@@ -55,7 +64,7 @@
   </div>
 
   <footer
-    class="fixed bottom-0 left-0 z-10 w-full border-t border-zinc-200 bg-white/80 p-4 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/80"
+    class="z-10 w-full border-t border-zinc-200 bg-white/80 p-4 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/80"
   >
     <div class="mx-auto flex max-w-[54rem] items-center justify-between gap-4">
       <div>
@@ -70,7 +79,7 @@
       <button
         (click)="saveChanges()"
         [disabled]="selectedServices().length === 0"
-        class="rounded-full bg-indigo-500 px-10 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800"
+        class="rounded-full bg-indigo-500 dark:hover:bg-indigo-400 px-10 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-600 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800"
       >
         Salvar
       </button>

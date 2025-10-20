@@ -5,10 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingService } from '@app/core/models/BookingService';
+import { UpdateBookingServiceDTO } from '@app/core/schemas/update-booking-service.dto';
 import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
-import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
+import { firstValueFrom } from 'rxjs';
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
 import { EditAppointmentServicesModalComponent } from './components/edit-services/edit-services.component';
 import { PaymentBookingModalComponent } from './components/payment-modal/payment-booking-modal.component';
@@ -26,8 +27,8 @@ const DEFAULT_BUTTON_LABEL = 'Avançar status';
 @Component({
   selector: 'app-booking-details',
   templateUrl: './booking-details.component.html',
-  styleUrls: ['./booking-details.component.scss'], // Adicione o SCSS
-  imports: [RouterLink, CommonModule, ToFormatBrlPipe, AllPaymentsComponent], // Adicione CommonModule e RouterLink
+  styleUrls: ['./booking-details.component.scss'],
+  imports: [RouterLink, CommonModule, AllPaymentsComponent], // Adicione CommonModule e RouterLink
 })
 export class BookingDetailsComponent implements OnInit {
   constructor(
@@ -119,8 +120,8 @@ export class BookingDetailsComponent implements OnInit {
     return checkingStatusIndex <= currentStatusIndex;
   }
 
-  public openService(service: BookingService) {
-    this.dialog.open(ServiceModalComponent, {
+  public openService(service: BookingService): void {
+    const dialogServiceModal = this.dialog.open(ServiceModalComponent, {
       backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
@@ -129,17 +130,39 @@ export class BookingDetailsComponent implements OnInit {
       exitAnimationDuration: '200ms',
       data: { service },
     });
+
+    dialogServiceModal.afterClosed().subscribe(async (data: BookingService) => {
+      if (data) {
+        try {
+          const updateData: UpdateBookingServiceDTO = {
+            name: data.title,
+            extraFee: data.extraFee,
+            discount: data.discount,
+            observation: data.notes,
+          };
+
+          await firstValueFrom(this.bookingService.updateService(data.id, updateData));
+
+          this.toastService.show('Atualizado com sucesso!');
+        } catch {
+          this.toastService.error('Não foi possível atualizar o serviço!');
+        }
+      }
+    });
   }
 
-  public openAllServices() {
+  public openAllServices(): void {
     this.dialog.open(EditAppointmentServicesModalComponent, {
       backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
-      width: 'min(55rem, 90%)',
+      width: 'min(40rem, 100%)',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
-      data: { selectedIds: this.booking?.services?.map(s => s.service?.id) || [], bookingId: this.booking?.id },
+      data: {
+        selectedIds: this.booking?.services?.map((s) => s.service?.id) || [],
+        bookingId: this.booking?.id,
+      },
     });
   }
 
@@ -238,7 +261,7 @@ export class BookingDetailsComponent implements OnInit {
     }
   }
 
-  public openModalToPay() {
+  public openModalToPay(): void {
     const dialogRef = this.paymentDialog.open(PaymentBookingModalComponent, {
       backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],

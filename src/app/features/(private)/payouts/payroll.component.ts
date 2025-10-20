@@ -57,6 +57,8 @@ export class PayrollComponent implements OnInit {
     if (this.members && this.members.length > 0) {
       this.selectedMember = this.members[0];
     }
+
+    console.log(this.members)
   }
 
   public toggleDropdown(): void {
