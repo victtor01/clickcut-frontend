@@ -48,7 +48,9 @@
             Cliente
           </h2>
           @if (booking.client) {
-            <div class="flex items-center gap-4 p-3 bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg">
+            <div
+              class="flex items-center gap-4 p-3 bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg"
+            >
               <img
                 *ngIf="booking.client.avatarUrl"
                 [src]="booking.client"
@@ -73,17 +75,36 @@
         </div>
 
         <div class="flex flex-col gap-3">
-          <h2
-            class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
-          >
-            Serviços
-          </h2>
+          <header class="flex items-center justify-between gap-4">
+            <h2
+              class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
+            >
+              Serviços
+            </h2>
+
+            <button
+            type="button"
+            (click)="openAllServices()"
+            class="w-10 h-10 bg-white dark:bg-zinc-800/70 dark:hover:bg-zinc-800 grid rounded-lg place-items-center">
+              <i class="material-icons-outlined">edit</i>
+            </button>
+          </header>
           <div
-            class="flex flex-col gap-2 p-3 bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg divide-y divide-gray-200 dark:divide-zinc-800"
+            class="flex flex-col gap-2 bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg divide-y divide-gray-200 dark:divide-zinc-800"
           >
             @for (service of booking.services; track service.id) {
-              <div class="flex justify-between items-center py-2 px-2">
-                <p class="text-gray-700 text-lg dark:text-gray-300">{{ service.title }}</p>
+              <div
+                (click)="openService(service)"
+                class="flex justify-between items-center p-4 hover:bg-zinc-100 dark:hover:bg-zinc-800/50"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    class="w-10 h-10 relative rounded-2xl rounded-tl-lg bg-zinc-100 dark:bg-zinc-800"
+                  >
+                    <img />
+                  </div>
+                  <p class="text-gray-700 text-lg dark:text-gray-300">{{ service.title }}</p>
+                </div>
                 <p class="font-semibold text-gray-800 dark:text-gray-300">
                   {{ service.price | toFormatBrl }}
                 </p>
@@ -98,7 +119,9 @@
           >
             Horário
           </h2>
-          <div class="flex items-center gap-4 p-3 bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg">
+          <div
+            class="flex items-center gap-4 p-3 bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg"
+          >
             <i class="material-icons-outlined text-indigo-500">watch_later</i>
             <div>
               <p class="font-bold text-gray-800 dark:text-gray-100">

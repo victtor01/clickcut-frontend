@@ -9,7 +9,7 @@ import { ApiService } from './api.service';
 export type BookingsByDay = Record<string, Booking[]>;
 
 @Injectable({ providedIn: 'root' })
-export class BookingService {
+export class BookingsService {
   constructor(private readonly apiService: ApiService) {}
 
   public getAll(startAt?: string, endAt?: string): Observable<BookingsByDay> {
@@ -25,6 +25,10 @@ export class BookingService {
 
   public create(createBookingDTO: CreateBookingDTO) {
     return this.apiService.post<Booking>('/bookings', createBookingDTO);
+  }
+
+  public updateServices(bookingId: string, services: string[]): Observable<{ message: string }> {
+    return this.apiService.patch("/bookings/services", { services, bookingId });
   }
 
   public findById(bookingId: string): Observable<Booking> {

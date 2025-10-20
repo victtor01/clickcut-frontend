@@ -4,12 +4,15 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
-import { BookingService } from '@app/core/services/booking.service';
+import { BookingService } from '@app/core/models/BookingService';
+import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs'; // Importe o Dayjs
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
+import { EditAppointmentServicesModalComponent } from './components/edit-services/edit-services.component';
 import { PaymentBookingModalComponent } from './components/payment-modal/payment-booking-modal.component';
+import { ServiceModalComponent } from './components/service-modal/service-modal.component';
 
 const BOOKING_STATUS_LABELS: Record<string, string> = {
   CONFIRMED: 'Começar agendamento',
@@ -29,10 +32,11 @@ const DEFAULT_BUTTON_LABEL = 'Avançar status';
 export class BookingDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly bookingService: BookingService,
+    private readonly bookingService: BookingsService,
     private readonly paymentDialog: MatDialog,
     private readonly toastService: ToastService,
     private readonly scrollStrategies: ScrollStrategyOptions,
+    private readonly dialog: MatDialog,
   ) {}
 
   public bookingId: string | null = null;
@@ -56,6 +60,7 @@ export class BookingDetailsComponent implements OnInit {
       this.bookingService.findById(this.bookingId).subscribe({
         next: (value) => {
           this.booking = value;
+          console.log(this.booking);
         },
       });
     }
@@ -87,9 +92,9 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   public updateTotalPaid = (paid: number) => {
-    this.totalPaid = paid
-  }
-  
+    this.totalPaid = paid;
+  };
+
   public get porcetagePaid() {
     if (!this.totalPrice || this.totalPrice === 0) return 0;
     return (this.totalPaid / this.totalPrice) * 100;
@@ -112,6 +117,30 @@ export class BookingDetailsComponent implements OnInit {
     if (currentStatusIndex === -1) return false;
 
     return checkingStatusIndex <= currentStatusIndex;
+  }
+
+  public openService(service: BookingService) {
+    this.dialog.open(ServiceModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(55rem, 90%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { service },
+    });
+  }
+
+  public openAllServices() {
+    this.dialog.open(EditAppointmentServicesModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(55rem, 90%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { selectedIds: this.booking?.services?.map(s => s.service?.id) || [], bookingId: this.booking?.id },
+    });
   }
 
   public getLineColor(status: BookingStatus): string {

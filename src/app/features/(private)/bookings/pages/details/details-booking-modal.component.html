@@ -85,6 +85,12 @@
                   >check_circle_unread</i
                 >
 
+                  <i
+                  *ngIf="booking.status === 'IN_PROGRESS'"
+                  class="material-symbols-outlined !text-xl text-indigo-600 dark:text-indigo-300"
+                  >check_circle_unread</i
+                >
+
                 <i
                   *ngIf="booking.status === 'PAID'"
                   class="material-icons-outlined !text-xl text-green-600 dark:text-green-300"

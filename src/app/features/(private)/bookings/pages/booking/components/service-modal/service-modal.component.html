@@ -1,0 +1,127 @@
+<section
+  class="flex flex-col rounded-xl border border-zinc-100 bg-stone-50 dark:border-zinc-800 dark:bg-zinc-900"
+>
+  <header
+    class="flex items-start justify-between border-b border-zinc-200/80 p-6 dark:border-zinc-800"
+  >
+    <div class="flex items-center gap-4">
+      <div
+        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-500/10"
+      >
+        <i class="material-symbols-outlined text-indigo-600 dark:text-indigo-400">edit_note</i>
+      </div>
+      <div>
+        <h2 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+          Editar Detalhes do Serviço
+        </h2>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">
+          Ajuste os valores e adicione observações para este serviço.
+        </p>
+      </div>
+    </div>
+    <button
+      (click)="close()"
+      class="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-700"
+    >
+      <i class="material-symbols-outlined">close</i>
+    </button>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" id="serviceDetailsForm">
+    <main class="flex-1 space-y-6 overflow-y-auto p-6">
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-zinc-300">
+          Nome do Serviço
+        </label>
+        <div class="mt-1">
+          <input
+            id="title"
+            type="text"
+            formControlName="title"
+            class="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+          />
+        </div>
+      </div>
+
+      <div>
+        <h4 class="mb-3 text-sm font-medium text-gray-500 dark:text-zinc-400">
+          Detalhamento de Valores
+        </h4>
+        <div class="space-y-4 rounded-lg dark:bg-zinc-800/50 p-4 dark:border-zinc-800">
+          <div class="flex items-center justify-between">
+            <label class="text-sm text-zinc-600 dark:text-zinc-300">Preço Original</label>
+            <span class="font-medium text-zinc-800 dark:text-zinc-100">
+              {{ price | currency: 'BRL' }}
+            </span>
+          </div>
+          <div class="flex items-center justify-between gap-4">
+            <label for="extraFee" class="text-sm text-zinc-600 dark:text-zinc-300"
+              >Taxa Extra</label
+            >
+            <input
+              id="extraFee"
+							appMoneyInput
+							formControlName="extraFee"
+              class="w-24 rounded-md border no-spinner  border-zinc-300 bg-white px-2 py-1 text-right text-sm text-green-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-green-400"
+            />
+          </div>
+          <div class="flex items-center justify-between gap-4">
+            <label for="discount" class="text-sm text-zinc-600 dark:text-zinc-300">Desconto</label>
+            <input
+              id="discount"
+							appMoneyInput
+              formControlName="discount"
+              class="w-24 rounded-md border no-spinner border-zinc-300 bg-white px-2 py-1 text-right text-sm text-red-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-red-400"
+            />
+          </div>
+        </div>
+        <div
+          class="mt-2 flex items-center justify-between rounded-lg bg-zinc-100 p-4 dark:bg-zinc-800/50"
+        >
+          <span class="font-bold text-zinc-900 dark:text-white">Preço Final</span>
+          <span class="text-lg font-bold text-indigo-600 dark:text-indigo-400">
+            {{ finalPrice() / 100 | currency: 'BRL' }}
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <label for="notes" class="text-sm font-medium text-gray-500 dark:text-zinc-400"
+          >Observações</label
+        >
+        <div class="mt-2">
+          <textarea
+            id="notes"
+            formControlName="notes"
+            rows="3"
+            class="w-full rounded-lg border border-zinc-300 bg-white p-3 text-sm text-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-300"
+          ></textarea>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      class="flex justify-end gap-3 border-t border-zinc-200/80 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/50"
+    >
+      <button
+        (click)="close()"
+        type="button"
+        class="rounded-lg bg-transparent px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        [disabled]="form.invalid || isSubmitting()"
+        class="flex min-w-[120px] items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800"
+      >
+        @if (isSubmitting()) {
+          <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
+          <span class="ml-2">Salvando...</span>
+        } @else {
+          <span>Salvar</span>
+        }
+      </button>
+    </footer>
+  </form>
+</section>

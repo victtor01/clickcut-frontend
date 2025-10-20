@@ -3,7 +3,7 @@ import { Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@an
 import { MatDialog } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
-import { BookingsByDay, BookingService } from '@app/core/services/booking.service';
+import { BookingsByDay, BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
@@ -28,7 +28,7 @@ export class BookingComponent implements OnInit, OnDestroy {
   private timeIndicator!: ElementRef;
 
   constructor(
-    private readonly bookingsService: BookingService,
+    private readonly bookingsService: BookingsService,
     private readonly toastService: ToastService,
     private readonly dialogDetails: MatDialog,
   ) {}
@@ -64,13 +64,8 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   public activeFilter = signal<BookingFilter>('all');
 
-  // Método para atualizar o filtro quando um botão é clicado
   public setFilter(filter: BookingFilter): void {
     this.activeFilter.set(filter);
-    //
-    // AQUI você adicionaria a lógica para recarregar ou filtrar sua lista de agendamentos
-    // Ex: this.loadBookings(filter);
-    //
     console.log('Filtro ativo:', this.activeFilter());
   }
 

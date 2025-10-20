@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
-import { Service } from '@app/core/models/Service';
+import { BookingService } from '@app/core/models/BookingService';
 import { AttendeeService } from '@app/core/services/attendee.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import { firstValueFrom } from 'rxjs';
@@ -86,7 +86,7 @@ export class HubHomeComponent implements OnInit {
     this.openedSettings = null;
   }
 
-  public getTotalPrice(services: Service[] | undefined): number {
+  public getTotalPrice(services: BookingService[] | undefined): number {
     if (!services) return 0;
     return services.reduce((total, service) => total + service.price, 0);
   }

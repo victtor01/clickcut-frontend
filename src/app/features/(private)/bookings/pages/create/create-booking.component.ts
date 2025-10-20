@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Service } from '@app/core/models/Service';
 import { CreateBookingDTO } from '@app/core/schemas/create-booking.dto';
-import { BookingService } from '@app/core/services/booking.service';
+import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { AllServicesComponent } from '@app/features/(private)/services/components/all-services/all-services.component';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
@@ -20,7 +20,7 @@ dayjs.extend(customParseFormat);
 export class CreateBookingComponent implements OnInit {
   constructor(
     private readonly toastService: ToastService,
-    private readonly bookingService: BookingService,
+    private readonly bookingService: BookingsService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {}
