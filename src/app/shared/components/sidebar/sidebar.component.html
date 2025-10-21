@@ -50,7 +50,7 @@
 </div>
 
 <aside
-  class="hidden w-[18rem] flex-shrink-0 flex-col 2xl:m-4 2xl:rounded-2xl overflow-y-auto border-r 2xl:border border-slate-100 shadow-none dark:shadow-xl dark:shadow-black bg-white dark:border-zinc-800 dark:bg-zinc-950/70 backdrop-blur-lg lg:flex"
+  class="hidden w-[18rem] flex-shrink-0 flex-col 2xl:m-4 2xl:rounded-2xl overflow-y-auto  border-r 2xl:border border-slate-100 shadow-none dark:shadow-xl dark:shadow-black bg-white dark:border-zinc-800 dark:bg-zinc-950/70 backdrop-blur-lg lg:flex"
 >
   <div class="flex flex-1 flex-col">
     <div class="mb-4 p-5">
@@ -91,11 +91,11 @@
 
     <nav class="flex-1 px-5">
       <ul class="flex flex-col gap-1">
-        <li *ngFor="let tab of tabs">
+        <li *ngFor="let tab of tabs" class="relative">
           <a
             (click)="selectTab(tab)"
             href="javascript:void(0)"
-            class="group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors duration-200"
+            class="group flex items-center gap-3 rounded-lg px-3 py-1.5 font-medium transition-colors duration-200"
             [ngClass]="{
               'bg-indigo-50 text-indigo-950 dark:bg-zinc-800/50 dark:text-indigo-400':
                 tab.id === activeTabId,

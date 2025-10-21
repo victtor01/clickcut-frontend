@@ -13,6 +13,13 @@ export class PayrollService {
     return this.apiService.get('/payroll');
   }
 
+  public pay(payoutId: string): Observable<{ message: string }> {
+    const form = new FormData();
+    form.append('payoutId', payoutId);
+
+    return this.apiService.patchForm('/payroll/mark-as-paid', form);
+  }
+
   public generate(data: CreatePayrollDTO): Observable<Payout> {
     return this.apiService.post('/payroll/generate', data);
   }

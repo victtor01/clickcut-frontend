@@ -14,6 +14,10 @@ export class ApiService {
     return this.http.put<T>(`${this.apiUrl}${path}`, body);
   }
 
+  patchForm<T>(path: string, body: FormData): Observable<T> {
+    return this.http.patch<T>(`${this.apiUrl}${path}`, body);
+  }
+
   postForm<T>(path: string, body: FormData): Observable<T> {
     return this.http.post<T>(`${this.apiUrl}${path}`, body);
   }

@@ -1,6 +1,7 @@
 // payroll.component.ts
 
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PayrollReviewResponse } from '@app/core/DTOs/payroll-review-response';
@@ -45,11 +46,13 @@ export class PayrollComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.generateCalendar();
-
-    await Promise.all([this.fetchPayroll(), this.fetchMembers()]);
-
-    this.updateUnavailableRanges();
+    await this.generateAvaibleData();
     this.validatePeriod();
+  }
+
+  public async generateAvaibleData(): Promise<void> {
+    await Promise.all([this.fetchPayroll(), this.fetchMembers()]);
+    this.updateUnavailableRanges();
   }
 
   private async fetchMembers(): Promise<void> {
@@ -57,8 +60,6 @@ export class PayrollComponent implements OnInit {
     if (this.members && this.members.length > 0) {
       this.selectedMember = this.members[0];
     }
-
-    console.log(this.members)
   }
 
   public toggleDropdown(): void {
@@ -70,9 +71,14 @@ export class PayrollComponent implements OnInit {
 
     this.selectedMember = member;
     this.isOpen = false;
+
+    this.clear();
+    this.updateUnavailableRanges();
+  }
+
+  public clear(): void {
     this.periodStart = null;
     this.periodEnd = null;
-    this.updateUnavailableRanges();
   }
 
   public async generate(): Promise<void> {
@@ -87,15 +93,25 @@ export class PayrollComponent implements OnInit {
     }
 
     try {
-      await firstValueFrom(
-        this.payrollService.generate({
-          memberId: this.selectedMember.user.id!,
-          periodStart: this.periodStart,
-          periodEnd: this.periodEnd,
-        }),
-      );
+      const data = {
+        memberId: this.selectedMember.user.id!,
+        periodStart: this.periodStart,
+        periodEnd: this.periodEnd,
+      };
+
+      await firstValueFrom(this.payrollService.generate(data));
+
+      await this.generateAvaibleData();
+
+      this.clear();
     } catch (err) {
-      this.toastService.error('Houve um erro ao tentar gerar uma comissão');
+      let message;
+
+      if (err instanceof HttpErrorResponse) {
+        message = err?.error?.data?.message || 'Houve um erro ao tentar gerar uma comissão';
+      }
+
+      this.toastService.error(message);
     }
   }
 
@@ -108,6 +124,12 @@ export class PayrollComponent implements OnInit {
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
       data: { payout },
+    });
+
+    modal.afterClosed().subscribe(async (data) => {
+      if (data?.confirmed) {
+        await this.generateAvaibleData();
+      }
     });
   }
 

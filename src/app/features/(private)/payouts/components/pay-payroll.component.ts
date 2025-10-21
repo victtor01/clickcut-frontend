@@ -4,9 +4,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Payout } from '@app/core/models/Payout';
 
 // Importe os módulos do Angular Material que serão usados no template
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { PayrollService } from '@app/core/services/payroll.service';
+import { ToastService } from '@app/core/services/toast.service';
+import { firstValueFrom } from 'rxjs';
 
 interface DialogData {
   payout: Payout;
@@ -26,9 +30,12 @@ interface DialogData {
   ],
 })
 export class PayPayrollModalComponent {
-	private dialogRef = inject(MatDialogRef<PayPayrollModalComponent>);
+  private readonly dialogRef = inject(MatDialogRef<PayPayrollModalComponent>);
+  private readonly payoutService = inject(PayrollService);
+  private readonly toastService = inject(ToastService);
+
   public data: DialogData = inject(MAT_DIALOG_DATA);
-	
+
   public proofFile: File | null = null;
   public isSubmitting = false;
 
@@ -43,11 +50,22 @@ export class PayPayrollModalComponent {
     }
   }
 
-	public registerPayment(): void {
+  public async registerPayment(): Promise<void> {
     this.isSubmitting = true;
-    setTimeout(() => {
+
+    try {
+      await firstValueFrom(this.payoutService.pay(this.data.payout.id));
       this.dialogRef.close({ confirmed: true, file: this.proofFile });
-    }, 500);
+    } catch (err) {
+      console.log(err);
+      if (err instanceof HttpErrorResponse) {
+        this.toastService.error(err.error.data?.message);
+      } else {
+        this.toastService.error('Houve um erro desconhecido!');
+      }
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 
   public closeModal(): void {
