@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'; // Importante para gerenciar a inscrição!
 import {
   FormBuilder,
   FormGroup,
@@ -9,8 +8,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Business, TimeSlot } from '@app/core/models/Business';
+import { MemberShip } from '@app/core/models/MemberShip';
+import { User } from '@app/core/models/User';
 import { UpdateBusinessDTO } from '@app/core/schemas/update-business.dto';
+import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
+import { MembersService } from '@app/core/services/members.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { CustomSliderComponent } from '@app/shared/components/custom-slider/custom-slider.component';
 import { MoneyInputDirective } from '@app/shared/directives/app-money-input.directive';
@@ -46,19 +49,27 @@ export class ConfigureBusinessComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required]],
       revenueGoal: [0],
+      paymentAccountId: [null as string | null],
     });
   }
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly businessService = inject(BusinessService);
+  private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
+  private readonly membersService = inject(MembersService);
+
   public readonly form: FormGroup;
 
   public isLoading: boolean = false;
   public minRevenue: number = 5000;
   public maxRevenue: number = 50_000_00;
   public stepRevenue: number = 10_00;
+
+  public members?: MemberShip[];
   public business?: Business;
+
+  public owner?: User;
 
   public reviewLogoUrl?: string;
   public reviewBannerUrl?: string;
@@ -66,28 +77,43 @@ export class ConfigureBusinessComponent implements OnInit {
   public fileLogo?: File;
   public fileBanner?: File;
 
-  public ngOnInit(): void {
-    this.getSessionBusiness();
+  public async ngOnInit(): Promise<void> {
+    await this.getSessionBusiness();
+    await this.getMembers();
   }
 
-  public async getSessionBusiness() {
+  public async getSessionBusiness(): Promise<void> {
     this.businessService.loadBusinessSession().subscribe();
 
-    this.businessService.businessSession$
-      .pipe(
-        filter((business): business is Business => business !== null),
-        takeUntilDestroyed(this.destroyRef) 
-      )
-      .subscribe(business => {
-        this.business = business;
-        this.reviewBannerUrl = this.business.bannerUrl;
-        this.reviewLogoUrl = this.business.logoUrl;
+    const business = await firstValueFrom(
+      this.businessService.businessSession$.pipe(filter((b): b is Business => b !== null)),
+    );
 
-        this.form.patchValue({
-          name: this.business.name,
-          revenueGoal: this.business.revenueGoal,
-        });
-      });
+    
+    this.business = business;
+    this.reviewBannerUrl = business.bannerUrl;
+    this.reviewLogoUrl = business.logoUrl;
+
+    console.log(this.business)
+
+    this.form.patchValue({
+      name: business.name,
+      revenueGoal: business.revenueGoal,
+      paymentAccountId: business.paymentReceiverId,
+    });
+  }
+
+  public async getMembers(): Promise<void> {
+    if (!this.business) return;
+
+    const currMember = await firstValueFrom(this.authService.currentUser$);
+    const members = await firstValueFrom(this.membersService.findAll());
+
+    if (this.business?.ownerId) {
+      this.owner = currMember;
+    }
+
+    this.members = members || [];
   }
 
   public onBannerSelectedChange(event: any): void {
@@ -132,6 +158,7 @@ export class ConfigureBusinessComponent implements OnInit {
     const data = {
       name: this.form.get('name')?.value,
       revenueGoal: this.form.get('revenueGoal')?.value,
+      paymentAccountId: this.form.get('paymentAccountId')?.value,
       removeLogoFile: false,
       removeBannerFile: false,
       logoFile: this.fileLogo || null,

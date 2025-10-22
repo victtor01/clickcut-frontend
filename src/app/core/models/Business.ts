@@ -5,6 +5,7 @@ export interface Business {
   id: string;
   name: string;
   owner?: User;
+  ownerId?: string;
   timeZoneId?: string;
   revenueGoal?: number;
   isOpen?: boolean;
@@ -13,6 +14,8 @@ export interface Business {
   bannerUrl?: string;
   logoUrl?: string;
   members?: User[];
+  paymentReceiverId?: string;
+  paymentReceiver?: User;
   hasPassword?: boolean | number;
 }
 

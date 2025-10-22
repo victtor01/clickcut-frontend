@@ -5,4 +5,5 @@ export interface UpdateBusinessDTO {
   bannerFile: File | null;
   removeLogoFile: boolean;
   removeBannerFile: boolean;
+  paymentAccountId?: string | null;
 }

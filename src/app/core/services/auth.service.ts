@@ -60,7 +60,7 @@ export class AuthService {
       tap((business) => {
         this.currentBusinessSubject.next(business);
       }),
-      map(() => true), 
+      map(() => true),
       catchError(() => {
         this.currentBusinessSubject.next(null);
         return of(false);
@@ -87,9 +87,9 @@ export class AuthService {
    * Realiza o login do Manager e, em seguida, verifica a sessão do usuário.
    */
   public login(email: string, password: string): Observable<AuthResponse> {
-    return this.apiService.post<AuthResponse>('/auth', { email, password }).pipe(
-      switchMap((authResponse) => this.checkAuthStatus().pipe(map(() => authResponse))),
-    );
+    return this.apiService
+      .post<AuthResponse>('/auth', { email, password })
+      .pipe(switchMap((authResponse) => this.checkAuthStatus().pipe(map(() => authResponse))));
   }
 
   public loginClient(email: string, password: string): Observable<AuthResponse> {

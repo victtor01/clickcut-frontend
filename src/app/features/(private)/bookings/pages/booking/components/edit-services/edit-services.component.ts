@@ -91,7 +91,7 @@ export class EditAppointmentServicesModalComponent implements OnInit {
     } catch (err) {
       const defaultError = 'Houve um erro desconhecido!';
       if (err instanceof HttpErrorResponse) {
-        this.toastService.error(err.error?.data?.message || defaultError);
+        this.toastService.error(err.error?.message || defaultError);
       } else {
         this.toastService.error(defaultError);
       }
