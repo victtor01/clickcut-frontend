@@ -24,6 +24,10 @@ export class BookingsService {
     return this.apiService.get('/bookings/all', params);
   }
 
+  public cancel(bookingId: string): Observable<{ message: string }> {
+    return this.apiService.patch(`/bookings/cancel/${bookingId}`, {});
+  }
+
   public create(createBookingDTO: CreateBookingDTO) {
     return this.apiService.post<Booking>('/bookings', createBookingDTO);
   }

@@ -1,5 +1,44 @@
 @if (booking) {
-  <div class="flex flex-col gap-4 p-3">
+  @switch (booking.status) {
+    @case ('CANCELLED') {
+      <div
+        class="mb-6 flex mx-5 mt-5 items-center gap-3 rounded-lg border border-yellow-300 bg-yellow-50 p-4 dark:border-yellow-700 dark:bg-yellow-900/50"
+        role="alert"
+      >
+        <i class="material-symbols-outlined flex-shrink-0 text-yellow-600 dark:text-yellow-400"
+          >cancel</i
+        >
+        <div>
+          <h3 class="font-semibold text-yellow-800 dark:text-yellow-200">Agendamento Cancelado</h3>
+          <p class="text-sm text-yellow-700 dark:text-yellow-300">
+            Este agendamento não está mais ativo e não pode ser modificado.
+          </p>
+        </div>
+      </div>
+    }
+
+    @case ('NO_SHOW') {
+      <div
+        class="mb-6 flex mx-5 mt-5 items-center gap-3 rounded-lg border border-red-300 bg-red-50 p-4 dark:border-red-700 dark:bg-red-900/50"
+        role="alert"
+      >
+        <i class="material-symbols-outlined flex-shrink-0 text-red-600 dark:text-red-400"
+          >person_off</i
+        >
+        <div>
+          <h3 class="font-semibold text-red-800 dark:text-red-200">Cliente Não Compareceu</h3>
+          <p class="text-sm text-red-700 dark:text-red-300">
+            Este agendamento foi marcado como "não compareceu".
+          </p>
+        </div>
+      </div>
+    }
+  }
+
+  <div
+    class="flex flex-col gap-4 p-3 relative data-[invalid=true]:pointer-events-none"
+    [attr.data-invalid]="isInvalid"
+  >
     <header
       class="flex gap-4 items-center flex-wrap justify-between text-gray-500 dark:text-gray-200"
     >
@@ -13,20 +52,58 @@
         <h1 class="saira-font text-xl font-bold">Detalhes do Agendamento</h1>
       </div>
 
-      <div class="flex flex-col">
-        <button
-          (click)="openModalToPay()"
-          type="button"
-          class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-violet-50 dark:bg-zinc-800/20 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-zinc-800/50 active:scale-95"
-        >
-          <i class="material-icons-outlined text-base">qr_code</i>
-          <span>Pagar Agora</span>
-        </button>
+      <div class="flex gap-2">
+        <div class="flex relative items-center">
+          <button
+            type="button"
+            (click)="handleEdit()"
+            class="opacity-80 hover:opacity-100 w-10 h-10 bg-white shadow dark:bg-zinc-700 rounded-full grid place-items-center"
+          >
+            @if (openMenu) {
+              <i class="material-symbols-outlined !text-2xl text-gray-600 dark:text-indigo-50">
+                close
+              </i>
+            } @else {
+              <i class="material-symbols-outlined !text-2xl text-gray-600 dark:text-indigo-50">
+                menu
+              </i>
+            }
+          </button>
 
-        <div
-          class="flex flex-1 min-h-2 rounded-full overflow-hidden mx-2 mt-1 bg-zinc-100 dark:bg-zinc-700"
-        >
-          <span class="flex bg-violet-500 rounded-r-xl" [style.width.%]="porcetagePaid"></span>
+          @if (openMenu) {
+            <div
+              class="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-700 w-[15rem] overflow-hidden right-0 z-20 not-sm:left-0 mt-1 bg-white dark:bg-zinc-800 rounded-xl shadow-lg dark:shadow-black absolute top-[100%]"
+            >
+              <button class="flex p-2 hover:bg-stone-100 items-center dark:hover:bg-zinc-700">
+                <i class="material-symbols-outlined !text-xl w-10">person_off</i>
+                <span class="saira-font"> Não apareceu </span>
+              </button>
+              <button
+                (click)="openCancel()"
+                class="flex p-2 hover:bg-stone-100 items-center dark:hover:bg-zinc-700"
+              >
+                <i class="material-symbols-outlined !text-xl w-10 text-red-500">close</i>
+                <span class="saira-font text-red-500"> Cancelar </span>
+              </button>
+            </div>
+          }
+        </div>
+
+        <div class="flex flex-col relative">
+          <button
+            (click)="openModalToPay()"
+            type="button"
+            class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-violet-50 dark:bg-zinc-800/20 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-zinc-800/50 active:scale-95"
+          >
+            <i class="material-icons-outlined text-base">qr_code</i>
+            <span>Pagar Agora</span>
+          </button>
+
+          <div
+            class="flex absolute mt-1 top-[100%] w-[90%] left-1/2 -translate-x-1/2 flex-1 min-h-2 rounded-full overflow-hidden bg-zinc-100 dark:bg-zinc-700"
+          >
+            <span class="flex bg-violet-500 rounded-r-xl" [style.width.%]="porcetagePaid"></span>
+          </div>
         </div>
       </div>
     </header>
@@ -211,7 +288,7 @@
               }
             </div>
 
-            @if (!isCompleted() || isPaid()) {
+            @if (!isCompleted() && !isPaid()) {
               <button
                 (click)="advanceStatus()"
                 class="relative group w-full flex items-center justify-center gap-2 p-3 mt-4 active:scale-90 font-semibold dark:text-gray-200 bg-white/40 text-gray-500 dark:bg-zinc-800/20 border border-white/10 rounded-lg backdrop-blur-lg shadow-lg overflow-hidden transition-all ease-in-out duration-300 hover:border-white/20"

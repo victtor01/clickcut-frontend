@@ -11,6 +11,7 @@ import { ToastService } from '@app/core/services/toast.service';
 import dayjs from 'dayjs'; // Importe o Dayjs
 import { firstValueFrom } from 'rxjs';
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
+import { CancelBookingComponent } from './components/cancel-booking/cancel-booking.component';
 import { EditAppointmentServicesModalComponent } from './components/edit-services/edit-services.component';
 import { PaymentBookingModalComponent } from './components/payment-modal/payment-booking-modal.component';
 import { ServiceModalComponent } from './components/service-modal/service-modal.component';
@@ -41,13 +42,25 @@ export class BookingDetailsComponent implements OnInit {
   ) {}
 
   public bookingId: string | null = null;
+  public openMenu: boolean = false;
   public totalPaid: number = 0;
   public dayjs = dayjs;
+
+  private baseModal = {
+    backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+    panelClass: ['dialog-no-container'],
+    enterAnimationDuration: '300ms',
+    exitAnimationDuration: '200ms',
+  };
 
   private _booking?: Booking;
 
   get booking() {
     return this._booking;
+  }
+
+  get isInvalid() {
+    return this?.booking?.status === 'NO_SHOW' || this?.booking?.status === 'CANCELLED'
   }
 
   set booking(value: Booking | undefined) {
@@ -153,17 +166,18 @@ export class BookingDetailsComponent implements OnInit {
 
   public openAllServices(): void {
     this.dialog.open(EditAppointmentServicesModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
-      panelClass: ['dialog-no-container'],
+      ...this.baseModal,
       maxWidth: '100rem',
       width: 'min(40rem, 100%)',
-      enterAnimationDuration: '300ms',
-      exitAnimationDuration: '200ms',
       data: {
         selectedIds: this.booking?.services?.map((s) => s.service?.id) || [],
         bookingId: this.booking?.id,
       },
     });
+  }
+
+  public handleEdit(): void {
+    this.openMenu = !this.openMenu;
   }
 
   public getLineColor(status: BookingStatus): string {
@@ -263,13 +277,10 @@ export class BookingDetailsComponent implements OnInit {
 
   public openModalToPay(): void {
     const dialogRef = this.paymentDialog.open(PaymentBookingModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
-      panelClass: ['dialog-no-container'],
+      ...this.baseModal,
       maxWidth: '100rem',
       width: 'min(35rem, 90%)',
       scrollStrategy: this.scrollStrategies.noop(),
-      enterAnimationDuration: '300ms',
-      exitAnimationDuration: '200ms',
       data: { bookingId: this.bookingId, status: this.booking?.status },
     });
 
@@ -277,6 +288,15 @@ export class BookingDetailsComponent implements OnInit {
       if (result?.id) {
         this.toastService.success('Pagamento registrado');
       }
+    });
+  }
+
+  public openCancel(): void {
+    this.dialog.open(CancelBookingComponent, {
+      ...this.baseModal,
+      maxWidth: '35rem',
+      width: 'min(35rem, 100%)',
+      data: { bookingId: this.booking?.id },
     });
   }
 }

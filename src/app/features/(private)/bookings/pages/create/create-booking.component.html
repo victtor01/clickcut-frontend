@@ -32,13 +32,13 @@
     <h1 class="saira-font text-xl">Selecione a hora</h1>
   </header>
 
-  <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+  <div class="flex flex-wrap gap-2 flex-col lg:flex-row">
     @for (item of selectedServices; track $index) {
     <div
-      class="h-[6rem] flex bg-white dark:text-gray-200 flex-1 shadow-zinc-400/10 border-zinc-200 text-zinc-600 dark:border-zinc-800 shadow-lg dark:shadow-black gap-3 dark:bg-zinc-900 overflow-hidden border rounded-2xl"
+      class="h-[6rem] flex bg-white sm:max-w-[20rem] w-full dark:text-gray-200 flex-1 shadow-zinc-400/10 border-zinc-200 text-zinc-600 dark:border-zinc-800 shadow-lg dark:shadow-black gap-3 dark:bg-zinc-900 overflow-hidden border rounded-2xl"
     >
       <div
-        class="p-2 aspect-square bg-gradient-to-br from-indigo-50 to-violet-50/80 dark:from-zinc-950/20 dark:to-indigo-500/10 relative border-zinc-200 rounded-t-xl overflow-hidden dark:border-zinc-800 border-b grid place-items-center"
+        class="p-2 aspect-square w-[5rem] bg-gradient-to-br from-indigo-50 to-violet-50/80 dark:from-zinc-950/20 dark:to-indigo-500/10 relative border-zinc-200 rounded-t-xl overflow-hidden dark:border-zinc-800 border-b grid place-items-center"
       >
         <img
           *ngIf="item.photoUrl"
