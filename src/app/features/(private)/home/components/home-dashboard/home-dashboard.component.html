@@ -1,43 +1,64 @@
 <div class="flex px-3 relative items-center">
+  <div class="bg-white opacity-20 blur-[4rem] rounded-full top-1/2 w-[10rem] h-[10rem] absolute"></div>
+<!-- <div class="bg-white opacity-20 blur-[4rem] rounded-full top-20 right-0 w-[10rem] h-[10rem] absolute"></div> -->
   <div
-    class="flex gap-[1rem] lg:flex-wrap lg:grid lg:grid-cols-2 *:text-nowrap relative p-3 items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto"
+    class="flex gap-[1rem] lg:flex-wrap lg:grid lg:grid-cols-2 *:text-nowrap relative items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto"
   >
     <div
-      class="flex flex-col justify-between border p-2 rounded-xl h-[10rem] min-w-[20rem] bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 border-zinc-200 backdrop-blur-lg"
+      class="flex flex-col justify-between rounded-2xl border min-h-[10rem] min-w-[20rem] p-6 shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-white/30 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
-        <span class="relative"> Receita do Mês </span>
-        <i class="material-icons-outlined !text-lg px-2">trending_up</i>
+        <span class="relative font-medium text-zinc-700 dark:text-zinc-300"> Receita do Mês </span>
+        <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
+          <div
+            class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
+          ></div>
+          <i
+            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            >trending_up</i
+          >
+        </div>
       </header>
 
       <div class="text-left">
-        <p class="text-4xl font-bold text-zinc-600 dark:text-zinc-100 saira-font">
+        <p class="text-4xl font-bold text-zinc-700 dark:text-zinc-100 saira-font">
           {{ revenue?.revenue | toFormatBrl }}
         </p>
       </div>
 
-      <div
-        *ngIf="revenue"
-        class="flex items-center gap-1"
-        [ngClass]="{
-          'text-green-600 dark:text-green-400': isRevenueIncrease,
-          'text-red-600 dark:text-red-400': !isRevenueIncrease,
-        }"
-      >
-        <span class="text-sm">
-          <ng-container *ngIf="isRevenueIncrease">+</ng-container>
-          {{ revenuePercentageChange | number: '1.0-1' }}%
-        </span>
-        <span class="text-xs text-zinc-500">vs. Mês Anterior</span>
-      </div>
+      @if (revenue) {
+        <div
+          class="flex items-center gap-1"
+          [ngClass]="{
+            'text-green-600 dark:text-green-500': isRevenueIncrease,
+            'text-red-600 dark:text-red-500': !isRevenueIncrease,
+          }"
+        >
+          <span class="text-sm font-medium">
+            @if (isRevenueIncrease) {
+              +
+            }
+            {{ revenuePercentageChange | number: '1.0-1' }}%
+          </span>
+          <span class="text-xs text-zinc-500 dark:text-zinc-400">vs. Mês Anterior</span>
+        </div>
+      }
     </div>
 
     <div
-      class="flex flex-col border min-w-[20rem] rounded-lg h-[10rem] relative bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col justify-between rounded-2xl border min-w-[20rem] min-h-[10rem] p-6 shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-white/30 dark:border-white/10"
     >
-      <header class="justify-between flex items-center gap-2 p-2">
-        <span class="relative"> Visão Geral </span>
-        <i class="material-icons-outlined !text-lg px-2">analytics</i>
+      <header class="justify-between flex items-center gap-2">
+        <span class="relative font-medium text-zinc-700 dark:text-zinc-300"> Visão Geral </span>
+        <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
+          <div
+            class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
+          ></div>
+          <i
+            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            >analytics</i
+          >
+        </div>
       </header>
       <div class="flex-1 flex justify-around items-center px-4 gap-2 relative">
         <div class="flex flex-col items-center gap-1 opacity-60 relative -top-3">
@@ -87,21 +108,35 @@
     </div>
 
     <div
-      class="flex flex-col border rounded-lg h-[10rem] relative bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-white/30 dark:border-white/10"
     >
-      <header class="justify-between flex items-center gap-2 p-2">
-        <span class="relative"> Agendamentos no mês de agosto </span>
-        <i class="material-icons-outlined !text-lg px-2">timeline</i>
+      <header class="justify-between flex items-center gap-2">
+        <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
+          Agendamentos no mês de agosto
+        </span>
+        <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
+          <div
+            class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
+          ></div>
+          <i
+            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            >timeline</i
+          >
+        </div>
       </header>
 
-      <div class="flex rounded-b-lg overflow-hidden relative">
+      <div class="flex rounded-b-lg overflow-hidden relative flex-1 mt-4 -mx-6 -mb-6">
         <div class="flex h-full flex-1">
-          <line-graph [labels]="lineChartLabels" class="flex-1" [data]="lineChartValues"></line-graph>
+          <line-graph
+            [labels]="lineChartLabels"
+            class="flex-1"
+            [data]="lineChartValues"
+          ></line-graph>
         </div>
       </div>
 
       <div
-        class="absolute right-4 bottom-4 backdrop-blur-sm z-50 px-4 p-1 grid place-items-center rounded-full bg-violet-500/10"
+        class="absolute right-6 bottom-6 backdrop-blur-sm z-50 px-4 p-1 grid place-items-center rounded-full bg-violet-500/10 border border-white/20 dark:border-white/5"
       >
         <span class="text-gray-600 font-semibold dark:text-gray-200 saira-font text-base">
           {{ totalBookingsInMonth }} Agendamentos
@@ -110,11 +145,21 @@
     </div>
 
     <div
-      class="flex flex-col border rounded-xl p-2 h-[10rem] min-w-[18rem] bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 border-zinc-200 backdrop-blur-lg dark:shadow-black/20"
+      class="flex flex-col justify-between rounded-2xl border p-6 min-h-[10rem] min-w-[18rem] shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-white/30 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
-        <span class="relative"> Serviços populares </span>
-        <i class="material-icons-outlined !text-lg">cards_star</i>
+        <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
+          Serviços populares
+        </span>
+        <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
+          <div
+            class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
+          ></div>
+          <i
+            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            >cards_star</i
+          >
+        </div>
       </header>
 
       <div class="flex flex-col gap-1 mt-5">
@@ -141,11 +186,21 @@
     </div>
 
     <div
-      class="flex flex-col border rounded-lg h-[11rem] relative bg-white/30 dark:bg-zinc-950/80 dark:border-zinc-800 text-zinc-500 shadow-none dark:text-gray-100 border-stone-200 dark:shadow-md dark:shadow-black"
+      class="flex flex-col justify-between rounded-2xl border min-h-[11rem] min-w-[20rem] p-6 shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-white/30 dark:border-white/10"
     >
-      <header class="justify-between flex items-center gap-2 p-2">
-        <span class="relative"> Métodos de pagamento </span>
-        <i class="material-icons-outlined !text-lg px-2">timeline</i>
+      <header class="justify-between flex items-center gap-2">
+        <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
+          Métodos de pagamento
+        </span>
+        <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
+          <div
+            class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
+          ></div>
+          <i
+            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            >payments</i
+          >
+        </div>
       </header>
 
       <div class="flex-1 flex relative p-3 justify-center">

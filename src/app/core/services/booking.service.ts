@@ -28,6 +28,10 @@ export class BookingsService {
     return this.apiService.patch(`/bookings/cancel/${bookingId}`, {});
   }
 
+  public noShow(bookingId: string): Observable<{ message: string }> {
+    return this.apiService.patch(`/bookings/no-show/${bookingId}`, {});
+  }
+
   public create(createBookingDTO: CreateBookingDTO) {
     return this.apiService.post<Booking>('/bookings', createBookingDTO);
   }

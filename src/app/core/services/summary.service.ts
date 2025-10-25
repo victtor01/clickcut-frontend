@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SummaryAround } from '../DTOs/around-bookings-response';
-import { BookingHistory as BookingHistoryDTO } from '../DTOs/booking-history-response';
+import { BookingHistory } from '../DTOs/booking-history-response';
 import { GeneralHistoryDTO } from '../DTOs/general-history-response';
 import { MethodHistoryDTO } from '../DTOs/methods-history-response';
 import { PopularService } from '../DTOs/popular-services-response';
@@ -15,7 +15,7 @@ export type BookingsByDay = Record<string, Booking[]>;
 export class SummaryService {
   constructor(private readonly apiService: ApiService) {}
 
-  public getBookingHistory(): Observable<BookingHistoryDTO> {
+  public getBookingHistory(): Observable<BookingHistory> {
     return this.apiService.get('/summary/bookings/history');
   }
 

@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
 import { CancelBookingComponent } from './components/cancel-booking/cancel-booking.component';
 import { EditAppointmentServicesModalComponent } from './components/edit-services/edit-services.component';
+import { NoShowComponent } from './components/no-show/no-show.component';
 import { PaymentBookingModalComponent } from './components/payment-modal/payment-booking-modal.component';
 import { ServiceModalComponent } from './components/service-modal/service-modal.component';
 
@@ -60,7 +61,7 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   get isInvalid() {
-    return this?.booking?.status === 'NO_SHOW' || this?.booking?.status === 'CANCELLED'
+    return this?.booking?.status === 'NO_SHOW' || this?.booking?.status === 'CANCELLED';
   }
 
   set booking(value: Booking | undefined) {
@@ -293,6 +294,15 @@ export class BookingDetailsComponent implements OnInit {
 
   public openCancel(): void {
     this.dialog.open(CancelBookingComponent, {
+      ...this.baseModal,
+      maxWidth: '35rem',
+      width: 'min(35rem, 100%)',
+      data: { bookingId: this.booking?.id },
+    });
+  }
+
+  public openNoShow(): void {
+    this.dialog.open(NoShowComponent, {
       ...this.baseModal,
       maxWidth: '35rem',
       width: 'min(35rem, 100%)',
