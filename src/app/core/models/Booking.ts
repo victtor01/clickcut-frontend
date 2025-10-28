@@ -12,6 +12,7 @@ export interface Booking {
   services?: BookingService[];
   business?: Business;
   client?: Client;
+  commissionAmount: number;
   status: BookingStatus;
   assignedTo?: User;
 }

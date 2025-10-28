@@ -5,14 +5,18 @@ import { Subject } from 'rxjs';
 import { Notification } from '../models/Notification';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RealTimeService {
   private hubConnection: signalR.HubConnection | undefined;
   public notifications$ = new Subject<Notification>();
   public bookingCancelled$ = new Subject<{ bookingId: string }>(); // Exemplo para outro evento
 
-  constructor() { }
+  constructor() {}
+
+  public get conn() {
+    return this.hubConnection;
+  }
 
   /**
    * Inicia a conexão com o Hub do SignalR.
@@ -25,7 +29,7 @@ export class RealTimeService {
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${environment.apiUrl}/notificationHub`, {
-        withCredentials: true
+        withCredentials: true,
       })
       .withAutomaticReconnect()
       .build();
@@ -36,7 +40,7 @@ export class RealTimeService {
         console.log('Conexão SignalR iniciada com sucesso.');
         this.addRealTimeEventListeners();
       })
-      .catch(err => console.error('Erro ao iniciar a conexão SignalR: ', err));
+      .catch((err) => console.error('Erro ao iniciar a conexão SignalR: ', err));
   }
 
   /**

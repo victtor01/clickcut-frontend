@@ -18,6 +18,7 @@ import { MembersComponent } from './configure/pages/members/members.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { SecurityComponent } from './configure/pages/security/security.component';
 import { HomePageComponent } from './home/pages/home-page.component';
+import { PayoutReviewComponent } from './payouts/pages/review/payout-reviews.component';
 import { PayrollComponent } from './payouts/payroll.component';
 import { CreateBusinessComponent } from './select/pages/create/create-business.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
@@ -39,10 +40,17 @@ export const PRIVATE_ROUTES: Routes = [
           {
             path: '',
             component: HomeLayoutComponent,
+            data: { animation: 'HomeLayoutPage' },
             children: [
               { path: 'home', component: HomePageComponent },
               { path: 'clients', component: MyClientsComponent },
-              { path: 'payroll', component: PayrollComponent },
+              {
+                path: 'payroll',
+                children: [
+                  { path: '', component: PayrollComponent, pathMatch: 'full' },
+                  { path: 'review', component: PayoutReviewComponent },
+                ],
+              },
               {
                 path: 'services',
                 children: [
@@ -63,12 +71,13 @@ export const PRIVATE_ROUTES: Routes = [
           {
             path: 'configure',
             component: ConfigureComponent,
+            data: { animation: 'ConfigurePage' },
             children: [
               { path: '', pathMatch: 'full', component: ConnectionsComponent },
               { path: 'business', component: ConfigureBusinessComponent },
               { path: 'business/links', component: BusinessLinksComponent },
               { path: 'business/times', component: BusinessTimesComponent },
-              { path: "business/address", component: BusinessAddressComponent },
+              { path: 'business/address', component: BusinessAddressComponent },
               { path: 'security', component: SecurityComponent },
               { path: 'profile', component: ConfigureProfileComponent },
               { path: 'invites', component: InvitesComponent },

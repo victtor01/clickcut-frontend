@@ -130,6 +130,7 @@ export class BusinessAddressComponent implements OnInit {
     this.form.controls['neighborhood'].enable();
     this.form.controls['city'].enable();
     this.form.controls['state'].enable();
+      this.form.controls['postalCode'].enable();
     this.cepAddressLoaded.set(false);
 
     if (clearFields) {

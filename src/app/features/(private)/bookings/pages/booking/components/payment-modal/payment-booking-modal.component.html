@@ -1,6 +1,6 @@
 <style>
   .dark .checkmark {
-    --circle-bg: #27272a; /* Fundo do círculo no MODO ESCURO (zinc-800) */
+    --circle-bg: transparent; /* Fundo do círculo no MODO ESCURO (zinc-800) */
   }
 
   .checkmark__circle {
@@ -8,14 +8,15 @@
     stroke-dashoffset: 166;
     stroke-width: 3;
     stroke-miterlimit: 10;
-    stroke: var(--success-color);
-    fill: var(--circle-bg); /* Usa a variável para o fundo */
+    stroke: var(--color-emerald-500);
+    fill: var(--circle-bg);
     animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
   }
 
   .checkmark__check {
     transform-origin: 50% 50%;
     stroke-dasharray: 48;
+    stroke: var(--color-emerald-500);
     stroke-dashoffset: 48;
     animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
   }
@@ -87,7 +88,7 @@
           [ngClass]="{
             'text-violet-500 border-b-2 border-violet-500': activeTab === 'pix',
             'text-gray-500 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-zinc-200':
-              activeTab !== 'pix'
+              activeTab !== 'pix',
           }"
         >
           Pagar com PIX
@@ -99,7 +100,7 @@
           [ngClass]="{
             'text-violet-500 border-b-2 border-violet-500': activeTab === 'manual',
             'text-gray-500 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-zinc-200':
-              activeTab !== 'manual'
+              activeTab !== 'manual',
           }"
         >
           Lançamento Manual
@@ -107,10 +108,7 @@
       </div>
     </div>
 
-    <div
-      *ngIf="activeTab === 'pix'"
-      class="flex flex-col items-center gap-4"
-    >
+    <div *ngIf="activeTab === 'pix'" class="flex flex-col items-center gap-4">
       <h2 class="text-2xl font-semibold saira-font text-gray-900 dark:text-gray-50">
         Pagamento PIX
       </h2>
@@ -187,8 +185,8 @@
           </p>
         </div>
       </section>
+
       <ng-template #loadingOrErrorTemplate>
-        <!-- Dentro deste template, podemos ter mais lógica para decidir se mostramos o carregamento ou o erro -->
         <div
           *ngIf="isPixLoading; else errorTemplate"
           class="flex flex-col items-center justify-center h-64"

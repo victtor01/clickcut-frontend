@@ -43,7 +43,7 @@ export class MobileSidebarComponent implements AfterViewInit {
   public menuItems: MenuItem[] = [
     { label: 'Configurações', icon: 'settings', route: '/configure' },
     { label: 'Clientes', icon: 'identity_platform', route: '/clients' },
-    { label: 'Pagamentos', icon: 'sell', route: '/payroll' },
+    { label: 'Comissões', icon: 'sell', route: '/payroll' },
   ];
 
   public activeTabId: string;

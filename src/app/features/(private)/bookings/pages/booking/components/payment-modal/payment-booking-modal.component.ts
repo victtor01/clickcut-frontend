@@ -3,10 +3,11 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BookingStatus } from '@app/core/models/Booking';
-import { BookingPayment } from '@app/core/models/BookingPayment';
+import { BookingPayment, BookingPaymentStatus } from '@app/core/models/BookingPayment';
 import { CreateManualPaymentDTO } from '@app/core/schemas/create-manual-payment.dto';
 import { InvalidationService } from '@app/core/services/invalidation.service';
 import { PaymentService } from '@app/core/services/payment.service';
+import { RealTimeService } from '@app/core/services/real-time.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs';
@@ -26,7 +27,8 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
     private data: { bookingId: string; status: BookingStatus },
     private readonly paymentsService: PaymentService,
     private readonly invalidationService: InvalidationService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly realTimeService: RealTimeService,
   ) {}
 
   private timerInterval?: any;
@@ -64,7 +66,29 @@ export class PaymentBookingModalComponent implements OnInit, OnDestroy {
       });
     }
 
+    this.listenPixPayment();
+
     this.timerInterval = setInterval(() => {}, 1000);
+  }
+
+  public listenPixPayment(): void {
+    this.realTimeService.startConnection();
+
+    const conn = this.realTimeService.conn;
+
+    conn?.on('PixPayments', (data: { status: BookingPaymentStatus }) => {
+      if (data.status === 'APPROVED') {
+        this.invalidationService.invalidate(this.invalidationService.INVALIDATE_KEYS.service);
+
+        if (this.payment) {
+          this.payment.status = 'APPROVED';
+        }
+
+        if (this.payment) {
+          this.data.status = 'PAID';
+        }
+      }
+    });
   }
 
   public ngOnDestroy(): void {

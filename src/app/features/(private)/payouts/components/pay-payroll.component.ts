@@ -1,15 +1,14 @@
 import { CurrencyPipe, DatePipe } from '@angular/common'; // Importe os Pipes
-import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Payout } from '@app/core/models/Payout';
-
-// Importe os módulos do Angular Material que serão usados no template
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { Payout } from '@app/core/models/Payout';
 import { PayrollService } from '@app/core/services/payroll.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { SvgFinishComponent } from '@app/shared/components/finish-svg/finish-svg.component';
 import { firstValueFrom } from 'rxjs';
 
 interface DialogData {
@@ -19,10 +18,10 @@ interface DialogData {
 @Component({
   selector: 'app-pay-payroll-modal', // Adicione um seletor
   templateUrl: './pay-payroll.component.html',
-  standalone: true, // Marque o componente como standalone
   imports: [
-    // Imports necessários para o template
     CurrencyPipe,
+    SvgFinishComponent,
+    RouterModule,
     DatePipe,
     MatButtonModule,
     MatIconModule,
