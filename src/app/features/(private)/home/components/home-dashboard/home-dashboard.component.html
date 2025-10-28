@@ -1,10 +1,10 @@
 <div class="flex px-3 relative items-center w-full">
   <!-- <div class="bg-white opacity-20 blur-[4rem] rounded-full top-1/2 w-[10rem] h-[10rem] absolute"></div> -->
   <div
-    class="flex gap-[1rem] lg:flex-wrap lg:grid lg:grid-cols-2 *:text-nowrap relative items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto"
+    class="flex gap-[1rem] lg:flex-wrap lg:grid lg:grid-cols-2 *:lg:last:odd:col-span-2 *:text-nowrap relative items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto"
   >
     <div
-      class="flex flex-col justify-between rounded-2xl border min-h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
+      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-zinc-700 dark:text-zinc-300"> Receita do Mês </span>
@@ -45,7 +45,7 @@
     </div>
 
     <div
-      class="flex flex-col justify-between rounded-2xl border min-w-[20rem] min-h-[10rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
+      class="flex flex-col justify-between rounded-2xl border min-w-[20rem] h-[10rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-zinc-700 dark:text-zinc-300"> Visão Geral </span>
@@ -111,7 +111,7 @@
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
-          Agendamentos no mês de agosto
+          Métodos de pagamento
         </span>
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
           <div
@@ -119,32 +119,42 @@
           ></div>
           <i
             class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
-            >timeline</i
+            >payments</i
           >
         </div>
       </header>
 
-      <div class="flex rounded-b-lg overflow-hidden relative flex-1 mt-4 -mx-6 -mb-6">
-        <div class="flex h-full flex-1">
-          <line-graph
-            [labels]="lineChartLabels"
-            class="flex-1"
-            [data]="lineChartValues"
-          ></line-graph>
+      <div class="flex-1 flex relative justify-between gap-4">
+        <app-doughnut-chart
+          class="w-[6rem] h-[6rem]"
+          [data]="doughnutChartValues"
+          [labels]="doughnutChartLabels"
+          [colors]="doughnutChartColors"
+        ></app-doughnut-chart>
+
+        <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-1">
+            <ng-container *ngFor="let method of payMethodsArray | slice: 2 : 4">
+              <div class="flex gap-2 items-center">
+                <i class="w-2 h-2 rounded-sm" [ngClass]="method.colorClass"></i>
+                <span class="text-sm saira-font"> {{ method.count }} {{ method.name }} </span>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <ng-container *ngFor="let method of payMethodsArray | slice: 0 : 2">
+              <div class="flex gap-2 items-center">
+                <i class="w-2 h-2 rounded-sm" [ngClass]="method.colorClass"></i>
+                <span class="text-sm saira-font"> {{ method.count }} {{ method.name }} </span>
+              </div>
+            </ng-container>
+          </div>
         </div>
       </div>
-
-      <div
-        class="absolute right-6 bottom-6 backdrop-blur-sm z-50 px-4 p-1 grid place-items-center rounded-full bg-violet-500/10 border border-white/20 dark:border-white/5"
-      >
-        <span class="text-gray-600 font-semibold dark:text-gray-200 saira-font text-base">
-          {{ totalBookingsInMonth }} Agendamentos
-        </span>
-      </div>
     </div>
-
     <div
-      class="flex flex-col justify-between rounded-2xl border p-6 min-h-[10rem] min-w-[18rem] shadow-none dark:shadow-lg border-zinc-200/70  backdrop-blur-lg bg-white/30 dark:bg-black/20  dark:border-white/10"
+      class="flex flex-col justify-between rounded-2xl border p-6 h-[10rem] min-w-[18rem] shadow-none dark:shadow-lg border-zinc-200/70 backdrop-blur-lg bg-white/30 dark:bg-black/20 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
@@ -185,11 +195,11 @@
     </div>
 
     <div
-      class="flex flex-col justify-between rounded-2xl border min-h-[11rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-zinc-200/70  backdrop-blur-lg bg-white/30 dark:bg-black/20 dark:border-white/10"
+      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-zinc-200/70 backdrop-blur-lg bg-white/30 dark:bg-black/20 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
-          Métodos de pagamento
+          Agendamentos no mês de agosto
         </span>
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
           <div
@@ -197,36 +207,27 @@
           ></div>
           <i
             class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
-            >payments</i
+            >timeline</i
           >
         </div>
       </header>
 
-      <div class="flex-1 flex relative p-3 justify-center">
-        <div class="flex flex-col justify-between items-end gap-4">
-          <ng-container *ngFor="let method of payMethodsArray | slice: 2 : 4">
-            <div class="flex gap-2 items-center">
-              <span class="text-sm saira-font"> {{ method.count }} {{ method.name }} </span>
-              <i class="w-2 h-2 rounded-sm" [ngClass]="method.colorClass"></i>
-            </div>
-          </ng-container>
+      <div class="flex rounded-b-lg overflow-hidden relative flex-1 mt-4 -mx-6 -mb-6">
+        <div class="flex h-full flex-1">
+          <line-graph
+            [labels]="lineChartLabels"
+            class="flex-1"
+            [data]="lineChartValues"
+          ></line-graph>
         </div>
+      </div>
 
-        <app-doughnut-chart
-          class="w-[6rem] h-[6rem]"
-          [data]="doughnutChartValues"
-          [labels]="doughnutChartLabels"
-          [colors]="doughnutChartColors"
-        ></app-doughnut-chart>
-
-        <div class="flex flex-col justify-between items-start gap-4">
-          <ng-container *ngFor="let method of payMethodsArray | slice: 0 : 2">
-            <div class="flex gap-2 items-center">
-              <i class="w-2 h-2 rounded-sm" [ngClass]="method.colorClass"></i>
-              <span class="text-sm saira-font"> {{ method.count }} {{ method.name }} </span>
-            </div>
-          </ng-container>
-        </div>
+      <div
+        class="absolute right-6 bottom-6 backdrop-blur-sm z-50 px-4 p-1 grid place-items-center rounded-full bg-violet-500/10 border border-white/20 dark:border-white/5"
+      >
+        <span class="text-gray-600 font-semibold dark:text-gray-200 saira-font text-base">
+          {{ totalBookingsInMonth }} Agendamentos
+        </span>
       </div>
     </div>
   </div>

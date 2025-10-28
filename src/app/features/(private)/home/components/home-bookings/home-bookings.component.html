@@ -1,4 +1,4 @@
-<section class="flex flex-col p-3 gap-3 px-6">
+<section class="flex flex-col gap-3 px-4">
   <header class="flex">
     <h1 class="font-saira text-gray-500 dark:text-gray-100 text-base">Eventos atrasados</h1>
   </header>
@@ -41,7 +41,10 @@
   </div>
 
   <ng-template #notAround>
-    <div>
+    <div
+      class="p-4 bg-white/60 dark:bg-zinc-900/60 border border-zinc-100 dark:border-zinc-800 rounded-xl flex items-center gap-4"
+    >
+      <i class="material-symbols-outlined !text-xl text-gray-500">info</i>
       <p class="text-gray-500">Nenhum agendamento passado encontrado.</p>
     </div>
   </ng-template>
@@ -90,8 +93,11 @@
     </div>
   } @else {
     <div>
-      <div>
-        <p class="text-gray-500">Nenhum agendamento futuro encontrado.</p>
+      <div
+        class="p-4 bg-white/60 dark:bg-zinc-900/60 border border-zinc-100 dark:border-zinc-800 rounded-xl flex items-center gap-4"
+      >
+        <i class="material-symbols-outlined !text-xl text-gray-500">info</i>
+        <p class="text-gray-500">Nenhum agendamento passado encontrado.</p>
       </div>
     </div>
   }
