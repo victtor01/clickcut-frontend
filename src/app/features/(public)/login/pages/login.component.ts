@@ -8,12 +8,14 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '@app/core/services/api.service';
+import { ThemeService } from '@app/core/services/theme.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { LogoComponent } from '@app/shared/components/logo/logo.component';
 
 @Component({
   templateUrl: './login.component.html',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule, LogoComponent],
 })
 export class LoginComponent {
   public loginForm: FormGroup;
@@ -22,7 +24,8 @@ export class LoginComponent {
     private readonly fb: FormBuilder,
     private readonly apiService: ApiService,
     private readonly toastService: ToastService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly themeService: ThemeService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],

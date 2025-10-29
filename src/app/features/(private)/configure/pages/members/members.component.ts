@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 import { MemberShip } from '@app/core/models/MemberShip';
 import { Role } from '@app/core/models/Role';
 import { UpdateMemberShipDTO } from '@app/core/schemas/update-membership.dto';
@@ -10,7 +11,7 @@ import { firstValueFrom } from 'rxjs';
 import { MemberDetailsModalComponent } from './components/member-details/member-details-modal.component';
 import { RoleModalComponent } from './components/role-modal/role-modal.component';
 
-@Component({ templateUrl: 'members.component.html' })
+@Component({ templateUrl: 'members.component.html', imports: [RouterModule] })
 export class MembersComponent implements OnInit {
   private membersService = inject(MembersService);
   private rolesService = inject(RolesService);
