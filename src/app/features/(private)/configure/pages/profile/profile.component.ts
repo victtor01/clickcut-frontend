@@ -85,7 +85,6 @@ export class ConfigureProfileComponent implements OnInit {
 
   public submit(): void {
     if (!this.form.valid) {
-      console.log('teste');
       return;
     }
 

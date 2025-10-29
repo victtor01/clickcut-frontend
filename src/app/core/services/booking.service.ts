@@ -2,8 +2,10 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import dayjs from 'dayjs';
 import { Observable } from 'rxjs';
+import { PaginatedResult } from '../DTOs/paginated-result-response';
 import { Booking } from '../models/Booking';
 import { CreateBookingDTO } from '../schemas/create-booking.dto';
+import { SearchBookingByManagerRequest } from '../schemas/search-bookings.dto';
 import { UpdateBookingServiceDTO } from '../schemas/update-booking-service.dto';
 import { ApiService } from './api.service';
 
@@ -30,6 +32,21 @@ export class BookingsService {
 
   public noShow(bookingId: string): Observable<{ message: string }> {
     return this.apiService.patch(`/bookings/no-show/${bookingId}`, {});
+  }
+
+  public latests(): Observable<Booking[]> {
+    return this.apiService.get('/bookings/latest');
+  }
+
+  public search(request: SearchBookingByManagerRequest): Observable<PaginatedResult<Booking>> {
+    const params = Object.entries(request).reduce((httpParams, [key, value]) => {
+      if (value !== undefined && value !== null) {
+        return httpParams.set(key, value.toString());
+      }
+      return httpParams;
+    }, new HttpParams());
+
+    return this.apiService.get('/bookings/search', params);
   }
 
   public create(createBookingDTO: CreateBookingDTO) {

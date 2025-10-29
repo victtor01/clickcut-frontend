@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { BookingHistory } from '@app/core/DTOs/booking-history-response';
 import { GeneralHistoryDTO } from '@app/core/DTOs/general-history-response';
 import { MethodHistoryDTO } from '@app/core/DTOs/methods-history-response';
@@ -15,7 +16,7 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'home-dashboard',
   templateUrl: './home-dashboard.component.html',
-  imports: [LineGraph, DoughnutChartComponent, CommonModule, ToFormatBrlPipe],
+  imports: [LineGraph, DoughnutChartComponent, CommonModule, ToFormatBrlPipe, MatIconModule],
 })
 export class HomeDashboardComponent implements OnInit {
   private readonly summaryService = inject(SummaryService);

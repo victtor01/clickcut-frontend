@@ -31,8 +31,6 @@ export class MembersComponent implements OnInit {
       (this.members = await firstValueFrom(this.membersService.findAll())),
       (this.roles = await firstValueFrom(this.rolesService.findAll())),
     ]);
-
-    console.log(this.roles)
   }
 
   public openMemberDetails(memberToEdit: MemberShip): void {
@@ -61,7 +59,6 @@ export class MembersComponent implements OnInit {
           roles: result.roles.map((r) => r.id),
         };
 
-        console.log(data)
         await this.updateMemberShip(data);
       }
     });
@@ -107,7 +104,6 @@ export class MembersComponent implements OnInit {
       const hasName = typeof data.name === 'string' && data.name.trim().length > 0;
       const hasPermissions = Array.isArray(data.permissions) && data.permissions.length > 0;
 
-      console.log({ id: data.id!, name: data.name!, permissions: data.permissions! });
       if (!hasName || !hasPermissions) return;
       if (hasId) {
         this.update({ id: data.id!, name: data.name!, permissions: data.permissions! });

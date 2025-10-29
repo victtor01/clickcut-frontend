@@ -184,6 +184,21 @@
     }
   </header>
 
+  <div class="px-0">
+    <button
+      (click)="openSearch()"
+      type="button"
+      class="group flex w-full items-center gap-3 rounded-full border border-slate-200 bg-white/80 p-2 text-sm text-slate-500 transition-colors hover:border-slate-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-slate-400 dark:hover:border-zinc-600"
+    >
+      <i class="material-icons-outlined ml-1">search</i>
+      <span>Buscar...</span>
+      <kbd
+        class="ml-auto block rounded saira-font border border-slate-200 px-1.5 py-0.5 font-mono text-xs font-medium dark:border-zinc-700"
+        >⌘K</kbd
+      >
+    </button>
+  </div>
+
   <div
     class="h-auto p-3 rounded-xl flex flex-col bg-gradient-to-bl from-indigo-500 to-violet-500 dark:shadow-xl shadow-zinc-600/20 dark:shadow-black"
   >

@@ -4,21 +4,25 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   OnDestroy,
   OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
 import { BusinessStatement } from '@app/core/models/BusinessStatement';
 import { Notification } from '@app/core/models/Notification';
 import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
+import { BookingsService } from '@app/core/services/booking.service';
 import { BusinessService } from '@app/core/services/business.service';
 import { NotificationsService } from '@app/core/services/notifications.service';
 import { RealTimeService } from '@app/core/services/real-time.service';
 import { ThemeService } from '@app/core/services/theme.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { BookingSearchModalComponent } from '@app/shared/components/booking-search/booking-search.component';
 import { NotificationColorPipe } from '@app/shared/pipes/notification-color-pipe/notification-color.pipe';
 import { NotificationIconPipe } from '@app/shared/pipes/notification-icon-pipe/notification-icon.pipe';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
@@ -50,6 +54,9 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
     private readonly themeService: ThemeService,
     private readonly router: Router,
   ) {}
+
+  private readonly bookingsService = inject(BookingsService);
+  private readonly dialog = inject(MatDialog);
 
   private subscriptions = new Subscription();
 
@@ -92,6 +99,21 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
     }
 
     return 0;
+  }
+
+  public openSearch(): void {
+    const dialogRef = this.dialog.open(BookingSearchModalComponent, {
+      backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(65rem, 100%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+    });
+
+    dialogRef.afterClosed().subscribe((value) => {
+      console.log(value);
+    });
   }
 
   public toggleMenu(): void {
@@ -150,6 +172,5 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
 
   private async fetchNotifications(): Promise<void> {
     this.notifications = await firstValueFrom(this.notificationsService.getNotifications());
-    console.log(this.notifications);
   }
 }

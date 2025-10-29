@@ -15,6 +15,7 @@ import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
 import { firstValueFrom } from 'rxjs';
+import { BookingSearchModalComponent } from '../booking-search/booking-search.component';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
 
 interface Tab {
@@ -42,7 +43,6 @@ export class SidebarComponent implements AfterViewInit {
   public isBusinessOpen = signal(true);
   public business: Business | null = null;
   public session: User | null = null;
-
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
 
@@ -52,7 +52,7 @@ export class SidebarComponent implements AfterViewInit {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly businessDialog: MatDialog,
+    private readonly dialog: MatDialog,
     private readonly businessService: BusinessService,
   ) {}
 
@@ -78,7 +78,7 @@ export class SidebarComponent implements AfterViewInit {
   public openBusinessDetails() {
     if (!this.business?.id) return;
 
-    this.businessDialog.open(BusinessModalComponent, {
+    this.dialog.open(BusinessModalComponent, {
       backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
@@ -86,6 +86,21 @@ export class SidebarComponent implements AfterViewInit {
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
       data: { businessId: this.business.id },
+    });
+  }
+
+  public openSearch(): void {
+    const dialogRef = this.dialog.open(BookingSearchModalComponent, {
+      backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(65rem, 100%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+    });
+
+    dialogRef.afterClosed().subscribe((value) => {
+      console.log(value);
     });
   }
 

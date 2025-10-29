@@ -1,5 +1,56 @@
+<style>
+  /* Em src/styles.scss */
+
+  /* Animação para a coroa (pulsação de brilho mais sutil) */
+  @keyframes pulse-light {
+    0% {
+      opacity: 0.8;
+      filter: brightness(1);
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      filter: brightness(1.2);
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 0.8;
+      filter: brightness(1);
+      transform: scale(1);
+    }
+  }
+
+  .animate-pulse {
+    animation: pulse-light 2s ease-in-out;
+  }
+
+  /* Animação para o fogo (um flicker mais intenso e com leve movimento) */
+  @keyframes fire-flicker {
+    0%,
+    100% {
+      opacity: 0.9;
+      transform: scale(1) translateY(0);
+    }
+    25% {
+      opacity: 1;
+      transform: scale(1.05) translateY(-1px);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(0.98) translateY(0.5px);
+    }
+    75% {
+      opacity: 1;
+      transform: scale(1.03) translateY(-0.5px);
+    }
+  }
+
+  .animate-fire-flicker {
+    animation: fire-flicker 0.8s ease-in-out;
+  }
+</style>
+
 <div class="flex px-3 relative items-center w-full">
-  <!-- <div class="bg-white opacity-20 blur-[4rem] rounded-full top-1/2 w-[10rem] h-[10rem] absolute"></div> -->
   <div
     class="flex gap-[1rem] lg:flex-wrap lg:grid lg:grid-cols-2 *:lg:last:odd:col-span-2 *:text-nowrap relative items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto"
   >
@@ -59,7 +110,7 @@
           >
         </div>
       </header>
-      <div class="flex-1 flex justify-around items-center px-4 gap-2 relative">
+      <div class="flex-1 flex justify-around mt-3 items-center px-4 gap-2 relative">
         <div class="flex flex-col items-center gap-1 opacity-60 relative -top-3">
           <div
             class="w-14 h-14 grid place-items-center rounded-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700"
@@ -171,26 +222,46 @@
         </div>
       </header>
 
-      <div class="flex flex-col gap-1 mt-5">
-        <div class="flex gap-2 items-center animate-fade-in">
-          <div class="flex-shrink-0 rounded-lg flex items-center justify-center">
-            <i
-              class="material-symbols-outlined !text-xl text-yellow-500 !drop-shadow-sm !drop-shadow-yellow-500/50"
+      <div class="flex flex-col mt-1">
+        @for (service of popularService; track $index) {
+          <div class="flex gap-3 items-center animate-fade-in">
+            <div
+              class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center relative"
             >
-              crown
-            </i>
-          </div>
+              @if ($index === 0) {
+                 <i class="material-symbols-outlined !text-emerald-300">crown</i>
+              }
 
-          <div class="flex flex-grow items-baseline justify-between gap-4">
-            <span
-              class="text-sm font-medium text-zinc-600 saira-font dark:text-zinc-200 truncate"
-              [title]="popularService?.[0]?.service?.title"
-            >
-              {{ popularService?.[0]?.service?.title }}
-            </span>
-            <span class="text-sm font-semibold"> {{ popularService?.[0]?.count }}x </span>
+              <!-- 2º LUGAR: Foguinho Roxo -->
+              @else if ($index === 1) {
+                <i class="material-symbols-outlined !text-violet-500">local_fire_department</i>
+              }
+
+              <!-- 3º LUGAR: Estrela Bronze -->
+              @else if ($index === 2) {
+                <i class="material-symbols-outlined !text-amber-500">star</i>
+              } @else {
+                <div
+                  class="h-6 w-6 grid place-items-center rounded-full bg-zinc-100 dark:bg-zinc-700 text-xs font-bold text-zinc-500 dark:text-zinc-400"
+                >
+                  {{ $index + 1 }}
+                </div>
+              }
+            </div>
+
+            <div class="flex flex-grow items-baseline justify-between gap-4">
+              <span
+                class="text-sm font-medium text-zinc-600 saira-font dark:text-zinc-200 truncate"
+                [title]="service.service.title"
+              >
+                {{ service.service.title }}
+              </span>
+              <span class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                {{ service.count }}x
+              </span>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
 
