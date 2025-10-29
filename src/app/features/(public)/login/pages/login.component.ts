@@ -25,7 +25,7 @@ export class LoginComponent {
     private readonly apiService: ApiService,
     private readonly toastService: ToastService,
     private readonly router: Router,
-    private readonly themeService: ThemeService,
+    private readonly _: ThemeService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],

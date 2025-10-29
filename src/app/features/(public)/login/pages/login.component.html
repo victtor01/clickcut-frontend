@@ -1,71 +1,128 @@
-<section
-  class="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-zinc-900 text-gray-700 dark:text-gray-300"
->
-  <!-- <div class="absolute top-0 left-0 w-full h-[45vh] bg-gray-100 dark:bg-zinc-800/30"></div> -->
+<section class="grid min-h-screen grid-cols-1 lg:grid-cols-3">
+  <div
+    class="relative hidden lg:flex lg:col-span-2 flex-col items-center justify-center p-12 bg-indigo-600 text-white overflow-hidden"
+  >
+    <img
+      src="assets/banner.png"
+      alt="Banner de barbearia"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
 
-  <div class="grid place-items-center p-1 shadow-xl shadow-indigo-500/30 my-4 bg-indigo-500 z-20 rounded-xl">
-    <app-logo width="50" height="50" class="text-indigo-50"></app-logo>
-  </div>
+    <div class="absolute top-0 left-0 w-full h-full backdrop-blur-[1vh]"></div>
 
-  <div class="w-full max-w-md p-6 relative">
-    <div class="text-center mb-8">
-      <h1 class="text-3xl saira-font font-semibold text-zinc-700 dark:text-white">
-        Acesse sua conta
-      </h1>
-      <p class="text-sm mt-2">Bem-vindo de volta! Por favor, insira seus dados.</p>
-    </div>
-
-    <form
-      [formGroup]="loginForm"
-      (ngSubmit)="onSubmit()"
-      class="bg-white dark:bg-zinc-800/80 backdrop-blur-xl shadow dark:shadow-2xl rounded-lg p-8 space-y-6"
+    <div
+      class="relative z-10 flex w-full max-w-lg flex-col border-l items-center justify-center rounded-3xl border-t border-white/30 bg-white/20 p-10 px-12 text-center backdrop-blur-2xl shadow-xl"
     >
-      <div>
-        <label for="email" class="block text-sm font-medium mb-2"> E-mail </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          formControlName="email"
-          placeholder="voce@exemplo.com"
-          class="block w-full px-4 py-3 bg-gray-50 dark:bg-zinc-700 border border-gray-300 dark:border-zinc-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
-        />
-      </div>
-
-      <div>
-        <label for="password" class="block text-sm font-medium mb-2"> Senha </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="••••••••"
-          formControlName="password"
-          class="block w-full px-4 py-3 bg-gray-50 dark:bg-zinc-700 border border-gray-300 dark:border-zinc-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
-        />
-      </div>
-
-      <button
-        type="submit"
-        class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-zinc-800 transition duration-150 ease-in-out"
+      <div
+        class="grid place-items-center "
       >
-        Entrar
-      </button>
-
-      <div class="text-center text-sm pt-4">
-        <p>
-          Não tem uma conta?
-          <a
-            [routerLink]="['/register']"
-            class="font-semibold text-indigo-600 hover:text-indigo-500"
-          >
-            Cadastre-se aqui
-          </a>
-        </p>
+        <app-logo width="70" height="70" class="text-white opacity-60"></app-logo>
       </div>
-    </form>
+
+      <h2 class="mt-8 text-4xl font-bold saira-font leading-tight">
+        Gestão. Agendamentos. Sucesso.
+      </h2>
+
+      <p class="mt-3 text-lg text-indigo-100/80 max-w-sm">
+        Tudo o que você precisa para administrar seu negócio em um só lugar.
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full max-w-xs">
+        <button
+          type="button"
+          class="w-full rounded-lg bg-white/90 px-5 text-nowrap py-3 text-sm font-semibold text-gray-600 saira-font shadow-lg transition-all duration-200 ease-in-out hover:bg-white hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-600"
+        >
+          Comece Agora (É Grátis)
+        </button>
+        <button
+          type="button"
+          class="w-full rounded-lg border text-nowrap border-white/50 bg-white/10 px-5 py-3 text-sm font-semibold text-white opacity-90 transition-all duration-200 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
+        >
+          Saiba Mais
+        </button>
+      </div>
+    </div>
   </div>
 
-  <footer class="w-full text-center p-6 text-sm text-gray-500 dark:text-gray-400">
-    <p>&copy; 2025 ClickCut. Todos os direitos reservados.</p>
-  </footer>
+  <div
+    class="relative flex flex-col justify-center overflow-auto bg-gray-50 px-6 py-12 dark:bg-zinc-900 lg:px-8"
+  >
+    <div
+      class="absolute left-1/2 top-0 h-1/3 w-2/3 -translate-x-1/2 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 opacity-5 blur-[50vh]"
+    ></div>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+      <div
+        class="grid place-items-center w-16 mx-auto p-1 shadow-xl shadow-indigo-500/30 mb-6 bg-indigo-500 z-20 rounded-xl lg:hidden"
+      >
+        <app-logo width="50" height="50" class="text-indigo-50"></app-logo>
+      </div>
+
+      <div class="text-center">
+        <h1 class="text-3xl saira-font font-semibold text-zinc-700 dark:text-white">
+          Acesse sua conta
+        </h1>
+        <p class="text-sm mt-2 text-gray-500 dark:text-zinc-400">Bem-vindo de volta!</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+        <div>
+          <label
+            for="email"
+            class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+          >
+            E-mail
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            formControlName="email"
+            placeholder="voce@exemplo.com"
+            class="block w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
+          />
+        </div>
+
+        <div>
+          <label
+            for="password"
+            class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+          >
+            Senha
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            formControlName="password"
+            class="block w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-zinc-900 transition duration-150 ease-in-out"
+        >
+          Entrar
+        </button>
+
+        <div class="text-center text-sm pt-4">
+          <p class="text-gray-500 dark:text-zinc-400">
+            Não tem uma conta?
+            <a
+              [routerLink]="['/register']"
+              class="font-semibold text-indigo-600 hover:text-indigo-500"
+            >
+              Cadastre-se aqui
+            </a>
+          </p>
+        </div>
+      </form>
+
+      <footer class="w-full text-center p-6 text-sm text-gray-500 dark:text-gray-400">
+        <p>&copy; 2025 ClickCut. Todos os direitos reservados.</p>
+      </footer>
+    </div>
+  </div>
 </section>
