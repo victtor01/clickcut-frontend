@@ -10,11 +10,24 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import {
+  saxCalendarBold,
+  saxHome1Bold,
+  saxMenuBold,
+  saxShoppingBagBold,
+} from '@ng-icons/iconsax/bold';
+import {
+  saxCalendarOutline,
+  saxHome1Outline,
+  saxMenuOutline,
+  saxShoppingBagOutline,
+} from '@ng-icons/iconsax/outline';
 
-// ALTERADO: Renomeado para representar apenas os links de navegação
 interface NavTab {
   id: string;
-  icon: string;
+  iconBold: string;
+  iconOutline: string;
   route: string;
 }
 
@@ -28,15 +41,37 @@ interface MenuItem {
 @Component({
   templateUrl: './mobile-sidebar.component.html',
   selector: 'mobile-sidebar',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgIconComponent],
   styleUrl: './mobile-sidebar.component.scss',
+  providers: [
+    provideIcons({
+      saxHome1Bold,
+      saxHome1Outline,
+      saxShoppingBagBold,
+      saxShoppingBagOutline,
+      saxCalendarBold,
+      saxCalendarOutline,
+      saxMenuBold,
+      saxMenuOutline,
+    }),
+  ],
 })
 export class MobileSidebarComponent implements AfterViewInit {
   // --- ALTERADO: Agora contém apenas os links que aparecerão diretamente na barra ---
   public navTabs: NavTab[] = [
-    { id: 'home', icon: 'home', route: '/home' },
-    { id: 'services', icon: 'shopping_bag', route: '/services' },
-    { id: 'bookings', icon: 'event', route: '/bookings' },
+     { id: 'home', iconBold: 'saxHome1Bold', iconOutline: 'saxHome1Outline', route: '/home' },
+    {
+      id: 'services',
+      iconBold: 'saxShoppingBagBold',
+      iconOutline: 'saxShoppingBagOutline',
+      route: '/services',
+    },
+    {
+      id: 'bookings',
+      iconBold: 'saxCalendarBold',
+      iconOutline: 'saxCalendarOutline',
+      route: '/bookings',
+    },
   ];
 
   // --- NOVO: Itens que serão exibidos dentro do painel do menu ---

@@ -17,6 +17,7 @@ import { BusinessService } from '@app/core/services/business.service';
 import { firstValueFrom } from 'rxjs';
 import { BookingSearchModalComponent } from '../booking-search/booking-search.component';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
+import { LogoComponent } from '../logo/logo.component';
 
 interface Tab {
   id: string;
@@ -29,7 +30,7 @@ interface Tab {
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LogoComponent],
 })
 export class SidebarComponent implements AfterViewInit {
   public tabs: Tab[] = [
@@ -45,6 +46,8 @@ export class SidebarComponent implements AfterViewInit {
   public session: User | null = null;
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
+
+  private isOpenSearch: boolean = false;
 
   @ViewChildren('tabElement') private tabElements!: QueryList<ElementRef<HTMLElement>>;
   private animationTimeout?: number;
@@ -89,7 +92,19 @@ export class SidebarComponent implements AfterViewInit {
     });
   }
 
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      if(!this.isOpenSearch) {
+        this.openSearch();
+      }
+    }
+  }
+
   public openSearch(): void {
+    this.isOpenSearch = true;
+
     const dialogRef = this.dialog.open(BookingSearchModalComponent, {
       backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
@@ -100,7 +115,7 @@ export class SidebarComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((value) => {
-      console.log(value);
+      this.isOpenSearch = false;
     });
   }
 

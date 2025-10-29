@@ -8,9 +8,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br'; // Importa a localização pt-br
 import { firstValueFrom } from 'rxjs';
 
-dayjs.locale('pt-br'); // Define o locale globalmente para o dayjs
+dayjs.locale('pt-br'); 
 
-// Interface unificada para todos os filtros
 interface MonthFilter {
   label: string;
   startAt: string;
@@ -56,27 +55,30 @@ export class BookingSearchModalComponent implements OnInit {
       endAt: now.endOf('day').toISOString(),
       icon: 'today',
     };
+    
     const yesterdayFilter: MonthFilter = {
       label: 'Ontem',
       startAt: now.subtract(1, 'day').startOf('day').toISOString(),
       endAt: now.subtract(1, 'day').endOf('day').toISOString(),
       icon: 'history',
     };
+    
     const futureFilter: MonthFilter = {
       label: 'Futuros',
       startAt: now.endOf('day').toISOString(), // Começa a partir de agora
       endAt: '', // String vazia para "sem data de fim" (o backend deve entender isso)
       icon: 'event_upcoming',
     };
+    
     this.quickAccessFilters.set([futureFilter, todayFilter, yesterdayFilter]);
 
-    // --- Grupo 2: Períodos ---
     const last7DaysFilter: MonthFilter = {
       label: 'Últimos 7 dias',
       startAt: now.subtract(6, 'day').startOf('day').toISOString(), // 6 dias atrás + hoje = 7
       endAt: now.endOf('day').toISOString(),
       icon: 'date_range',
     };
+
     const thisMonthFilter: MonthFilter = {
       label: 'Este Mês',
       startAt: now.startOf('month').toISOString(),
@@ -133,12 +135,9 @@ export class BookingSearchModalComponent implements OnInit {
   public selectFilter(filter: MonthFilter): void {
     this.activeFilter.set(filter);
     this.isSidebarOpen.set(false);
-    this.searchBookings(); // Dispara a busca
+    this.searchBookings(); 
   }
 
-  /**
-   * Retorna as classes CSS corretas para um botão de filtro.
-   */
   public getFilterClasses(filter: MonthFilter): string {
     const baseClasses =
       'flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm font-medium transition-colors';

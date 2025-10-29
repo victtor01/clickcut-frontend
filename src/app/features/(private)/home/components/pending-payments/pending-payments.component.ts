@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Booking } from '@app/core/models/Booking';
 import { BookingsService } from '@app/core/services/booking.service';
 import { firstValueFrom } from 'rxjs';
@@ -15,6 +16,7 @@ export class PendingPaymentsComponent implements OnInit {
   public pendingBookings = signal<Booking[]>([]);
 
   private readonly bookingService = inject(BookingsService);
+  private readonly router = inject(Router);
 
   async ngOnInit(): Promise<void> {
     await this.fetchPendingBookings();
@@ -40,7 +42,7 @@ export class PendingPaymentsComponent implements OnInit {
   }
 
   registerPayment(booking: Booking): void {
-    console.log('Abrir modal de pagamento para:', booking.id);
+    this.router.navigate(['/bookings', booking.id]);
   }
 
   viewDetails(booking: Booking): void {
