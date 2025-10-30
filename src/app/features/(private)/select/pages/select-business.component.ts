@@ -16,7 +16,8 @@ export class SelectBusinessComponent implements OnInit {
 
   public selectedBusiness?: Business;
 
-  @ViewChild(PinEntryComponent) pinEntryComponent?: PinEntryComponent;
+  @ViewChild(PinEntryComponent)
+  pinEntryComponent?: PinEntryComponent;
 
   constructor(
     private readonly businessService: BusinessService,
@@ -33,19 +34,15 @@ export class SelectBusinessComponent implements OnInit {
   }
 
   public selectBusiness(business: Business): void {
-    // Se o negócio não tem senha, faz o login direto.
     if (!business.hasPassword) {
       this.loginToBusiness(business.id);
     } else {
-      // Se tem senha, apenas mostra o modal.
       this.selectedBusiness = business;
     }
   }
 
   public onPinVerify(pin: string): void {
     if (!this.selectedBusiness) return;
-
-    // Chama o serviço de login passando a senha
     this.loginToBusiness(this.selectedBusiness.id, pin);
   }
 
@@ -64,26 +61,8 @@ export class SelectBusinessComponent implements OnInit {
       },
     });
   }
-  
+
   public onCancelPinEntry(): void {
     this.selectedBusiness = undefined;
   }
-
-  public select(business: Business, password?: string) {
-    if (business.hasPassword && !password) {
-      this.selectedBusiness = business;
-      return;
-    }
-
-    this.businessService.select(business.id).subscribe({
-      next: (_) => {
-        this.toastService.success(`Login bem-sucedido`);
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        console.log(err);
-        this.toastService.error('Não foi possível conectar-se a loja');
-      },
-    });
-  }
-} 
+}

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,10 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Business, TimeSlot } from '@app/core/models/Business';
-import { MemberShip } from '@app/core/models/MemberShip';
 import { User } from '@app/core/models/User';
 import { UpdateBusinessDTO } from '@app/core/schemas/update-business.dto';
-import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
 import { MembersService } from '@app/core/services/members.service';
 import { ToastService } from '@app/core/services/toast.service';
@@ -53,9 +51,7 @@ export class ConfigureBusinessComponent implements OnInit {
     });
   }
 
-  private readonly destroyRef = inject(DestroyRef);
   private readonly businessService = inject(BusinessService);
-  private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
   private readonly membersService = inject(MembersService);
 
@@ -66,10 +62,8 @@ export class ConfigureBusinessComponent implements OnInit {
   public maxRevenue: number = 50_000_00;
   public stepRevenue: number = 10_00;
 
-  public members?: MemberShip[];
+  public members?: User[];
   public business?: Business;
-
-  public owner?: User;
 
   public reviewLogoUrl?: string;
   public reviewBannerUrl?: string;
@@ -106,12 +100,7 @@ export class ConfigureBusinessComponent implements OnInit {
   public async getMembers(): Promise<void> {
     if (!this.business) return;
 
-    const currMember = await firstValueFrom(this.authService.currentUser$);
-    const members = await firstValueFrom(this.membersService.findAll());
-
-    if (this.business?.ownerId) {
-      this.owner = currMember;
-    }
+    const members = await firstValueFrom(this.membersService.findWithMercadoPago());
 
     this.members = members || [];
   }

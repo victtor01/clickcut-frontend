@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MemberShip } from '../models/MemberShip';
+import { User } from '../models/User';
 import { UpdateMemberShipDTO } from '../schemas/update-membership.dto';
 import { ApiService } from './api.service';
 
@@ -10,6 +11,10 @@ export class MembersService {
 
   public findAll(): Observable<MemberShip[]> {
     return this.apiService.get(`/members`);
+  }
+
+  public findWithMercadoPago(): Observable<User[]> {
+    return this.apiService.get('/members/mercado-pago');
   }
 
   public update(data: UpdateMemberShipDTO): Observable<{ message: string }> {

@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -33,6 +34,10 @@ export class LoginModalComponent {
 
   public loginForm: FormGroup;
 
+  public close(): void {
+    this.dialogRef.close();
+  }
+
   public goToRegisterPage(): void {
     this.dialogRef.close();
     this.router.navigate(['/hub/signup']);
@@ -46,7 +51,17 @@ export class LoginModalComponent {
           next: () => {
             this.dialogRef.close();
             this.toastService.success('Login realizado com sucesso!');
-                this.router.navigate(['hub', 'home'], { replaceUrl: true }); 
+            this.router.navigate(['hub', 'home'], { replaceUrl: true });
+          },
+
+          error: (ex) => {
+            let message = 'Houve um erro desconhecido';
+
+            if (ex instanceof HttpErrorResponse) {
+              message = ex.error.message;
+            }
+
+            this.toastService.error(message);
           },
         });
     }

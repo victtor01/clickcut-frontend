@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { ThemeService } from '@app/core/services/theme.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { UsersService } from '@app/core/services/users.service';
 import { firstValueFrom } from 'rxjs';
@@ -24,6 +25,8 @@ export class RegisterComponent {
   private readonly usersService = inject(UsersService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
+
+  private _ = inject(ThemeService);
 
   public registerForm: FormGroup;
   public isSubmitting = signal(false);
@@ -75,7 +78,7 @@ export class RegisterComponent {
   async onSubmit(): Promise<void> {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-      this.toast.error("teste")
+      this.toast.error('Preencha corretamente o formulário!');
       return;
     }
 

@@ -1,6 +1,6 @@
 <section
-  [@routeAnimations]="getRouteAnimationData(outlet)"
+  [@routeAnimations]="animationState"
   class="flex flex-col h-screen overflow-hidden overflow-x-hidden"
 >
-  <router-outlet #outlet="outlet"></router-outlet>
+  <router-outlet #outlet="outlet" (activate)="onActivate(outlet)"></router-outlet>
 </section>
