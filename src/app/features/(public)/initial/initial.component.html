@@ -2,13 +2,17 @@
   <header class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-lg dark:bg-zinc-900/80">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-20">
-        <a href="#" class="flex items-center gap-2">
-          <i class="material-icons-outlined text-3xl text-indigo-500">bolt</i>
-          <span class="text-xl font-bold text-slate-800 dark:text-slate-100">ClickCut</span>
-        </a>
+        <div class="flex flex-1 items-center gap-2">
+          <div class="grid place-items-center rounded-full">
+            <app-logo width="35" height="35" class="text-violet-500 scale-105"></app-logo>
+          </div>
+          <span class="text-lg font-semibold text-slate-500 dark:text-violet-100">ClickYoup</span>
+        </div>
 
         <div class="flex items-center gap-6">
-          <div class="fixed backdrop-blur-xl bg-white shadow md:shadow-none bg-indigo/40 dark:bg-zinc-900 md:bg-transparent rounded-full p-1 md:px-0 flex md:relative md:mt-0 left-1/2 -translate-x-1/2 md:translate-0 md:left-0 *:text-nowrap mt-[9rem] items-center md:gap-4">
+          <div
+            class="fixed backdrop-blur-xl bg-white shadow md:shadow-none bg-indigo/40 dark:bg-zinc-900 md:bg-transparent rounded-full p-1 md:px-0 flex md:relative md:mt-0 left-1/2 -translate-x-1/2 md:translate-0 md:left-0 *:text-nowrap mt-[9rem] items-center md:gap-4"
+          >
             <button
               type="button"
               (click)="openLoginModal()"
@@ -28,7 +32,11 @@
             class="rounded-full w-10 h-10 p-2 transition-colors hover:bg-slate-200 dark:hover:bg-zinc-800"
           >
             <i class="material-icons-outlined text-slate-600 dark:text-slate-300">
-                @if (themeService.theme() === 'light') { light_mode } @else { dark_mode }
+              @if (themeService.theme() === 'light') {
+                light_mode
+              } @else {
+                dark_mode
+              }
             </i>
           </button>
         </div>

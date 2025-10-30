@@ -3,11 +3,12 @@ import { Component, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { ThemeService } from '@app/core/services/theme.service';
+import { LogoComponent } from '@app/shared/components/logo/logo.component';
 import { LoginModalComponent } from '../appointment/components/login-modal/login-modal.component';
 
 @Component({
   templateUrl: 'initial.component.html',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LogoComponent],
 })
 export class InitialComponent {
   constructor(private readonly loginDialog: MatDialog) {}

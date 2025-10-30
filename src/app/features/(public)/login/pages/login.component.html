@@ -13,9 +13,7 @@
     <div
       class="relative z-10 flex w-full max-w-lg flex-col border-l items-center justify-center rounded-3xl border-t border-white/30 bg-white/20 p-10 px-12 text-center backdrop-blur-2xl shadow-xl"
     >
-      <div
-        class="grid place-items-center "
-      >
+      <div class="grid place-items-center">
         <app-logo width="70" height="70" class="text-white opacity-60"></app-logo>
       </div>
 
@@ -28,18 +26,18 @@
       </p>
 
       <div class="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full max-w-xs">
-        <button
-          type="button"
+        <a
+          [routerLink]="['/register']"
           class="w-full rounded-lg bg-white/90 px-5 text-nowrap py-3 text-sm font-semibold text-gray-600 saira-font shadow-lg transition-all duration-200 ease-in-out hover:bg-white hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-600"
         >
           Comece Agora (É Grátis)
-        </button>
-        <button
-          type="button"
+        </a>
+        <a
+          [routerLink]="['/']"
           class="w-full rounded-lg border text-nowrap border-white/50 bg-white/10 px-5 py-3 text-sm font-semibold text-white opacity-90 transition-all duration-200 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
         >
           Saiba Mais
-        </button>
+        </a>
       </div>
     </div>
   </div>

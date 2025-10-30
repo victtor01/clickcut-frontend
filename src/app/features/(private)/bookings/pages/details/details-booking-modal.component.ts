@@ -154,9 +154,6 @@ export class DetailsBookingComponent implements OnInit {
     this.filterBookingsForCurrentHour();
   }
 
-  /**
-   * Navega para a hora anterior e atualiza a lista de agendamentos.
-   */
   public previousHour(): void {
     this.currentHour = this.currentHour.subtract(1, 'hour');
     this.filterBookingsForCurrentHour();

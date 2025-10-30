@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '@app/core/services/api.service';
 import { ThemeService } from '@app/core/services/theme.service';
 import { ToastService } from '@app/core/services/toast.service';
@@ -15,7 +15,7 @@ import { LogoComponent } from '@app/shared/components/logo/logo.component';
 @Component({
   templateUrl: './login.component.html',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule, LogoComponent],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, LogoComponent],
 })
 export class LoginComponent {
   public loginForm: FormGroup;
