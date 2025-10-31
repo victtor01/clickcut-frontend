@@ -1,4 +1,6 @@
 export const environment = {
-	production: false,
-	apiUrl: 'http://10.220.0.8:5055/api'
+  production: false,
+  apiUrl: 'https://xm0mcfva6939.share.zrok.io/api',
+  // apiUrl: 'https://q5frp03ij64b.share.zrok.io/api',
+  // apiUrl: 'http://localhost:5055/api',
 };

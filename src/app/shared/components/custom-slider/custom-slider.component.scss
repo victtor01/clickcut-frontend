@@ -1,5 +1,3 @@
-@import "tailwindcss/theme";
-
 :host {
   --track-height: 8px;
   --thumb-size: 1.5rem;
@@ -19,11 +17,7 @@
 
 :host-context(.dark) {
   --track-color: #3f3f46; /* zinc-700 */
-
   --thumb-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); // Sombra preta um pouco mais forte
-  // OU, para um efeito de "brilho":
-  // --thumb-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-
   --thumb-focus-ring-color: #818cf8; /* indigo-400, mais brilhante */
 }
 
@@ -39,8 +33,8 @@
   content: '';
   position: absolute;
 
-  top: -10px; // Adiciona 10px de área clicável acima da trilha
-  bottom: -10px; // Adiciona 10px de área clicável abaixo da trilha
+  top: -10px; 
+  bottom: -10px; 
   left: 0;
   right: 0;
 }
@@ -63,7 +57,6 @@
   top: 50%;
   height: 1rem;
   transform: translateY(-50%);
-  @apply bg-gradient-to-l from-indigo-500 to-violet-600
 }
 
 .thumb {
