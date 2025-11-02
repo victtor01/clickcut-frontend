@@ -1,6 +1,77 @@
 <section class="flex flex-col relative z-20 w-full max-w-[70rem] mx-auto">
   <home-enter></home-enter>
-  
+
+  <div
+    (click)="togglePromoCard()"
+    [attr.data-open]="isPromoCardExpanded()"
+    class="relative rounded-2xl border border-indigo-200/50 dark:border-violet-700 bg-white dark:bg-zinc-900 shadow-xl dark:shadow-indigo-900/10 m-4 my-0 overflow-hidden cursor-pointer transition-all duration-500 ease-in-out data-[open=true]:shadow-2xl data-[open=true]:shadow-violet-500/50"
+  >
+    <div
+      class="absolute -top-10 -right-10 w-48 h-48 bg-indigo-50 dark:bg-indigo-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
+    ></div>
+    <div
+      class="absolute -bottom-10 -left-10 w-48 h-48 bg-purple-50 dark:bg-purple-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
+    ></div>
+
+    <header class="relative z-10 flex items-center justify-between p-6">
+      <div class="flex items-center gap-4">
+        <div
+          class="inline-flex items-center justify-center p-3 rounded-full bg-indigo-100 dark:bg-violet-600/30 text-indigo-600 dark:text-indigo-300 shadow-lg"
+        >
+          <i class="material-icons-outlined text-3xl">rocket_launch</i>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Alcance novos clientes!
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            Clique para ver como o Plano Pro pode impulsionar seu negócio.
+          </p>
+        </div>
+      </div>
+      <i
+        class="material-icons-outlined text-zinc-400 transition-transform duration-300"
+        [class.rotate-180]="isPromoCardExpanded()"
+      >
+        expand_more
+      </i>
+    </header>
+
+    <main
+      class="relative z-10 overflow-hidden text-center transition-all duration-500 ease-in-out"
+      [class.max-h-0]="!isPromoCardExpanded()"
+      [class.opacity-0]="!isPromoCardExpanded()"
+      [class.max-h-[50rem]]="isPromoCardExpanded()"
+      [class.opacity-100]="isPromoCardExpanded()"
+    >
+      <div class="border-t border-zinc-200/50 dark:border-zinc-700/50 px-6 pt-6 pb-8">
+        <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-prose mx-auto">
+          Percebemos que seu negócio ainda não está no
+          <strong class="text-indigo-600 dark:text-indigo-400">Plano Pro</strong>. Ao fazer o
+          upgrade, você desbloqueia a página <strong class="font-semibold">Explorar</strong>,
+          alcançando milhares de novos clientes na sua região.
+        </p>
+
+        <div
+          (click)="$event.stopPropagation()"
+          class="flex flex-col sm:flex-row justify-center gap-4 text-sm font-semibold"
+        >
+          <button
+            class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          >
+            <i class="material-icons-outlined text-xl mr-2">workspace_premium</i>
+            Fazer Upgrade para o Pro
+          </button>
+          <button
+            class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full shadow-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          >
+            <i class="material-icons-outlined text-xl mr-2">list_alt</i>
+            Comparar Planos
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
   <div class="flex px-4 pb-2 mt-7 gap-1 text-gray-600 dark:text-indigo-200 items-center">
     <i class="material-symbols-outlined !text-xl">circles</i>
     <span class="font-semibold text-gray-600 dark:text-indigo-200 saira-font">Dashboard</span>
@@ -13,7 +84,7 @@
   </div>
   <pending-payments></pending-payments>
 
-   <div class="flex px-4 pb-2 mt-7 gap-1 text-gray-600 dark:text-indigo-200 items-center">
+  <div class="flex px-4 pb-2 mt-7 gap-1 text-gray-600 dark:text-indigo-200 items-center">
     <i class="material-symbols-outlined !text-xl">event</i>
     <span class="font-semibold text-gray-600 dark:text-indigo-200 saira-font">Eventos</span>
   </div>

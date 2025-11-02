@@ -21,7 +21,7 @@ export interface ExplorePage {
 export class ExploreService {
   constructor(private readonly apiService: ApiService) {}
 
-  public findAll(): Observable<ExplorePage> {
-    return this.apiService.get('/explore');
+  public findAll(cep: string): Observable<ExplorePage> {
+    return this.apiService.get(`/explore?cep=${cep}`);
   }
 }

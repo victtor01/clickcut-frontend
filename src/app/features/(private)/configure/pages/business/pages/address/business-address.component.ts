@@ -7,6 +7,7 @@ import { Business, BusinessAddress } from '@app/core/models/Business';
 import { UpdateBusinessAddressDTO } from '@app/core/schemas/update-busienss-address.dto';
 import { BusinessAddressService } from '@app/core/services/business-address.service';
 import { BusinessService } from '@app/core/services/business.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { debounceTime, distinctUntilChanged, filter, firstValueFrom, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -21,11 +22,12 @@ export class BusinessAddressComponent implements OnInit {
   private readonly addressService = inject(BusinessAddressService);
   private readonly fb = inject(FormBuilder);
   private readonly http = inject(HttpClient);
+  private readonly toastService = inject(ToastService);
 
   public form: FormGroup;
   public isSubmitting = signal<boolean>(false);
   public isSearchingCep = signal<boolean>(false);
-  public cepAddressLoaded = signal<boolean>(false); // ✨ Novo: Rastreia se o CEP carregou dados
+  public cepAddressLoaded = signal<boolean>(false); 
   public business?: Business;
 
   constructor() {
@@ -92,11 +94,13 @@ export class BusinessAddressComponent implements OnInit {
         next: (data: any) => {
           if (data.erro) {
             this.isSearchingCep.set(false);
-            this.unlockAddressFields(true); // Se o CEP é inválido, libera os campos
+            this.unlockAddressFields(true); 
+            this.toastService.error("CEP não encontrado");
           } else {
             this.fillAndLockAddress(data);
             this.cepAddressLoaded.set(true);
           }
+          console.log(data)
         },
         error: () => this.isSearchingCep.set(false),
       });
