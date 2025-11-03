@@ -11,6 +11,7 @@ import { ToastComponent } from '../toast/toast.component';
 })
 export class ToastContainerComponent {
   public toasts: Signal<Toast[]>;
+  public Math = Math;
   constructor(public readonly toastService: ToastService) {
     this.toasts = toastService.toasts;
   }

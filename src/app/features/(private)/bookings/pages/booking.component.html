@@ -37,47 +37,6 @@
       </div>
     </div>
 
-    <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 rounded-full p-1">
-      <button
-        (click)="setFilter('all')"
-        class="flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
-        [ngClass]="
-          activeFilter() === 'all'
-            ? 'bg-white text-indigo-600 shadow-sm dark:bg-zinc-700 dark:text-white'
-            : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
-        "
-      >
-        <i class="material-icons-outlined !text-lg">apps</i>
-        <span class="hidden md:inline">Todos</span>
-      </button>
-
-      <button
-        (click)="setFilter('paid')"
-        class="flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
-        [ngClass]="
-          activeFilter() === 'paid'
-            ? 'bg-white text-indigo-600 shadow-sm dark:bg-zinc-700 dark:text-white'
-            : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
-        "
-      >
-        <i class="material-icons-outlined !text-lg">check_circle_outline</i>
-        <span class="hidden md:inline">Pagos</span>
-      </button>
-
-      <button
-        (click)="setFilter('pending')"
-        class="flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
-        [ngClass]="
-          activeFilter() === 'pending'
-            ? 'bg-white text-indigo-600 shadow-sm dark:bg-zinc-700 dark:text-white'
-            : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
-        "
-      >
-        <i class="material-icons-outlined !text-lg">pending_actions</i>
-        <span class="hidden md:inline">Pendentes</span>
-      </button>
-    </div>
-
     <div class="flex-shrink-0 flex flex-1 justify-end">
       <button
         type="button"

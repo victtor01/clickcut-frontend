@@ -16,6 +16,16 @@ export class CreateTimeSlotComponent {
 
   public onSave(): void {
     if (this.startTime && this.endTime) {
+      this.startTime =
+        this.startTime.includes(':') && this.startTime.length === 5
+          ? `${this.startTime}:00`
+          : this.startTime;
+          
+      this.endTime =
+        this.endTime.includes(':') && this.endTime.length === 5
+          ? `${this.endTime}:00`
+          : this.endTime;
+
       this.save.emit({ startTime: this.startTime, endTime: this.endTime });
     }
   }

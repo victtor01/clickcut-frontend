@@ -1,5 +1,22 @@
 <div class="toast-container">
-  @for (toast of toasts(); track toast.id) {
-  <app-toast [toast]="toast" (destroy)="toastService.remove(toast.id)" />
+  @for (toast of toasts(); track toast.id; let idx = $index; let total = $count) {
+    
+    @let reverseIndex = total - 1 - idx;
+    @let maxVisibleStack = 2;
+    @let visibleIndex = Math.min(reverseIndex, maxVisibleStack);
+    @let offset = visibleIndex * 8;
+    @let scale = Math.pow(0.95, visibleIndex);
+    @let zIndex = total - reverseIndex;
+    @let opacity = reverseIndex > maxVisibleStack ? 0 : 1;
+    
+
+    <app-toast 
+      [toast]="toast"
+      (destroy)="toastService.remove(toast.id)"
+      
+      [style.transform]="'translateY(-' + offset + 'px) scale(' + scale + ')'"
+      [style.z-index]="zIndex"
+      [style.opacity]="opacity"
+    />
   }
 </div>

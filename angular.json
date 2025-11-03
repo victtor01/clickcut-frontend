@@ -17,6 +17,15 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "dayjs",
+              "dayjs/locale/pt-br",
+              "dayjs/plugin/customParseFormat",
+              "dayjs/plugin/timezone",
+              "dayjs/plugin/utc",
+              "dayjs/plugin/isBetween",
+              "dayjs/plugin/duration"
+            ],
             "outputPath": "dist/clickcut-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -31,7 +40,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/magenta-violet.css",
-                "node_modules/material-icons/iconfont/material-icons.css",
+              "node_modules/material-icons/iconfont/material-icons.css",
               "src/styles.scss",
               "src/tailwind.css"
             ],
@@ -97,7 +106,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/magenta-violet.css",
-                "node_modules/material-icons/iconfont/material-icons.css",
+              "node_modules/material-icons/iconfont/material-icons.css",
               "src/styles.scss",
               "src/tailwind.css"
             ],

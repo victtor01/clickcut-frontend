@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { TimeSlot } from '../models/Business';
 import { MemberShip } from '../models/MemberShip';
 import { User } from '../models/User';
+import { CreateTimeSlotDTO } from '../schemas/create-time-slot.dto';
 import { UpdateMemberShipDTO } from '../schemas/update-membership.dto';
 import { ApiService } from './api.service';
 
@@ -18,8 +19,12 @@ export class MembersService {
     return this.apiService.get('/members/mercado-pago');
   }
 
+  public createTimeSlots(data: CreateTimeSlotDTO[]): Observable<TimeSlot[]> {
+    return this.apiService.post('/members/times-slots', { times: data });
+  }
+
   public findTimesSlots(): Observable<TimeSlot[]> {
-    return this.apiService.get("/members/times-slots")
+    return this.apiService.get('/members/times-slots');
   }
 
   public update(data: UpdateMemberShipDTO): Observable<{ message: string }> {

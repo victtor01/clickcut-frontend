@@ -56,22 +56,22 @@ export class SecurityComponent implements OnInit {
     );
   }
 
-  async ngOnInit(): Promise<void> {
-    this.business = await firstValueFrom(this.businessService.getBusinessSession());
+  public ngOnInit(): void {
+    this.fetchBusiness();
   }
 
-  onUserPasswordSubmit(): void {
+  public onUserPasswordSubmit(): void {
     if (this.userPasswordForm.invalid) return;
   }
 
   public async onBusinessPasswordSubmit(): Promise<void> {
     if (this.businessPasswordForm.invalid) return;
+
     try {
       const password = this.businessPasswordForm.get('newPin')?.value;
 
       await firstValueFrom(this.businessService.updatePassword(password));
-
-      console.log('Alterando senha do usuário:', this.userPasswordForm.value);
+      await this.fetchBusiness();
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +79,11 @@ export class SecurityComponent implements OnInit {
     console.log('Definindo senha do negócio:', this.businessPasswordForm.value);
   }
 
-  removeBusinessPassword(): void {
+  public removeBusinessPassword(): void {
     console.log('Removendo senha do negócio...');
+  }
+
+  private async fetchBusiness(): Promise<void> {
+    this.business = await firstValueFrom(this.businessService.getBusinessSession());
   }
 }

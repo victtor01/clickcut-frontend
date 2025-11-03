@@ -52,9 +52,8 @@ export class ShowTimeSlotsComponent {
     }
 
     for (const slot of slots) {
-      console.log(slot.day)
-      groupedSchedule[slot.day as any].isActive = true;
-      groupedSchedule[slot.day as any].slots.push(slot);
+      groupedSchedule[slot.dayOfWeek as any].isActive = true;
+      groupedSchedule[slot.dayOfWeek as any].slots.push(slot);
     }
 
     return groupedSchedule;
@@ -62,7 +61,6 @@ export class ShowTimeSlotsComponent {
 
   public addTimeSlot(day: number): void {
     this.addingSlotToDay = day;
-    console.log(`Adicionar horário para o dia ${day}`);
   }
 
   public editTimeSlot(slot: TimeSlot): void {
@@ -78,8 +76,6 @@ export class ShowTimeSlotsComponent {
   }
 
   public handleSaveNewSlot(newSlot: { startTime: string; endTime: string }, day: number): void {
-    console.log(`Salvando novo horário para o dia ${day}:`, newSlot);
-
     const createTimeSlot = {
       dayOfWeek: day,
       startTime: newSlot.startTime,
@@ -88,7 +84,6 @@ export class ShowTimeSlotsComponent {
 
     this.businessService.createTimeSlot(createTimeSlot).subscribe({
       next: (e) => {
-        console.log(e);
         this.fetchTimeSlots();
       },
 
@@ -98,16 +93,5 @@ export class ShowTimeSlotsComponent {
     });
 
     this.addingSlotToDay = null;
-  }
-
-  
-  public onDayToggle(day: number, isActive: boolean): void {
-    this.schedule[day].isActive = isActive;
-
-    if (!isActive) {
-      this.schedule[day].slots = [];
-    }
-
-    console.log(`Dia ${day} agora está ${isActive ? 'ativo' : 'inativo'}`);
   }
 }

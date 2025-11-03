@@ -60,7 +60,7 @@
           <div class="relative mt-2 flex items-center gap-2">
             <input 
               type="text" id="postalCode" formControlName="postalCode" placeholder="00000-000"
-              class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white"
+              class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white"
               [class.border-red-500]="form.get('postalCode')?.invalid && (form.get('postalCode')?.dirty || form.get('postalCode')?.touched)"
               [class.border-zinc-300]="!form.get('postalCode')?.invalid"
               [class.dark:border-zinc-700]="!form.get('postalCode')?.invalid"
@@ -81,7 +81,7 @@
           <div class="mt-2">
             <input 
               type="text" id="street" formControlName="street" placeholder="Ex: Av. Principal"
-              class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800"
+              class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800"
               [class.border-red-500]="form.get('street')?.invalid && (form.get('street')?.dirty || form.get('street')?.touched)"
               [class.border-zinc-300]="!form.get('street')?.invalid"
               [class.dark:border-zinc-700]="!form.get('street')?.invalid"
@@ -94,7 +94,7 @@
           <div class="mt-2">
             <input 
               type="text" id="number" formControlName="number" placeholder="Ex: 123"
-              class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white"
+              class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white"
               [class.border-red-500]="form.get('number')?.invalid && (form.get('number')?.dirty || form.get('number')?.touched)"
               [class.border-zinc-300]="!form.get('number')?.invalid"
               [class.dark:border-zinc-700]="!form.get('number')?.invalid"
@@ -105,26 +105,26 @@
         <div class="sm:col-span-4">
           <label for="neighborhood" class="block text-sm font-medium leading-6 text-gray-900 dark:text-zinc-300">Bairro</label>
           <div class="mt-2">
-            <input type="text" id="neighborhood" formControlName="neighborhood" placeholder="Ex: Centro" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800" [class.border-red-500]="form.get('neighborhood')?.invalid && (form.get('neighborhood')?.dirty || form.get('neighborhood')?.touched)" [class.border-zinc-300]="!form.get('neighborhood')?.invalid" [class.dark:border-zinc-700]="!form.get('neighborhood')?.invalid" />
+            <input type="text" id="neighborhood" formControlName="neighborhood" placeholder="Ex: Centro" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800" [class.border-red-500]="form.get('neighborhood')?.invalid && (form.get('neighborhood')?.dirty || form.get('neighborhood')?.touched)" [class.border-zinc-300]="!form.get('neighborhood')?.invalid" [class.dark:border-zinc-700]="!form.get('neighborhood')?.invalid" />
           </div>
         </div>
         <div class="sm:col-span-3">
           <label for="city" class="block text-sm font-medium leading-6 text-gray-900 dark:text-zinc-300">Cidade</label>
           <div class="mt-2">
-            <input type="text" id="city" formControlName="city" placeholder="Ex: São Paulo" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800" [class.border-red-500]="form.get('city')?.invalid && (form.get('city')?.dirty || form.get('city')?.touched)" [class.border-zinc-300]="!form.get('city')?.invalid" [class.dark:border-zinc-700]="!form.get('city')?.invalid" />
+            <input type="text" id="city" formControlName="city" placeholder="Ex: São Paulo" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white text-gray-500 disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800" [class.border-red-500]="form.get('city')?.invalid && (form.get('city')?.dirty || form.get('city')?.touched)" [class.border-zinc-300]="!form.get('city')?.invalid" [class.dark:border-zinc-700]="!form.get('city')?.invalid" />
           </div>
         </div>
         <div class="sm:col-span-3">
           <label for="state" class="block text-sm font-medium leading-6 text-gray-900 dark:text-zinc-300">Estado</label>
           <div class="mt-2">
-            <input type="text" id="state" formControlName="state" placeholder="Ex: SP" maxlength="2" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800" [class.border-red-500]="form.get('state')?.invalid && (form.get('state')?.dirty || form.get('state')?.touched)" [class.border-zinc-300]="!form.get('state')?.invalid" [class.dark:border-zinc-700]="!form.get('state')?.invalid" />
+            <input type="text" id="state" formControlName="state" placeholder="Ex: SP" maxlength="2" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800" [class.border-red-500]="form.get('state')?.invalid && (form.get('state')?.dirty || form.get('state')?.touched)" [class.border-zinc-300]="!form.get('state')?.invalid" [class.dark:border-zinc-700]="!form.get('state')?.invalid" />
           </div>
         </div>
         
         <div class="col-span-full">
           <label for="complement" class="block text-sm font-medium leading-6 text-gray-900 dark:text-zinc-300">Complemento <span class="text-zinc-400">(Opcional)</span></label>
           <div class="mt-2">
-            <input type="text" id="complement" formControlName="complement" placeholder="Ex: Sala 10, Bloco B" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white" [class.border-red-500]="form.get('complement')?.invalid && (form.get('complement')?.dirty || form.get('complement')?.touched)" [class.border-zinc-300]="!form.get('complement')?.invalid" [class.dark:border-zinc-700]="!form.get('complement')?.invalid" />
+            <input type="text" id="complement" formControlName="complement" placeholder="Ex: Sala 10, Bloco B" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white" [class.border-red-500]="form.get('complement')?.invalid && (form.get('complement')?.dirty || form.get('complement')?.touched)" [class.border-zinc-300]="!form.get('complement')?.invalid" [class.dark:border-zinc-700]="!form.get('complement')?.invalid" />
           </div>
         </div>
       </div>

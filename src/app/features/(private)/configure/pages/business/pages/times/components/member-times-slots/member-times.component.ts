@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { TimeSlot } from '@app/core/models/Business';
 import { CreateTimeSlotDTO } from '@app/core/schemas/create-time-slot.dto';
 import { MembersService } from '@app/core/services/members.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { firstValueFrom } from 'rxjs';
 import { CreateTimeSlotComponent } from '../../../../components/create-time-slot/create-time-slot.component';
 
@@ -20,9 +22,10 @@ export interface WeeklySchedule {
 })
 export class MemberTimesComponent implements OnInit {
   private readonly membersService = inject(MembersService);
+  private readonly toastService = inject(ToastService);
 
   public timesSlots: TimeSlot[] = [];
-
+  public hasEditable: boolean = false;
   public schedule: WeeklySchedule = {};
 
   public addingSlotToDay: number | null = null;
@@ -46,31 +49,44 @@ export class MemberTimesComponent implements OnInit {
   }
 
   public handleSaveNewSlot(newSlot: { startTime: string; endTime: string }, day: number): void {
-    console.log(`Salvando novo horário para o dia ${day}:`, newSlot);
-
     const createTimeSlot = {
       dayOfWeek: day,
       startTime: newSlot.startTime,
       endTime: newSlot.endTime,
     } satisfies CreateTimeSlotDTO;
 
-    // this.businessService.createTimeSlot(createTimeSlot).subscribe({
-    // 	next: (e) => {
-    // 		console.log(e);
-    // 		this.fetchTimeSlots();
-    // 	},
+    this.timesSlots.push({ ...createTimeSlot, dayOfWeek: day });
 
-    // 	error: (err) => {
-    // 		this.toastService.error(err.error?.message);
-    // 	},
-    // });
+    this.schedule = this.groupTimeSlotsByDay(this.timesSlots);
 
     this.addingSlotToDay = null;
+    this.hasEditable = true;
+  }
+
+  public async saveOperation(): Promise<void> {
+    const times: CreateTimeSlotDTO[] = this.timesSlots.map((ts) => ({
+      ...ts,
+      dayOfWeek: Number(ts.dayOfWeek),
+    }));
+
+    try {
+      const updated: TimeSlot[] = await firstValueFrom(this.membersService.createTimeSlots(times));
+
+      this.schedule =  this.groupTimeSlotsByDay(updated);
+      this.toastService.success("Atualizado com sucesso!");
+      this.hasEditable = false;
+    }catch (err){
+      let message = "Erro interno, entre em contato com suporte!";
+  
+      if(err instanceof HttpErrorResponse && err.error.message) message = err.error.message;
+
+      this.toastService.error(message);
+    }
+
   }
 
   public addTimeSlot(day: number): void {
     this.addingSlotToDay = day;
-    console.log(`Adicionar horário para o dia ${day}`);
   }
 
   private groupTimeSlotsByDay(slots: TimeSlot[]): WeeklySchedule {
@@ -81,17 +97,21 @@ export class MemberTimesComponent implements OnInit {
     }
 
     for (const slot of slots) {
-      console.log(slot.day);
-      groupedSchedule[slot.day as any].isActive = true;
-      groupedSchedule[slot.day as any].slots.push(slot);
+      groupedSchedule[slot.dayOfWeek as any].isActive = true;
+      groupedSchedule[slot.dayOfWeek as any].slots.push(slot);
     }
 
     return groupedSchedule;
   }
 
+  public removeSlot(slot: TimeSlot): void {
+   this.timesSlots = [...this.timesSlots.filter(time => !(time.dayOfWeek === slot.dayOfWeek && time.endTime === slot.endTime && time.startTime === slot.startTime))]
+   this.schedule = this.groupTimeSlotsByDay(this.timesSlots);
+   this.hasEditable = true;
+  }
+
   private async fetchTimes(): Promise<void> {
     this.timesSlots = await firstValueFrom(this.membersService.findTimesSlots());
     this.schedule = this.groupTimeSlotsByDay(this.timesSlots);
-    console.log(this.timesSlots);
   }
 }

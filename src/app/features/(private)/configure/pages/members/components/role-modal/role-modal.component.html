@@ -1,5 +1,5 @@
 <section
-  class="flex flex-col sm:my-8 sm:rounded-xl border border-zinc-100 bg-stone-50 dark:border-zinc-800 dark:bg-zinc-900"
+  class="flex flex-col sm:my-8 sm:rounded-xl border border-zinc-100 bg-white dark:border-zinc-800 dark:bg-zinc-900"
 >
   <header
     class="flex items-start justify-between border-b border-zinc-200/80 p-6 dark:border-zinc-800"
@@ -73,30 +73,26 @@
 
         <div>
           <h3 class="text-base font-medium text-gray-700 dark:text-zinc-300">Permissões</h3>
-          <ul
-            formArrayName="permissions"
-            class="divide-y divide-zinc-200/80 rounded-lg dark:divide-zinc-800"
-          >
+          <ul formArrayName="permissions">
             @for (
               group of permissionGroups();
               track trackByGroup($index, group);
               let groupIndex = $index
             ) {
               <div class="mb-3">
-                <!-- Nome do Grupo -->
-                <strong class="block text-md font-medium text-gray-900 dark:text-zinc-100 mb-2">{{
-                  group.groupName
-                }}</strong>
+                <strong class="block text-md font-medium text-gray-900 dark:text-zinc-100 mb-2">
+                  {{ group.groupName }}
+                </strong>
 
                 <ul
-                  class="divide-y divide-zinc-200/80 rounded-lg border border-zinc-200/80 dark:divide-zinc-800 dark:border-zinc-800"
+                  class="divide-y bg-white dark:bg-zinc-800/50 divide-zinc-200/80 rounded-lg border border-zinc-200/80 dark:divide-zinc-800 dark:border-zinc-800"
                 >
                   @for (
                     permission of group.permissions;
                     track trackByPermission($index, permission);
                     let permIndex = $index
                   ) {
-                    <li class="flex items-center justify-between p-4 bg-white dark:bg-zinc-800/50">
+                    <li class="flex items-center justify-between p-4">
                       <label [for]="permission.key" class="cursor-pointer pr-4">
                         <span class="font-medium text-sm text-zinc-800 dark:text-zinc-200">{{
                           permission.name
@@ -146,7 +142,7 @@
       type="submit"
       form="roleForm"
       [disabled]="form.invalid || isLoading()"
-      class="flex min-w-[120px] items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800"
+      class="flex min-w-[120px] items-center justify-center rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold saira-font text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800"
     >
       @if (isLoading()) {
         <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>

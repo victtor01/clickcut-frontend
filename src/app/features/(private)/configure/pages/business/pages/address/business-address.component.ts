@@ -27,12 +27,12 @@ export class BusinessAddressComponent implements OnInit {
   public form: FormGroup;
   public isSubmitting = signal<boolean>(false);
   public isSearchingCep = signal<boolean>(false);
-  public cepAddressLoaded = signal<boolean>(false); 
+  public cepAddressLoaded = signal<boolean>(false);
   public business?: Business;
 
   constructor() {
     this.form = this.fb.group({
-      postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}-\d{3}$/)]],
+      postalCode: ['', [Validators.required, Validators.pattern(/^(\d{5}-\d{3}|\d{8})$/)]],
       street: [{ value: '', disabled: true }, Validators.required],
       number: ['', Validators.required],
       neighborhood: [{ value: '', disabled: true }, Validators.required],
@@ -63,13 +63,13 @@ export class BusinessAddressComponent implements OnInit {
 
           const address = this.business.address;
 
-          const invalidates = Object.keys(address);
+          const addressKeys = Object.keys(this.form.controls) as Array<keyof BusinessAddress>;
 
-          invalidates.forEach(k => {
-            if(address?.[k as keyof(BusinessAddress)]) {
-              this.form.controls[k].disable();
+          addressKeys.forEach((key) => {
+            if (key !== 'complement' && address?.[key]) {
+              this.form.controls[key].disable();
             }
-          })
+          });
 
           this.cepAddressLoaded.set(true);
         }
@@ -82,49 +82,51 @@ export class BusinessAddressComponent implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
-        filter((cep) => /^\d{5}-\d{3}$/.test(cep)), // Só busca CEP no formato completo
+        filter((cep) => /^(\d{5}-\d{3}|\d{8})$/.test(cep)),
         tap(() => {
           this.isSearchingCep.set(true);
           this.cepAddressLoaded.set(false);
         }),
-        switchMap((cep) => this.http.get(`https://viacep.com.br/ws/${cep.replace('-', '')}/json/`)),
+        switchMap((cep) =>
+          this.http.get(`https://viacep.com.br/ws/${cep.replace(/\D/g, '')}/json/`),
+        ),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (data: any) => {
           if (data.erro) {
             this.isSearchingCep.set(false);
-            this.unlockAddressFields(true); 
-            this.toastService.error("CEP não encontrado");
+            this.unlockAddressFields(true);
+            this.toastService.error('CEP não encontrado');
           } else {
             this.fillAndLockAddress(data);
             this.cepAddressLoaded.set(true);
           }
-          console.log(data)
         },
         error: () => this.isSearchingCep.set(false),
       });
   }
 
   private fillAndLockAddress(data: any): void {
-    this.form.patchValue({
-      street: data.logradouro,
-      neighborhood: data.bairro,
+    const currentValues = this.form.getRawValue();
+
+    const newValues = {
       city: data.localidade,
       state: data.uf,
-    });
+      street: data.logradouro || currentValues.street,
+      neighborhood: data.bairro || currentValues.neighborhood,
+    };
+
+    this.form.patchValue(newValues);
 
     this.form.controls['city'].disable();
     this.form.controls['state'].disable();
+    this.form.controls['number'].disable();
+    this.form.controls['street'].disable();
     this.form.controls['neighborhood'].disable();
 
-    data.logradouro
-      ? this.form.controls['street'].disable()
-      : this.form.controls['street'].enable();
-
-    data.bairro
-      ? this.form.controls['neighborhood'].disable()
-      : this.form.controls['neighborhood'].enable();
+    // Foca no campo "número" após o preenchimento
+    document.getElementById('number')?.focus();
 
     this.isSearchingCep.set(false);
   }
@@ -134,7 +136,7 @@ export class BusinessAddressComponent implements OnInit {
     this.form.controls['neighborhood'].enable();
     this.form.controls['city'].enable();
     this.form.controls['state'].enable();
-      this.form.controls['postalCode'].enable();
+    this.form.controls['postalCode'].enable();
     this.cepAddressLoaded.set(false);
 
     if (clearFields) {
@@ -172,6 +174,8 @@ export class BusinessAddressComponent implements OnInit {
       };
 
       await firstValueFrom(this.addressService.update(data));
+
+      this.toastService.success('Atualizad com sucesso!');
     } finally {
       this.isSubmitting.set(false);
     }

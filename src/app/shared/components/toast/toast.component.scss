@@ -1,6 +1,9 @@
 :host {
   display: block;
-  margin-bottom: 10px;
+  grid-row: 1;
+  grid-column: 1;
+  transition: transform 300ms ease-out, opacity 300ms ease-out;
+  pointer-events: none;
 }
 
 .toast-body {
@@ -13,11 +16,12 @@
   font-weight: 500;
   cursor: default;
 
+  pointer-events: auto;
+
   &:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
 }
-
 .toast-success {
   background-color: var(--color-indigo-500);
 }

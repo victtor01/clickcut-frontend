@@ -20,7 +20,7 @@ export interface Business {
 }
 
 export interface TimeSlot {
-  day: string;
+  dayOfWeek: string | number;
   startTime: string;
   endTime: string;
 }
