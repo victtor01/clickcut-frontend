@@ -4,7 +4,7 @@ import { TimeSlot } from '@app/core/models/Business';
 import { CreateTimeSlotDTO } from '@app/core/schemas/create-time-slot.dto';
 import { BusinessService } from '@app/core/services/business.service';
 import { ToastService } from '@app/core/services/toast.service';
-import { CreateTimeSlotComponent } from '../create-time-slot/create-time-slot.component';
+import { CreateTimeSlotComponent } from '../../../../components/create-time-slot/create-time-slot.component';
 
 export interface WeeklySchedule {
   [day: number]: {

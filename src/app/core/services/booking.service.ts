@@ -32,7 +32,7 @@ export class BookingsService {
 
   public noShow(bookingId: string): Observable<{ message: string }> {
     return this.apiService.patch(`/bookings/no-show/${bookingId}`, {});
-  }
+  } 
 
   public latests(): Observable<Booking[]> {
     return this.apiService.get('/bookings/latest');

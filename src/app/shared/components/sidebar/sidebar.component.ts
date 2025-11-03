@@ -209,11 +209,15 @@ export class SidebarComponent implements AfterViewInit {
     this.loginToBusiness(this.selectedBusiness.id, pin);
   }
 
-  private loginToBusiness(businessId: string, password?: string): void {
-    this.isLoadingSelectBusiness = true;
+  public navigateToCreateBusiness() {
+      this.router.navigate(["/create-business"]);
+  }
 
+  private loginToBusiness(businessId: string, password?: string): void {
+    
     this.businessService.select(businessId, password).subscribe({
       next: () => {
+        this.isLoadingSelectBusiness = true;
         this.toastService.success(`Login bem-sucedido`);
       },
       error: (err) => {
