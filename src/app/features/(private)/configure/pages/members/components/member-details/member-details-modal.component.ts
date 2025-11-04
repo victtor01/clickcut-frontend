@@ -75,10 +75,8 @@ export class MemberDetailsModalComponent implements OnInit {
       roles: selectedRoles,
     } satisfies MemberShip;
 
-    // Simula uma pequena latência de API
     setTimeout(() => {
       this.isLoading.set(false);
-      // Fecha o diálogo e retorna os dados atualizados
       this.dialogRef.close(updatedMemberData);
     }, 1000);
   }

@@ -1,0 +1,93 @@
+<div
+  class="flex flex-col justify-between rounded-2xl m-4 mt-0 border min-h-[10rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
+>
+  <header class="justify-between flex items-center gap-2 mb-4">
+    <span class="relative font-medium text-zinc-700 dark:text-zinc-300">Meu Status</span>
+    <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
+      <div
+        class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
+      ></div>
+
+    </div>
+
+    @if (status() === 'OPEN' || status() === 'CLOSED') {
+      <button
+        [routerLink]="['/configure/business/times']"
+        aria-label="Editar horários"
+        class="py-px px-3 flex items-center gap-4 border border-zinc-100 dark:border-zinc-600/70 rounded-full text-zinc-500 hover:bg-zinc-100/50 dark:text-zinc-400 dark:hover:bg-white/10 transition-colors"
+      >
+			  <span>Configurar</span>
+        <i class="material-icons-outlined !text-lg">edit</i>
+      </button>
+    }
+  </header>
+
+  <main class="flex flex-col justify-center flex-1 min-h-[6rem]">
+    @switch (status()) {
+      @case ('LOADING') {
+        <!-- Estado de Carregamento -->
+        <div class="flex items-center justify-center h-full">
+          <i
+            class="material-symbols-outlined animate-spin text-3xl text-zinc-500 dark:text-zinc-400"
+            >progress_activity</i
+          >
+        </div>
+      }
+
+      @case ('OPEN') {
+        <!-- Estado ABERTO -->
+        <div class="flex flex-col text-left animate-fade-in">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="relative flex h-3 w-3">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+              ></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+            <span class="text-2xl font-bold text-green-600 dark:text-green-400">Aberto Agora</span>
+          </div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-300">
+            {{ statusMessage() }}
+          </p>
+        </div>
+      }
+
+      @case ('CLOSED') {
+        <!-- Estado FECHADO -->
+        <div class="flex flex-col text-left animate-fade-in">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="relative flex h-3 w-3">
+              <span
+                class="relative inline-flex rounded-full h-3 w-3 bg-zinc-400 dark:bg-zinc-600"
+              ></span>
+            </span>
+            <span class="text-2xl font-bold text-zinc-600 dark:text-zinc-300">Fechado</span>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400">
+            {{ statusMessage() }}
+          </p>
+        </div>
+      }
+
+      @case ('NO_SCHEDULE') {
+        <!-- Estado Sem Horários -->
+        <div class="flex flex-col items-center justify-center text-center animate-fade-in">
+          <i class="material-symbols-outlined text-4xl text-zinc-400 dark:text-zinc-500"
+            >event_busy</i
+          >
+          <p class="mt-2 text-sm font-medium text-zinc-600 dark:text-zinc-300">
+            Nenhum horário definido.
+          </p>
+
+          <!-- Botão para ir para as configurações -->
+          <button
+            [routerLink]="['/configure/business/times']"
+            class="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+          >
+            Configurar Agenda
+          </button>
+        </div>
+      }
+    }
+  </main>
+</div>

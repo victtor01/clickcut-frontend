@@ -3,6 +3,7 @@ import { HomeEnterComponent } from '../components/enter-component/home-enter.com
 import { HomeBookingsComponent } from '../components/home-bookings/home-bookings.component';
 import { HomeDashboardComponent } from '../components/home-dashboard/home-dashboard.component';
 import { PendingPaymentsComponent } from '../components/pending-payments/pending-payments.component';
+import { WorkingHoursComponent } from '../components/working-hours/working-hours.component';
 
 @Component({
   templateUrl: 'home-page.component.html',
@@ -11,6 +12,7 @@ import { PendingPaymentsComponent } from '../components/pending-payments/pending
     HomeEnterComponent,
     HomeBookingsComponent,
     PendingPaymentsComponent,
+    WorkingHoursComponent
   ],
 })
 export class HomePageComponent {

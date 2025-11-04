@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RoleLegendDTO } from '../DTOs/roles-legends-response';
 import { Role } from '../models/Role';
+import { CreateRoleDTO } from '../schemas/create-role.dto';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -14,6 +15,10 @@ export class RolesService {
 
   public findLegends(): Observable<RoleLegendDTO[]> {
     return this.apiService.get('/roles/legends');
+  }
+
+  public create(data: CreateRoleDTO): Observable<Role> {
+    return this.apiService.post("/roles", data);
   }
 
   public findById(id: string): Observable<Role> {

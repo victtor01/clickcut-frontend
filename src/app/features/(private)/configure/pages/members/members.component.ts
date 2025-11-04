@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
@@ -24,10 +25,10 @@ export class MembersComponent implements OnInit {
   constructor(private readonly rolesDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.fetch();
+    this.fetchMembersWithRoles();
   }
 
-  private async fetch(): Promise<void> {
+  private async fetchMembersWithRoles(): Promise<void> {
     [this.members, this.roles] = await Promise.all([
       (this.members = await firstValueFrom(this.membersService.findAll())),
       (this.roles = await firstValueFrom(this.rolesService.findAll())),
@@ -36,10 +37,7 @@ export class MembersComponent implements OnInit {
 
   public openMemberDetails(memberToEdit: MemberShip): void {
     const dialogRef = this.dialog.open(MemberDetailsModalComponent, {
-      data: {
-        member: memberToEdit,
-        allRoles: this.roles,
-      },
+      data: { member: memberToEdit, allRoles: this.roles },
       backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '40rem',
@@ -69,23 +67,42 @@ export class MembersComponent implements OnInit {
     try {
       await firstValueFrom(this.membersService.update(data));
       this.toastService.success('Atualizado com sucesso!');
+      this.fetchMembersWithRoles();
     } catch (err) {
       console.log(err);
       this.toastService.error('Não foi possivel atualizar o serviço');
     }
   }
 
-  private async update(role: Role): Promise<void> {
+  private async updateRole(role: Role): Promise<void> {
     try {
-      const updated = await firstValueFrom(this.rolesService.update(role));
+      await firstValueFrom(this.rolesService.update(role));
       this.toastService.success('Atualizado com sucesso!');
+      this.fetchMembersWithRoles();
     } catch (err) {
       console.log(err);
       this.toastService.error('Não foi possivel atualizar o serviço');
     }
   }
 
-  private async create(data: Omit<Role, 'id'>) {}
+  private async create(data: Omit<Role, 'id'>) {
+    try {
+      await firstValueFrom(
+        this.rolesService.create({
+          name: data.name,
+          permissions: data.permissions,
+        }),
+      );
+    } catch (err) {
+      let message = 'Erro interno!';
+
+      if (err instanceof HttpErrorResponse) {
+        message = err.error.message;
+      }
+
+      this.toastService.error(message);
+    }
+  }
 
   public openRoleModal(roleId?: string) {
     const modal = this.rolesDialog.open(RoleModalComponent, {
@@ -107,7 +124,7 @@ export class MembersComponent implements OnInit {
 
       if (!hasName || !hasPermissions) return;
       if (hasId) {
-        this.update({ id: data.id!, name: data.name!, permissions: data.permissions! });
+        this.updateRole({ id: data.id!, name: data.name!, permissions: data.permissions! });
       } else if (hasName && hasPermissions) {
         this.create({ name: data.name!, permissions: data.permissions! });
       }
