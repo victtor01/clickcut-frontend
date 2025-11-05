@@ -24,6 +24,105 @@
       </i>
     </div>
   } @else {
+    @if (payout(); as p) {
+      <div
+        class="rounded-xl border border-zinc-200/80 bg-white dark:border-zinc-800 dark:bg-zinc-900/50 mb-8"
+      >
+        <header
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 border-b border-zinc-200/80 dark:border-zinc-800"
+        >
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Resumo do Pagamento</h2>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+              Período: {{ p.start | date: 'dd/MM/yy' }} - {{ p.end | date: 'dd/MM/yy' }}
+            </p>
+          </div>
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 mt-3 sm:mt-0"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+            Pago em {{ p.paidAt | date: 'dd/MM/yy' }}
+          </span>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="p-6">
+            <dl class="space-y-4">
+              <div class="flex items-center justify-between">
+                <dt class="text-sm text-zinc-600 dark:text-zinc-400">Salário Base</dt>
+                <dd class="font-medium text-zinc-900 dark:text-zinc-100">
+                  {{ p.baseSalary | currency: 'BRL' }}
+                </dd>
+              </div>
+              <div class="flex items-center justify-between">
+                <dt class="text-sm text-zinc-600 dark:text-zinc-400">Total de Comissão</dt>
+                <dd class="font-medium text-green-600 dark:text-green-500">
+                  + {{ p.totalCommission | currency: 'BRL' }}
+                </dd>
+              </div>
+              <div class="border-t border-zinc-200/80 dark:border-zinc-800 !my-3"></div>
+              <div class="flex items-center justify-between">
+                <dt class="text-base font-semibold text-zinc-900 dark:text-white">Total Pago</dt>
+                <dd class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                  {{ p.totalAmount | currency: 'BRL' }}
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div
+            class="p-6 border-t md:border-t-0 md:border-l border-zinc-200/80 dark:border-zinc-800"
+          >
+            <h3 class="text-base font-semibold text-zinc-900 dark:text-white">
+              Comprovante de Pagamento
+            </h3>
+
+            @if (p.proofOfPaymentUrl) {
+              <div class="mt-4 space-y-4">
+                <a
+                  [href]="p.proofOfPaymentUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full h-48 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-700 hover:opacity-80 transition-opacity"
+                >
+                  <img
+                    [src]="p.proofOfPaymentUrl"
+                    alt="Comprovante de pagamento"
+                    class="h-full w-full object-cover"
+                  />
+                </a>
+                <button
+                  type="button"
+                  (click)="downloadProof(p.proofOfPaymentUrl, p.id)"
+                  [disabled]="isDownloading()"
+                  class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-100 px-4 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 disabled:opacity-50"
+                >
+                  @if (isDownloading()) {
+                    <i class="material-symbols-outlined animate-spin !text-base"
+                      >progress_activity</i
+                    >
+                    <span>Baixando...</span>
+                  } @else {
+                    <i class="material-symbols-outlined !text-base">download</i>
+                    <span>Baixar Comprovante</span>
+                  }
+                </button>
+              </div>
+            } @else {
+              <div
+                class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 dark:border-zinc-700 p-8 text-center"
+              >
+                <i class="material-symbols-outlined text-4xl text-zinc-400">image_not_supported</i>
+                <p class="mt-2 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                  Nenhum comprovante foi anexado.
+                </p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
     <div class="space-y-6">
       @for (group of groupedBookings(); track group.day) {
         <div

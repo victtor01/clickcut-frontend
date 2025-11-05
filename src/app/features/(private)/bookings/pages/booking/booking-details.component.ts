@@ -75,7 +75,6 @@ export class BookingDetailsComponent implements OnInit {
       this.bookingService.findById(this.bookingId).subscribe({
         next: (value) => {
           this.booking = value;
-          console.log(this.booking);
         },
       });
     }

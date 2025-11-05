@@ -53,7 +53,7 @@ export class PayPayrollModalComponent {
     this.isSubmitting = true;
 
     try {
-      await firstValueFrom(this.payoutService.pay(this.data.payout.id));
+      await firstValueFrom(this.payoutService.pay(this.data.payout.id, this.proofFile));
       this.dialogRef.close({ confirmed: true, file: this.proofFile });
     } catch (err) {
       console.log(err);

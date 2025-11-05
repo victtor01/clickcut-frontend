@@ -14,11 +14,20 @@ export class PayrollService {
     return this.apiService.get('/payroll');
   }
 
-  public pay(payoutId: string): Observable<{ message: string }> {
+  public pay(payoutId: string, file?: File | null): Observable<{ message: string }> {
     const form = new FormData();
+
     form.append('payoutId', payoutId);
 
+    if (file) {
+      form.append('file', file);
+    }
+
     return this.apiService.patchForm('/payroll/mark-as-paid', form);
+  }
+
+  public findById(id: string): Observable<Payout> {
+    return this.apiService.get(`/payroll/${id}`);
   }
 
   public getBookings(payoutId: string): Observable<Booking[]> {

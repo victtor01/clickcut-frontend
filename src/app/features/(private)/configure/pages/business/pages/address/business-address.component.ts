@@ -122,10 +122,19 @@ export class BusinessAddressComponent implements OnInit {
     this.form.controls['city'].disable();
     this.form.controls['state'].disable();
     this.form.controls['number'].disable();
-    this.form.controls['street'].disable();
-    this.form.controls['neighborhood'].disable();
 
-    // Foca no campo "número" após o preenchimento
+    if (!newValues.street) {
+      this.form.controls['street'].enable();
+    } else {
+      this.form.controls['street'].disable();
+    }
+
+    if (!newValues.neighborhood) {
+      this.form.controls['neighborhood'].enable();
+    } else {
+      this.form.controls['neighborhood'].disable();
+    }
+
     document.getElementById('number')?.focus();
 
     this.isSearchingCep.set(false);

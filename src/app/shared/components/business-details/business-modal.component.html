@@ -7,14 +7,16 @@
         <button
           type="button"
           (click)="close()"
-          class="absolute right-10 top-10 w-12 h-12 rounded-full backdrop-blur-lg bg-white/80 dark:bg-zinc-900 text-gray-900 dark:text-white grid place-items-center"
+          class="absolute right-10 top-10 z-30 w-12 h-12 rounded-full backdrop-blur-lg bg-white/80 dark:bg-zinc-900 text-gray-900 dark:text-white grid place-items-center"
         >
           <i class="material-icons-outlined">close</i>
         </button>
 
         <div
-          class="h-[30vh] min-h-[20rem] max-h-[25rem] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-500 dark:to-violet-600"
+          class="h-[30vh] min-h-[25rem] relative max-h-[30rem] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-500 dark:to-violet-600"
         >
+        
+          <div class="absolute z-10 bg-gradient-to-b from-transparent via-white/40 dark:via-zinc-950/50 to-white dark:to-zinc-950 w-full h-full left-0 top-0"></div>
           @if (business.bannerUrl) {
             <img
               [src]="business.bannerUrl"
@@ -26,7 +28,7 @@
 
         <div class="px-9 -bottom-16 left-8 flex gap-4">
           <div
-            class="-translate-y-1/2 h-28 w-28 absolute flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
+            class="-translate-y-1/2 h-28 w-28 z-10 absolute flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
           >
             @if (business.logoUrl) {
               <img
@@ -78,7 +80,7 @@
           </div>
 
           <div class="flex p-2 justify-end gap-2 flex-col">
-            <div class="bg-indigo-500 rounded-full p-1 px-4 shadow dark:shadow-black flex items-center gap-px">
+            <div class="bg-indigo-500 rounded-full p-1 px-4 text-white shadow shadow-zinc-200/40 dark:shadow-black flex items-center gap-px">
               <i class="material-icons-outlined !text-base"> alternate_email </i>
               <span class="text-lg">
                 {{ business.profile?.handle }}
