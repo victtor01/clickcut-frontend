@@ -17,6 +17,7 @@ export interface Business {
   paymentReceiverId?: string;
   paymentReceiver?: User;
   hasPassword?: boolean | number;
+  profile?: BusinessProfile,
 }
 
 export interface TimeSlot {
@@ -34,4 +35,13 @@ export interface BusinessAddress {
   state: string;
   postalCode: string;
   complement?: string;
+}
+
+export interface BusinessProfile {
+  name: string;
+  handle?: string;
+  phoneNumber?: string;
+  description?: string;
+  bannerUrl?: string;
+  logoUrl?: string;
 }

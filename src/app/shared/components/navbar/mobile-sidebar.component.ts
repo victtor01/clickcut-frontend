@@ -6,10 +6,13 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { Business } from '@app/core/models/Business';
+import { AuthService } from '@app/core/services/auth.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   saxCalendarBold,
@@ -21,7 +24,8 @@ import {
   saxCalendarOutline,
   saxHome1Outline,
   saxMenuOutline,
-  saxShoppingBagOutline,
+  saxShopOutline,
+  saxShoppingBagOutline
 } from '@ng-icons/iconsax/outline';
 
 interface NavTab {
@@ -53,13 +57,13 @@ interface MenuItem {
       saxCalendarOutline,
       saxMenuBold,
       saxMenuOutline,
+      saxShopOutline,
     }),
   ],
 })
 export class MobileSidebarComponent implements AfterViewInit {
-  // --- ALTERADO: Agora contém apenas os links que aparecerão diretamente na barra ---
   public navTabs: NavTab[] = [
-     { id: 'home', iconBold: 'saxHome1Bold', iconOutline: 'saxHome1Outline', route: '/home' },
+    { id: 'home', iconBold: 'saxHome1Bold', iconOutline: 'saxHome1Outline', route: '/home' },
     {
       id: 'services',
       iconBold: 'saxShoppingBagBold',
@@ -74,17 +78,17 @@ export class MobileSidebarComponent implements AfterViewInit {
     },
   ];
 
-  // --- NOVO: Itens que serão exibidos dentro do painel do menu ---
   public menuItems: MenuItem[] = [
     { label: 'Configurações', icon: 'settings', route: '/configure' },
     { label: 'Clientes', icon: 'identity_platform', route: '/clients' },
     { label: 'Comissões', icon: 'sell', route: '/payroll' },
   ];
 
+  private readonly authService = inject(AuthService);
+
+  public business?: Business;
   public activeTabId: string;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
-
-  // --- NOVO: Estado para controlar a visibilidade do menu ---
   public isMenuOpen = false;
 
   @ViewChildren('tabElement') private tabElements!: QueryList<ElementRef<HTMLElement>>;
@@ -99,6 +103,12 @@ export class MobileSidebarComponent implements AfterViewInit {
     if (currentTab) {
       this.activeTabId = currentTab.id;
     }
+
+    this.authService.currentBusiness$.subscribe((data) => {
+      if (data) {
+        this.business = data;
+      }
+    });
   }
 
   ngAfterViewInit(): void {

@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { BusinessService } from '@app/core/services/business.service';
 import { firstValueFrom } from 'rxjs';
+import { RemoveBusinessPinComponent } from './components/remove-pin/remove-business-pin.component';
 
 @Component({
   selector: 'app-security', // Adicione o seletor
@@ -22,7 +24,8 @@ export class SecurityComponent implements OnInit {
   public hideNewPassword = signal(true);
   public hideConfirmPassword = signal(true);
 
-  private businessService = inject(BusinessService);
+  private readonly businessService = inject(BusinessService);
+  private readonly dialog = inject(MatDialog);
 
   constructor(private fb: FormBuilder) {
     this.userPasswordForm = this.fb.group(
@@ -69,18 +72,27 @@ export class SecurityComponent implements OnInit {
 
     try {
       const password = this.businessPasswordForm.get('newPin')?.value;
-
       await firstValueFrom(this.businessService.updatePassword(password));
       await this.fetchBusiness();
     } catch (err) {
       console.log(err);
     }
-
-    console.log('Definindo senha do negócio:', this.businessPasswordForm.value);
   }
 
   public removeBusinessPassword(): void {
-    console.log('Removendo senha do negócio...');
+    const dialog = this.dialog.open(RemoveBusinessPinComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      width: 'min(30rem, 99%)',
+    });
+
+    dialog.afterClosed().subscribe({
+      next: (d) => {
+        if (!d.error) {
+          this.fetchBusiness();
+        }
+      },
+    });
   }
 
   private async fetchBusiness(): Promise<void> {

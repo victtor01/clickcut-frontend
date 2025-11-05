@@ -1,7 +1,119 @@
 <form (ngSubmit)="update()" [formGroup]="form" class="flex flex-col px-6">
-  <h2 class="text-3xl font-bold mb-2 dark:text-zinc-100 text-gray-500">Seu Negócio</h2>
-  <p class="text-gray-500 dark:text-zinc-400">Defina os horários que seu negócio estará aberto</p>
+  <h2 class="text-3xl font-bold mb-2 dark:text-zinc-100 text-gray-500">Geral</h2>
+  <p class="text-gray-500 dark:text-zinc-400">Defina todo o perfil do seu negócio!</p>
 
+  <div
+    class="border rounded-xl mt-8 bg-white dark:bg-zinc-900/50 dark:border-zinc-800 border-zinc-200/80"
+  >
+    <div class="p-6">
+      <h3 class="text-lg font-semibold saira-font text-gray-500 dark:text-gray-100">
+        Perfil Público da Loja
+      </h3>
+      <p class="text-sm text-gray-500 dark:text-zinc-400">
+        Como seus clientes verão sua loja na plataforma.
+      </p>
+    </div>
+    <div class="p-6 border-t dark:border-zinc-800 border-zinc-200/80">
+      <div class="space-y-6">
+        
+        <!-- Campo: @handle (Arroba) -->
+        <div>
+          <label
+            for="handle"
+            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+          >
+            Seu @handle (ex: @lojinha)
+          </label>
+          <div class="relative flex items-center">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">@</span>
+            <input
+              type="text"
+              id="handle"
+              formControlName="handle"
+              placeholder="lojinha"
+              class="block w-full rounded-lg border bg-white/50 py-3 pl-8 pr-10 text-zinc-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-indigo-500"
+              [class.border-red-500!]="handle?.invalid && (handle?.dirty || handle?.touched)"
+              [class.border-green-500!]="handle?.valid && (handle?.dirty || handle?.touched) && isHandleAvailable()"
+            />
+            <!-- Ícone de Feedback de Validação -->
+            @if (isCheckingHandle()) {
+              <i class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 animate-spin">progress_activity</i>
+            } @else if (handle?.valid && (handle?.dirty || handle?.touched)) {
+              @if(isHandleAvailable()) {
+                <i class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-green-500">check_circle</i>
+              } @else {
+                <i class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-red-500">error</i>
+              }
+            }
+          </div>
+          <!-- Mensagens de Erro para @handle -->
+          @if (handle?.invalid && (handle?.dirty || handle?.touched)) {
+            <p class="mt-1 text-xs text-red-500">
+              @if (handle?.errors?.['required']) { O @handle é obrigatório. }
+              @if (handle?.errors?.['pattern']) { Use apenas 3-20 letras minúsculas, números ou _. }
+              @if (handle?.errors?.['handleTaken']) { Este @handle já está em uso. }
+            </p>
+          }
+          @if (handle?.valid && (handle?.dirty || handle?.touched) && isHandleAvailable()) {
+            <p class="mt-1 text-xs text-green-500">
+              Perfeito! O @handle está disponível.
+            </p>
+          }
+        </div>
+
+        <!-- Campo: Descrição -->
+        <div>
+          <label
+            for="description"
+            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+          >
+            Descrição Curta (Bio)
+          </label>
+          <textarea
+            id="description"
+            formControlName="description"
+            placeholder="Fale um pouco sobre seu negócio..."
+            rows="3"
+            class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-900/50 border border-zinc-300 dark:border-zinc-700 rounded-lg placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+          ></textarea>
+          @if (description?.invalid && (description?.dirty || description?.touched)) {
+            <p class="mt-1 text-xs text-red-500">
+              @if (description?.errors?.['maxlength']) { A descrição não pode passar de 150 caracteres. }
+            </p>
+          }
+        </div>
+        
+        <!-- Campo: Número de Telefone -->
+        <div>
+          <label
+            for="phoneNumber"
+            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+          >
+            Telefone / WhatsApp
+          </label>
+          <div class="relative flex items-center">
+            <i class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">call</i>
+            <input
+              type="tel"
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              placeholder="(11) 98888-7777"
+              class="block w-full rounded-lg border bg-white/50 py-3 pl-10 pr-4 text-zinc-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-indigo-500"
+              [class.border-red-500!]="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)"
+            />
+          </div>
+          @if (phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)) {
+            <p class="mt-1 text-xs text-red-500">
+              @if (phoneNumber?.errors?.['required']) { O telefone é obrigatório. }
+              @if (phoneNumber?.errors?.['pattern']) { Insira um telefone válido (ex: (11) 98888-7777). }
+            </p>
+          }
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
   <div
     class="rounded-xl border border-zinc-200/80 bg-white dark:border-zinc-800 dark:bg-zinc-900/50 mt-8"
   >

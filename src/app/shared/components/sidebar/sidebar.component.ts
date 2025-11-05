@@ -101,7 +101,7 @@ export class SidebarComponent implements AfterViewInit {
       backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
-      width: 'min(70rem, 90%)',
+      width: 'min(70rem, 100%)',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
       data: { businessId: this.business.id },

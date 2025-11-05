@@ -44,11 +44,14 @@
           <i class="material-icons-outlined">search</i>
         </button>
         <button
-          class="hidden sm:block text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
+          type="button"
+          (click)="openLogin()"
+          class="hidden sm:block cursor-pointer text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
         >
           Entrar
         </button>
         <button
+          [routerLink]="['/hub', 'signup']"
           class="text-sm font-semibold bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors shadow-sm"
         >
           Cadastrar
@@ -127,13 +130,28 @@
             @for (business of explore.newBusinesses; track business.id) {
               <article class="group w-64 sm:w-72 flex-shrink-0 cursor-pointer">
                 <div
-                  class="relative overflow-hidden rounded-lg group-hover:shadow-xl transition-shadow duration-300"
+                  class="relative overflow-hidden rounded-lg border border-stone-200 dark:border-zinc-700 group-hover:shadow-xl transition-shadow duration-300"
                 >
-                  <img
-                    [src]="business.logoUrl || 'placeholder-logo.png'"
-                    class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    [alt]="business.name"
-                  />
+                  @if (business.logoUrl) {
+                    <img
+                      [src]="business.logoUrl"
+                      class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      [alt]="business.name"
+                    />
+                  } @else {
+                    <div
+                      class="aspect-video w-full grid place-items-center relative object-cover transition-transform duration-300 group-hover:scale-105"
+                    >
+                      <i class="material-icons-outlined !text-3xl">store</i>
+
+                      <div
+                        class="absolute -top-10 -right-10 w-48 h-48 bg-indigo-50 dark:bg-indigo-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
+                      ></div>
+                      <div
+                        class="absolute -bottom-10 -left-10 w-48 h-48 bg-purple-100 dark:bg-purple-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
+                      ></div>
+                    </div>
+                  }
                   <div
                     class="absolute top-2 left-2 bg-indigo-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg"
                   >

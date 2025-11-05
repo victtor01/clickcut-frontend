@@ -2,11 +2,6 @@
   <div
     class="flex bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900 relative justify-between p-3 px-5"
   >
-    <span
-      [ngStyle]="indicatorStyle"
-      class="absolute bottom-2 -translate-y-0 w-2 h-2 bg-indigo-500 rounded-full duration-300 ease-in-out -z-10"
-    ></span>
-
     @for (tab of navTabs; track $index) {
       @if ($index == 2) {
         <button
@@ -31,11 +26,14 @@
         ></ng-icon>
       </button>
     }
-    <button (click)="toggleMenu()" class="text-gray-600 pointer-events-auto dark:text-gray-200">
+    <button
+      (click)="toggleMenu()"
+      class="text-gray-600 w-12 h-12 pointer-events-auto dark:text-gray-200"
+    >
       <ng-icon
         [name]="isMenuOpen ? 'saxMenuBold' : 'saxMenuOutline'"
         size="29"
-        class="transition-all duration-200"
+        class="!text-xl transition-all duration-200"
       ></ng-icon>
     </button>
   </div>
@@ -75,6 +73,13 @@
             <span class="font-medium">{{ item.label }}</span>
           </a>
         </li>
+
+        <a
+          class="flex items-center gap-4 p-3  rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+        >
+          <ng-icon name="saxShopOutline" class="!text-violet-500 dark:!text-violet-300" size="20"></ng-icon>
+          <span class="font-medium text-violet-500 dark:text-violet-300">Vitrine</span>
+        </a>
       </ul>
     </div>
   </div>

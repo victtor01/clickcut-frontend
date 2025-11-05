@@ -270,16 +270,20 @@
             <div
               class="w-10 h-10 relative rounded-full bg-gray-200 dark:bg-zinc-800 overflow-hidden grid place-items-center"
             >
-              <i *ngIf="!session?.photoUrl" class="material-icons-outlined !text-2xl">person</i>
-              <img
-                *ngIf="session?.photoUrl"
-                [src]="session?.photoUrl"
-                alt="Foto do Usuário"
-                class="h-full w-full object-cover"
-              />
+              @if (!session?.photoUrl) {
+                <i class="material-icons-outlined !text-2xl">person</i>
+              } @else {
+                <img
+                  [src]="session?.photoUrl"
+                  alt="Foto do Usuário"
+                  class="h-full w-full object-cover"
+                />
+              }
             </div>
             <div>
-              <p class="text-sm font-semibold text-slate-600 dark:text-slate-100">José Victor</p>
+              <p class="text-sm font-semibold text-slate-600 dark:text-slate-100">
+                {{ session?.username }}
+              </p>
               <p class="text-xs text-slate-500 dark:text-slate-400">Ver Perfil</p>
             </div>
           </div>

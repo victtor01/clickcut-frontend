@@ -37,8 +37,16 @@ export class BusinessService {
     return this.apiService.put('/business/password', { newPassword });
   }
 
+  public removePin(): Observable<void> {
+    return this.apiService.delete("/business/password");
+  }
+
   public getAll(): Observable<Business[]> {
     return this.apiService.get<Business[]>('/business/all');
+  }
+
+  public avaibleHandle(handle: string): Observable<boolean> {
+    return this.apiService.get(`/business/avaible-handle/${handle}`);
   }
 
   public create(createBusinessDTO: CreateBusinessDTO): Observable<Business> {

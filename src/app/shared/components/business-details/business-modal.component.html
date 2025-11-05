@@ -1,388 +1,545 @@
-<div
-  class="xl:rounded-2xl flex-col relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 my-0 xl:my-10 border border-slate-200 dark:border-zinc-800 w-full font-sans"
->
-  @if (business) {
-    <header class="relative">
-      <button
-        type="button"
-        (click)="close()"
-        class="absolute right-10 top-10 w-12 h-12 rounded-full backdrop-blur-lg bg-white/80 dark:bg-zinc-900/80 text-gray-900 dark:text-white grid place-items-center"
-      >
-        <i class="material-icons-outlined">close</i>
-      </button>
-
-      <div
-        class="h-[30vh] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-900/50 dark:to-violet-900/50"
-      >
-        @if (business.bannerUrl) {
-          <img
-            [src]="business.bannerUrl"
-            [alt]="'Banner de ' + business.name"
-            class="h-full w-full object-cover"
-          />
-        }
-      </div>
-
-      <div class="px-9 -bottom-16 left-8 flex gap-4">
-        <div
-          class="-translate-y-1/2 h-28 w-28 absolute flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
+@if (business) {
+  <div
+    class="xl:rounded-2xl flex-col relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 my-0 xl:my-10 border border-slate-200 dark:border-zinc-800 w-full font-sans"
+  >
+    @if (business) {
+      <header class="relative">
+        <button
+          type="button"
+          (click)="close()"
+          class="absolute right-10 top-10 w-12 h-12 rounded-full backdrop-blur-lg bg-white/80 dark:bg-zinc-900 text-gray-900 dark:text-white grid place-items-center"
         >
-          @if (business.logoUrl) {
+          <i class="material-icons-outlined">close</i>
+        </button>
+
+        <div
+          class="h-[30vh] min-h-[20rem] max-h-[25rem] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-500 dark:to-violet-600"
+        >
+          @if (business.bannerUrl) {
             <img
-              [src]="business.logoUrl"
-              [alt]="'Logo de ' + business.name"
-              class="h-full w-full rounded-full object-cover"
+              [src]="business.bannerUrl"
+              [alt]="'Banner de ' + business.name"
+              class="h-full w-full object-cover"
             />
-          } @else {
-            <div class="flex h-full w-full items-center justify-center rounded-full">
-              <i class="material-symbols-outlined text-4xl text-zinc-500">store</i>
-            </div>
           }
         </div>
 
-        <div class="flex flex-col mt-14">
-          <h1 class="text-3xl font-bold text-slate-700 dark:text-white">{{ business.name }}</h1>
-          <div class="mt-1 flex items-center gap-2 text-sm flex-wrap">
-            <span
-              class="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium"
-              [ngClass]="
-                business.isOpen
-                  ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
-                  : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
-              "
-            >
-              <span
-                class="h-1.5 w-1.5 rounded-full"
-                [ngClass]="business.isOpen ? 'bg-green-500' : 'bg-red-500'"
-              ></span>
-              {{ business.isOpen ? 'Aberto agora' : 'Fechado' }}
-            </span>
-            <span class="text-zinc-500 dark:text-zinc-400">·</span>
-            <div class="flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
-              <i
-                class="material-symbols-outlined !text-base text-amber-400"
-                style="font-variation-settings: 'FILL' 1"
-                >star</i
-              >
-              <span class="font-semibold">4.8</span>
-              <span class="text-xs">({{ reviews.length }} avaliações)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-  }
-
-  <main class="mt-0 grid grid-cols-1 gap-8 p-8 md:grid-cols-3" *ngIf="business">
-    <div class="md:col-span-2">
-      @if (!currentManager?.id) {
-        <a
-          [routerLink]="['/appointments', business.id]"
-          (click)="close()"
-          class="w-full rounded-full mb-8 relative bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Agendar Horário
-        </a>
-      }
-
-      <section class="flex mt-5 flex-col">
-        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Sobre a Barbearia</h2>
-        <p class="mt-2 text-zinc-600 dark:text-zinc-400">
-          Bem-vindo à Barbearia Clássica, onde a tradição encontra o estilo moderno. Oferecemos uma
-          experiência premium com os melhores profissionais da cidade, prontos para cuidar do seu
-          visual com cortes, barbas e tratamentos de primeira linha. Relaxe em nosso ambiente e saia
-          renovado.
-        </p>
-      </section>
-
-      <section class="mt-8">
-        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Nossa Equipe</h2>
-        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div class="px-9 -bottom-16 left-8 flex gap-4">
           <div
-            *ngFor="let member of business.members"
-            class="text-center border flex flex-col g p-2 border-zinc-200 dark:border-zinc-800 rounded-xl"
+            class="-translate-y-1/2 h-28 w-28 absolute flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
           >
-            <img
-              [src]="member?.photoUrl"
-              [alt]="'Foto de ' + member?.username"
-              class="mx-auto h-20 w-20 rounded-full object-cover"
-            />
-            <p class="mt-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-              {{ member?.username }}
-            </p>
-            <p class="text-xs opacity-80 font-medium text-zinc-800 dark:text-zinc-200">
-              {{ member?.email }}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="mt-8">
-        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Nossos Serviços</h2>
-        <div class="mt-4 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
-          <div class="divide-y divide-zinc-200 dark:divide-zinc-800">
-            <div
-              *ngFor="let service of business.services"
-              class="flex items-center justify-between p-3 transition-colors duration-200 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
-            >
-              <div class="flex items-center gap-4">
-                <div
-                  class="h-14 w-14 flex-shrink-0 overflow-hidden rounded-tl-md rounded-xl bg-zinc-100 dark:bg-zinc-700"
-                >
-                  <img
-                    *ngIf="service.photoUrl"
-                    [src]="service.photoUrl"
-                    [alt]="'Imagem do serviço: ' + service.title"
-                    class="h-full w-full object-cover"
-                  />
-                  <div
-                    *ngIf="!service.photoUrl"
-                    class="flex h-full w-full items-center justify-center text-gray-500"
-                  >
-                    <i class="material-symbols-outlined text-2xl">deployed_code</i>
-                  </div>
-                </div>
-
-                <div>
-                  <p class="font-semibold text-zinc-800 dark:text-zinc-100">{{ service.title }}</p>
-                  <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                    {{ service.description }}
-                  </p>
-                </div>
+            @if (business.logoUrl) {
+              <img
+                [src]="business.logoUrl"
+                [alt]="'Logo de ' + business.name"
+                class="h-full w-full rounded-full object-cover"
+              />
+            } @else {
+              <div class="flex h-full w-full items-center justify-center rounded-full">
+                <i class="material-symbols-outlined !text-4xl text-zinc-500">store</i>
               </div>
-
-              <div class="ml-4 flex-shrink-0 text-right">
-                <p class="font-bold text-zinc-900 dark:text-white">
-                  {{ service.price | toFormatBrl }}
-                </p>
-                <div
-                  class="mt-1 flex items-center justify-end gap-1 text-xs text-zinc-500 dark:text-zinc-400"
-                >
-                  <i class="material-symbols-outlined !text-base">schedule</i>
-                  <span>{{ service.durationInMinutes }} min</span>
-                </div>
-              </div>
-            </div>
+            }
           </div>
-        </div>
-      </section>
 
-      <section class="mt-8 pb-4">
-        <h2 class="text-xl font-bold text-zinc-900 dark:text-white">O que nossos clientes dizem</h2>
+          <div class="flex flex-col mt-20 flex-1">
+            <h1 class="text-3xl font-bold text-slate-700 dark:text-white">{{ business.name }}</h1>
 
-        <form
-          *ngIf="this.currentClient?.id"
-          [formGroup]="reviewForm"
-          (ngSubmit)="submitReview()"
-          class="flex gap-4 rounded-xl mt-4 border border-zinc-200 p-4 dark:border-zinc-800"
-        >
-          <img
-            *ngIf="currentClient?.avatarUrl"
-            [src]="currentClient?.avatarUrl"
-            [alt]="'Foto de ' + currentClient?.fullName"
-            class="h-10 w-10 flex-shrink-0 rounded-full"
-          />
-
-          <div class="flex-1">
-            <p class="font-semibold text-zinc-800 dark:text-zinc-200">Deixe sua avaliação</p>
-
-            <div class="mt-2 flex items-center" (mouseleave)="resetHoveredRating()">
-              <button
-                type="button"
-                *ngFor="let star of [1, 2, 3, 4, 5]"
-                (click)="setRating(star)"
-                (mouseenter)="setHoveredRating(star)"
-                class="text-2xl text-zinc-300 transition-transform duration-150 hover:scale-125 dark:text-zinc-600"
-                [class.text-amber-400]="star <= (hoveredRating || rating?.value)"
-                [class.dark:text-amber-400]="star <= (hoveredRating || rating?.value)"
+            <div class="mt-1 flex items-center gap-2 text-sm flex-wrap">
+              <span
+                class="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium"
+                [ngClass]="
+                  business.isOpen
+                    ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
+                    : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+                "
               >
+                <span
+                  class="h-1.5 w-1.5 rounded-full"
+                  [ngClass]="business.isOpen ? 'bg-green-500' : 'bg-red-500'"
+                ></span>
+
+                {{ business.isOpen ? 'Aberto agora' : 'Fechado' }}
+              </span>
+
+              <span class="text-zinc-500 dark:text-zinc-400">·</span>
+
+              <div class="flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
                 <i
-                  class="material-symbols-outlined text-yellow-400"
-                  [style.font-variation-settings]="
-                    star <= (hoveredRating || rating?.value) ? '\'FILL\' 1' : '\'FILL\' 0'
-                  "
+                  class="material-symbols-outlined !text-base text-amber-400"
+                  style="font-variation-settings: 'FILL' 1"
                   >star</i
                 >
-              </button>
-            </div>
-            <div *ngIf="rating?.invalid && rating?.touched" class="mt-1 text-xs text-red-500">
-              Por favor, selecione uma nota.
-            </div>
 
-            <textarea
-              rows="3"
-              formControlName="comment"
-              placeholder="Como foi sua experiência? (mín. 10 caracteres)"
-              class="mt-3 w-full rounded-md border-zinc-300 bg-white text-sm text-gray-500 !outline-none transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
-              [class.border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
-              [class.dark:border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
-            ></textarea>
+                <span class="font-semibold">{{ mediaRating }}</span>
 
-            <div
-              *ngIf="comment?.invalid && (comment?.dirty || comment?.touched)"
-              class="mt-1 text-xs text-red-500"
-            >
-              <span *ngIf="comment?.errors?.['required']">O comentário é obrigatório.</span>
-              <span *ngIf="comment?.errors?.['minlength']"
-                >O comentário precisa ter no mínimo 10 caracteres.</span
-              >
-            </div>
-
-            <div class="mt-2 flex justify-end">
-              <button
-                type="submit"
-                [disabled]="reviewForm.invalid"
-                class="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 disabled:opacity-70 dark:disabled:bg-indigo-800"
-              >
-                Publicar Avaliação
-              </button>
+                <span class="text-xs">({{ reviews.length }} avaliações)</span>
+              </div>
             </div>
           </div>
-        </form>
-      </section>
 
-      <section>
-        <div class="space-y-6">
-          <div *ngFor="let review of reviews" class="flex gap-4">
-            <div
-              class="w-10 h-10 rounded-full bg-slate-100 dark:bg-zinc-800 grid place-items-center"
-            >
-              <span
-                class="saira-font font-semibold text-slate-700 dark:text-zinc-300"
-                *ngIf="!review.avatarUrl"
-                >{{ review?.authorName?.[0] }}</span
-              >
-              <img
-                *ngIf="review.avatarUrl"
-                [src]="review.avatarUrl"
-                alt=""
-                class="h-10 w-10 flex-shrink-0 rounded-full"
-              />
+          <div class="flex p-2 justify-end gap-2 flex-col">
+            <div class="bg-indigo-500 rounded-full p-1 px-4 shadow dark:shadow-black flex items-center gap-px">
+              <i class="material-icons-outlined !text-base"> alternate_email </i>
+              <span class="text-lg">
+                {{ business.profile?.handle }}
+              </span>
             </div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="font-semibold text-zinc-700 dark:text-white px-1">
-                    {{ review.authorName }}
-                  </p>
-                  <div class="flex items-center">
-                    <i
-                      *ngFor="let star of getStarArray(review.rating)"
-                      class="material-symbols-outlined text-sm"
-                      [class.text-amber-400]="star <= review.rating"
-                      [class.text-zinc-300]="star > review.rating"
-                      [class.dark:text-zinc-500]="star > review.rating"
-                      [style.font-variation-settings]="
-                        star <= review.rating ? '\'FILL\' 1' : '\'FILL\' 0'
-                      "
-                      >star</i
-                    >
+          </div>
+        </div>
+      </header>
+    }
+
+    <main
+      class="grid grid-cols-1 gap-x-8 border-t border-zinc-200 dark:border-zinc-800 gap-y-12 p-8 md:grid-cols-3"
+    >
+      <div class="md:col-span-2 space-y-10">
+        <section class="flex flex-col">
+          <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-3">Sobre Nós</h2>
+          <p class="text-zinc-600 dark:text-zinc-400">
+            {{
+              business.profile?.description || 'O proprietário ainda não adicionou uma descrição.'
+            }}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Nossa Equipe</h2>
+          <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            @for (member of business.members; track member.id) {
+              <div
+                class="text-center flex flex-col items-center gap-2 p-2 border border-zinc-200 dark:border-zinc-800 rounded-xl"
+              >
+                @if (member?.photoUrl) {
+                  <img
+                    [src]="member?.photoUrl"
+                    [alt]="'Foto de ' + member?.username"
+                    class="h-20 w-20 rounded-full object-cover"
+                  />
+                } @else {
+                  <div
+                    class="h-20 w-20 rounded-full bg-zinc-100 dark:bg-zinc-800/60 grid place-items-center"
+                  >
+                    <i class="material-symbols-outlined text-4xl text-zinc-400">person</i>
                   </div>
-                </div>
-                <p class="text-xs text-zinc-500">{{ review.createdAt | date: 'dd/MM/yyyy' }}</p>
-              </div>
-
-              <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ review.comment }}</p>
-
-              <div
-                *ngIf="review.reply"
-                class="mt-4 rounded-lg border-l-4 border-indigo-400 bg-zinc-50 p-3 dark:border-indigo-600 dark:bg-zinc-800/50"
-              >
-                <div class="flex items-center justify-between">
-                  <p class="text-sm font-semibold text-indigo-800 dark:text-indigo-300">
-                    Resposta do proprietário
+                }
+                <div class="text-center">
+                  <p class="mt-2 text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate">
+                    {{ member?.username }}
                   </p>
-                  <p class="text-xs text-zinc-500">{{ review.repliedAt | date: 'dd/MM/yyyy' }}</p>
+                  <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+                    {{ member?.email }}
+                  </p>
                 </div>
-                <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{{ review.reply }}</p>
               </div>
-
+            } @empty {
               <div
-                *ngIf="!review.reply && replyingToReviewId !== review.id && currentManager?.id"
-                class="mt-3"
+                class="col-span-2 sm:col-span-3 p-4 text-center text-sm text-zinc-500 dark:text-zinc-400"
               >
-                <button
-                  (click)="startReply(review)"
-                  type="button"
-                  class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-indigo-500/20"
-                >
-                  <i class="material-icons-outlined !text-sm">reply</i>
-                  Responder
-                </button>
+                O proprietário é o único profissional no momento.
               </div>
+            }
+          </div>
+        </section>
 
-              <div *ngIf="!review.reply && replyingToReviewId === review.id" class="mt-4">
+        <section>
+          <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Nossos Serviços</h2>
+          @if (!!business.services?.length) {
+            <div
+              class="mt-4 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800"
+            >
+              <div class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                @for (service of business.services; track service.id) {
+                  <div class="flex items-center gap-4 p-2">
+                    <div
+                      class="h-14 w-14 flex-shrink-0 overflow-hidden rounded-tl-md rounded-xl bg-zinc-100 dark:bg-zinc-700"
+                    >
+                      <img
+                        *ngIf="service.photoUrl"
+                        [src]="service.photoUrl"
+                        [alt]="'Imagem do serviço: ' + service.title"
+                        class="h-full w-full object-cover"
+                      />
+
+                      <div
+                        *ngIf="!service.photoUrl"
+                        class="flex h-full w-full items-center justify-center text-gray-500"
+                      >
+                        <i class="material-symbols-outlined text-2xl">deployed_code</i>
+                      </div>
+                    </div>
+
+                    <div class="flex-1">
+                      <p class="font-semibold text-zinc-800 dark:text-zinc-100">
+                        {{ service.title }}
+                      </p>
+
+                      <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                        {{ service.description }}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p class="font-bold text-zinc-900 dark:text-white">
+                        {{ service.price | toFormatBrl }}
+                      </p>
+
+                      <div
+                        class="mt-1 flex items-center justify-end gap-1 text-xs text-zinc-500 dark:text-zinc-400"
+                      >
+                        <i class="material-symbols-outlined !text-base">schedule</i>
+
+                        <span>{{ service.durationInMinutes }} min</span>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          } @else {
+            <div
+              class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 dark:border-zinc-700 p-12 text-center"
+            >
+              <i class="material-symbols-outlined text-4xl text-zinc-400">content_cut</i>
+              <p class="mt-2 font-semibold text-zinc-700 dark:text-zinc-300">
+                Nenhum Serviço Cadastrado
+              </p>
+              <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                Este negócio ainda não adicionou seus serviços.
+              </p>
+            </div>
+          }
+        </section>
+
+        <section class="mt-8 pb-4">
+          <h2 class="text-xl font-bold text-zinc-900 dark:text-white">
+            O que nossos clientes dizem
+          </h2>
+
+          @if (this.currentClient?.id) {
+            <form
+              [formGroup]="reviewForm"
+              (ngSubmit)="submitReview()"
+              class="flex gap-4 rounded-xl mt-4 border border-zinc-200 p-4 dark:border-zinc-800"
+            >
+              @if (currentClient?.avatarUrl) {
+                <img
+                  [src]="currentClient?.avatarUrl"
+                  [alt]="'Foto de ' + currentClient?.fullName"
+                  class="h-10 w-10 flex-shrink-0 rounded-full"
+                />
+              }
+              <div class="flex-1">
+                <p class="font-semibold text-zinc-800 dark:text-zinc-200">Deixe sua avaliação</p>
+
+                <div class="mt-2 flex items-center" (mouseleave)="resetHoveredRating()">
+                  @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <button
+                      type="button"
+                      (click)="setRating(star)"
+                      (mouseenter)="setHoveredRating(star)"
+                      class="text-2xl text-zinc-300 transition-transform duration-150 hover:scale-125 dark:text-zinc-600"
+                      [class.text-amber-400]="star <= (hoveredRating || rating?.value)"
+                      [class.dark:text-amber-400]="star <= (hoveredRating || rating?.value)"
+                    >
+                      <i
+                        class="material-symbols-outlined text-yellow-400"
+                        [style.font-variation-settings]="
+                          star <= (hoveredRating || rating?.value) ? '\'FILL\' 1' : '\'FILL\' 0'
+                        "
+                        >star</i
+                      >
+                    </button>
+                  }
+                </div>
+                @if (rating?.invalid && rating?.touched) {
+                  <div class="mt-1 text-xs text-red-500">Por favor, selecione uma nota.</div>
+                }
+
                 <textarea
-                  [(ngModel)]="replyText"
                   rows="3"
-                  placeholder="Digite sua resposta..."
-                  class="w-full outline-none focus:ring-2 ring-indigo-500 text-gray-500 rounded-md border-zinc-300 bg-white p-2 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
+                  formControlName="comment"
+                  placeholder="Como foi sua experiência? (mín. 10 caracteres)"
+                  class="mt-3 w-full rounded-md border-zinc-300 bg-white text-sm text-gray-500 !outline-none transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
+                  [class.border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
+                  [class.dark:border-red-500]="
+                    comment?.invalid && (comment?.dirty || comment?.touched)
+                  "
                 ></textarea>
 
-                <div class="mt-2 flex items-center justify-end gap-2">
+                @if (comment?.invalid && (comment?.dirty || comment?.touched)) {
+                  <div class="mt-1 text-xs text-red-500">
+                    <span *ngIf="comment?.errors?.['required']">O comentário é obrigatório.</span>
+                    <span *ngIf="comment?.errors?.['minlength']"
+                      >O comentário precisa ter no mínimo 10 caracteres.</span
+                    >
+                  </div>
+                }
+
+                <div class="mt-2 flex justify-end">
                   <button
-                    (click)="cancelReply()"
-                    type="button"
-                    class="rounded-full px-4 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-700/50"
+                    type="submit"
+                    [disabled]="reviewForm.invalid"
+                    class="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 disabled:opacity-70 dark:disabled:bg-indigo-800"
                   >
-                    Cancelar
-                  </button>
-                  <button
-                    (click)="submitReply(review)"
-                    type="button"
-                    class="rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500"
-                  >
-                    Salvar Resposta
+                    Publicar Avaliação
                   </button>
                 </div>
               </div>
-            </div>
+            </form>
+          }
+
+          <div class="mt-6 space-y-6">
+            @for (review of reviews; track review.id) {
+              <div class="flex gap-4">
+                <div
+                  class="w-10 h-10 rounded-full bg-slate-100 dark:bg-zinc-800 grid place-items-center flex-shrink-0"
+                >
+                  @if (!review.avatarUrl) {
+                    <span class="saira-font font-semibold text-slate-700 dark:text-zinc-300">{{
+                      review?.authorName?.[0]
+                    }}</span>
+                  }
+                  @if (review.avatarUrl) {
+                    <img
+                      [src]="review.avatarUrl"
+                      alt=""
+                      class="h-10 w-10 flex-shrink-0 rounded-full"
+                    />
+                  }
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="font-semibold text-zinc-700 dark:text-white px-1">
+                        {{ review.authorName }}
+                      </p>
+                      <div class="flex items-center">
+                        @for (star of getStarArray(review.rating); track $index) {
+                          <i
+                            class="material-symbols-outlined text-sm"
+                            [class.text-amber-400]="star <= review.rating"
+                            [class.text-zinc-300]="star > review.rating"
+                            [class.dark:text-zinc-500]="star > review.rating"
+                            [style.font-variation-settings]="
+                              star <= review.rating ? '\'FILL\' 1' : '\'FILL\' 0'
+                            "
+                            >star</i
+                          >
+                        }
+                      </div>
+                    </div>
+                    <p class="text-xs text-zinc-500">{{ review.createdAt | date: 'dd/MM/yyyy' }}</p>
+                  </div>
+
+                  <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ review.comment }}</p>
+
+                  @if (review.reply) {
+                    <div
+                      class="mt-4 rounded-lg border-l-4 border-indigo-400 bg-zinc-50 p-3 dark:border-indigo-600 dark:bg-zinc-800/50"
+                    >
+                      <div class="flex items-center justify-between">
+                        <p class="text-sm font-semibold text-indigo-800 dark:text-indigo-300">
+                          Resposta do proprietário
+                        </p>
+                        <p class="text-xs text-zinc-500">
+                          {{ review.repliedAt | date: 'dd/MM/yyyy' }}
+                        </p>
+                      </div>
+                      <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                        {{ review.reply }}
+                      </p>
+                    </div>
+                  }
+
+                  @if (!review.reply && replyingToReviewId !== review.id && currentManager?.id) {
+                    <div class="mt-3">
+                      <button
+                        (click)="startReply(review)"
+                        type="button"
+                        class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-indigo-500/20"
+                      >
+                        <i class="material-icons-outlined !text-sm">reply</i>
+                        Responder
+                      </button>
+                    </div>
+                  }
+
+                  @if (!review.reply && replyingToReviewId === review.id) {
+                    <div class="mt-4">
+                      <textarea
+                        [(ngModel)]="replyText"
+                        rows="3"
+                        placeholder="Digite sua resposta..."
+                        class="w-full outline-none focus:ring-2 ring-indigo-500 text-gray-500 rounded-md border-zinc-300 bg-white p-2 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder-zinc-500"
+                      ></textarea>
+
+                      <div class="mt-2 flex items-center justify-end gap-2">
+                        <button
+                          (click)="cancelReply()"
+                          type="button"
+                          class="rounded-full px-4 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-700/50"
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          (click)="submitReply(review)"
+                          type="button"
+                          class="rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500"
+                        >
+                          Salvar Resposta
+                        </button>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            } @empty {
+              <div
+                class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 dark:border-zinc-700 p-12 text-center"
+              >
+                <i class="material-symbols-outlined text-4xl text-zinc-400">rate_review</i>
+                <p class="mt-2 font-semibold text-zinc-700 dark:text-zinc-300">
+                  Nenhuma Avaliação Ainda
+                </p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  Seja o primeiro a avaliar este negócio!
+                </p>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+
+      <aside class="md:col-span-1 relative self-start top-0 md:sticky md:top-8">
+        @if (!currentManager?.id) {
+          <a
+            [routerLink]="['/appointments', business.id]"
+            (click)="close()"
+            class="w-full flex items-center justify-center gap-2 rounded-full mb-6 relative bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            <i class="material-symbols-outlined">calendar_add_on</i>
+            Agendar Horário
+          </a>
+        }
+
+        <div class="border border-slate-200 relative dark:border-zinc-800 rounded-xl flex flex-col">
+          <h3
+            class="font-semibold text-gray-600 saira-font dark:text-indigo-50 top-0 bg-gradient-to-r from-white/0 dark:from-zinc-950 to-white/0 dark:to-zinc-950 via-white dark:via-zinc-950 px-3 left-5 -translate-y-1/2 absolute"
+          >
+            Informações
+          </h3>
+
+          <div class="divide-y divide-slate-200 dark:divide-zinc-800 p-4">
+            @if (business.address) {
+              <a
+                href="http://googleusercontent.com/maps/place/{{ business.address.street }},{{
+                  business.address.number
+                }},{{ business.address.city }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex items-center gap-4 py-4"
+              >
+                <div
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-100 transition-colors group-hover:bg-indigo-200 dark:bg-zinc-800 dark:group-hover:bg-zinc-700"
+                >
+                  <i class="material-symbols-outlined text-indigo-600 dark:text-indigo-300"
+                    >location_on</i
+                  >
+                </div>
+                <div class_="min-w-0">
+                  <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-100 truncate">
+                    {{ business.address.street }}, {{ business.address.number }}
+                  </p>
+                  <p class="text-sm text-zinc-500 dark:text-zinc-400 truncate">
+                    {{ business.address.neighborhood }}, {{ business.address.city }} -
+                    {{ business.address.state }}
+                  </p>
+                  <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+                    CEP: {{ business.address.postalCode }}
+                  </p>
+                </div>
+              </a>
+            } @else {
+              <div class="flex items-center gap-4 py-4">
+                <div
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800"
+                >
+                  <i class="material-symbols-outlined text-zinc-400">location_off</i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                    Endereço não informado
+                  </p>
+                </div>
+              </div>
+            }
+
+            @if (business.profile?.phoneNumber) {
+              <a
+                href="tel:{{ business.profile?.phoneNumber }}"
+                class="group flex items-center gap-4 py-4"
+              >
+                <div
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-sky-100 transition-colors group-hover:bg-sky-200 dark:bg-zinc-800 dark:group-hover:bg-zinc-700"
+                >
+                  <i class="material-symbols-outlined text-sky-600 dark:text-sky-300">call</i>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                    {{ business.profile?.phoneNumber }}
+                  </p>
+                  <p class="text-sm text-zinc-500 dark:text-zinc-400">Contato</p>
+                </div>
+              </a>
+            } @else {
+              <div class="flex items-center gap-4 py-4">
+                <div
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800"
+                >
+                  <i class="material-symbols-outlined text-zinc-400">phone_disabled</i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                    Telefone não informado
+                  </p>
+                </div>
+              </div>
+            }
           </div>
         </div>
-      </section>
+      </aside>
+    </main>
+  </div>
+} @else {
+  <div
+    class="relative flex flex-col items-center justify-center p-12 text-center min-h-[50vh] overflow-hidden"
+  >
+    <div
+      class="absolute -top-10 -right-10 w-48 h-48 bg-red-50 dark:bg-red-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
+    ></div>
+    <div
+      class="absolute -bottom-10 -left-10 w-48 h-48 bg-gray-50 dark:bg-gray-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
+    ></div>
+
+    <div class="relative z-10 flex flex-col items-center">
+      <div
+        class="flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30"
+      >
+        <i class="material-symbols-outlined text-4xl text-red-600 dark:text-red-400"> error </i>
+      </div>
+
+      <h2 class="mt-6 text-2xl font-bold text-zinc-900 dark:text-white">Negócio Não Encontrado</h2>
+      <p class="mt-2 text-lg text-zinc-600 dark:text-zinc-400 max-w-sm">
+        Não foi possível carregar os detalhes. O link pode estar quebrado ou o negócio pode ter sido
+        removido.
+      </p>
+
+      <button
+        (click)="close()"
+        class="mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full shadow-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+      >
+        Fechar
+      </button>
     </div>
-
-    <aside class="md:col-span-1 p-5 border border-slate-200 relative self-start dark:border-zinc-800 rounded-xl flex flex-col gap-4 ">
-      <h1 class="font-semibold absolute text-gray-600 saira-font dark:text-indigo-50 top-0 bg-gradient-to-r from-white/70 dark:from-zinc-950 to-white/70 dark:to-zinc-950 via-white dark:via-zinc-950 px-3 left-5 -translate-y-1/2">Informações</h1>
-      <a
-        href="https://www.google.com/maps/search/?api=1&query=Rua+das+Tesouras,123,Sousa,PB"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border dark:border-zinc-800 border-slate-100 hover:shadow dark:bg-zinc-900/50"
-      >
-        <div
-          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 transition-colors group-hover:bg-indigo-500 dark:bg-zinc-800 dark:group-hover:bg-indigo-600"
-        >
-          <i
-            style="font-variation-settings: 'FILL' 1"
-            class="material-symbols-outlined text-indigo-600 transition-colors group-hover:text-white dark:text-indigo-300 dark:group-hover:text-white"
-            >location_on</i
-          >
-        </div>
-        <div>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400">Endereço</p>
-          <p class="font-semibold text-zinc-800 dark:text-zinc-100">Rua das Tesouras, 123</p>
-        </div>
-      </a>
-
-      <a
-        href="tel:+5583912345678"
-        class="group flex items-center gap-4 rounded-xl bg-slate-50 p-4 border border-slate-100 dark:border-zinc-800 hover:shadow dark:bg-zinc-900/50"
-      >
-        <div
-          class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-sky-100 transition-colors group-hover:bg-sky-500 dark:bg-zinc-800 dark:group-hover:bg-indigo-600"
-        >
-          <i
-            class="material-symbols-outlined text-sky-600 transition-colors group-hover:text-white dark:text-sky-300 dark:group-hover:text-white"
-            style="font-variation-settings: 'FILL' 1"
-            >call</i
-          >
-        </div>
-        <div>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400">Contato</p>
-          <p class="font-semibold text-zinc-800 dark:text-zinc-100">(83) 91234-5678</p>
-        </div>
-      </a>
-    </aside>
-  </main>
-</div>
+  </div>
+}

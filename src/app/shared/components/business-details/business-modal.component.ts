@@ -66,6 +66,11 @@ export class BusinessModalComponent implements OnInit {
     this.replyText = ''; // Limpa o texto de respostas anteriores
   }
 
+  public get mediaRating() {
+    if (!this.reviews.length) return 0;
+    return this.reviews?.reduce((acc, review) => acc + review.rating, 0) / this.reviews.length;
+  }
+
   public close() {
     this.modal.close();
   }
@@ -141,7 +146,7 @@ export class BusinessModalComponent implements OnInit {
 
   private async fetchBusiness(businessId: string): Promise<void> {
     this.business = await firstValueFrom(this.appointmentsService.getBusinessById(businessId));
-    console.log(this.business)
+    console.log(this.business);
   }
 
   private async fetchReviews(businessId: string): Promise<void> {

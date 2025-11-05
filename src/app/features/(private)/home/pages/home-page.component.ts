@@ -12,8 +12,8 @@ import { WorkingHoursComponent } from '../components/working-hours/working-hours
     HomeEnterComponent,
     HomeBookingsComponent,
     PendingPaymentsComponent,
-    WorkingHoursComponent
-  ],
+    WorkingHoursComponent,
+],
 })
 export class HomePageComponent {
   public isPromoCardExpanded = signal(false);
