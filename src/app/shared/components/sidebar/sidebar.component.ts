@@ -17,11 +17,13 @@ import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { PinEntryComponent } from '@app/features/(private)/select/components/pin-entry/pin-entry.component';
+import { NgIcon, NgIconComponent, provideIcons } from '@ng-icons/core';
+import { saxAddSquareBulk } from '@ng-icons/iconsax/bulk';
 import { firstValueFrom } from 'rxjs';
 import { BookingSearchModalComponent } from '../booking-search/booking-search.component';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
 import { LogoComponent } from '../logo/logo.component';
-
+import { CreateBookingNavbar } from '../navbar/create-booking/create-booking-navbar.component';
 interface Tab {
   id: string;
   icon: string;
@@ -33,7 +35,12 @@ interface Tab {
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule, LogoComponent, PinEntryComponent],
+  imports: [CommonModule, RouterModule, NgIconComponent, LogoComponent, PinEntryComponent, CreateBookingNavbar, NgIcon],
+  providers: [
+    provideIcons({
+      saxAddSquareBulk,
+    }),
+  ],
 })
 export class SidebarComponent implements AfterViewInit {
   public tabs: Tab[] = [
@@ -51,7 +58,7 @@ export class SidebarComponent implements AfterViewInit {
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
   public isLoadingSelectBusiness: boolean = false;
   public businesses: Business[] = [];
-
+  public isOpenCreateBooking = signal<boolean>(false);
   private isOpenSearch: boolean = false;
 
   @ViewChildren('tabElement') private tabElements!: QueryList<ElementRef<HTMLElement>>;
@@ -61,6 +68,10 @@ export class SidebarComponent implements AfterViewInit {
 
   @ViewChild(PinEntryComponent)
   pinEntryComponent?: PinEntryComponent;
+
+  public toggleOpenCreateBooking() {
+    this.isOpenCreateBooking.update((data) => !data);
+  }
 
   constructor(
     private readonly router: Router,
@@ -210,11 +221,10 @@ export class SidebarComponent implements AfterViewInit {
   }
 
   public navigateToCreateBusiness() {
-      this.router.navigate(["/create-business"]);
+    this.router.navigate(['/create-business']);
   }
 
   private loginToBusiness(businessId: string, password?: string): void {
-    
     this.businessService.select(businessId, password).subscribe({
       next: () => {
         this.isLoadingSelectBusiness = true;

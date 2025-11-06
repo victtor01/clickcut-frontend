@@ -1,0 +1,140 @@
+<header class="flex p-4 justify-between items-center border-b border-zinc-200 dark:border-zinc-800">
+  @if (currentStep() === 'calendar') {
+    <button
+      (click)="goToServiceStep()"
+      class="grid place-items-center w-10 h-10 rounded-full text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+    >
+      <i class="material-symbols-outlined">arrow_back</i>
+    </button>
+  } @else {
+    <div class="w-10 h-10"></div>
+  }
+
+  @if (currentStep() === 'services') {
+    <h1 class="text-lg font-semibold text-gray-700 dark:text-violet-100">Selecionar Serviços</h1>
+  } @else {
+    <h1 class="text-lg font-semibold text-gray-700 dark:text-violet-100">Selecionar Data</h1>
+  }
+</header>
+
+<section class="flex-1 overflow-y-auto p-4">
+  @if (currentStep() === 'services') {
+    <ul class="space-y-3">
+      @for (service of services(); track service.id) {
+        <li
+          (click)="selectBookings(service)"
+          class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 dark:border-zinc-800"
+          [class.border-indigo-500]="isServiceSelected(service)"
+          [class.dark:border-indigo-500]="isServiceSelected(service)"
+          [class.border-zinc-200]="!isServiceSelected(service)"
+        >
+          <div
+            class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border bg-white dark:bg-zinc-900 transition-all border-zinc-300 dark:border-zinc-700"
+            [class.bg-indigo-600]="isServiceSelected(service)"
+            [class.border-indigo-600]="isServiceSelected(service)"
+          >
+            @if (isServiceSelected(service)) {
+              <i class="material-symbols-outlined !text-sm text-white">check</i>
+            }
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-semibold text-zinc-800 dark:text-white truncate">
+              {{ service.title }}
+            </p>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 truncate">
+              {{ service.description }}
+            </p>
+          </div>
+          <div class="text-right">
+            <p class="font-semibold text-zinc-800 dark:text-white">
+              {{ service.price / 100 | currency: 'BRL' }}
+            </p>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+              {{ service.durationInMinutes }} min
+            </p>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (currentStep() === 'calendar') {
+    <div class="p-0 sm:p-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-zinc-800 dark:text-white capitalize">
+          {{ currentMonthName() }}
+        </h3>
+        <div class="flex items-center gap-2">
+          <button
+            (click)="changeMonth(-1)"
+            class="grid place-items-center w-8 h-8 rounded-full text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          >
+            <i class="material-symbols-outlined">chevron_left</i>
+          </button>
+          <button
+            (click)="changeMonth(1)"
+            class="grid place-items-center w-8 h-8 rounded-full text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          >
+            <i class="material-symbols-outlined">chevron_right</i>
+          </button>
+        </div>
+      </div>
+
+      @if (isLoadingNextStep()) {
+        <div class="flex h-64 items-center justify-center">
+          <i class="material-symbols-outlined animate-spin text-4xl text-indigo-500"
+            >progress_activity</i
+          >
+        </div>
+      } @else {
+        <div class="grid grid-cols-7 gap-y-1">
+          @for (day of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']; track day) {
+            <div class="text-center text-xs font-semibold text-zinc-400 dark:text-zinc-500 pb-2">
+              {{ day }}
+            </div>
+          }
+
+          @for (day of calendarGrid(); track day.date) {
+            <button
+              type="button"
+              (click)="selectDate(day)"
+              [disabled]="!day.isAvailable"
+              class="flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium transition-all duration-150"
+              [class.opacity-30]="!day.isCurrentMonth"
+              [class.text-zinc-400]="!day.isAvailable && day.isCurrentMonth"
+              [class.cursor-not-allowed]="!day.isAvailable"
+              [class.text-zinc-700]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
+              [class.dark:text-red-500]="!day.isAvailable && day.isCurrentMonth"
+              [class.dark:text-zinc-500]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
+              [class.hover:bg-zinc-100]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
+              [class.dark:hover:bg-zinc-800]="
+                day.isAvailable && day.isCurrentMonth && !day.isSelected
+              "
+              [class.bg-indigo-600]="day.isSelected"
+              [class.text-white]="day.isSelected"
+              [class.hover:bg-indigo-700]="day.isSelected"
+              [class.dark:bg-indigo-500]="day.isSelected"
+            >
+              {{ day.date.date() }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>
+
+<footer class="p-4 border-t border-zinc-200 dark:border-zinc-800">
+  <button
+    (click)="goToCalendarStep()"
+    [disabled]="!canContinue() || isLoadingNextStep()"
+    class="flex w-full items-center justify-center gap-2 rounded-full bg-violet-500 bg-gradient-to-r active:from-indigo-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-600/20 transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 disabled:opacity-70 dark:disabled:bg-indigo-800"
+  >
+    @if (isLoadingNextStep()) {
+      <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
+      <span>Buscando...</span>
+    } @else {
+      <span>Continuar</span>
+    }
+  </button>
+</footer>

@@ -26,13 +26,30 @@ export class BookingsService {
     return this.apiService.get('/bookings/all', params);
   }
 
+  public avaibleDays(year: number, month: number, serviceIds: string[]): Observable<string[]> {
+    const date = dayjs(new Date(year, month - 1, 1));
+    const startAt = date.startOf('month');
+    const endAt = date.endOf('month');
+
+    const startAtIso = startAt.utc().toISOString();
+    const endAtIso = endAt.utc().toISOString();
+
+    let params = new HttpParams().set('startAt', startAtIso).set('endAt', endAtIso);
+
+    serviceIds.forEach((id) => {
+      params = params.append('serviceIds', id);
+    });
+
+    return this.apiService.get('/members/available-days', params);
+  }
+
   public cancel(bookingId: string): Observable<{ message: string }> {
     return this.apiService.patch(`/bookings/cancel/${bookingId}`, {});
   }
 
   public noShow(bookingId: string): Observable<{ message: string }> {
     return this.apiService.patch(`/bookings/no-show/${bookingId}`, {});
-  } 
+  }
 
   public latests(): Observable<Booking[]> {
     return this.apiService.get('/bookings/latest');

@@ -1,5 +1,3 @@
-// mobile-sidebar.component.ts
-
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -8,8 +6,10 @@ import {
   HostListener,
   inject,
   QueryList,
+  signal,
   ViewChildren,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { AuthService } from '@app/core/services/auth.service';
@@ -25,8 +25,10 @@ import {
   saxHome1Outline,
   saxMenuOutline,
   saxShopOutline,
-  saxShoppingBagOutline
+  saxShoppingBagOutline,
 } from '@ng-icons/iconsax/outline';
+import { BusinessModalComponent } from '../business-details/business-modal.component';
+import { CreateBookingNavbar } from './create-booking/create-booking-navbar.component';
 
 interface NavTab {
   id: string;
@@ -35,7 +37,6 @@ interface NavTab {
   route: string;
 }
 
-// NOVO: Interface para os itens dentro do menu
 interface MenuItem {
   label: string;
   icon: string;
@@ -45,7 +46,7 @@ interface MenuItem {
 @Component({
   templateUrl: './mobile-sidebar.component.html',
   selector: 'mobile-sidebar',
-  imports: [CommonModule, RouterModule, NgIconComponent],
+  imports: [CommonModule, RouterModule, NgIconComponent, CreateBookingNavbar],
   styleUrl: './mobile-sidebar.component.scss',
   providers: [
     provideIcons({
@@ -85,6 +86,10 @@ export class MobileSidebarComponent implements AfterViewInit {
   ];
 
   private readonly authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
+
+  public isOpenCreateBooking = signal<boolean>(false);
+  public avaibleDays = signal<string[]>([]);
 
   public business?: Business;
   public activeTabId: string;
@@ -125,6 +130,24 @@ export class MobileSidebarComponent implements AfterViewInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  public toggleCreate(): void {
+    this.isOpenCreateBooking.update((data) => !data);
+  }
+
+  public openBusinessDetails() {
+    if (!this.business?.id) return;
+
+    this.dialog.open(BusinessModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(70rem, 100%)',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
+      data: { businessId: this.business.id },
+    });
+  }
+
   public selectTab(tab: NavTab): void {
     if (this.activeTabId === tab.id) return;
     this.activeTabId = tab.id;
@@ -141,11 +164,9 @@ export class MobileSidebarComponent implements AfterViewInit {
 
   private moveIndicator(activeTab: NavTab, animated: boolean): void {
     if (this.animationTimeout) clearTimeout(this.animationTimeout);
-    // ALTERADO: usa 'navTabs' em vez de 'tabs'
     const activeIndex = this.navTabs.findIndex((tab) => tab.id === activeTab.id);
     const tabElement = this.tabElements?.toArray()[activeIndex]?.nativeElement;
     if (!tabElement) return;
-    // ... (resto da lógica do indicador permanece a mesma)
     const finalWidth = '0.5rem';
     const destinationCenter = tabElement.offsetLeft + tabElement.clientWidth / 2;
     const finalStyle = {

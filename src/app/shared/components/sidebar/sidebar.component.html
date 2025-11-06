@@ -79,7 +79,7 @@
 </div>
 
 <div
-  class="h-screen border-r border-zinc-100 z-20 gap-2 flex-col dark:border-zinc-800 lg:flex hidden overflow-visible dark:bg-zinc-900/50 bg-white"
+  class="h-screen border-r relative border-zinc-100 z-50 gap-2 flex-col dark:border-zinc-800 lg:flex hidden overflow-visible dark:bg-zinc-900/50 bg-white"
 >
   @for (bus of businesses; track $index) {
     <div class="group relative px-2 first:mt-2 h-12">
@@ -120,11 +120,20 @@
   >
     <i class="material-icons-outlined text-zinc-500"> add </i>
   </button>
+
+  @if (isOpenCreateBooking()) {
+    <div class="inset-0 bg-black/50 animate-fade-in absolute top-0 left-0 w-full h-full z-40"></div>
+  }
 </div>
 
 <aside
-  class="hidden w-[18rem] flex-shrink-0 flex-col overflow-y-auto border-r border-slate-100 shadow-none bg-white dark:border-zinc-800 dark:bg-zinc-900/50 backdrop-blur-lg lg:flex"
+  [attr.data-blur]="isOpenCreateBooking()"
+  class="hidden relative w-[18rem] z-40 flex-shrink-0 flex-col border-zinc-200 overflow-y-auto data-[blur=true]:overflow-hidden border-r border-slate shadow-none bg-white dark:border-zinc-800 dark:bg-zinc-900/50 backdrop-blur-lg lg:flex"
 >
+  @if (isOpenCreateBooking()) {
+    <div class="inset-0 bg-black/50 animate-fade-in absolute top-0 left-0 w-full h-full z-40"></div>
+  }
+
   <div class="flex flex-1 flex-col">
     <div class="mb-4 p-5">
       <a href="#" class="flex items-center gap-2">
@@ -156,6 +165,32 @@
           class="ml-auto block rounded saira-font border border-slate-200 px-1.5 py-0.5 font-mono text-xs font-medium dark:border-zinc-700"
           >⌘K</kbd
         >
+      </button>
+    </div>
+
+    <div class="px-5 mb-6 z-40">
+      <button
+        type="button"
+        (click)="toggleOpenCreateBooking()"
+        class="relative flex w-full z-10 overflow-hidden items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-semibold shadow-lg shadow-violet-600/30 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
+        [ngClass]="{
+          'bg-violet-500 text-white shadow-inner-lg shadow-black': isOpenCreateBooking(),
+          'bg-violet-600 text-white hover:bg-violet-500 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-600/40':
+            !isOpenCreateBooking(),
+        }"
+      >
+        <div
+          class="absolute -top-10 -right-10 z-10 w-20 h-20 bg-purple-500 rounded-full opacity-70 blur-2xl"
+        ></div>
+
+        <div
+          class="absolute -bottom-10 z-10 -left-10 w-20 h-20 bg-indigo-500 rounded-full opacity-100 blur-2xl"
+        ></div>
+
+        <div class="relative flex gap-4 z-40 items-center">
+          <ng-icon name="saxAddSquareBulk" size="22" color="white"></ng-icon>
+          <span class="text-white">Criar Agendamento</span>
+        </div>
       </button>
     </div>
 
@@ -191,7 +226,8 @@
         </li>
       </ul>
     </nav>
-    <div class="px-5 mb-4" *ngIf="business?.id">
+
+    <div class="px-5 mb-2 mt-4" *ngIf="business?.id">
       <div
         class="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-zinc-800 dark:bg-zinc-800/50"
       >
@@ -349,6 +385,23 @@
         <p class="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
           A página será atualizada em instantes.
         </p>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isOpenCreateBooking()) {
+  <div class="hidden lg:block">
+    <div
+      (click)="toggleOpenCreateBooking()"
+      class="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm animate-fade-in"
+    ></div>
+
+    <div class="fixed z-40 left-[18rem] ml-20 overflow-auto top-[10rem] animate-scale-in">
+      <div
+        class="flex flex-col min-h-[20rem] max-h-[80vh] overflow-auto rounded-2xl w-[30rem] bg-white shadow-2xl dark:shadow-black dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800"
+      >
+        <app-create-booking-navbar></app-create-booking-navbar>
       </div>
     </div>
   </div>

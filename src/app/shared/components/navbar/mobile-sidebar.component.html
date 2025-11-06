@@ -5,8 +5,8 @@
     @for (tab of navTabs; track $index) {
       @if ($index == 2) {
         <button
-          [attr.data-active]="tab.id === activeTabId"
-          (click)="selectTab(tab)"
+          (click)="toggleCreate()"
+          [attr.data-active]="isOpenCreateBooking()"
           class="text-gray-600 w-16 h-10 bg-gray-200 dark:bg-zinc-900/80 rounded-full grid place-items-center pointer-events-auto dark:text-gray-200 data-[active=true]:text-white-500"
         >
           <i class="material-icons-outlined">add</i>
@@ -39,6 +39,16 @@
   </div>
 </nav>
 
+@if (isOpenCreateBooking()) {
+  <div class="flex bg-white/70 dark:bg-black/70 w-full h-full fixed left-0 top-0 z-30">
+    <div
+      class="absolute flex flex-col bottom-0 pb-24 left-1/2 -translate-x-1/2 min-h-[20rem] max-h-[90vh] md:max-h-[80vh] overflow-y-auto rounded-t-2xl md:rounded-2xl w-full md:w-[90%] max-w-lg bg-white shadow-2xl shadow-zinc-500/20 dark:shadow-black dark:bg-zinc-950 border border-b-0 border-zinc-200 dark:border-zinc-800"
+    >
+      <app-create-booking-navbar></app-create-booking-navbar>
+    </div>
+  </div>
+}
+
 @if (isMenuOpen) {
   <div class="md:hidden fixed inset-0 z-30" (click)="toggleMenu()">
     <div
@@ -61,6 +71,38 @@
       </div>
 
       <ul class="mt-6 space-y-2">
+        @if (business) {
+          <a
+            [routerLink]="['/select']"
+            (click)="toggleMenu()"
+            class="flex items-center gap-3 p-3 mx-3 mt-10 mb-4 rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900/50 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800"
+          >
+            @if (business.logoUrl) {
+              <img
+                [src]="business.logoUrl"
+                alt="Logo"
+                class="h-10 w-10 rounded-full object-cover flex-shrink-0"
+              />
+            } @else {
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 flex-shrink-0"
+              >
+                <i class="material-symbols-outlined text-zinc-500">store</i>
+              </div>
+            }
+
+            <div class="flex-1 min-w-0">
+              <span class="block font-semibold text-sm text-zinc-800 dark:text-zinc-100 truncate">
+                {{ business.name }}
+              </span>
+              <span class="block text-xs text-zinc-500 dark:text-zinc-400">
+                Ver perfil & configs
+              </span>
+            </div>
+
+            <i class="material-symbols-outlined text-zinc-400">chevron_right</i>
+          </a>
+        }
         <li *ngFor="let item of menuItems">
           <a
             [routerLink]="item.route"
@@ -74,12 +116,18 @@
           </a>
         </li>
 
-        <a
-          class="flex items-center gap-4 p-3  rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+        <button
+          type="button"
+          (click)="openBusinessDetails()"
+          class="flex items-center gap-4 p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
         >
-          <ng-icon name="saxShopOutline" class="!text-violet-500 dark:!text-violet-300" size="20"></ng-icon>
+          <ng-icon
+            name="saxShopOutline"
+            class="!text-violet-500 dark:!text-violet-300"
+            size="20"
+          ></ng-icon>
           <span class="font-medium text-violet-500 dark:text-violet-300">Vitrine</span>
-        </a>
+        </button>
       </ul>
     </div>
   </div>
