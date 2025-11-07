@@ -68,7 +68,7 @@ export class DetailsBookingComponent {
   }
 
   public getTimelineStatuses(): string[] {
-    return ['Agendado', 'Confirmado', 'Realizado', 'Pago'];
+    return ['PENDING', 'CONFIRMED', 'COMPLETED', 'PAID'];
   }
 
   public isStatusComplete(status: string): boolean {

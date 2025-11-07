@@ -11,9 +11,11 @@
   }
 
   @if (currentStep() === 'services') {
-    <h1 class="text-lg font-semibold text-gray-700 dark:text-violet-100">Selecionar Serviços</h1>
-  } @else {
-    <h1 class="text-lg font-semibold text-gray-700 dark:text-violet-100">Selecionar Data</h1>
+    <h1 class="text-md text-gray-700 dark:text-violet-100">Serviços</h1>
+  } 
+  
+  @else if(currentStep() === "calendar"){
+    <h1 class="text-md text-gray-700 dark:text-violet-100">Dias disponíveis</h1>
   }
 </header>
 
@@ -122,12 +124,21 @@
       }
     </div>
   }
+
+  @if (currentStep() === 'slots') {
+    <all-times
+      [selectedTime]="selectedTime"
+      [whenSelectAction]="selectTime"
+      [serviceIds]="this.selectedServices()"
+      [currentDate]="this.selectedDate()?.format('YYYY-MM-DD')"
+    ></all-times>
+  }
 </section>
 
 <footer class="p-4 border-t border-zinc-200 dark:border-zinc-800">
   <button
-    (click)="goToCalendarStep()"
-    [disabled]="!canContinue() || isLoadingNextStep()"
+    (click)="goStep()"
+    [disabled]="!canContinueTo(this.currentStep()) || isLoadingNextStep()"
     class="flex w-full items-center justify-center gap-2 rounded-full bg-violet-500 bg-gradient-to-r active:from-indigo-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-600/20 transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 disabled:opacity-70 dark:disabled:bg-indigo-800"
   >
     @if (isLoadingNextStep()) {

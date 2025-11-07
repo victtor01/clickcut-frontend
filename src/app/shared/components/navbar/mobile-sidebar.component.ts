@@ -28,7 +28,7 @@ import {
   saxShoppingBagOutline,
 } from '@ng-icons/iconsax/outline';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
-import { CreateBookingNavbar } from './create-booking/create-booking-navbar.component';
+import { CreateBookingNavbar } from '../create-booking/create-booking-navbar.component';
 
 interface NavTab {
   id: string;

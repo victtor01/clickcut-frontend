@@ -4,23 +4,36 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { ExplorePage, ExploreService } from '@app/core/services/explore.service';
+import { ThemeService } from '@app/core/services/theme.service';
 import { LoginModalComponent } from '@app/features/(public)/appointment/components/login-modal/login-modal.component';
 import { BusinessModalComponent } from '@app/shared/components/business-details/business-modal.component';
 import { firstValueFrom } from 'rxjs';
 
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { saxAwardOutline, saxStarOutline } from '@ng-icons/iconsax/outline';
+
 @Component({
   templateUrl: './explore.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule, NgIconComponent],
+  providers: [
+    provideIcons({
+      saxStarOutline,
+      saxAwardOutline,
+    }),
+  ],
 })
 export class ExploreComponent implements OnInit {
   private readonly exploreService = inject(ExploreService);
   public readonly dialog = inject(MatDialog);
+  private readonly _ = inject(ThemeService);
 
   public explore?: ExplorePage;
   public userCep: string | null = null;
   public showCepModal: boolean = false;
-
+  public scrolled: boolean = false;
+  public headerVisible: boolean = true; 
+  private lastScrollTop: number = 0; 
   public cepControl = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required, Validators.pattern(/^\d{8}$/)],
@@ -44,6 +57,28 @@ export class ExploreComponent implements OnInit {
     }
   }
 
+  onScroll(event: Event): void {
+    const mainElement = event.target as HTMLElement;
+    const currentScrollTop = mainElement.scrollTop;
+
+    // Lógica para o background do header (transparente no topo, com background ao rolar)
+    this.scrolled = currentScrollTop > 0;
+
+    // Lógica para esconder/mostrar o header com base na direção do scroll
+    if (currentScrollTop > this.lastScrollTop && currentScrollTop > 60) {
+      // Rolando para baixo e não no topo
+      this.headerVisible = false;
+    } else if (currentScrollTop < this.lastScrollTop) {
+      // Rolando para cima
+      this.headerVisible = true;
+    } else if (currentScrollTop === 0) {
+      // No topo da página
+      this.headerVisible = true;
+    }
+
+    this.lastScrollTop = currentScrollTop;
+  }
+
   public saveCepAndCloseModal(): void {
     if (this.cepControl.invalid) {
       this.cepControl.markAsTouched();
@@ -52,12 +87,12 @@ export class ExploreComponent implements OnInit {
 
     const newCep = this.cepControl.value;
 
-    localStorage.setItem('user_cep', newCep); 
+    localStorage.setItem('user_cep', newCep);
 
     this.userCep = newCep;
     this.showCepModal = false;
 
-    this.fetchExplore(newCep); 
+    this.fetchExplore(newCep);
   }
 
   public async fetchExplore(cep: string | null = null): Promise<void> {
@@ -76,12 +111,12 @@ export class ExploreComponent implements OnInit {
   }
 
   public openLogin() {
-        this.dialog.open(LoginModalComponent, {
-          backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
-          panelClass: ['dialog-no-container'],
-          maxWidth: '100rem',
-          width: 'min(55rem, 100%)',
-        });
+    this.dialog.open(LoginModalComponent, {
+      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(55rem, 100%)',
+    });
   }
 
   public openCepInput(): void {

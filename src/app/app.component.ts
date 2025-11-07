@@ -13,7 +13,7 @@ import { scaleFade } from './shared/utils/router-transition';
   animations: [scaleFade],
 })
 export class App implements OnInit {
-  title = 'ClickCut';
+  title = 'ClickYoup';
   
   private iconRegistry = inject(MatIconRegistry);
   private sanitizer = inject(DomSanitizer);

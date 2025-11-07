@@ -91,9 +91,7 @@
       </section>
 
       <aside class="lg:col-span-1">
-        <div
-          class="sticky lg:top-5 p-4 bg-white dark:bg-zinc-900 rounded-lg flex flex-col gap-4"
-        >
+        <div class="sticky lg:top-5 p-4 bg-white dark:bg-zinc-900 rounded-lg flex flex-col gap-4">
           <h2
             class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
           >
@@ -108,9 +106,9 @@
                       class="timeline-dot grid place-items-center w-8 h-8 rounded-full"
                       [ngClass]="getStatusColor(status)"
                     >
-                      <i class="material-icons-outlined text-white text-base">{{
-                        getStatusIcon(status)
-                      }}</i>
+                      <i class="material-icons-outlined text-white !text-base">
+                        {{ getStatusIcon(status) }}
+                      </i>
                     </div>
                     @if (!$last) {
                       <div class="w-0.5 flex-grow" [ngClass]="getLineColor(status)"></div>
@@ -123,7 +121,6 @@
                 </div>
               }
             </div>
-            <!-- REMOVIDO: O botão para avançar o status foi removido pois é uma ação do gerente. -->
           </div>
         </div>
       </aside>

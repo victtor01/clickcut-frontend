@@ -26,12 +26,11 @@ export class CreateBookingComponent implements OnInit {
   ) {}
 
   private _selectedServices: Service[] = [];
-
   private _selectedTime?: string;
   private _currentDate?: Dayjs;
   private _buttonActive: boolean = false;
   private _step: number = 1;
-
+    
   get selectedServices() {
     return this._selectedServices;
   }
@@ -80,10 +79,8 @@ export class CreateBookingComponent implements OnInit {
 
     if (dateFromQuery) {
       this._currentDate = dayjs(dateFromQuery);
-      console.log('Data recebida da URL:', this._currentDate.format('DD/MM/YYYY'));
     } else {
       this._currentDate = dayjs();
-      console.log('Nenhuma data passada na URL, usando data atual.');
     }
   }
 
@@ -143,7 +140,6 @@ export class CreateBookingComponent implements OnInit {
 
     this.bookingService.create(createBookingDTO).subscribe({
       next: (data) => {
-        console.log(data);
         this.toastService.success(`Agendamento criado as ${this._selectedTime}`);
         this.router.navigate(['/bookings']);
       },

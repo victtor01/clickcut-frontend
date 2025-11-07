@@ -97,9 +97,9 @@
         @if (bus.logoUrl) {
           <img [src]="bus.logoUrl" alt="Avatar do cliente" class="object-cover" />
         } @else {
-          <span
-            class="font-medium text-xl text-zinc-400 tracking-wider group-hover:text-gray-500 dark:group-hover:text-white transition-colors"
-            >{{ bus.name[0] }}</span
+          <div
+            class="font-medium text-xl grid place-items-center text-zinc-400 tracking-wider group-hover:text-gray-500 dark:group-hover:text-white transition-colors"
+            ><i class="material-symbols-outlined !text-3xl">store</i><span class="ring-2 bg-stone-100 dark:bg-zinc-800 text-center grid absolute place-items-center rounded-full w-4 h-4 bottom-1.5 right-1.5 text-xs">{{bus?.name?.[0]}}</span></div
           >
         }
       </button>
@@ -122,21 +122,25 @@
   </button>
 
   @if (isOpenCreateBooking()) {
-    <div class="inset-0 bg-black/50 animate-fade-in absolute top-0 left-0 w-full h-full z-40"></div>
+    <div
+      class="inset-0 bg-violet-100/50 dark:bg-black/50 animate-fade-in absolute top-0 left-0 w-full h-full z-40"
+    ></div>
   }
 </div>
 
 <aside
   [attr.data-blur]="isOpenCreateBooking()"
-  class="hidden relative w-[18rem] z-40 flex-shrink-0 flex-col border-zinc-200 overflow-y-auto data-[blur=true]:overflow-hidden border-r border-slate shadow-none bg-white dark:border-zinc-800 dark:bg-zinc-900/50 backdrop-blur-lg lg:flex"
+  class="hidden relative w-[18rem] z-40 flex-shrink-0 flex-col border-zinc-200 overflow-y-auto border-r border-slate shadow-none bg-white dark:border-zinc-800 dark:bg-zinc-900/50 backdrop-blur-lg lg:flex"
 >
-  @if (isOpenCreateBooking()) {
-    <div class="inset-0 bg-black/50 animate-fade-in absolute top-0 left-0 w-full h-full z-40"></div>
-  }
 
-  <div class="flex flex-1 flex-col">
-    <div class="mb-4 p-5">
-      <a href="#" class="flex items-center gap-2">
+<div class="flex flex-1 flex-col relative">
+  @if (isOpenCreateBooking()) {
+    <div
+      class="inset-0 bg-violet-100/50 dark:bg-black/50 animate-fade-in absolute top-0 left-0 w-full h-auto z-40"
+    ></div>
+  }
+  <div class="mb-4 p-5">
+    <a href="#" class="flex items-center gap-2">
         <div class="flex flex-1 items-center gap-2">
           <div class="grid place-items-center rounded-full">
             <app-logo width="35" height="35" class="text-violet-500 scale-105"></app-logo>
@@ -171,8 +175,9 @@
     <div class="px-5 mb-6 z-40">
       <button
         type="button"
+        [attr.data-open]="isOpenCreateBooking()"
         (click)="toggleOpenCreateBooking()"
-        class="relative flex w-full z-10 overflow-hidden items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-semibold shadow-lg shadow-violet-600/30 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
+        class="relative flex w-full z-10 data-[open=true]:ring-2 data-[open=true]:shadow-xl data-[open=true]:shadow-violet-500/40 overflow-hidden items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-semibold shadow-lg shadow-violet-600/30 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 ring-violet-500 ring-offset-2 dark:ring-offset-zinc-900"
         [ngClass]="{
           'bg-violet-500 text-white shadow-inner-lg shadow-black': isOpenCreateBooking(),
           'bg-violet-600 text-white hover:bg-violet-500 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-600/40':
@@ -394,12 +399,12 @@
   <div class="hidden lg:block">
     <div
       (click)="toggleOpenCreateBooking()"
-      class="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm animate-fade-in"
+      class="fixed inset-0 z-30 bg-violet-100/50 dark:bg-black/40 backdrop-blur-sm animate-fade-in"
     ></div>
 
-    <div class="fixed z-40 left-[18rem] ml-20 overflow-auto top-[10rem] animate-scale-in">
+    <div class="fixed z-40 left-[18rem] ml-20 top-[10rem] animate-scale-in">
       <div
-        class="flex flex-col min-h-[20rem] max-h-[80vh] overflow-auto rounded-2xl w-[30rem] bg-white shadow-2xl dark:shadow-black dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800"
+        class="flex flex-col h-auto max-h-[60vh] overflow-auto rounded-2xl rounded-tl-md w-[30rem] bg-white shadow-2xl shadow-violet-200 dark:shadow-black dark:bg-zinc-950 border border-zinc-200/0 dark:border-zinc-800"
       >
         <app-create-booking-navbar></app-create-booking-navbar>
       </div>

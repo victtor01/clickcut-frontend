@@ -4,13 +4,13 @@ import { MatIconModule } from '@angular/material/icon'; // Importe
 import { Service } from '@app/core/models/Service';
 import { BookingsService } from '@app/core/services/booking.service';
 import { ServicesService } from '@app/core/services/services.service';
+import { AllTimesComponent } from '@app/features/(private)/bookings/components/all-times/all-times.component';
 import dayjs, { Dayjs } from 'dayjs'; // Importe Dayjs
-import 'dayjs/locale/pt-br'; // Importe o locale
+import 'dayjs/locale/pt-br';
 import { firstValueFrom } from 'rxjs';
 
-dayjs.locale('pt-br'); // Defina o locale globalmente
+dayjs.locale('pt-br');
 
-// Interface para o nosso grid de calendário
 export interface CalendarDay {
   date: Dayjs;
   isCurrentMonth: boolean;
@@ -18,10 +18,12 @@ export interface CalendarDay {
   isSelected: boolean;
 }
 
+type Step = 'services' | 'calendar' | 'slots';
+
 @Component({
   selector: 'app-create-booking-navbar',
   standalone: true,
-  imports: [CommonModule, MatIconModule], // Adicione
+  imports: [CommonModule, MatIconModule, AllTimesComponent],
   templateUrl: './create-booking-navbar.component.html',
 })
 export class CreateBookingNavbar implements OnInit {
@@ -32,16 +34,15 @@ export class CreateBookingNavbar implements OnInit {
   // --- Sinais de Estado ---
   public services = signal<Service[]>([]);
   public selectedServices = signal<string[]>([]);
-  public currentStep = signal<'services' | 'calendar'>('services');
+  public currentStep = signal<'services' | 'calendar' | 'slots'>('services');
   public isLoadingNextStep = signal(false);
-  public canContinue = computed(() => this.selectedServices().length > 0);
 
   public currentMonth = signal(dayjs().month());
   public currentYear = signal(dayjs().year());
   public calendarGrid = signal<CalendarDay[]>([]);
   public selectedDate = signal<Dayjs | null>(null);
+  public selectedTime?: string;
 
-  // Armazena os dias disponíveis (ex: '2025-10-20') da API
   private availableDays = signal<Set<string>>(new Set());
 
   public currentMonthName = computed(() => {
@@ -67,16 +68,26 @@ export class CreateBookingNavbar implements OnInit {
     this.fetchServices();
   }
 
-  /**
-   * Helper para a UI, verifica se um serviço está selecionado.
-   */
+  public canContinueTo(step: Step) {
+    if (step === 'services') {
+      return this.selectedServices().length > 0;
+    }
+
+    if (step === 'calendar') {
+      return this.selectedDate() !== null;
+    }
+
+    if (step === 'slots') {
+      return this.selectedTime !== null;
+    }
+
+    return false;
+  }
+
   public isServiceSelected(service: Service): boolean {
     return this.selectedServices().includes(service.id);
   }
 
-  /**
-   * Adiciona ou remove um serviço da seleção.
-   */
   public selectBookings(service: Service) {
     this.selectedServices.update((current) => {
       const isSelected = current.find((id) => id === service.id);
@@ -89,6 +100,10 @@ export class CreateBookingNavbar implements OnInit {
     });
   }
 
+  public selectTime = (time: string): void => {
+    this.selectedTime = time;
+  };
+
   private async fetchServices(): Promise<void> {
     try {
       const services = await firstValueFrom(this.servicesService.getAll());
@@ -98,9 +113,24 @@ export class CreateBookingNavbar implements OnInit {
     }
   }
 
-  public goToCalendarStep(): void {
-    if (!this.canContinue()) return;
-    this.currentStep.set('calendar');
+  public goStep(): void {
+    if (!this.canContinueTo(this.currentStep())) return;
+
+    const currStep = this.currentStep();
+
+    const steps: Record<Step, Step> = {
+      services: 'calendar',
+      calendar: 'slots',
+      slots: 'slots',
+    };
+
+    const newStep = steps[currStep];
+      
+    this.currentStep.set(newStep);
+
+    if(newStep === "slots") {
+      // logica aqui
+    }
   }
 
   public goToServiceStep(): void {
@@ -110,14 +140,10 @@ export class CreateBookingNavbar implements OnInit {
   private async fetchAvaibleDays(year: number, month: number): Promise<void> {
     try {
       const avaibleDays = await firstValueFrom(
-        this.bookingsService.avaibleDays(
-          year,
-          month + 1, 
-          this.selectedServices(),
-        ),
+        this.bookingsService.avaibleDays(year, month + 1, this.selectedServices()),
       );
 
-      console.log(avaibleDays)
+      console.log(avaibleDays);
       this.availableDays.set(new Set(avaibleDays.map((d) => dayjs(d).format('YYYY-MM-DD'))));
     } catch (error) {
       console.error('Erro ao buscar dias disponíveis', error);
