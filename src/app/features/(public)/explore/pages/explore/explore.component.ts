@@ -9,13 +9,22 @@ import { LoginModalComponent } from '@app/features/(public)/appointment/componen
 import { BusinessModalComponent } from '@app/shared/components/business-details/business-modal.component';
 import { firstValueFrom } from 'rxjs';
 
+import { AuthService } from '@app/core/services/auth.service';
+import { LogoComponent } from '@app/shared/components/logo/logo.component';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxAwardOutline, saxStarOutline } from '@ng-icons/iconsax/outline';
 
 @Component({
   templateUrl: './explore.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule, NgIconComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterModule,
+    NgIconComponent,
+    LogoComponent,
+  ],
   providers: [
     provideIcons({
       saxStarOutline,
@@ -32,14 +41,19 @@ export class ExploreComponent implements OnInit {
   public userCep: string | null = null;
   public showCepModal: boolean = false;
   public scrolled: boolean = false;
-  public headerVisible: boolean = true; 
-  private lastScrollTop: number = 0; 
+  public headerVisible: boolean = true;
+
+  private lastScrollTop: number = 0;
+
+  private authService = inject(AuthService);
+
   public cepControl = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required, Validators.pattern(/^\d{8}$/)],
   });
 
   ngOnInit(): void {
+    this.authService.checkClientSession().subscribe();
     this.checkAndLoadCep();
   }
 

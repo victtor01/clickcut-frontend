@@ -1,5 +1,6 @@
 import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common'; // Importe o CommonModule
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -8,7 +9,8 @@ import { BookingService } from '@app/core/models/BookingService';
 import { UpdateBookingServiceDTO } from '@app/core/schemas/update-booking-service.dto';
 import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
-import dayjs from 'dayjs'; // Importe o Dayjs
+import { RescheduleBookingComponent } from '@app/features/(clients)/booking/components/reschedule-booking/reschedule-booking.component';
+import dayjs, { Dayjs } from 'dayjs'; // Importe o Dayjs
 import { firstValueFrom } from 'rxjs';
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
 import { CancelBookingComponent } from './components/cancel-booking/cancel-booking.component';
@@ -72,12 +74,13 @@ export class BookingDetailsComponent implements OnInit {
     this.bookingId = this.route.snapshot.paramMap.get('bookingId');
 
     if (this.bookingId) {
-      this.bookingService.findById(this.bookingId).subscribe({
-        next: (value) => {
-          this.booking = value;
-        },
-      });
+      this.fetchBooking();
     }
+  }
+
+  private async fetchBooking(): Promise<void> {
+    const data = await firstValueFrom(this.bookingService.findById(this.bookingId!));
+    this.booking = data;
   }
 
   public getTimelineStatuses(): BookingStatus[] {
@@ -173,6 +176,41 @@ export class BookingDetailsComponent implements OnInit {
         selectedIds: this.booking?.services?.map((s) => s.service?.id) || [],
         bookingId: this.booking?.id,
       },
+    });
+  }
+
+  public openReschedule(): void {
+    const ids = this.booking?.services?.map((s) => s.service);
+
+    const data = {
+      assignedToId: this.booking?.assignedTo?.id,
+      businessId: this.booking?.business?.id,
+      selectedDate: this.booking?.startAt,
+      services: ids,
+    };
+
+    const dialog = this.dialog.open(RescheduleBookingComponent, {
+      width: 'min(30rem, 100%)',
+      data,
+    });
+
+    dialog.afterClosed().subscribe(async (data: Dayjs) => {
+      if (!this.booking) return;
+
+      try {
+        await firstValueFrom(this.bookingService.reschedule(data.utc().toDate(), this.booking.id));
+        await this.fetchBooking();
+
+        this.toastService.success('Remarcado com sucesso!');
+      } catch (ex) {
+        let message = 'Houve um erro interno!';
+
+        if (ex instanceof HttpErrorResponse) {
+          message = ex.error.message;
+        }
+
+        this.toastService.error(message);
+      }
     });
   }
 

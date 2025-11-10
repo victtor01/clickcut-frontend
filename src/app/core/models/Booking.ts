@@ -26,4 +26,7 @@ export type BookingStatus =
   | 'COMPLETED'
   | 'PAID'
   | 'CANCELLED'
-  | 'NO_SHOW';
+  | 'NO_SHOW'
+  | "CANCELLED_BY_CLIENT"
+  | "CANCELLED_BY_MANAGER"
+  | "CANCELLED_LATE_BY_CLIENT"

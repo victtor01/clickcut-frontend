@@ -164,13 +164,26 @@
               Serviços
             </h2>
 
-            <button
-              type="button"
-              (click)="openAllServices()"
-              class="w-10 h-10 bg-white dark:bg-zinc-800/70 dark:hover:bg-zinc-800 grid rounded-lg place-items-center"
-            >
-              <i class="material-icons-outlined">edit</i>
-            </button>
+            <div class="flex items-center group gap-3 relative">
+              <div
+                class="gap-2 hidden group-hover:flex bg-white absolute py-1 rounded-lg text-gray-500 dark:text-violet-50 saira-font text-base dark:bg-zinc-800 right-[100%] mr-5"
+              >
+                <div class="relative text-nowrap px-3">
+                  <div
+                    class="w-3 h-3 bg-white dark:bg-zinc-800 top-1/2 rotate-45 -translate-y-1/2 translate-x-1/2 absolute right-0"
+                  ></div>
+                  <span> Editar serviços </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                (click)="openAllServices()"
+                class="w-10 h-10 bg-white dark:bg-zinc-800/70 dark:hover:bg-zinc-800 grid rounded-full place-items-center"
+              >
+                <i class="material-icons-outlined">edit</i>
+              </button>
+            </div>
           </header>
           <div
             class="flex flex-col bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg divide-y divide-gray-200 dark:divide-zinc-800"
@@ -178,9 +191,9 @@
             @for (service of booking.services; track service.id) {
               <div
                 (click)="openService(service)"
-                class="flex cursor-pointer items-center justify-between gap-4 p-4 hover:bg-zinc-100 dark:hover:bg-zinc-800/50"
+                class="flex ring-0 rounded-lg active:ring- hover:ring-2 ring-violet-500 cursor-pointer items-center justify-between gap-4 p-4 hover:bg-zinc-100 dark:hover:bg-zinc-800/50"
               >
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4 ">
                   <div
                     class="w-10 h-10 relative rounded-2xl overflow-hidden rounded-tl-lg bg-zinc-100 dark:bg-zinc-800"
                   >
@@ -228,11 +241,34 @@
         </div>
 
         <div class="flex flex-col gap-3">
-          <h2
-            class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
-          >
-            Horário
-          </h2>
+          <header class="flex justify-between items-center gap-2">
+            <h2
+              class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
+            >
+              Horário
+            </h2>
+
+            <div class="flex items-center group gap-3 relative">
+              <div
+                class="gap-2 hidden group-hover:flex bg-white absolute py-1 rounded-lg text-gray-500 dark:text-violet-50 saira-font text-base dark:bg-zinc-800 right-[100%] mr-5"
+              >
+                <div class="relative text-nowrap px-3">
+                  <div
+                    class="w-3 h-3 bg-white dark:bg-zinc-800 top-1/2 rotate-45 -translate-y-1/2 translate-x-1/2 absolute right-0"
+                  ></div>
+                  <span> Mudar horário </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                (click)="openReschedule()"
+                class="w-10 h-10 bg-white dark:bg-zinc-800/70 dark:hover:bg-zinc-800 grid rounded-full place-items-center"
+              >
+                <i class="material-symbols-outlined">edit_square</i>
+              </button>
+            </div>
+          </header>
           <div
             class="flex items-center gap-4 p-3 bg-white border border-slate-100 dark:border-zinc-800/60 dark:bg-zinc-900 rounded-lg"
           >

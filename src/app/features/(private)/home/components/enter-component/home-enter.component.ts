@@ -26,12 +26,31 @@ import { BookingSearchModalComponent } from '@app/shared/components/booking-sear
 import { NotificationColorPipe } from '@app/shared/pipes/notification-color-pipe/notification-color.pipe';
 import { NotificationIconPipe } from '@app/shared/pipes/notification-icon-pipe/notification-icon.pipe';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { hugeDoor01 } from "@ng-icons/huge-icons";
+import { saxMoonBold, saxNotificationBold, saxSettingBold, saxSun1Bold } from '@ng-icons/iconsax/bold';
 import { firstValueFrom, Subscription } from 'rxjs';
+
+const icons = {
+  saxSettingBold,
+  saxNotificationBold,
+  saxMoonBold,
+  saxSun1Bold,
+  hugeDoor01
+};
 
 @Component({
   templateUrl: './home-enter.component.html',
   selector: 'home-enter',
-  imports: [ToFormatBrlPipe, RouterLink, CommonModule, NotificationIconPipe, NotificationColorPipe],
+  imports: [
+    ToFormatBrlPipe,
+    RouterLink,
+    CommonModule,
+    NotificationIconPipe,
+    NotificationColorPipe,
+    NgIconComponent,
+  ],
+  providers: [provideIcons(icons)],
   animations: [
     trigger('fadeScale', [
       transition(':enter', [
@@ -67,6 +86,10 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
   public statement?: BusinessStatement;
   public notifications: Notification[] = [];
   public user?: User;
+
+  public get theme() {
+    return this.themeService.theme();
+  }
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {

@@ -1,13 +1,12 @@
-<main class="relative flex h-screen w-full bg-slate-50 dark:bg-zinc-950">
-  <!-- Sidebar para Desktop -->
-  <aside
-    class="hidden w-72 flex-shrink-0 m-4 flex-col overflow-y-auto rounded-xl border border-slate-200 bg-white dark:border-zinc-800 dark:bg-black lg:flex"
-  >
+<main
+  class="relative flex h-screen w-full bg-slate-50 bg-gradient-to-bl from-violet-50 to-white dark:from-zinc-800/40 dark:to-transparent dark:bg-zinc-900"
+>
+  <aside class="hidden w-72 flex-shrink-0 flex-col overflow-y-auto lg:flex">
     <div class="flex flex-1 flex-col p-4">
       <div class="mb-8">
         <a href="#" class="flex items-center gap-2 px-2">
-          <i class="material-icons-outlined text-3xl text-indigo-500">bolt</i>
-          <span class="text-lg font-bold text-slate-800 dark:text-slate-100">ClickCut</span>
+          <app-logo width="35"></app-logo>
+          <span class="text-lg font-bold text-slate-800 dark:text-slate-100">ClickYoup</span>
         </a>
       </div>
 
@@ -18,29 +17,28 @@
           >
             Menu
           </h3>
-          <ul class="flex flex-col gap-1">
+          <ul class="flex flex-col gap-2">
             <li *ngFor="let link of navLinks">
               <a
                 [routerLink]="link.path"
                 routerLinkActive
                 #rla="routerLinkActive"
-                class="group flex items-center gap-3 rounded-lg px-4 py-2 font-medium transition-colors"
+                class="group flex items-center gap-3 rounded-lg px-4 py-3 font-medium transition-colors"
                 [ngClass]="{
-                  'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400':
-                    rla.isActive,
-                  'text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-zinc-900/50 dark:hover:text-slate-200':
+                  'text-slate-800 bg-slate-200 dark:text-white dark:bg-zinc-800': rla.isActive,
+                  'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200':
                     !rla.isActive,
                 }"
               >
-                <i
-                  class="material-symbols-outlined"
-                  [ngStyle]="{
-                    'font-variation-settings': rla.isActive ? '\'FILL\' 1' : '\'FILL\' 0',
-                  }"
+                <ng-icon
+                  [name]="!!rla.isActive ? link.boldIcon : link.icon"
+                  [attr.data-active]="!!rla.isActive"
+                  size="24"
+                  strokeWidth="5"
+                  class="data-[active=true]:drop-shadow-xl data-[active=true]:drop-shadow-white/30"
                 >
-                  {{ link.icon }}
-                </i>
-                <span>{{ link.label }}</span>
+                </ng-icon>
+                <span class="text-lg">{{ link.label }}</span>
               </a>
             </li>
           </ul>
@@ -48,7 +46,7 @@
       </nav>
     </div>
 
-    <div class="border-t border-slate-200 dark:border-zinc-800 p-4 mt-6">
+    <div class="p-4 mt-6">
       <button
         type="button"
         (click)="openEditProfileModal()"
@@ -76,12 +74,14 @@
     </div>
   </aside>
 
-  <div class="flex-1 overflow-y-auto pb-24 lg:pb-0">
+  <div
+    class="flex-1 overflow-y-auto pb-24 lg:pb-0 bg-white dark:bg-neutral-900 shadow shadow-violet-100 dark:shadow-black lg:m-4 ml-0 rounded-2xl"
+  >
     <router-outlet></router-outlet>
   </div>
 
   <nav
-    class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-t border-slate-200 dark:border-zinc-800"
+    class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-950 border-t border-slate-200 dark:border-zinc-800"
   >
     <ul class="flex justify-around items-center h-16">
       <li *ngFor="let link of mobileNavLinks">
@@ -92,15 +92,17 @@
           class="flex flex-col items-center justify-center gap-1 w-20 transition-colors"
           [ngClass]="
             rla.isActive
-              ? 'text-indigo-600 dark:text-indigo-400'
-              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'text-slate-600 dark:text-white'
+              : 'text-slate-400 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           "
         >
-          <i
-            class="material-symbols-outlined"
-            [ngStyle]="{ 'font-variation-settings': rla.isActive ? '\'FILL\' 1' : '\'FILL\' 0' }"
-            >{{ link.icon }}</i
+          <ng-icon
+            [name]="!!rla.isActive ? link.boldIcon : link.icon"
+            [attr.data-active]="!!rla.isActive"
+            size="22"
+            class="data-[active=true]:drop-shadow-xl data-[active=true]:drop-shadow-white/30"
           >
+          </ng-icon>
           <span class="text-xs font-medium">{{ link.label }}</span>
         </a>
       </li>
@@ -145,7 +147,7 @@
       <button
         type="button"
         (click)="openEditProfileModal()"
-        class="group text-left mt-10 flex w-full items-center justify-between rounded-lg p-3 mb-4 bg-slate-50 dark:bg-zinc-800/50"
+        class="group text-left mt-10 flex w-full items-center justify-between rounded-lg p-3 mb-4 bg-slate dark:bg-zinc-800/50"
       >
         <div class="flex items-center gap-4">
           <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-zinc-800 grid place-items-center">
@@ -184,11 +186,11 @@
       <div class="flex items-center justify-between rounded-lg px-3 gap-4 mt-2">
         <a
           (click)="toggleMenu()"
-          [routerLink]="['/hub', 'favorites']"
+          [routerLink]="['/explore']"
           class="relative flex-1 flex text-left items-center gap-4 text-rose-600 dark:text-rose-500"
         >
-          <i class="material-symbols-outlined"> favorite </i>
-          <span class="">Favoritos</span>
+          <i class="material-symbols-outlined"> travel_explore </i>
+          <span class="">Explorar</span>
         </a>
       </div>
     </div>

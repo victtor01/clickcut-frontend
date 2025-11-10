@@ -43,6 +43,13 @@ export class BookingsService {
     return this.apiService.get('/members/available-days', params);
   }
 
+  public reschedule(date: Date, booking: string) {
+    return this.apiService.patch('/bookings/reschedule', {
+      startAt: date,
+      bookingId: booking,
+    });
+  }
+
   public cancel(bookingId: string): Observable<{ message: string }> {
     return this.apiService.patch(`/bookings/cancel/${bookingId}`, {});
   }

@@ -22,7 +22,7 @@ import { saxAddSquareBulk } from '@ng-icons/iconsax/bulk';
 import { firstValueFrom } from 'rxjs';
 import { BookingSearchModalComponent } from '../booking-search/booking-search.component';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
-import { CreateBookingNavbar } from '../create-booking/create-booking-navbar.component';
+import { CreateBookingNavbar } from '../create-booking/create-booking.component';
 import { LogoComponent } from '../logo/logo.component';
 interface Tab {
   id: string;

@@ -26,7 +26,7 @@
           }
         </div>
 
-        <div class="px-9 -bottom-16 left-8 flex gap-4">
+        <div class="px-9 -bottom-16 left-8 flex flex-wrap gap-4">
           <div
             class="-translate-y-1/2 h-28 w-28 z-10 absolute flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
           >
@@ -44,7 +44,7 @@
           </div>
 
           <div class="flex flex-col mt-20 flex-1">
-            <h1 class="text-3xl font-bold text-slate-700 dark:text-white">{{ business.name }}</h1>
+            <h1 class="text-3xl font-bold text-slate-700 dark:text-white text-nowrap">{{ business.name }}</h1>
 
             <div class="mt-1 flex items-center gap-2 text-sm flex-wrap">
               <span
@@ -79,7 +79,7 @@
             </div>
           </div>
 
-          <div class="flex p-2 justify-end gap-2 flex-col">
+          <div class="flex lg:p-2 justify-end gap-2 flex-col bg">
             <div class="bg-indigo-500 rounded-full p-1 px-4 text-white shadow shadow-zinc-200/40 dark:shadow-black flex items-center gap-px">
               <i class="material-icons-outlined !text-base"> alternate_email </i>
               <span class="text-lg">

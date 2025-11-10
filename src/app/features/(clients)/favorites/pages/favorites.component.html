@@ -1,6 +1,6 @@
 <div
   [@slideFade]
-  class="absolute overflow-hidden bottom-0 w-[30rem] h-[20rem] z-20 left-1/2 -translate-x-1/2 pointer-events-none"
+  class="absolute overflow-hidden bottom-14 lg:bottom-0 w-[30rem] h-[20rem] z-20 left-1/2 -translate-x-1/2 pointer-events-none"
   *ngIf="hasUnfavoritedItems"
 >
   <div class="relative w-full h-full flex-1">
@@ -13,7 +13,7 @@
 <div
   [@slideFade]
   *ngIf="hasUnfavoritedItems"
-  class="fixed bottom-6 left-1/2 pointer-events-auto z-50 flex -translate-x-1/2 transform items-center justify-between gap-4 rounded-full bg-white/40 backdrop-blur-lg shadow px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800"
+  class="fixed bottom-20 lg:bottom-6 left-1/2 pointer-events-auto z-50 flex -translate-x-1/2 transform items-center justify-between gap-4 rounded-full bg-white/40 backdrop-blur-lg shadow px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800"
 >
   <p class="text-sm font-medium text-nowrap text-zinc-700 dark:text-zinc-200">
     Sua lista de favoritos foi alterada.

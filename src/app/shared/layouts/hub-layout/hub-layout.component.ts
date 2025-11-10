@@ -6,11 +6,40 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '@app/core/services/auth.service';
 import { ThemeService } from '@app/core/services/theme.service';
 import { ClientProfileSettingsComponent } from '@app/features/(private)/clients/components/settings/client-profile-settings.component';
+import { LogoComponent } from '@app/shared/components/logo/logo.component';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import {
+  saxAddSquareBold,
+  saxHeartBold,
+  saxHome2Bold,
+  saxRepeatBold,
+} from '@ng-icons/iconsax/bold';
+import {
+  saxAddSquareOutline,
+  saxHeartOutline,
+  saxHome2Outline,
+  saxRepeatOutline,
+} from '@ng-icons/iconsax/outline';
 import { firstValueFrom } from 'rxjs';
+
+const boldIcons = {
+  saxHome2Bold,
+  saxHeartBold,
+  saxRepeatBold,
+  saxAddSquareBold,
+};
+
+const outlinedIcons = {
+  saxHome2Outline,
+  saxHeartOutline,
+  saxRepeatOutline,
+  saxAddSquareOutline,
+};
 
 @Component({
   templateUrl: './hub-layout.component.html',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, LogoComponent, NgIconComponent],
+  providers: [provideIcons({ ...boldIcons, ...outlinedIcons })],
   animations: [
     trigger('fade', [
       transition(':enter', [
@@ -49,14 +78,14 @@ export class HubLayoutComponent {
   ) {}
 
   public navLinks = [
-    { label: 'Início', icon: 'home', path: ['/hub', 'home'] },
-    { label: 'Histórico', icon: 'history', path: ['/hub', 'history'] },
-    { label: 'Agendar', icon: 'add_circle', path: ['/hub', 'create'] },
-    { label: 'Favoritos', icon: 'favorite', path: ['/hub', 'favorites'] },
+    { label: 'Início', icon: 'saxHome2Outline', boldIcon: 'saxHome2Bold', path: ['/hub', 'home'] },
+    { label: 'Favoritos', icon: 'saxHeartOutline', boldIcon: 'saxHeartBold', path: ['/hub', 'favorites'] },
+    { label: 'Agendar', icon: 'saxAddSquareOutline', boldIcon: 'saxAddSquareBold', path: ['/hub', 'create'] },
+    { label: 'Histórico', icon: 'saxRepeatOutline', boldIcon: 'saxRepeatBold', path: ['/hub', 'history'] },
   ];
 
   get mobileNavLinks() {
-    return this.navLinks.slice(0, 3);
+    return this.navLinks.slice(0, 4);
   }
 
   public handleTheme(): void {
@@ -143,7 +172,7 @@ export class HubLayoutComponent {
   }
 
   @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
+  onKeydownHandler(event: KeyboardEvent): void {
     if (this.isMenuOpen) {
       this.toggleMenu();
     }

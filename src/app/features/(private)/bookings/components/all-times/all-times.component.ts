@@ -17,7 +17,7 @@ export class AllTimesComponent implements OnInit {
   public whenSelectAction?: (time: string) => void;
 
   @Input()
-  public selectedTime?: string;
+  public selectedTime?: string | null;
 
   @Input()
   public currentDate?: string;
