@@ -7,6 +7,7 @@ export interface BookingService {
   extraFee: number;
   discount: number;
   finalPrice: number;
+  serviceId?: string;
   service?: Service | null;
   notes?: string;
 }

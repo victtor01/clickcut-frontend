@@ -1,4 +1,4 @@
-<div class="flex flex-col max-h-[80vh]">
+<div class="flex flex-col max-h-[80vh] bg-white dark:bg-zinc-900">
   <header class="flex p-4 justify-between items-center">
     @if (currentStep() === 'slots') {
       <button
@@ -14,9 +14,9 @@
 
     <h1 class="text-lg font-semibold text-gray-700 dark:text-violet-100">
       @if (currentStep() === 'calendar') {
-        <span>Selecionar Nova Data</span>
+        <span>Remarcar dia</span>
       } @else {
-        <span>Selecionar Novo Horário</span>
+        <span>Escolha um novo horário</span>
       }
     </h1>
 

@@ -19,11 +19,16 @@ import { AuthService } from '@app/core/services/auth.service';
 import { ReviewsService } from '@app/core/services/reviews.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { saxCrown1Bold } from '@ng-icons/iconsax/bold';
 import { firstValueFrom } from 'rxjs';
+
+const icons = { saxCrown1Bold };
 
 @Component({
   templateUrl: 'business-modal.component.html',
-  imports: [CommonModule, ToFormatBrlPipe, ReactiveFormsModule, FormsModule, RouterModule],
+  imports: [CommonModule, ToFormatBrlPipe, ReactiveFormsModule, FormsModule, RouterModule, NgIcon],
+  providers: [provideIcons(icons)],
 })
 export class BusinessModalComponent implements OnInit {
   constructor(
@@ -146,7 +151,6 @@ export class BusinessModalComponent implements OnInit {
 
   private async fetchBusiness(businessId: string): Promise<void> {
     this.business = await firstValueFrom(this.appointmentsService.getBusinessById(businessId));
-    console.log(this.business);
   }
 
   private async fetchReviews(businessId: string): Promise<void> {

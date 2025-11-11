@@ -79,9 +79,24 @@ export class HubLayoutComponent {
 
   public navLinks = [
     { label: 'Início', icon: 'saxHome2Outline', boldIcon: 'saxHome2Bold', path: ['/hub', 'home'] },
-    { label: 'Favoritos', icon: 'saxHeartOutline', boldIcon: 'saxHeartBold', path: ['/hub', 'favorites'] },
-    { label: 'Agendar', icon: 'saxAddSquareOutline', boldIcon: 'saxAddSquareBold', path: ['/hub', 'create'] },
-    { label: 'Histórico', icon: 'saxRepeatOutline', boldIcon: 'saxRepeatBold', path: ['/hub', 'history'] },
+    {
+      label: 'Favoritos',
+      icon: 'saxHeartOutline',
+      boldIcon: 'saxHeartBold',
+      path: ['/hub', 'favorites'],
+    },
+    {
+      label: 'Agendar',
+      icon: 'saxAddSquareOutline',
+      boldIcon: 'saxAddSquareBold',
+      path: ['/hub', 'create'],
+    },
+    {
+      label: 'Histórico',
+      icon: 'saxRepeatOutline',
+      boldIcon: 'saxRepeatBold',
+      path: ['/hub', 'history'],
+    },
   ];
 
   get mobileNavLinks() {
@@ -171,8 +186,8 @@ export class HubLayoutComponent {
     return `transform: translateY(${this.currentTranslateY}px); transition: ${transition};`;
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent): void {
+  @HostListener('document:keydown.escape')
+  onKeydownHandler(): void {
     if (this.isMenuOpen) {
       this.toggleMenu();
     }

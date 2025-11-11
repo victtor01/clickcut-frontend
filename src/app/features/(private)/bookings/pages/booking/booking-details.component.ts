@@ -9,7 +9,10 @@ import { BookingService } from '@app/core/models/BookingService';
 import { UpdateBookingServiceDTO } from '@app/core/schemas/update-booking-service.dto';
 import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
-import { RescheduleBookingComponent } from '@app/features/(clients)/booking/components/reschedule-booking/reschedule-booking.component';
+import {
+  RescheduleBookingComponent,
+  RescheduleBookingDialogData,
+} from '@app/features/(clients)/booking/components/reschedule-booking/reschedule-booking.component';
 import dayjs, { Dayjs } from 'dayjs'; // Importe o Dayjs
 import { firstValueFrom } from 'rxjs';
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
@@ -179,23 +182,29 @@ export class BookingDetailsComponent implements OnInit {
     });
   }
 
+  public get pendingBooking() {
+    return this.booking?.status === "CREATED" || this.booking?.status === "PENDING" || this.booking?.status === "CONFIRMED"
+  }
+
   public openReschedule(): void {
-    const ids = this.booking?.services?.map((s) => s.service);
+    const ids = this.booking?.services?.map((s) => s.serviceId)?.map((s) => String(s));
+
+    if (!ids?.length || !this.booking?.assignedTo) return;
 
     const data = {
       assignedToId: this.booking?.assignedTo?.id,
-      businessId: this.booking?.business?.id,
       selectedDate: this.booking?.startAt,
-      services: ids,
-    };
+      serviceIds: ids,
+    } satisfies RescheduleBookingDialogData;
 
     const dialog = this.dialog.open(RescheduleBookingComponent, {
       width: 'min(30rem, 100%)',
+      backdropClass: ["bg-violet-50/50", "dark:bg-black/50"],
       data,
     });
 
     dialog.afterClosed().subscribe(async (data: Dayjs) => {
-      if (!this.booking) return;
+      if (!this.booking || !data) return;
 
       try {
         await firstValueFrom(this.bookingService.reschedule(data.utc().toDate(), this.booking.id));

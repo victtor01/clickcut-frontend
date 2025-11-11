@@ -96,7 +96,7 @@
     >
       <div class="md:col-span-2 space-y-10">
         <section class="flex flex-col">
-          <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-3">Sobre Nós</h2>
+          <h2 class="text-lg font-bold text-zinc-900 dark:text-white mb-3 uppercase opacity-90">Sobre Nós</h2>
           <p class="text-zinc-600 dark:text-zinc-400">
             {{
               business.profile?.description || 'O proprietário ainda não adicionou uma descrição.'
@@ -105,12 +105,19 @@
         </section>
 
         <section>
-          <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Nossa Equipe</h2>
+          <h2 class="text-base font-bold text-zinc-900 dark:text-white opacity-90">NOSSA EQUIPE</h2>
           <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
             @for (member of business.members; track member.id) {
               <div
-                class="text-center flex flex-col items-center gap-2 p-2 border border-zinc-200 dark:border-zinc-800 rounded-xl"
+                [attr.data-owner]="member.id === business.ownerId"
+                class="text-center flex flex-col items-center bg-white dark:bg-zinc-900 relative gap-2 p-2 border border-zinc-200 dark:border-zinc-800 rounded-xl data-[owner=true]:ring-[2px] ring-indigo-500"
               >
+                @if(member.id === business.ownerId) {
+                  <div class="absolute flex text-indigo-400 items-end justify-center -top-[3px] w-6 h-[2.5px] bg-white dark:bg-zinc-900">
+                    <ng-icon name="saxCrown1Bold" size="20" class="translate-y-2"></ng-icon>
+                  </div>
+                }
+
                 @if (member?.photoUrl) {
                   <img
                     [src]="member?.photoUrl"

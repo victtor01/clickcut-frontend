@@ -7,13 +7,27 @@ import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingService } from '@app/core/models/BookingService';
 import { AttendeeService } from '@app/core/services/attendee.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { hugeAlertSquare, hugeMoneyReceiveCircle, hugeSent } from '@ng-icons/huge-icons';
 import { firstValueFrom } from 'rxjs';
+import {
+  RescheduleBookingComponent,
+  RescheduleBookingDialogData,
+} from '../booking/components/reschedule-booking/reschedule-booking.component';
+
+const icons = {
+  hugeAlertSquare,
+  hugeMoneyReceiveCircle,
+  hugeSent
+}
 
 @Component({
-  selector: 'app-hub-home', // ✨ Adicionado um seletor
   templateUrl: './hub-home.component.html',
-  standalone: true, // ✨ Convertido para Standalone
+  providers: [
+    provideIcons(icons)
+  ],
   imports: [
+    NgIconComponent,
     CommonModule,
     DatePipe,
     ToFormatBrlPipe,
@@ -37,18 +51,22 @@ export class HubHomeComponent implements OnInit {
   // --- Sinais Computados (Listas Separadas) ---
   public upcomingBookings = computed(() =>
     this.allBookings()
-      .filter((b) => b.status === 'CONFIRMED' || b.status === 'IN_PROGRESS')
-      // Corrigido: ordenando por data de início (ascendente)
+      .filter((b) => (b.status === 'CONFIRMED' || b.status === 'IN_PROGRESS') && new Date(b.startAt) > new Date())
       .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()),
   );
+
+   public lateBookings = computed(() =>
+    this.allBookings()
+      .filter((b) => (b.status === 'CONFIRMED' || b.status === 'IN_PROGRESS') && new Date(b.startAt)  < new Date())
+      .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()),
+  );
+
 
   public pendingPaymentBookings = computed(() =>
     this.allBookings()
       .filter((b) => b.status === 'COMPLETED')
       .sort((a, b) => new Date(b.startAt).getTime() - new Date(a.startAt).getTime()),
   );
-
-  // O 'pastBookings' (Histórico) foi removido como solicitado.
 
   // Objeto de estilos de status (com os novos status preenchidos)
   public readonly statusStyles: {
@@ -133,7 +151,6 @@ export class HubHomeComponent implements OnInit {
     this.closeSettings(); // Fecha o menu ao navegar
   }
 
-  // ✨ Métodos do menu "três pontos" restaurados
   public toggleOpenedSettings(bookingId: string): void {
     if (this.openedSettings() === bookingId) {
       this.openedSettings.set(null);
@@ -148,7 +165,6 @@ export class HubHomeComponent implements OnInit {
 
   public getTotalPrice(services: BookingService[] | undefined): number {
     if (!services) return 0;
-    // Corrigido para usar finalPrice, se existir, senão price
     return services.reduce((total, service) => total + (service.finalPrice || service.price), 0);
   }
 
@@ -159,14 +175,23 @@ export class HubHomeComponent implements OnInit {
   }
 
   public openReschedule(booking: Booking): void {
-    this.closeSettings();
-    // this.dialog.open(RescheduleBookingComponent, {
-    //   data: {
-    //     services: booking?.services.map(bs => bs.service),
-    //     assignedToId: booking.assignedTo?.id,
-    //     businessId: booking?.business.id
-    //   }
-    // });
+    if (!booking?.services?.length || !booking.assignedTo?.id || !booking.assignedTo.id) {
+      return;
+    }
+
+    const data = {
+      serviceIds: booking?.services.map((bs) => bs.serviceId).map((s) => String(s)),
+      assignedToId: booking.assignedTo?.id,
+      businessId: booking.business?.id,
+      selectedDate: booking.startAt,
+    } satisfies RescheduleBookingDialogData;
+
+    const reschedule = this.dialog.open(RescheduleBookingComponent, {
+      data,
+    });
+
+    reschedule.afterClosed().subscribe((data) => {});
+    // this.closeSettings();
   }
 
   public cancelBooking(booking: Booking): void {

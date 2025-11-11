@@ -177,7 +177,7 @@
         type="button"
         [attr.data-open]="isOpenCreateBooking()"
         (click)="toggleOpenCreateBooking()"
-        class="relative flex w-full z-10 data-[open=true]:ring-2 data-[open=true]:shadow-xl data-[open=true]:shadow-violet-500/40 overflow-hidden items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-semibold shadow-lg shadow-violet-600/30 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 ring-violet-500 ring-offset-2 dark:ring-offset-zinc-900"
+        class="relative flex w-full z-10 data-[open=true]:ring-2 ring-offset-0 data-[open=true]:shadow-xl data-[open=true]:shadow-violet-500/40 overflow-hidden items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-semibold shadow-lg shadow-violet-600/30 transition-all duration-200 ease-in-out focus:outline-none dark:focus:ring-2 dark:ring-violet-500 dark:ring-offset-2 dark:ring-offset-zinc-900"
         [ngClass]="{
           'bg-violet-500 text-white shadow-inner-lg shadow-black': isOpenCreateBooking(),
           'bg-violet-600 text-white hover:bg-violet-500 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-600/40':

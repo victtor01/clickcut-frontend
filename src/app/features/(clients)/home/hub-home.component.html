@@ -29,7 +29,149 @@
       </div>
     } @else {
       <section>
-        <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100 mb-4">Próximos</h3>
+        <header class="flex items-center gap-3 my-2 text-stone-500 dark:text-red-100">
+          <ng-icon name="hugeAlertSquare" size="20"></ng-icon>
+          <h3 class="text-lg font-semibold saira-font text-stone-500 dark:text-red-100 uppercase">
+            Atrasados
+          </h3>
+        </header>
+        @if (lateBookings().length > 0) {
+          <div class="flex flex-col gap-4">
+            @for (booking of lateBookings(); track booking.id) {
+              <div
+                class="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 relative transition-colors hover:border-zinc-300 dark:hover:border-zinc-700"
+              >
+                <div class="flex items-center justify-between gap-4 p-4">
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="flex w-16 flex-shrink-0 flex-col items-center justify-center rounded-lg bg-rose-50 p-3 dark:bg-rose-900/30"
+                    >
+                      <span class="text-xs font-bold uppercase text-rose-600 dark:text-rose-400">{{
+                        booking.startAt | date: 'MMM'
+                      }}</span>
+                      <span class="text-3xl font-bold text-zinc-900 dark:text-zinc-100">{{
+                        booking.startAt | date: 'dd'
+                      }}</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-zinc-800 dark:text-zinc-100">
+                        {{ booking.title }}
+                      </p>
+                      <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                        {{ booking.startAt | date: 'HH:mm' }} -
+                        {{ booking.endAt | date: 'HH:mm' }} ({{ booking.startAt | date: 'EEE' }})
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-end gap-2">
+                    <div
+                      class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium text-red-500 bg-rose-600/10 dark:bg-rose-900/30"
+                    >
+                      <i class="material-icons-outlined text-sm">{{
+                        statusStyles[booking.status].icon
+                      }}</i>
+                      <span>{{ statusStyles[booking.status].text }}</span>
+                    </div>
+                    <button
+                      (click)="toggleOpenedSettings(booking.id)"
+                      class="grid h-8 w-8 place-items-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                    >
+                      <i class="material-icons-outlined">more_vert</i>
+                    </button>
+                  </div>
+                </div>
+
+                @if (openedSettings() === booking.id) {
+                  <div
+                    (click)="closeSettings()"
+                    class="fixed inset-0 z-40 flex h-full w-full items-center justify-center bg-black/30 p-4 dark:bg-black/50"
+                  >
+                    <div
+                      (click)="$event.stopPropagation()"
+                      class="flex w-full max-w-xs flex-col rounded-xl bg-white shadow-xl border-none dark:border dark:border-zinc-700 dark:bg-zinc-800 z-50"
+                    >
+                      <header class="flex items-center justify-between p-2 pl-4">
+                        <h3 class="text-sm font-semibold text-zinc-600 dark:text-zinc-300">
+                          Opções
+                        </h3>
+                        <button
+                          type="button"
+                          (click)="closeSettings()"
+                          class="grid h-8 w-8 place-items-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
+                        >
+                          <i class="material-icons-outlined !text-xl">close</i>
+                        </button>
+                      </header>
+                      <div class="border-t border-zinc-100 p-2 dark:border-zinc-700">
+                        <ul class="text-zinc-700 dark:text-zinc-200">
+                          <li>
+                            <button
+                              (click)="seeDetails(booking.id)"
+                              class="flex w-full items-center gap-3 rounded-md p-2 text-left text-sm transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                            >
+                              <i
+                                class="material-icons-outlined !text-base text-zinc-500 dark:text-zinc-400"
+                                >visibility</i
+                              >
+                              <span>Ver detalhes</span>
+                            </button>
+                          </li>
+
+                          <li>
+                            <button
+                              (click)="openReschedule(booking)"
+                              class="flex w-full items-center gap-3 rounded-md p-2 text-left text-sm transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                            >
+                              <i
+                                class="material-icons-outlined !text-base text-zinc-500 dark:text-zinc-400"
+                                >edit_calendar</i
+                              >
+                              <span>Reagendar</span>
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              (click)="cancelBooking(booking)"
+                              class="flex w-full items-center gap-3 rounded-md p-2 text-left text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-500/10 dark:text-red-500"
+                            >
+                              <i class="material-icons-outlined !text-base">event_busy</i>
+                              <span>Cancelar agendamento</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div
+            class="text-center p-12 rounded-xl border border-dashed border-zinc-300 dark:border-zinc-800"
+          >
+            <i class="material-symbols-outlined text-5xl text-zinc-400 dark:text-zinc-700"
+              >calendar_month</i
+            >
+            <h4 class="mt-4 font-semibold text-zinc-800 dark:text-zinc-100">
+              Nenhum agendamento futuro
+            </h4>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+              Que tal marcar seu próximo horário?
+            </p>
+          </div>
+        }
+      </section>
+
+      <section>
+        <header class="flex items-center gap-3 my-2 text-stone-500 dark:text-fuchsia-100">
+          <ng-icon name="hugeSent" size="20"></ng-icon>
+          <h3
+            class="text-lg font-semibold saira-font text-stone-500 dark:text-fuchsia-100 uppercase"
+          >
+            Próximos
+          </h3>
+        </header>
         @if (upcomingBookings().length > 0) {
           <div class="flex flex-col gap-4">
             @for (booking of upcomingBookings(); track booking.id) {
@@ -81,11 +223,11 @@
                 @if (openedSettings() === booking.id) {
                   <div
                     (click)="closeSettings()"
-                    class="fixed inset-0 z-40 flex h-full w-full items-center justify-center bg-black/30 p-4 backdrop-blur-sm dark:bg-black/50"
+                    class="fixed inset-0 z-40 flex h-full w-full items-center justify-center bg-black/30 p-4 dark:bg-black/50"
                   >
                     <div
                       (click)="$event.stopPropagation()"
-                      class="flex w-full max-w-xs flex-col rounded-xl bg-white shadow-xl dark:border dark:border-zinc-700 dark:bg-zinc-800 z-50"
+                      class="flex w-full max-w-xs flex-col rounded-xl bg-white shadow-xl border-none dark:border dark:border-zinc-700 dark:bg-zinc-800 z-50"
                     >
                       <header class="flex items-center justify-between p-2 pl-4">
                         <h3 class="text-sm font-semibold text-zinc-600 dark:text-zinc-300">
@@ -113,6 +255,7 @@
                               <span>Ver detalhes</span>
                             </button>
                           </li>
+
                           <li>
                             <button
                               (click)="openReschedule(booking)"
@@ -160,9 +303,12 @@
       </section>
 
       <section>
-        <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100 mb-4">
-          Aguardando Pagamento
-        </h3>
+        <header class="flex items-center gap-3 my-2 text-stone-500 dark:text-blue-100">
+          <ng-icon name="hugeMoneyReceiveCircle" size="20"></ng-icon>
+          <h3 class="text-lg font-semibold saira-font text-stone-500 dark:text-blue-100 uppercase">
+            Aguardando pagamento
+          </h3>
+        </header>
         @if (pendingPaymentBookings().length > 0) {
           <div class="grid cursor-default grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             @for (booking of pendingPaymentBookings(); track booking.id) {

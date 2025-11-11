@@ -69,16 +69,20 @@
 <div
   class="relative my-5 w-full mx-auto bg-white/5 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 backdrop-blur-xl rounded-2xl p-6 sm:p-8 text-center"
 >
-  <button
-    type="button"
-    (click)="close()"
-    class="absolute top-4 right-4 p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-white/10 dark:hover:bg-zinc-800/60 transition-colors z-10"
-    aria-label="Fechar modal"
-  >
-    <i class="material-icons-outlined">close</i>
-  </button>
+  <header class="flex items-center justify-between">
+    <h2 class="text-gray-500 dark:text-violet-50 saira-font font-semibold text-xl">Novo pagamento</h2>
+    
+    <button
+      type="button"
+      (click)="close()"
+      class="top-4 right-4 w-10 h-10 bg-white dark:bg-zinc-800 p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-white/10 dark:hover:bg-zinc-800/60 transition-colors z-10"
+      aria-label="Fechar modal"
+    >
+      <i class="material-icons-outlined">close</i>
+    </button>
+  </header>
 
-  <div *ngIf="status === 'COMPLETED'">
+  <div *ngIf="status === 'COMPLETED'" class="">
     <div class="w-full mb-6">
       <div class="flex border-b border-white/10 dark:border-zinc-800">
         <button

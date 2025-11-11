@@ -43,6 +43,39 @@ export class BookingsService {
     return this.apiService.get('/members/available-days', params);
   }
 
+  public avaibleDaysByWithCustom(
+    year: number,
+    month: number,
+    serviceIds: string[],
+    businessId: string,
+    assignedToId: string,
+  ): Observable<string[]> {
+    const date = dayjs(new Date(year, month - 1, 1));
+    const startAt = date.startOf('month');
+    const endAt = date.endOf('month');
+
+    const startAtIso = startAt.utc().toISOString();
+    const endAtIso = endAt.utc().toISOString();
+
+    let params = new HttpParams().set('startAt', startAtIso).set('endAt', endAtIso);
+
+    serviceIds.forEach((id) => {
+      params = params.append('serviceIds', id);
+    });
+
+    if (assignedToId) {
+      params = params.append('assignedToId', assignedToId);
+    }
+
+    if (businessId) {
+      params = params.append('businessId', businessId);
+    }
+
+    console.log(params)
+
+    return this.apiService.get('/attendee/bookings/available-days', params);
+  }
+
   public reschedule(date: Date, booking: string) {
     return this.apiService.patch('/bookings/reschedule', {
       startAt: date,

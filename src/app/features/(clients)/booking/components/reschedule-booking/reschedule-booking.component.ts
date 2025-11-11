@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common'; // Importe
 import { Component, computed, effect, inject, Input, signal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon'; // Importe
-import { Service } from '@app/core/models/Service';
 import { BookingsService } from '@app/core/services/booking.service';
 import { AllTimesComponent } from '@app/features/(private)/bookings/components/all-times/all-times.component';
 import { CalendarPickerComponent } from '@app/shared/components/calendar-picker/calendar-picker.component';
@@ -14,6 +13,13 @@ dayjs.locale('pt-br');
 
 type Step = 'calendar' | 'slots';
 
+export type RescheduleBookingDialogData = {
+  serviceIds: string[];
+  selectedDate: string | Date;
+  assignedToId?: string;
+  businessId?: string;
+};
+
 @Component({
   selector: 'app-reschedule-booking', // Adicionei um seletor
   templateUrl: './reschedule-booking.component.html',
@@ -22,16 +28,12 @@ type Step = 'calendar' | 'slots';
 })
 export class RescheduleBookingComponent {
   // --- Inputs ---
-  @Input() public readonly services: Service[] = [];
-  @Input() public readonly assignedToId!: string;
-  @Input() public readonly businessId!: string;
+  @Input() public readonly serviceIds?: string[] = [];
+  @Input() public readonly assignedToId?: string;
+  @Input() public readonly businessId?: string;
 
   private dialogRef = inject(MatDialogRef<RescheduleBookingComponent>, { optional: true });
-  private dialogData = inject<any>(MAT_DIALOG_DATA, { optional: true });
-
-  public get serviceIds() {
-    return this.services.map((s) => s.id);
-  }
+  private dialogData = inject<RescheduleBookingDialogData>(MAT_DIALOG_DATA, { optional: true });
 
   // --- Serviços ---
   private readonly bookingsService = inject(BookingsService);
@@ -59,7 +61,7 @@ export class RescheduleBookingComponent {
 
   constructor() {
     if (this.dialogData) {
-      this.services = this.dialogData.services || [];
+      this.serviceIds = this.dialogData.serviceIds || [];
       this.assignedToId = this.dialogData.assignedToId;
       this.businessId = this.dialogData.businessId;
     }
@@ -75,17 +77,31 @@ export class RescheduleBookingComponent {
   }
 
   private async fetchAvaibleDays(year: number, month: number): Promise<void> {
-    if (this.services.length === 0) {
+    if (this.serviceIds?.length === 0) {
       this.availableDays.set(new Set());
       return;
     }
 
-    try {
-      const serviceIds: string[] = this.services.map((s) => s.id);
+    let avaibleDays: string[] = [];
 
-      const avaibleDays = await firstValueFrom(
-        this.bookingsService.avaibleDays(year, month + 1, serviceIds),
-      );
+    try {
+      const newMonth = month + 1;
+
+      if (this.assignedToId && this.businessId) {
+        avaibleDays = await firstValueFrom(
+          this.bookingsService.avaibleDaysByWithCustom(
+            year,
+            newMonth,
+            this.serviceIds!,
+            this.businessId,
+            this.assignedToId,
+          ),
+        );
+      } else {
+        avaibleDays = await firstValueFrom(
+          this.bookingsService.avaibleDays(year, newMonth, this.serviceIds!),
+        );
+      }
 
       this.availableDays.set(new Set(avaibleDays.map((d) => dayjs(d).format('YYYY-MM-DD'))));
     } catch (error) {
