@@ -31,6 +31,11 @@ export class AuthInterceptor implements HttpInterceptor {
           this.router.navigate(['/login']);
         }
 
+         if (error.status === 402) {
+          console.error('Plano inválido');
+          this.router.navigate(['/plan']);
+        }
+
         return throwError(() => error);
       }),
     );

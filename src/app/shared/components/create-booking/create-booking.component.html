@@ -1,4 +1,4 @@
-<header class="flex p-4 justify-between items-center border-b border-zinc-200 dark:border-zinc-800">
+<header class="flex p-4 justify-between items-center">
   @if (currentStep() === 'calendar' || currentStep() === 'slots') {
     <button
       (click)="goToServiceStep()"
@@ -11,40 +11,30 @@
   }
 
   @if (currentStep() === 'services') {
-    <h1 class="text-md text-gray-700 dark:text-violet-100">Serviços</h1>
+    <h1 class="text-md text-gray-700 dark:text-violet-100">Selecione o serviço</h1>
   } @else if (currentStep() === 'calendar') {
     <h1 class="text-md text-gray-700 dark:text-violet-100">Dias disponíveis</h1>
   } @else {
     <h1 class="text-md text-gray-700 dark:text-violet-100">Horários disponíveis</h1>
   }
-
-  <!-- ✨ Botão 'close()' não estava no seu código original, mas é importante -->
-  <button
-    (click)="close()"
-    class="grid place-items-center w-10 h-10 rounded-full text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-  >
-    <i class="material-symbols-outlined">close</i>
-  </button>
 </header>
 
-<section class="flex-1 overflow-y-auto p-4">
+<section class="flex-1 overflow-y-auto px-4">
   @if (currentStep() === 'services') {
     <ul class="space-y-3">
       @for (service of services(); track service.id) {
         <li
           (click)="selectBookings(service)"
-          class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 dark:border-zinc-800"
-          [class.border-indigo-500]="isServiceSelected(service)"
-          [class.dark:border-indigo-500]="isServiceSelected(service)"
-          [class.border-zinc-200]="!isServiceSelected(service)"
+          [attr.data-selected]="isServiceSelected(service)"
+          class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 dark:border-zinc-800 border-stone-300 data-[selected=true]:border-indigo-100 dark:data-[selected=true]:border-violet-500 dark:data-[selected=true]:bg-indigo-900/20 data-[selected=true]:bg-indigo-50/50"
         >
           <div
-            class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border bg-white dark:bg-zinc-900 transition-all border-zinc-300 dark:border-zinc-700"
-            [class.bg-indigo-600]="isServiceSelected(service)"
-            [class.border-indigo-600]="isServiceSelected(service)"
+            [attr.data-selected]="isServiceSelected(service)"
+            class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border bg-white dark:bg-zinc-900 transition-all border-zinc-300 dark:border-zinc-700
+            data-[selected=true]:bg-indigo-50 data-[selected=true]:border-indigo-400/50 dark:data-[selected=true]:border-indigo-900/50 dark:data-[selected=true]:bg-indigo-400/50"
           >
             @if (isServiceSelected(service)) {
-              <i class="material-symbols-outlined !text-sm text-white">check</i>
+              <i class="material-symbols-outlined !text-sm text-gray-800 dark:text-white">check</i>
             }
           </div>
           <div class="flex-1 min-w-0">
@@ -90,7 +80,7 @@
   }
 </section>
 
-<footer class="p-4 border-t border-zinc-200 dark:border-zinc-800">
+<footer class="p-4">
   <button
     (click)="goStep()"
     [disabled]="!canContinue() || isLoadingNextStep()"

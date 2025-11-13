@@ -145,6 +145,7 @@ export class CreateBookingComponent implements OnInit {
       },
 
       error: (err) => {
+        this.toastService.error(err?.error?.message || "Houve um erro interno!", 5000)
         console.log(err);
       },
     });

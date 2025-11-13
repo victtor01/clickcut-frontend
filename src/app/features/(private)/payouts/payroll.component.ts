@@ -108,7 +108,7 @@ export class PayrollComponent implements OnInit {
       let message;
 
       if (err instanceof HttpErrorResponse) {
-        message = err?.error?.data?.message || 'Houve um erro ao tentar gerar uma comissão';
+        message = err?.error?.message || 'Houve um erro ao tentar gerar uma comissão';
       }
 
       this.toastService.error(message);

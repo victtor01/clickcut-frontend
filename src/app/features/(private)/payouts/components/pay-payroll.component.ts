@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe } from '@angular/common'; // Importe os Pipes
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common'; // Importe os Pipes
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,6 +20,7 @@ interface DialogData {
   templateUrl: './pay-payroll.component.html',
   imports: [
     CurrencyPipe,
+    CommonModule,
     SvgFinishComponent,
     RouterModule,
     DatePipe,
@@ -58,7 +59,11 @@ export class PayPayrollModalComponent {
     } catch (err) {
       console.log(err);
       if (err instanceof HttpErrorResponse) {
-        this.toastService.error(err.error.data?.message);
+        this.toastService.error(err.error?.message);
+
+        if(err.status === 402) {
+          this.dialogRef.close();
+        }
       } else {
         this.toastService.error('Houve um erro desconhecido!');
       }

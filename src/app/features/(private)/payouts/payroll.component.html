@@ -120,7 +120,9 @@
               (click)="toggleDropdown()"
               class="relative w-full cursor-pointer rounded-lg border border-zinc-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
             >
-              <span class="block truncate text-gray-500 dark:text-indigo-50">{{ selectedMember?.user?.username }}</span>
+              <span class="block truncate text-gray-500 dark:text-indigo-50">{{
+                selectedMember?.user?.username
+              }}</span>
 
               <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <svg
@@ -212,10 +214,29 @@
           </div>
         </div>
 
+        <div class="flex flex-col gap-2 mt-5">
+          <span class="text-base font-semibold text-slate-500 dark:text-violet-50"
+            >Deseja adicionar pagamentos passados pendentes?</span
+          >
+          <button
+            type="button"
+            role="switch"
+            [attr.aria-checked]="true"
+            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
+            [ngClass]="true ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-zinc-700'"
+          >
+            <span
+              aria-hidden="true"
+              class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+              [ngClass]="true ? 'translate-x-5' : 'translate-x-0'"
+            ></span>
+          </button>
+        </div>
+
         <button
           type="button"
           (click)="generate()"
-          class="mt-6 w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:bg-indigo-400"
+          class="mt-6 w-full rounded-full bg-indigo-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:bg-indigo-400"
           [disabled]="!periodStart || !periodEnd"
         >
           Gerar

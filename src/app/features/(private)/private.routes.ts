@@ -20,6 +20,7 @@ import { SecurityComponent } from './configure/pages/security/security.component
 import { HomePageComponent } from './home/pages/home-page.component';
 import { PayoutReviewComponent } from './payouts/pages/review/payout-reviews.component';
 import { PayrollComponent } from './payouts/payroll.component';
+import { PlanComponent } from './plan/plan.component';
 import { CreateBusinessComponent } from './select/pages/create/create-business.component';
 import { SelectBusinessComponent } from './select/pages/select-business.component';
 import { EditServiceComponent } from './services/pages/edit-service/edit-service.component';
@@ -31,6 +32,7 @@ export const PRIVATE_ROUTES: Routes = [
     component: PrivateLayoutComponent,
     children: [
       { path: 'select', pathMatch: 'full', component: SelectBusinessComponent },
+      { path: 'plan', component: PlanComponent },
       { path: 'create-business', component: CreateBusinessComponent },
       { path: 'invites/accept', component: AcceptInviteComponent },
       {

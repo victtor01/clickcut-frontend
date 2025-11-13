@@ -154,5 +154,4 @@ public onDateSelected(date: Dayjs): void {
     // this.dialogRef.close();
   }
 
-  // ✨ REMOVIDO: Os métodos duplicados 'changeMonth' e 'selectDate' foram removidos.
 }

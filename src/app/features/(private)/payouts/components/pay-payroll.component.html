@@ -1,5 +1,5 @@
 <section
-  class="flex flex-col sm:rounded-xl border border-zinc-100 bg-stone-50 dark:border-zinc-800 dark:bg-zinc-900 w-full max-w-lg"
+  class="flex flex-col sm:rounded-xl border border-zinc-100 bg-white dark:border-zinc-800 dark:bg-zinc-900 w-full max-w-lg"
 >
   <header
     class="flex items-center px-4 p-4 justify-between border-b border-zinc-200 dark:border-zinc-700"
@@ -81,10 +81,15 @@
     <footer
       mat-dialog-actions
       align="end"
-      class="p-4 bg-zinc-100 dark:bg-zinc-900/50 border-t border-zinc-200 dark:border-zinc-700 sm:rounded-b-xl"
+      class="p-4 border-t border-zinc-200 dark:border-zinc-700 sm:rounded-b-xl"
     >
       <button mat-stroked-button (click)="closeModal()">Cancelar</button>
-      <button mat-flat-button color="primary" (click)="registerPayment()" [disabled]="isSubmitting">
+      <button
+        mat-flat-button
+        class="!bg-indigo-500 !text-indigo-50"
+        (click)="registerPayment()"
+        [disabled]="isSubmitting"
+      >
         @if (isSubmitting) {
           <span>Registrando...</span>
         } @else {

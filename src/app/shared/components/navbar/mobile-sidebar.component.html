@@ -7,9 +7,9 @@
         <button
           (click)="toggleCreate()"
           [attr.data-active]="isOpenCreateBooking()"
-          class="text-gray-600 w-16 h-10 bg-gray-200 dark:bg-zinc-900/80 rounded-full grid place-items-center pointer-events-auto dark:text-gray-200 data-[active=true]:text-white-500"
+          class="text-gray-600 w-16 h-10 bg-gray-200 data-[active=true]:bg-rose-600 dark:bg-zinc-900/80 rounded-full grid place-items-center pointer-events-auto dark:text-gray-200 data-[active=true]:text-white-500"
         >
-          <i class="material-icons-outlined">add</i>
+            <i [attr.data-open]="isOpenCreateBooking()" class="material-icons-outlined data-[open=true]:rotate-45 transition-transform">add</i>
         </button>
       }
 
