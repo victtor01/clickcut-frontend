@@ -126,7 +126,7 @@ export class CreateBookingComponent implements OnInit {
     }
 
     const [hours, minutes] = this._selectedTime.split(':').map(Number);
-    const bookingDayjsObject = this._currentDate
+    const bookingDayjsObject = this._currentDate  
       .hour(hours)
       .minute(minutes)
       .second(0)

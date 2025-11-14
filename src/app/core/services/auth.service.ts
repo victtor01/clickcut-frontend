@@ -40,6 +40,7 @@ export class AuthService {
     return this.apiService.get<User>('/users/summary').pipe(
       map((user) => {
         const session: ManagerSession = { type: 'manager', user: user };
+        console.log(user)
         this.currentUserSubject.next(session);
         this.currentBusinessSubject.next(null);
         return true;
