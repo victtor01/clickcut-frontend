@@ -12,6 +12,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { Business } from '@app/core/models/Business';
+import { IsValidPlan as isValidPlan, SubscriptionPlan } from '@app/core/models/Subscription';
 import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
@@ -19,25 +20,41 @@ import { ToastService } from '@app/core/services/toast.service';
 import { PinEntryComponent } from '@app/features/(private)/select/components/pin-entry/pin-entry.component';
 import { NgIcon, NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxAddSquareBulk } from '@ng-icons/iconsax/bulk';
+import { solarCrownBold } from '@ng-icons/solar-icons/bold';
 import { firstValueFrom } from 'rxjs';
 import { BookingSearchModalComponent } from '../booking-search/booking-search.component';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
 import { CreateBookingNavbar } from '../create-booking/create-booking.component';
 import { LogoComponent } from '../logo/logo.component';
+
 interface Tab {
   id: string;
   icon: string;
   label: string;
   route: string;
+  plan?: SubscriptionPlan | null;
 }
+
+const icons = {
+  solarCrownBold,
+};
 
 @Component({
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgIconComponent, LogoComponent, PinEntryComponent, CreateBookingNavbar, NgIcon],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NgIconComponent,
+    LogoComponent,
+    PinEntryComponent,
+    CreateBookingNavbar,
+    NgIcon,
+  ],
   providers: [
     provideIcons({
+      ...icons,
       saxAddSquareBulk,
     }),
   ],
@@ -45,10 +62,11 @@ interface Tab {
 export class SidebarComponent implements AfterViewInit {
   public tabs: Tab[] = [
     { id: 'home', icon: 'home', label: 'Início', route: '/home' },
+    { id: 'bookings', icon: 'event', label: 'Agendas', route: '/bookings' },
     { id: 'services', icon: 'shopping_bag', label: 'Serviços', route: '/services' },
     { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/clients' },
-    { id: 'payroll', icon: 'sell', label: 'Comissões', route: '/payroll' },
-    { id: 'bookings', icon: 'event', label: 'Agenda', route: '/bookings' },
+    { id: 'mp', icon: 'graph_1', label: 'Integrações', route: '/integrations', plan: 'equipe' },
+    { id: 'payroll', icon: 'sell', label: 'Comissões', route: '/payroll', plan: 'equipe' },
   ];
 
   public isBusinessOpen = signal(true);
@@ -99,6 +117,18 @@ export class SidebarComponent implements AfterViewInit {
   @HostListener('window:resize')
   onResize(): void {
     this.updateIndicatorPosition();
+  }
+
+  public get plan() {
+    return this.session?.subscription;
+  }
+
+  public validPlan(plan: SubscriptionPlan): boolean {
+    if (this?.plan) {
+      return isValidPlan(this?.plan.planId, plan);
+    }
+
+    return false;
   }
 
   public async getAllBusiness(): Promise<void> {

@@ -18,6 +18,7 @@ import { MembersComponent } from './configure/pages/members/members.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { SecurityComponent } from './configure/pages/security/security.component';
 import { HomePageComponent } from './home/pages/home-page.component';
+import { IntegrateComponent } from './integrate/integrate.component';
 import { PayoutReviewComponent } from './payouts/pages/review/payout-reviews.component';
 import { PayrollComponent } from './payouts/payroll.component';
 import { PlanComponent } from './plan/plan.component';
@@ -59,6 +60,10 @@ export const PRIVATE_ROUTES: Routes = [
                   { path: '', pathMatch: 'full', component: ServicesComponent },
                   { path: 'edit/:serviceId', component: EditServiceComponent },
                 ],
+              },
+              {
+                path: 'integrations',
+                component: IntegrateComponent,
               },
               {
                 path: 'bookings',

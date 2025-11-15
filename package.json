@@ -27,6 +27,7 @@
     "@ng-icons/core": "^32.2.0",
     "@ng-icons/huge-icons": "^32.4.0",
     "@ng-icons/iconsax": "^32.2.0",
+    "@ng-icons/solar-icons": "^32.4.0",
     "angularx-qrcode": "^20.0.0",
     "chart.js": "^4.5.0",
     "dayjs": "^1.11.13",
