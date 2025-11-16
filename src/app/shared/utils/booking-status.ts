@@ -3,7 +3,7 @@ import { BookingStatus } from '@app/core/models/Booking';
 export const bookingStatusMap: Record<BookingStatus, { label: string; classes: string }> = {
   CREATED: {
     label: 'Criado',
-    classes: 'bg-gray-50 text-gray-600 ring-gray-500/10 dark:bg-gray-400/10 dark:text-gray-400 dark:ring-gray-400/20',
+    classes: 'bg-stone-50 text-gray-600 ring-gray-500/10 dark:bg-gray-400/10 dark:text-gray-400 dark:ring-gray-400/20',
   },
   PENDING: {
     label: 'Pendente',
@@ -31,7 +31,7 @@ export const bookingStatusMap: Record<BookingStatus, { label: string; classes: s
   },
   NO_SHOW: {
     label: 'Não Compareceu',
-    classes: 'bg-gray-50 text-gray-700 ring-gray-600/10 dark:bg-gray-400/10 dark:text-gray-300 dark:ring-gray-400/20',
+    classes: 'bg-stone-50 text-gray-700 ring-gray-600/10 dark:bg-gray-400/10 dark:text-gray-300 dark:ring-gray-400/20',
   },
   CANCELLED_BY_CLIENT: {
     label: '',

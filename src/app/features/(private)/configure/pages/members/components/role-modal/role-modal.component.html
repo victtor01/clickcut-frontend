@@ -1,8 +1,8 @@
 <section
-  class="flex flex-col sm:my-8 sm:rounded-xl border border-zinc-100 bg-white dark:border-zinc-800 dark:bg-zinc-900"
+  class="flex flex-col sm:my-8 sm:rounded-xl border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900"
 >
   <header
-    class="flex items-start justify-between border-b border-zinc-200/80 p-6 dark:border-zinc-800"
+    class="flex items-start justify-between border-b border-gray-200/80 p-6 dark:border-gray-800"
   >
     <div class="flex items-center gap-4">
       <div
@@ -13,21 +13,21 @@
         >
       </div>
       <div>
-        <h2 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
           @if (isEditMode()) {
             Editar Cargo
           } @else {
             Criar Novo Cargo
           }
         </h2>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
           Defina um nome e as permissões associadas a este cargo.
         </p>
       </div>
     </div>
     <button
       (click)="closeDialog()"
-      class="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 grid place-items-center w-12 h-12 dark:hover:bg-zinc-700"
+      class="rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-100 dark:text-gray-400 grid place-items-center w-12 h-12 dark:hover:bg-gray-700"
     >
       <i class="material-symbols-outlined">close</i>
     </button>
@@ -43,12 +43,12 @@
     } @else {
       <form [formGroup]="form" (ngSubmit)="onFormSubmit()" id="roleForm" class="space-y-8">
         <div>
-          <label for="roleName" class="block text-sm font-medium text-gray-700 dark:text-zinc-300">
+          <label for="roleName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Nome do Cargo
           </label>
           <div class="relative mt-2">
             <i
-              class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+              class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
               >badge</i
             >
             <input
@@ -56,7 +56,7 @@
               type="text"
               formControlName="name"
               placeholder="Ex: Gerente ou Barbeiro"
-              class="w-full rounded-lg border border-zinc-300 bg-transparent py-2.5 pl-10 pr-4 text-zinc-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:text-zinc-100"
+              class="w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-10 pr-4 text-gray-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-gray-100"
               [class.border-red-500]="
                 form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)
               "
@@ -72,7 +72,7 @@
         </div>
 
         <div>
-          <h3 class="text-base font-medium text-gray-700 dark:text-zinc-300">Permissões</h3>
+          <h3 class="text-base font-medium text-gray-700 dark:text-gray-300">Permissões</h3>
           <ul formArrayName="permissions">
             @for (
               group of permissionGroups();
@@ -80,12 +80,12 @@
               let groupIndex = $index
             ) {
               <div class="mb-3">
-                <strong class="block text-md font-medium text-gray-900 dark:text-zinc-100 mb-2">
+                <strong class="block text-md font-medium text-gray-900 dark:text-gray-100 mb-2">
                   {{ group.groupName }}
                 </strong>
 
                 <ul
-                  class="divide-y bg-white dark:bg-zinc-800/50 divide-zinc-200/80 rounded-lg border border-zinc-200/80 dark:divide-zinc-800 dark:border-zinc-800"
+                  class="divide-y bg-white dark:bg-gray-800/50 divide-gray-200/80 rounded-lg border border-gray-200/80 dark:divide-gray-800 dark:border-gray-800"
                 >
                   @for (
                     permission of group.permissions;
@@ -94,10 +94,10 @@
                   ) {
                     <li class="flex items-center justify-between p-4">
                       <label [for]="permission.key" class="cursor-pointer pr-4">
-                        <span class="font-medium text-sm text-zinc-800 dark:text-zinc-200">{{
+                        <span class="font-medium text-sm text-gray-800 dark:text-gray-200">{{
                           permission.name
                         }}</span>
-                        <p class="text-xs text-zinc-500 dark:text-zinc-400">
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
                           {{ permission.description }}
                         </p>
                       </label>
@@ -114,7 +114,7 @@
                           class="peer sr-only"
                         />
                         <div
-                          class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:bg-zinc-700 dark:peer-focus:ring-indigo-800"
+                          class="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:bg-gray-700 dark:peer-focus:ring-indigo-800"
                         ></div>
                       </label>
                     </li>
@@ -129,12 +129,12 @@
   </main>
 
   <footer
-    class="flex justify-end gap-3 border-t border-zinc-200/80 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/50"
+    class="flex justify-end gap-3 border-t border-gray-200/80 bg-stone-50 p-4 dark:border-gray-800 dark:bg-gray-900/50"
   >
     <button
       (click)="closeDialog()"
       type="button"
-      class="rounded-lg bg-transparent px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      class="rounded-lg bg-transparent px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-stone-100 dark:text-gray-200 dark:hover:bg-gray-800"
     >
       Cancelar
     </button>

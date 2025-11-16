@@ -5,7 +5,7 @@
 
   <div
     *ngIf="aroundBookings?.pastBookings?.length; else notAround"
-    class="relative flex flex-col gap-6 timeline dark:after:bg-zinc-800 dark:before:bg-zinc-800 after:bg-gray-200 before:bg-gray-200"
+    class="relative flex flex-col gap-6 timeline dark:after:bg-stone-800 dark:before:bg-stone-800 after:bg-stone-200 before:bg-stone-200"
   >
     @for (booking of aroundBookings?.pastBookings; track $index) {
       <a
@@ -13,7 +13,7 @@
         class="flex mt-3 gap-6 items-center group opacity-90 hover:opacity-100 active:opacity-100"
       >
         <div
-          class="z-10 flex-shrink-0 w-14 h-14 bg-gray-100 dark:bg-zinc-700 rounded-full flex items-center justify-center"
+          class="z-10 flex-shrink-0 w-14 h-14 bg-stone-100 dark:bg-gray-700 rounded-full flex items-center justify-center"
         >
           <i class="material-symbols-outlined !text-2xl">pace</i>
         </div>
@@ -42,7 +42,7 @@
 
   <ng-template #notAround>
     <div
-      class="p-4 bg-white/60 dark:bg-zinc-900/60 border border-zinc-100 dark:border-zinc-800 rounded-xl flex items-center gap-4"
+      class="p-4 bg-white/60 dark:bg-gray-900/60 border border-gray-100 dark:border-gray-800 rounded-xl flex items-center gap-4"
     >
       <i class="material-symbols-outlined !text-xl text-gray-500">info</i>
       <p class="text-gray-500">Nenhum agendamento passado encontrado.</p>
@@ -57,7 +57,7 @@
 
   @if (aroundBookings?.upcomingBookings?.length) {
     <div
-      class="relative flex flex-col gap-6 timeline after:bg-gray-200 dark:after:bg-zinc-800 dark:before:bg-zinc-800 before:bg-gray-200"
+      class="relative flex flex-col gap-6 timeline after:bg-gray-200 dark:after:bg-gray-800 dark:before:bg-gray-800 before:bg-gray-200"
     >
       @for (booking of aroundBookings?.upcomingBookings; track $index) {
         <a
@@ -65,7 +65,7 @@
           class="flex mt-3 gap-6 items-center group opacity-90 hover:opacity-100 active:opacity-100"
         >
           <div
-            class="z-10 flex-shrink-0 w-14 h-14 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center"
+            class="z-10 flex-shrink-0 w-14 h-14 bg-stone-100 dark:bg-gray-800 rounded-full flex items-center justify-center"
           >
             <i class="material-symbols-outlined !text-2xl">pace</i>
           </div>
@@ -94,7 +94,7 @@
   } @else {
     <div>
       <div
-        class="p-4 bg-white/60 dark:bg-zinc-900/60 border border-zinc-100 dark:border-zinc-800 rounded-xl flex items-center gap-4"
+        class="p-4 bg-white/60 dark:bg-gray-900/60 border border-gray-100 dark:border-gray-800 rounded-xl flex items-center gap-4"
       >
         <i class="material-symbols-outlined !text-xl text-gray-500">info</i>
         <p class="text-gray-500">Nenhum agendamento passado encontrado.</p>

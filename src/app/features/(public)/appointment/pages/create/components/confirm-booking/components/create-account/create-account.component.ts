@@ -6,13 +6,13 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   selector: 'create-account-client',
   imports: [CommonModule, RouterModule],
   template: ` <div
-      class="text-center text-sm my-2 h-10 flex items-center justify-center text-zinc-500 dark:text-zinc-400 relative"
+      class="text-center text-sm my-2 h-10 flex items-center justify-center text-gray-500 dark:text-gray-400 relative"
     >
       <span
         class="flex flex-1 bg-gradient-to-r from-transparent to-transparent via-violet-300 dark:via-violet-700 w-full h-px"
       ></span>
       <span
-        class="flex absolute top-[50%] text-lg font-semibold saira-font dark:bg-zinc-900 left-[50%] bg-white px-2 translate-[-50%]"
+        class="flex absolute top-[50%] text-lg font-semibold saira-font dark:bg-stone-900 left-[50%] bg-white px-2 translate-[-50%]"
       >
         <span class="bg-gradient-to-l from-indigo-500 to-violet-500 bg-clip-text text-transparent">
           Você pode também
@@ -851,7 +851,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
           type="button"
           [routerLink]="['/auth/register']"
           (click)="openLoginModal()"
-          class="inline-flex items-center justify-center gap-2 rounded-full bg-violet-600 p-3 px-7 text-md font-semibold text-white transition-all hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-violet-600 p-3 px-7 text-md font-semibold text-white transition-all hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950"
         >
           <i class="material-icons-outlined !text-xl">person_add</i>
           <span>Login / Criar conta</span>

@@ -1,7 +1,7 @@
 :host {
   --track-height: 8px;
   --thumb-size: 1.5rem;
-  --track-color: #e5e7eb; /* Cor do Tailwind: zinc-200 */
+  --track-color: #e5e7eb; /* Cor do Tailwind: gray-200 */
   --fill-color: #4f46e5; /* Cor do Tailwind: indigo-600 */
   --thumb-color: white/30;
   --thumb-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
@@ -16,7 +16,7 @@
 }
 
 :host-context(.dark) {
-  --track-color: #3f3f46; /* zinc-700 */
+  --track-color: #3f3f46; /* gray-700 */
   --thumb-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); // Sombra preta um pouco mais forte
   --thumb-focus-ring-color: #818cf8; /* indigo-400, mais brilhante */
 }

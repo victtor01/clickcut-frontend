@@ -2,7 +2,7 @@
   <div>
     <label
       for="manual-amount"
-      class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider"
+      class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-500 tracking-wider"
     >
       Valor Recebido
     </label>
@@ -12,7 +12,7 @@
       id="manual-amount"
       placeholder="R$ 0,00"
       formControlName="amount"
-      class="w-full p-3 mt-2 rounded-lg bg-gray-100 dark:bg-zinc-800 border-none text-gray-700 dark:text-zinc-300 focus:ring-2 focus:ring-violet-500"
+      class="w-full p-3 mt-2 rounded-lg bg-stone-100 dark:bg-gray-800 border-none text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-violet-500"
     />
 
     <!-- Bloco para exibir mensagens de erro de validação -->
@@ -29,7 +29,7 @@
     </div>
   </div>
   <div>
-    <label class="text-xs font-semibold uppercase text-gray-500 dark:text-zinc-500 tracking-wider">
+    <label class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-500 tracking-wider">
       Método de Pagamento
     </label>
     <div class="grid grid-cols-2 gap-2 mt-2">
@@ -40,7 +40,7 @@
         (click)="selectPaymentMethod(method.value)"
         [ngClass]="{
           'bg-violet-600 text-white': paymentForm.get('paymentMethod')?.value === method.value,
-          'bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 hover:bg-gray-200 dark:hover:bg-zinc-700':
+          'bg-stone-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-stone-200 dark:hover:bg-gray-700':
             paymentForm.get('paymentMethod')?.value !== method.value
         }"
         class="w-full flex items-center gap-3 text-center p-3 rounded-lg text-sm font-semibold transition-colors duration-200"
@@ -54,7 +54,7 @@
   <button
     type="submit"
     [disabled]="paymentForm.invalid"
-    class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-opacity-50 transition-colors mt-6 disabled:bg-violet-400 dark:disabled:bg-zinc-600 disabled:cursor-not-allowed"
+    class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-opacity-50 transition-colors mt-6 disabled:bg-violet-400 dark:disabled:bg-stone-600 disabled:cursor-not-allowed"
   >
     Confirmar Pagamento
   </button>

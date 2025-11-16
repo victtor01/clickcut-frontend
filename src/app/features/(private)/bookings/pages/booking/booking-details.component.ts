@@ -10,8 +10,8 @@ import { UpdateBookingServiceDTO } from '@app/core/schemas/update-booking-servic
 import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import {
-  RescheduleBookingComponent,
-  RescheduleBookingDialogData,
+    RescheduleBookingComponent,
+    RescheduleBookingDialogData,
 } from '@app/features/(clients)/booking/components/reschedule-booking/reschedule-booking.component';
 import dayjs, { Dayjs } from 'dayjs'; // Importe o Dayjs
 import { firstValueFrom } from 'rxjs';
@@ -53,7 +53,7 @@ export class BookingDetailsComponent implements OnInit {
   public dayjs = dayjs;
 
   private baseModal = {
-    backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+    backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
     panelClass: ['dialog-no-container'],
     enterAnimationDuration: '300ms',
     exitAnimationDuration: '200ms',
@@ -141,7 +141,7 @@ export class BookingDetailsComponent implements OnInit {
 
   public openService(service: BookingService): void {
     const dialogServiceModal = this.dialog.open(ServiceModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(55rem, 90%)',
@@ -230,7 +230,7 @@ export class BookingDetailsComponent implements OnInit {
   public getLineColor(status: BookingStatus): string {
     return this.isStatusComplete(status)
       ? this.getStatusColor(status)
-      : 'bg-gray-200 dark:bg-zinc-700';
+      : 'bg-stone-200 dark:bg-gray-700';
   }
 
   public isStatusActive(status: BookingStatus): boolean {
@@ -301,7 +301,7 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   public getStatusColor(status: BookingStatus): string {
-    if (!this.isStatusComplete(status)) return 'bg-gray-400';
+    if (!this.isStatusComplete(status)) return 'bg-stone-400';
     return 'bg-indigo-500';
   }
 

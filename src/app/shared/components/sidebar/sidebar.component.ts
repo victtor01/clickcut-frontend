@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  QueryList,
-  signal,
-  ViewChild,
-  ViewChildren,
+    AfterViewInit,
+    Component,
+    ElementRef,
+    HostListener,
+    QueryList,
+    signal,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
@@ -139,7 +139,7 @@ export class SidebarComponent implements AfterViewInit {
     if (!this.business?.id) return;
 
     this.dialog.open(BusinessModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(70rem, 100%)',
@@ -163,7 +163,7 @@ export class SidebarComponent implements AfterViewInit {
     this.isOpenSearch = true;
 
     const dialogRef = this.dialog.open(BookingSearchModalComponent, {
-      backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(65rem, 100%)',

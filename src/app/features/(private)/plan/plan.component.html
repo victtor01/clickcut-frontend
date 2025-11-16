@@ -4,7 +4,7 @@
   - Paleta de cores 'gray' (mais suave)
   - Hierarquia de texto aprimorada
 -->
-<div class="w-full bg-gray-50 min-h-screen overflow-auto py-20 md:py-28">
+<div class="w-full bg-stone-50 min-h-screen overflow-auto py-20 md:py-28">
   <div class="container mx-auto max-w-7xl px-6 lg:px-8">
     
     <!-- Cabeçalho -->
@@ -199,7 +199,7 @@
   <!-- Overlay -->
   <div 
     (click)="closePaymentModal()"
-    class="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-gray-900/40 p-4 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-stone-900/40 p-4 backdrop-blur-sm"
   >
     <!-- Conteúdo do Modal -->
     <div 
@@ -210,7 +210,7 @@
       <button 
         (click)="closePaymentModal()" 
         [disabled]="isSubmitting()"
-        class="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-all hover:bg-gray-200 hover:text-gray-700 disabled:opacity-50"
+        class="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-stone-100 text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-700 disabled:opacity-50"
       >
         <mat-icon class="!text-lg">close</mat-icon>
       </button>

@@ -1,8 +1,8 @@
 <section
-  class="flex flex-col sm:my-8 sm:rounded-xl border border-zinc-100 bg-white dark:border-zinc-800 dark:bg-zinc-900 max-w-2xl w-full"
+  class="flex flex-col sm:my-8 sm:rounded-xl border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900 max-w-2xl w-full"
 >
   <header
-    class="flex items-start justify-between border-b border-zinc-200/80 p-6 dark:border-zinc-800"
+    class="flex items-start justify-between border-b border-gray-200/80 p-6 dark:border-gray-800"
   >
     <div class="flex items-center gap-4">
       <div
@@ -11,15 +11,15 @@
         <i class="material-symbols-outlined text-indigo-600 dark:text-indigo-400">badge</i>
       </div>
       <div>
-        <h2 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100">Detalhes do Membro</h2>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Detalhes do Membro</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
           Edite o salário, comissão e cargos do membro.
         </p>
       </div>
     </div>
     <button
       (click)="closeDialog()"
-      class="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 grid place-items-center w-12 h-12 dark:hover:bg-zinc-700"
+      class="rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-100 dark:text-gray-400 grid place-items-center w-12 h-12 dark:hover:bg-gray-700"
       aria-label="Fechar modal"
     >
       <i class="material-symbols-outlined">close</i>
@@ -40,7 +40,7 @@
       <form [formGroup]="form" (ngSubmit)="onFormSubmit()" id="memberDetailsForm" class="space-y-8">
         <!-- Seção de Informações do Usuário (Não Editável) -->
         <div
-          class="flex items-center gap-4 rounded-lg border border-zinc-200/80 bg-white p-4 dark:bg-zinc-800/50 dark:border-zinc-800"
+          class="flex items-center gap-4 rounded-lg border border-gray-200/80 bg-white p-4 dark:bg-gray-800/50 dark:border-gray-800"
         >
           <img
             [src]="
@@ -51,20 +51,20 @@
             class="h-14 w-14 rounded-full object-cover"
           />
           <div>
-            <p class="font-semibold text-zinc-900 dark:text-white">{{ member.user.username }}</p>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ member.user.email }}</p>
+            <p class="font-semibold text-gray-900 dark:text-white">{{ member.user.username }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ member.user.email }}</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <!-- Campo Salário -->
           <div>
-            <label for="salary" class="block text-sm font-medium text-gray-700 dark:text-zinc-300">
+            <label for="salary" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Salário (R$)
             </label>
             <div class="relative mt-2">
               <i
-                class="material-symbols-outlined !text-2xl opacity-80 pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                class="material-symbols-outlined !text-2xl opacity-80 pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                 >payments</i
               >
               <input
@@ -73,7 +73,7 @@
                 appMoneyInput
                 formControlName="salary"
                 [showCurrencySymbol]="false"
-                class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+                class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-gray-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
                 placeholder=""
               />
             </div>
@@ -88,13 +88,13 @@
           <div>
             <label
               for="commissionRate"
-              class="block text-sm font-medium text-gray-700 dark:text-zinc-300"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Taxa de Comissão (%)
             </label>
             <div class="relative mt-2">
               <i
-                class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                 >percent</i
               >
               <input
@@ -102,7 +102,7 @@
                 type="number"
                 formControlName="commissionRate"
                 placeholder="Ex: 10"
-                class="w-full rounded-lg border border-zinc-300 bg-transparent py-2.5 pl-10 pr-4 text-zinc-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:text-zinc-100"
+                class="w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-10 pr-4 text-gray-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-gray-100"
                 [class.border-red-500]="
                   form.get('commissionRate')?.invalid && form.get('commissionRate')?.touched
                 "
@@ -116,18 +116,18 @@
 
         <!-- Seção de Cargos -->
         <div>
-          <h3 class="text-base font-medium text-gray-700 dark:text-zinc-300">Cargos</h3>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-3">
+          <h3 class="text-base font-medium text-gray-700 dark:text-gray-300">Cargos</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
             Selecione os cargos que este membro pode exercer.
           </p>
           <ul
             formArrayName="roles"
-            class="divide-y divide-zinc-200/80 rounded-lg border border-zinc-200/80 dark:divide-zinc-800 dark:border-zinc-800"
+            class="divide-y divide-gray-200/80 rounded-lg border border-gray-200/80 dark:divide-gray-800 dark:border-gray-800"
           >
             @for (role of data.allRoles; track role.id; let i = $index) {
               <li class="flex items-center justify-between p-4">
                 <label [for]="'role-' + i" class="cursor-pointer pr-4">
-                  <span class="font-medium text-sm text-zinc-800 dark:text-zinc-200">{{
+                  <span class="font-medium text-sm text-gray-800 dark:text-gray-200">{{
                     role.name
                   }}</span>
                 </label>
@@ -143,7 +143,7 @@
                     class="peer sr-only"
                   />
                   <div
-                    class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:bg-zinc-700 dark:peer-focus:ring-indigo-800"
+                    class="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:bg-gray-700 dark:peer-focus:ring-indigo-800"
                   ></div>
                 </label>
               </li>
@@ -155,12 +155,12 @@
   </main>
 
   <footer
-    class="flex justify-end gap-3 border-t border-zinc-200/80 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/50"
+    class="flex justify-end gap-3 border-t border-gray-200/80 bg-stone-50 p-4 dark:border-gray-800 dark:bg-gray-900/50"
   >
     <button
       (click)="closeDialog()"
       type="button"
-      class="rounded-lg bg-transparent px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      class="rounded-lg bg-transparent px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-stone-100 dark:text-gray-200 dark:hover:bg-gray-800"
     >
       Cancelar
     </button>

@@ -149,7 +149,7 @@ export class HomeDashboardComponent implements OnInit {
       case 'DEBIT_CARD':
         return 'bg-yellow-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-stone-500';
     }
   }
 }

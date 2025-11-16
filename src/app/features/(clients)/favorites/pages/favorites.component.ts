@@ -63,7 +63,7 @@ export class FavoritesComponent implements OnInit {
 
   public openBusinessDetails(businessId: string) {
     this.businessDialog.open(BusinessModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(70rem, 100%)',

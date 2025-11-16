@@ -124,8 +124,8 @@ export class BookingComponent implements OnInit, OnDestroy {
   private fetchBookingsForWeek(date: Dayjs): void {
     this.isLoading = true;
 
-    const startOfWeek = date.startOf('week').format('YYYY-MM-DD');
-    const endOfWeek = date.endOf('week').format('YYYY-MM-DD');
+    const startOfWeek = date.startOf('month');
+    const endOfWeek = date.endOf('month');
 
     this.bookingsService.getAll(startOfWeek, endOfWeek).subscribe({
       next: (newBookings) => {
@@ -197,7 +197,7 @@ export class BookingComponent implements OnInit, OnDestroy {
     const dailyBookings: Booking[] = this._bookingsByDay[dayjs(date).format('YYYY-MM-DD')] || [];
 
     const dialogRef = this.dialogDetails.open(DetailsBookingComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(60rem, 90%)',

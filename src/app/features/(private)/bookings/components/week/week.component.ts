@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import dayjs, { Dayjs } from 'dayjs';
 
 @Component({
   templateUrl: './week.component.html',
   selector: 'current-week',
   imports: [CommonModule],
+  styles: `
+    :host {
+      overflow: hidden;
+    }
+  `,
 })
 export class WeekComponent {
   private _currentDate!: Dayjs;
@@ -15,6 +20,9 @@ export class WeekComponent {
 
   @ViewChildren('dayElement')
   private dayElements!: QueryList<ElementRef<HTMLDivElement>>;
+
+  @ViewChild('scrollContainer') // [!code ++]
+  private scrollContainer!: ElementRef<HTMLDivElement>; // [!code ++]
 
   @Input()
   public set currentDate(date: Dayjs) {
@@ -52,13 +60,24 @@ export class WeekComponent {
   private scrollToSelectedDay(): void {
     const selectedIndex = this.dates.findIndex((day) => day.isSame(this.currentDate, 'day'));
     const elements = this.dayElements?.toArray();
+    const parent = this.scrollContainer?.nativeElement;
 
     if (selectedIndex !== -1 && elements && elements[selectedIndex]) {
       const elementToScroll = elements[selectedIndex].nativeElement;
-      elementToScroll.scrollIntoView({
+
+      const parentWidth = parent.clientWidth;
+      const elementWidth = elementToScroll.clientWidth;
+
+      // Posição do elemento relativa ao container pai
+      const elementOffsetLeft = elementToScroll.offsetLeft;
+
+      // Calcula a posição de scroll para centralizar o elemento:
+      // Posição de scroll = (centro do elemento) - (centro do pai)
+      const scrollLeft = elementOffsetLeft + elementWidth / 2 - parentWidth / 2;
+
+      parent.scrollTo({
+        left: scrollLeft,
         behavior: 'smooth',
-        inline: 'center',
-        block: 'nearest',
       });
     }
   }
@@ -70,8 +89,8 @@ export class WeekComponent {
       return;
     }
 
-    let current = this.currentDate.startOf('week');
-    const end = this.currentDate.endOf('week');
+    let current = this.currentDate.startOf('month');
+    const end = this.currentDate.endOf('month');
 
     while (current.isBefore(end) || current.isSame(end, 'day')) {
       this.dates.push(current);

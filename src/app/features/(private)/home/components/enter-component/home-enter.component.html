@@ -1,5 +1,5 @@
 <div
-  class="w-full h-[12rem] absolute bg-transparent overflow-hidden -z-10 flex rounded-b-2xl dark:bg-zinc-900/40"
+  class="w-full h-[12rem] absolute bg-transparent overflow-hidden -z-10 flex rounded-b-2xl dark:bg-gray-900/40"
 ></div>
 
 <div class="flex relative flex-col p-5 gap-4">
@@ -10,11 +10,11 @@
       <h1 class="text-3xl font-light">
         Olá, <b class="font-semibold">{{ statement?.userSession?.username }}</b>
       </h1>
-      <span class="text-gray-500 dark:text-zinc-400">Bem vindo de volta a sua loja...</span>
+      <span class="text-gray-500 dark:text-gray-400">Bem vindo de volta a sua loja...</span>
     </div>
 
     <div
-      class="relative flex items-center gap-2 rounded-full bg-white/60 dark:bg-zinc-800/50 p-1 shadow-sm border border-white/20 dark:border-zinc-700/80"
+      class="relative flex items-center gap-2 rounded-full bg-white/60 dark:bg-gray-800/50 p-1 shadow-sm border border-white/20 dark:border-gray-700/80"
     >
       @if (statement?.bannerUrl) {
         <img
@@ -25,7 +25,7 @@
       }
 
       <button
-        class="relative grid h-12 w-12 group shrink-0 place-items-center rounded-full text-zinc-500 hover:bg-black/5 dark:text-zinc-400 dark:hover:bg-white/10 transition-colors"
+        class="relative grid h-12 w-12 group shrink-0 place-items-center rounded-full text-gray-500 hover:bg-black/5 dark:text-gray-400 dark:hover:bg-white/10 transition-colors"
         aria-label="Ver notificações"
         type="button"
         (click)="toggleNotifications()"
@@ -37,12 +37,12 @@
         ></ng-icon>
         <span
           *ngIf="hasNotRead()"
-          class="absolute top-2.5 right-2.5 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-zinc-800/50"
+          class="absolute top-2.5 right-2.5 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-800/50"
         ></span>
       </button>
 
       <button
-        class="relative grid h-12 group w-12 shrink-0 place-items-center rounded-full text-zinc-500 hover:bg-black/5 dark:text-zinc-400 dark:hover:bg-white/10 transition-colors"
+        class="relative grid h-12 group w-12 shrink-0 place-items-center rounded-full text-gray-500 hover:bg-black/5 dark:text-gray-400 dark:hover:bg-white/10 transition-colors"
         aria-label="Ver notificações"
         type="button"
         [routerLink]="['/configure']"
@@ -57,7 +57,7 @@
       <div class="relative" #menuContainer>
         <div
           (click)="toggleMenu()"
-          class="h-12 w-12 bg-white shadow grid text-gray-400 dark:text-zinc-700 place-items-center shrink-0 overflow-hidden rounded-full cursor-pointer ring-2 ring-white/50 hover:ring-violet-400 transition-all"
+          class="h-12 w-12 bg-white shadow grid text-gray-400 dark:text-gray-700 place-items-center shrink-0 overflow-hidden rounded-full cursor-pointer ring-2 ring-white/50 hover:ring-violet-400 transition-all"
         >
           <i *ngIf="!user?.photoUrl" class="material-icons-outlined !text-2xl">person</i>
           <img
@@ -70,12 +70,12 @@
 
         @if (isMenuOpen()) {
           <div
-            class="transform-gpu absolute right-0 mt-2 w-48 top-[100%] rounded-md bg-white/80 !backdrop-blur-xl dark:bg-zinc-800/80 shadow-lg ring-1 ring-black/5 focus:outline-none z-100"
+            class="transform-gpu absolute right-0 mt-2 w-48 top-[100%] rounded-md bg-white/80 !backdrop-blur-xl dark:bg-gray-800/80 shadow-lg ring-1 ring-black/5 focus:outline-none z-100"
           >
             <div class="py-1">
               <a
                 [routerLink]="['/configure']"
-                class="flex items-center gap-4 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
+                class="flex items-center gap-4 px-4 py-2 text-sm text-gray-700 hover:bg-stone-100 dark:text-gray-200 dark:hover:bg-gray-700"
               >
                 <ng-icon
                   name="saxSettingBold"
@@ -87,7 +87,7 @@
               <button
                 type="button"
                 (click)="handleTheme()"
-                class="px-4 py-2 items-center flex text-sm gap-4 flex-1 w-full text-left text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-zinc-700"
+                class="px-4 py-2 items-center flex text-sm gap-4 flex-1 w-full text-left text-gray-700 hover:bg-stone-100 dark:text-gray-200 dark:hover:bg-gray-700"
               >
                 @if (this.theme === 'dark') {
                   <ng-icon size="18" name="saxMoonBold"></ng-icon>
@@ -98,7 +98,7 @@
               </button>
               <a
                 href="#"
-                class="flex gap-4 items-center px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                class="flex gap-4 items-center px-4 py-2 text-sm text-red-500 hover:bg-stone-100 dark:hover:bg-gray-700"
               >
                 <ng-icon size="18" name="hugeDoor01"></ng-icon>
                 Sair</a
@@ -112,10 +112,10 @@
     @if (isNotificationsOpen()) {
       <div
         [@fadeScale]
-        class="absolute right-0 mt-2 top-full w-full max-w-md bg-white dark:bg-zinc-800 rounded-xl border border-t border-zinc-200 dark:border-zinc-800 ring-opacity-5 z-20 flex flex-col"
+        class="absolute right-0 mt-2 top-full w-full max-w-md bg-white dark:bg-gray-800 rounded-xl border border-t border-gray-200 dark:border-gray-800 ring-opacity-5 z-20 flex flex-col"
       >
         <div
-          class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-zinc-700"
+          class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700"
         >
           <h3 class="font-bold text-lg text-gray-500 saira-font dark:text-white">Notificações</h3>
           <button
@@ -132,7 +132,7 @@
             @for (notification of notifications; track notification.id) {
               <button
                 type="button"
-                class="flex items-start p-4 gap-4 text-left transition-colors duration-200 cursor-default w-full hover:bg-slate-50 dark:hover:bg-zinc-700/50 data-[action=true]:cursor-pointer"
+                class="flex items-start p-4 gap-4 text-left transition-colors duration-200 cursor-default w-full hover:bg-slate-50 dark:hover:bg-gray-700/50 data-[action=true]:cursor-pointer"
                 [disabled]="!notification.actionPath"
                 (click)="openLink(notification.actionPath)"
                 [attr.data-action]="!!notification.actionPath"
@@ -144,7 +144,7 @@
                   class="flex-shrink-0 w-10 h-10 mt-0.5 rounded-full flex items-center justify-center"
                   [ngClass]="
                     notification.isRead
-                      ? 'bg-gray-100 dark:bg-zinc-700 text-gray-500 dark:text-gray-400'
+                      ? 'bg-stone-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                       : (notification.category | notificationColor)
                   "
                 >
@@ -160,7 +160,7 @@
                   <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {{ notification.body }}
                   </p>
-                  <p class="mt-2 text-xs text-gray-400 dark:text-zinc-500">20-10-2024</p>
+                  <p class="mt-2 text-xs text-gray-400 dark:text-gray-500">20-10-2024</p>
                 </div>
 
                 @if (!notification.isRead) {
@@ -174,14 +174,14 @@
           } @else {
             <div class="flex flex-col items-center justify-center py-16 text-center">
               <div
-                class="flex items-center justify-center w-16 h-16 bg-gray-100 dark:bg-zinc-700 rounded-full"
+                class="flex items-center justify-center w-16 h-16 bg-stone-100 dark:bg-gray-700 rounded-full"
               >
-                <i class="material-icons-outlined !text-4xl text-gray-400 dark:text-zinc-500"
+                <i class="material-icons-outlined !text-4xl text-gray-400 dark:text-gray-500"
                   >notifications_off</i
                 >
               </div>
-              <h4 class="mt-4 font-bold text-gray-700 dark:text-zinc-300">Tudo em dia!</h4>
-              <p class="text-sm text-gray-500 dark:text-zinc-400 mt-1">
+              <h4 class="mt-4 font-bold text-gray-700 dark:text-gray-300">Tudo em dia!</h4>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Você não tem novas notificações.
               </p>
             </div>
@@ -189,7 +189,7 @@
         </div>
 
         <div
-          class="p-3 text-center border-t border-gray-100 dark:border-zinc-700 bg-gray-50/70 dark:bg-zinc-900/50 rounded-b-xl"
+          class="p-3 text-center border-t border-gray-100 dark:border-gray-700 bg-stone-50/70 dark:bg-gray-900/50 rounded-b-xl"
         >
           <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
             Ver todas as notificações
@@ -203,24 +203,24 @@
     <button
       (click)="openSearch()"
       type="button"
-      class="group flex w-full items-center gap-3 rounded-full border border-slate-200 bg-white/80 p-2 text-sm text-slate-500 transition-colors hover:border-slate-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-slate-400 dark:hover:border-zinc-600"
+      class="group flex w-full items-center gap-3 rounded-full border border-slate-200 bg-white/80 p-2 text-sm text-slate-500 transition-colors hover:border-slate-300 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-400 dark:hover:border-gray-600"
     >
       <i class="material-icons-outlined ml-1">search</i>
       <span>Buscar...</span>
       <kbd
-        class="ml-auto block rounded saira-font border border-slate-200 px-1.5 py-0.5 font-mono text-xs font-medium dark:border-zinc-700"
+        class="ml-auto block rounded saira-font border border-slate-200 px-1.5 py-0.5 font-mono text-xs font-medium dark:border-gray-700"
         >⌘K</kbd
       >
     </button>
   </div>
 
   <div
-    class="h-auto p-3 rounded-xl flex flex-col bg-gradient-to-bl from-indigo-500 to-violet-500 dark:shadow-xl shadow-zinc-600/20 dark:shadow-black"
+    class="h-auto p-3 rounded-xl flex flex-col bg-gradient-to-bl from-indigo-500 to-violet-500 dark:shadow-xl shadow-gray-600/20 dark:shadow-black"
   >
     <section class="flex items-center justify-between gap-1">
       <div class="flex gap-2 flex-1 items-center min-w-0">
         <div
-          class="relative overflow-hidden w-12 h-12 bg-zinc-200 dark:bg-zinc-800 rounded-full shadow-xl grid place-items-center aspect-square"
+          class="relative overflow-hidden w-12 h-12 bg-stone-200 dark:bg-gray-800 rounded-full shadow-xl grid place-items-center aspect-square"
         >
           @if (statement?.logoUrl) {
             <img
@@ -229,7 +229,7 @@
               class="absolute h-full w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
             />
           } @else {
-            <i class="material-icons-outlined text-zinc-500 dark:text-gray-400">store</i>
+            <i class="material-icons-outlined text-gray-500 dark:text-gray-400">store</i>
           }
         </div>
         <div class="flex flex-col min-w-0">
@@ -271,7 +271,7 @@
           class="flex bg-indigo-300 rounded-full relative left-0 h-full"
         >
           <span
-            class="right-0 text-zinc-200 w-auto absolute top-4 bg-indigo-400/40 translate-x-[45%] backdrop-blur-sm border border-indigo-300/30 saira-font font-semibold text-base rounded px-2"
+            class="right-0 text-gray-200 w-auto absolute top-4 bg-indigo-400/40 translate-x-[45%] backdrop-blur-sm border border-indigo-300/30 saira-font font-semibold text-base rounded px-2"
           >
             {{ porcetage }}%
           </span>

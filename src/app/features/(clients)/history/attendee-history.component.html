@@ -12,34 +12,34 @@
     <div *ngIf="isLoading" class="space-y-8">
       <div class="animate-pulse flex">
         <div class="flex-shrink-0 w-16 text-center">
-          <div class="h-10 w-10 mx-auto rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+          <div class="h-10 w-10 mx-auto rounded-full bg-stone-200 dark:bg-gray-800"></div>
         </div>
         <div class="flex-1 space-y-3 py-1">
-          <div class="h-4 rounded bg-zinc-200 dark:bg-zinc-800"></div>
-          <div class="h-3 w-3/4 rounded bg-zinc-200 dark:bg-zinc-800"></div>
-          <div class="h-3 w-1/2 rounded bg-zinc-200 dark:bg-zinc-800"></div>
+          <div class="h-4 rounded bg-stone-200  dark:bg-gray-800"></div>
+          <div class="h-3 w-3/4 rounded bg-stone-200  dark:bg-gray-800"></div>
+          <div class="h-3 w-1/2 rounded bg-stone-200  dark:bg-gray-800"></div>
         </div>
       </div>
       <div class="animate-pulse flex">
         <div class="flex-shrink-0 w-16 text-center">
-          <div class="h-10 w-10 mx-auto rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+          <div class="h-10 w-10 mx-auto rounded-full bg-stone-200 dark:bg-gray-800"></div>
         </div>
         <div class="flex-1 space-y-3 py-1">
-          <div class="h-4 rounded bg-zinc-200 dark:bg-zinc-800"></div>
-          <div class="h-3 w-3/4 rounded bg-zinc-200 dark:bg-zinc-800"></div>
-          <div class="h-3 w-1/2 rounded bg-zinc-200 dark:bg-zinc-800"></div>
+          <div class="h-4 rounded bg-stone-200 dark:bg-gray-800"></div>
+          <div class="h-3 w-3/4 rounded bg-stone-200 dark:bg-gray-800"></div>
+          <div class="h-3 w-1/2 rounded bg-stone-200 dark:bg-gray-800"></div>
         </div>
       </div>
     </div>
 
     <div *ngIf="!isLoading">
       <div *ngIf="allBookings.length === 0; else hasBookings">
-        <div class="text-center rounded-xl bg-zinc-50 p-12 dark:bg-zinc-900/50">
+        <div class="text-center rounded-xl bg-stone-50 p-12 dark:bg-gray-900/50">
           <i class="material-icons-outlined text-6xl text-indigo-400">calendar_add_on</i>
-          <h3 class="mt-4 text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+          <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
             Nenhum agendamento encontrado
           </h3>
-          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Que tal marcar seu primeiro serviço agora mesmo?
           </p>
           <button
@@ -56,17 +56,17 @@
         <div class="space-y-16 mt-5">
           <section *ngIf="upcomingBookings.length > 0">
             <h2
-              class="text-sm font-medium tracking-wider uppercase text-zinc-600 dark:text-zinc-400"
+              class="text-sm font-medium tracking-wider uppercase text-gray-600 dark:text-gray-400"
             >
               Próximos
             </h2>
             <ul class="relative mt-6 space-y-8">
-              <div class="absolute left-4.5 top-2 h-full w-0.5 bg-zinc-200 dark:bg-zinc-800"></div>
+              <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800"></div>
 
               <li *ngFor="let booking of upcomingBookings" class="relative pl-16">
                 <div class="absolute -left-0 top-1">
                   <span
-                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-zinc-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-zinc-950 ring-indigo-500 dark:ring-indigo-400"
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-gray-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950 ring-indigo-500 dark:ring-indigo-400"
                   >
                     <i
                       class="material-icons-outlined !text-2xl text-violet-600 dark:text-violet-300"
@@ -78,7 +78,7 @@
 
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
-                    <time class="text-sm font-medium leading-none text-zinc-600 dark:text-zinc-400">
+                    <time class="text-sm font-medium leading-none text-gray-600 dark:text-gray-400">
                       {{ booking.startAt | date: 'fullDate' }} •
                       {{ booking.startAt | date: 'HH:mm' }}
                     </time>
@@ -89,16 +89,16 @@
                       {{ statusMap[booking.status].label }}
                     </span>
                   </div>
-                  <h3 class="mt-2 text-lg text-zinc-700 dark:text-zinc-100">
+                  <h3 class="mt-2 text-lg text-gray-700 dark:text-gray-100">
                     {{ booking.title }}
                   </h3>
-                  <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Em
-                    <span class="font-medium text-zinc-700 dark:text-zinc-300">{{
+                    <span class="font-medium text-gray-700 dark:text-gray-300">{{
                       booking.business?.name
                     }}</span>
                     com
-                    <span class="font-medium text-zinc-700 dark:text-zinc-300">{{
+                    <span class="font-medium text-gray-700 dark:text-gray-300">{{
                       booking?.assignedTo?.username
                     }}</span
                     >.
@@ -110,23 +110,23 @@
 
           <section *ngIf="pastBookings.length > 0">
             <h2
-              class="text-sm font-medium tracking-wider uppercase text-zinc-600 dark:text-zinc-400"
+              class="text-sm font-medium tracking-wider uppercase text-gray-600 dark:text-gray-400"
             >
               Anteriores
             </h2>
             <ul class="relative mt-6 space-y-8">
-              <div class="absolute left-4.5 top-2 h-full w-0.5 bg-zinc-200 dark:bg-zinc-800"></div>
+              <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800"></div>
 
               <li *ngFor="let booking of pastBookings" class="relative pl-16">
                 <div class="absolute -left-0 top-1">
                   <span
-                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-zinc-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-zinc-950"
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-gray-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950"
                     [ngClass]="{
                       'ring-green-500 dark:ring-green-400':
                         booking.status === 'COMPLETED' || booking.status === 'PAID',
                       'ring-indigo-500 dark:ring-indigo-600': booking.status === 'CONFIRMED',
                       'ring-red-500 dark:ring-red-400': booking.status === 'CANCELLED',
-                      'ring-zinc-400 dark:ring-zinc-500': booking.status === 'NO_SHOW',
+                      'ring-gray-400 dark:ring-gray-500': booking.status === 'NO_SHOW',
                     }"
                   >
                     <i
@@ -141,13 +141,13 @@
                     >
                     <i
                       *ngIf="booking.status === 'NO_SHOW'"
-                      class="material-icons-outlined !text-xl text-zinc-600 dark:text-zinc-300"
+                      class="material-icons-outlined !text-xl text-gray-600 dark:text-gray-300"
                       >do_not_disturb_on</i
                     >
 
                     <i
                       *ngIf="booking.status === 'CREATED'"
-                      class="material-icons-outlined !text-xl text-zinc-600 dark:text-zinc-300"
+                      class="material-icons-outlined !text-xl text-gray-600 dark:text-gray-300"
                       >browse_gallery</i
                     >
 
@@ -167,7 +167,7 @@
 
                 <div class="flex-1 opacity-90">
                   <div class="flex items-center justify-between">
-                    <time class="text-sm font-medium leading-none text-zinc-600 dark:text-zinc-400">
+                    <time class="text-sm font-medium leading-none text-gray-600 dark:text-gray-400">
                       {{ booking.startAt | date: 'fullDate' }}
                     </time>
                     <span
@@ -177,16 +177,16 @@
                       {{ statusMap[booking.status].label }}
                     </span>
                   </div>
-                  <h3 class="mt-2 text-lg text-zinc-700 dark:text-zinc-100">
+                  <h3 class="mt-2 text-lg text-gray-700 dark:text-gray-100">
                     {{ booking.title }}
                   </h3>
-                  <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Em
-                    <span class="font-medium text-zinc-700 dark:text-zinc-300">{{
+                    <span class="font-medium text-gray-700 dark:text-gray-300">{{
                       booking.business?.name
                     }}</span>
                     com
-                    <span class="font-medium text-zinc-700 dark:text-zinc-300">{{
+                    <span class="font-medium text-gray-700 dark:text-gray-300">{{
                       booking?.assignedTo?.username
                     }}</span
                     >.

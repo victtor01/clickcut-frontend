@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col mx-5 relative bg-white rounded-xl dark:bg-zinc-900 overflow-hidden text-zinc-800 dark:text-zinc-200 min-h-[400px]"
+  class="flex flex-col mx-5 relative bg-white rounded-xl dark:bg-gray-900 overflow-hidden text-gray-800 dark:text-gray-200 min-h-[400px]"
 >
   <header class="flex justify-between px-4 pt-4 pb-2 items-center">
     <h1 class="text-gray-500 dark:text-indigo-50 saira-font text-xl">
@@ -9,7 +9,7 @@
     <button
       type="button"
       (click)="close()"
-      class="bg-white self-end dark:bg-zinc-800 z-20 grid place-items-center rounded-full w-10 h-10 text-gray-500 dark:text-indigo-50 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
+      class="bg-white self-end dark:bg-gray-800 z-20 grid place-items-center rounded-full w-10 h-10 text-gray-500 dark:text-indigo-50 hover:bg-stone-100 dark:hover:bg-gray-700 transition-colors"
     >
       <i class="material-icons-outlined">close</i>
     </button>
@@ -17,16 +17,16 @@
 
   <section class="flex flex-1 flex-col sm:flex-row">
     <aside
-      class="w-full sm:w-[14rem] overflow-auto flex-shrink-0 p-4 border-b border-zinc-200 dark:border-zinc-800"
+      class="w-full sm:w-[14rem] overflow-auto flex-shrink-0 p-4 border-b border-gray-200 dark:border-gray-800"
     >
       <nav class="flex flex-row sm:flex-col gap-2">
         <button
           type="button"
           (click)="setView('profile')"
           [ngClass]="{
-            'bg-zinc-100 dark:bg-zinc-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
               activeView === 'profile',
-            'text-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
               activeView !== 'profile',
           }"
           class="flex items-center gap-3 w-full saira-font text-left p-2 rounded-md transition-colors text-sm font-semibold"
@@ -39,9 +39,9 @@
           type="button"
           (click)="setView('account')"
           [ngClass]="{
-            'bg-zinc-100 dark:bg-zinc-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
               activeView === 'account',
-            'text-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
               activeView !== 'account',
           }"
           class="flex items-center gap-3 w-full text-left saira-font p-2 rounded-md transition-colors text-sm font-semibold"
@@ -54,9 +54,9 @@
           type="button"
           (click)="setView('privacy')"
           [ngClass]="{
-            'bg-zinc-100 dark:bg-zinc-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
               activeView === 'privacy',
-            'text-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
               activeView !== 'privacy',
           }"
           class="flex items-center gap-3 w-full text-left saira-font p-2 rounded-md transition-colors text-sm font-semibold"
@@ -69,9 +69,9 @@
           type="button"
           (click)="setView('preferences')"
           [ngClass]="{
-            'bg-zinc-100 dark:bg-zinc-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
               activeView === 'preferences',
-            'text-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
               activeView !== 'preferences',
           }"
           class="flex items-center gap-3 w-full text-left saira-font p-2 rounded-md transition-colors text-sm font-semibold"
@@ -86,10 +86,10 @@
       <form [formGroup]="userProfileForm" (ngSubmit)="saveChanges()" class="flex flex-col h-full">
         <div [ngSwitch]="activeView" class="flex-1 overflow-y-auto">
           <div *ngSwitchCase="'profile'" class="space-y-6">
-            <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-4">Seu Perfil</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Seu Perfil</h2>
 
             <div>
-              <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >Avatar</label
               >
               <div class="flex items-center gap-4">
@@ -100,7 +100,7 @@
                       'https://i.pravatar.cc/150?u=placeholder'
                     "
                     alt="Avatar"
-                    class="h-full w-full rounded-full object-cover border-4 border-white dark:border-zinc-900 bg-zinc-200 dark:bg-zinc-700"
+                    class="h-full w-full rounded-full object-cover border-4 border-white dark:border-gray-900 bg-stone-200 dark:bg-gray-700"
                   />
                   <label
                     for="avatar-upload"
@@ -118,13 +118,13 @@
                 <div>
                   <button
                     type="button"
-                    class="inline-flex items-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm text-sm font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-stone-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Remover
                   </button>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+              <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
                 Avatares são revisados antes de exibir. Não faça upload de avatares inapropriados.
                 Limite: 3 mudanças diárias. Máx 8MB.
               </p>
@@ -134,7 +134,7 @@
               <div>
                 <label
                   for="nome"
-                  class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+                  class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-1.5"
                 >
                   Nome
                 </label>
@@ -143,11 +143,11 @@
                   type="text"
                   formControlName="fullName"
                   placeholder="Digite seu email"
-                  class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 rounded-md placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                  class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
                 />
               </div>
 
-              <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 Você tem 3 mudanças de nome restantes para hoje.
               </p>
               <div
@@ -162,27 +162,27 @@
             </div>
 
             <div>
-              <label for="bio" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >Bio</label
               >
               <textarea
                 id="bio"
                 formControlName="bio"
                 rows="3"
-                class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 shadow-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm bg-stone-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               ></textarea>
             </div>
           </div>
 
           <div *ngSwitchCase="'account'" class="space-y-6">
-            <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-4">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Configurações da Conta
             </h2>
 
             <div>
               <label
                 for="email"
-                class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+                class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-1.5"
               >
                 Endereço de Email
               </label>
@@ -191,7 +191,7 @@
                 type="text"
                 formControlName="email"
                 placeholder="Digite seu email"
-                class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 rounded-md placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
               />
               <div
                 *ngIf="
@@ -206,19 +206,19 @@
             <div>
               <label
                 for="phoneNumber"
-                class="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >Número de Telefone</label
               >
               <input
                 id="phoneNumber"
                 type="text"
                 formControlName="phoneNumber"
-                class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 rounded-md placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >Senha</label
               >
               <button
@@ -231,7 +231,7 @@
           </div>
 
           <div *ngSwitchCase="'privacy'" class="space-y-6">
-            <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-4">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Configurações de Privacidade
             </h2>
 
@@ -241,37 +241,37 @@
                   id="newsletterOptIn"
                   type="checkbox"
                   formControlName="newsletterOptIn"
-                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-zinc-300 rounded dark:bg-zinc-700 dark:border-zinc-600"
+                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
               </div>
               <div class="ml-3 text-sm">
-                <label for="newsletterOptIn" class="font-medium text-zinc-700 dark:text-zinc-300"
+                <label for="newsletterOptIn" class="font-medium text-gray-700 dark:text-gray-300"
                   >Receber Newsletter</label
                 >
-                <p class="text-zinc-500 dark:text-zinc-400">
+                <p class="text-gray-500 dark:text-gray-400">
                   Receba atualizações e ofertas especiais em seu email.
                 </p>
               </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >Seus Dados</label
               >
               <button
                 type="button"
-                class="inline-flex items-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm text-sm font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-stone-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Exportar meus dados
               </button>
-              <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 Solicite um arquivo com todos os seus dados pessoais.
               </p>
             </div>
 
-            <div class="pt-4 border-t border-zinc-200 dark:border-zinc-800">
+            <div class="pt-4 border-t border-gray-200 dark:border-gray-800">
               <h3 class="text-lg font-medium text-red-600 dark:text-red-500">Excluir Conta</h3>
-              <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 Esta ação é irreversível. Todos os seus dados serão permanentemente removidos.
               </p>
               <button
@@ -284,12 +284,12 @@
           </div>
 
           <div *ngSwitchCase="'preferences'" class="space-y-6">
-            <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-4">Suas Preferências</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Suas Preferências</h2>
 
             <div>
               <label
                 for="themePreference"
-                class="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >Tema</label
               >
               <select
@@ -297,7 +297,7 @@
                 [value]="currentTheme()"
                 (change)="handleTheme($event)"
                 formControlName="themePreference"
-                class="mt-1 block w-full rounded-md p-3 border-zinc-300 dark:border-zinc-700 shadow-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="mt-1 block w-full rounded-md p-3 border-gray-300 dark:border-gray-700 shadow-sm bg-stone-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value="light">Claro</option>
                 <option value="dark">Escuro</option>
@@ -305,15 +305,15 @@
             </div>
 
             <div>
-              <h3 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
+              <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Notificações
               </h3>
               <div class="flex items-center justify-between">
-                <span class="text-sm text-zinc-700 dark:text-zinc-300">Notificações por Email</span>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Notificações por Email</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" value="" class="sr-only peer" checked />
                   <div
-                    class="w-11 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-indigo-600"
+                    class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"
                   ></div>
                 </label>
               </div>
@@ -322,12 +322,12 @@
         </div>
 
         <div
-          class="mt-6 p-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-end gap-3 flex-shrink-0"
+          class="mt-6 p-4 border-t border-gray-200 dark:border-gray-800 flex justify-end gap-3 flex-shrink-0"
         >
           <button
             type="button"
             (click)="close()"
-            class="inline-flex items-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 rounded-full shadow-sm text-sm font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-full shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-stone-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Cancelar
           </button>

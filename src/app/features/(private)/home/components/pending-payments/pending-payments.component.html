@@ -1,17 +1,17 @@
 <div
-  class="flex flex-col rounded-2xl border min-h-[10rem] flex-1 mx-3 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-zinc-900/60 border-stone-200/50 dark:border-white/5"
+  class="flex flex-col rounded-2xl border min-h-[10rem] flex-1 mx-3 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-gray-900/50 border-stone-200/50 dark:border-white/5"
 >
   <header
-    class="justify-between p-5 border-b border-zinc-100 dark:border-zinc-800 flex items-center gap-2"
+    class="justify-between p-5 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2"
   >
-    <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
+    <span class="relative font-medium text-gray-700 dark:text-gray-300">
       Pagamentos Pendentes
     </span>
     <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
       <div
         class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
       ></div>
-      <i class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+      <i class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
         >payments</i
       >
     </div>
@@ -19,11 +19,11 @@
 
   <div class="flex-1 overflow-hidden relative">
     <div
-      class="absolute w-full h-full rounded-b-xl pointer-events-none bg-gradient-to-b from-transparent to-gray-200/50 dark:to-zinc-900/60 from-80%"
+      class="absolute w-full h-full rounded-b-xl pointer-events-none bg-gradient-to-b from-transparent to-gray-200/50 dark:to-gray-900/60 from-80%"
     ></div>
     @if (isLoading()) {
       <div class="flex h-32 items-center justify-center">
-        <i class="material-symbols-outlined animate-spin text-3xl text-zinc-500 dark:text-zinc-400"
+        <i class="material-symbols-outlined animate-spin text-3xl text-gray-500 dark:text-gray-400"
           >progress_activity</i
         >
       </div>
@@ -38,13 +38,13 @@
                 @if (!!getPhotoOfBooking(booking)) {
                   <img
                     [src]="getPhotoOfBooking(booking)"
-                    class="h-10 w-10 rounded-full object-cover flex-shrink-0 bg-stone-100 dark:bg-zinc-800"
+                    class="h-10 w-10 rounded-full object-cover flex-shrink-0 bg-neutral-100 dark:bg-gray-800"
                   />
                 } @else {
                   <div
-                    class="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-700/50 flex-shrink-0"
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 dark:bg-gray-700/50 flex-shrink-0"
                   >
-                    <span class="font-medium text-xs text-zinc-600 dark:text-zinc-300">{{
+                    <span class="font-medium text-xs text-gray-600 dark:text-gray-300">{{
                       booking.title | slice: 0 : 1
                     }}</span>
                   </div>
@@ -52,7 +52,7 @@
 
                 <div class="min-w-0 flex-1">
                   <p
-                    class="text-sm font-semibold text-zinc-800 dark:text-white truncate"
+                    class="text-sm font-semibold text-gray-800 dark:text-white truncate"
                     [title]="booking.title"
                   >
                     {{ booking.title }}
@@ -60,7 +60,7 @@
 
                   @if (booking?.client) {
                     <p
-                      class="text-sm text-zinc-500 dark:text-zinc-400 truncate"
+                      class="text-sm text-gray-500 dark:text-gray-400 truncate"
                       [title]="booking.client?.fullName"
                     >
                       {{ booking.client?.fullName }}
@@ -68,13 +68,13 @@
                   }
 
                   <p
-                    class="text-xs text-zinc-400 dark:text-zinc-500 font-medium sm:hidden"
+                    class="text-xs text-gray-400 dark:text-gray-500 font-medium sm:hidden"
                     title="{{ booking.startAt | date: 'fullDate' }}"
                   >
                     {{ booking.startAt | date: "dd/MM/yy 'às' HH:mm" }}
                   </p>
                   <p
-                    class="text-xs text-zinc-400 dark:text-zinc-500 font-medium hidden sm:block"
+                    class="text-xs text-gray-400 dark:text-gray-500 font-medium hidden sm:block"
                     title="{{ booking.startAt | date: 'fullDate' }}"
                   >
                     {{ booking.startAt | date: "EEE, dd MMM 'às' HH:mm" }}
@@ -85,7 +85,7 @@
               <div
                 class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto sm:gap-4 flex-shrink-0"
               >
-                <span class="text-base sm:text-lg font-semibold text-zinc-800 dark:text-white">
+                <span class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">
                   {{ booking.finalPrice / 100 | currency: 'BRL' }}
                 </span>
                 <button
@@ -106,8 +106,8 @@
                 >
               </div>
               <div class="flex flex-col">
-                <p class="font-semibold text-zinc-800 dark:text-white">Tudo em dia!</p>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                <p class="font-semibold text-gray-800 dark:text-white">Tudo em dia!</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
                   Não há pagamentos pendentes no momento.
                 </p>
               </div>

@@ -1,10 +1,10 @@
-<div class="flex items-center gap-2 p-2 px-4 bg-stone-100 dark:bg-zinc-900 rounded-full">
+<div class="flex items-center gap-2 p-2 px-4 bg-stone-100 dark:bg-gray-900 rounded-full">
   <input
     type="time"
     [(ngModel)]="startTime"
     class="w-24 bg-transparent outline-none border-0 focus:ring-0 text-sm text-gray-800 dark:text-gray-200 dark:[color-scheme:dark]"
   />
-  <span class="text-gray-400 dark:text-zinc-500">-</span>
+  <span class="text-gray-400 dark:text-gray-500">-</span>
 
   <input
     type ="time"
@@ -12,7 +12,7 @@
     class="w-24 bg-transparent outline-none border-0 focus:ring-0 text-sm text-gray-800 dark:text-gray-200 dark:[color-scheme:dark]"
   />
 
-	<span class="h-7 w-px bg-zinc-200 dark:bg-zinc-700"></span>
+	<span class="h-7 w-px bg-stone-200 dark:bg-gray-700"></span>
   <button
     type="button"
     (click)="onSave()"
@@ -24,7 +24,7 @@
   <button
     type="button"
     (click)="onCancel()"
-    class="h-8 w-8 grid place-items-center rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors"
+    class="h-8 w-8 grid place-items-center rounded-full text-gray-500 hover:bg-stone-200 dark:hover:bg-gray-700 transition-colors"
     aria-label="Cancelar"
   >
     <span class="material-icons-outlined !text-xl">cancel</span>

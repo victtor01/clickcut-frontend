@@ -19,7 +19,7 @@ export class InitialComponent {
 
   public openLoginModal() {
     this.loginDialog.open(LoginModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(55rem, 90%)',

@@ -126,7 +126,7 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
 
   public openSearch(): void {
     const dialogRef = this.dialog.open(BookingSearchModalComponent, {
-      backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(65rem, 100%)',

@@ -117,7 +117,7 @@ export class PayrollComponent implements OnInit {
 
   public openPayroll(payout: Payout) {
     const modal = this.dialog.open(PayPayrollModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '40rem',
       width: 'min(40rem, 100%)',

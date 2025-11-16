@@ -126,7 +126,7 @@ export class ExploreComponent implements OnInit {
 
   public openLogin() {
     this.dialog.open(LoginModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(55rem, 100%)',
@@ -140,7 +140,7 @@ export class ExploreComponent implements OnInit {
 
   public openBusinessDetails(businessId: string) {
     this.dialog.open(BusinessModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(70rem, 100%)',

@@ -1,19 +1,19 @@
 <div
-  class="rounded-2xl relative overflow-x-hidden flex gap-5 bg-white dark:bg-zinc-950 p-8 border border-zinc-300 dark:border-zinc-800 w-full font-sans"
+  class="rounded-2xl relative overflow-x-hidden flex gap-5 bg-white dark:bg-gray-950 p-8 border border-gray-300 dark:border-gray-800 w-full font-sans"
 >
   <section class="flex flex-col flex-1">
     <div class="text-center">
-      <h2 class="text-2xl font-bold tracking-tight text-zinc-700 dark:text-white">
+      <h2 class="text-2xl font-bold tracking-tight text-gray-700 dark:text-white">
         Acesse sua conta
       </h2>
-      <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
         Bem-vindo de volta! Por favor, insira seus dados.
       </p>
 
       <button
         type="button"
         (click)="close()"
-        class="w-10 h-10 grid place-items-center absolute right-5 top-5 bg-gray-200 dark:bg-zinc-800 rounded-full"
+        class="w-10 h-10 grid place-items-center absolute right-5 top-5 bg-stone-200 dark:bg-gray-800 rounded-full"
       >
         <i class="material-icons-outlined">close</i>
       </button>
@@ -22,18 +22,18 @@
     <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" class="mt-8 space-y-6">
       <div class="relative">
         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-          <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">email</i>
+          <i class="material-icons-outlined text-gray-400 dark:text-gray-500">email</i>
         </div>
         <input
           formControlName="email"
           id="login_email"
           type="login_email"
-          class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
+          class="peer block w-full rounded-lg border-2 border-gray-300 bg-stone-50 py-3 pl-12 pr-4 text-gray-900 focus:border-indigo-500 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-500"
           placeholder=" "
         />
         <label
           for="login_email"
-          class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-zinc-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-zinc-50 px-1 dark:text-zinc-400 dark:peer-focus:text-violet-400 dark:bg-zinc-900"
+          class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-gray-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-stone-50 px-1 dark:text-gray-400 dark:peer-focus:text-violet-400 dark:bg-gray-900"
         >
           Email
         </label>
@@ -41,19 +41,19 @@
 
       <div class="relative">
         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-          <i class="material-icons-outlined text-zinc-400 dark:text-zinc-500">lock</i>
+          <i class="material-icons-outlined text-gray-400 dark:text-gray-500">lock</i>
         </div>
         <input
           formControlName="password"
           id="login_password"
           type="password"
           autocomplete="off"
-          class="peer block w-full rounded-lg border-2 border-zinc-300 bg-zinc-50 py-3 pl-12 pr-4 text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-indigo-500"
+          class="peer block w-full rounded-lg border-2 border-gray-300 bg-stone-50 py-3 pl-12 pr-4 text-gray-900 focus:border-indigo-500 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-500"
           placeholder=" "
         />
         <label
           for="login_password"
-          class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-zinc-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-zinc-50 px-1 dark:text-zinc-400 dark:peer-focus:text-violet-400 dark:bg-zinc-900"
+          class="absolute left-12 peer-focus:-translate-y-px flex h-1 items-center top-0 origin-[0] scale-75 transform text-gray-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 -translate-y-px peer-focus:scale-75 peer-focus:text-violet-600 bg-stone-50 px-1 dark:text-gray-400 dark:peer-focus:text-violet-400 dark:bg-gray-900"
         >
           Senha
         </label>
@@ -82,10 +82,10 @@
 
     <div class="relative mt-8">
       <div class="absolute inset-0 flex items-center" aria-hidden="true">
-        <div class="w-full border-t border-zinc-300 dark:border-zinc-700"></div>
+        <div class="w-full border-t border-gray-300 dark:border-gray-700"></div>
       </div>
       <div class="relative flex justify-center text-sm">
-        <span class="bg-white px-2 text-zinc-500 dark:bg-zinc-950 dark:text-zinc-400"
+        <span class="bg-white px-2 text-gray-500 dark:bg-gray-950 dark:text-gray-400"
           >Ou continue com</span
         >
       </div>
@@ -94,7 +94,7 @@
     <div class="mt-6">
       <a
         href="#"
-        class="flex w-full opacity-60 hover:opacity-100 items-center justify-center gap-3 rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-200 hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+        class="flex w-full opacity-60 hover:opacity-100 items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition-all duration-200 hover:bg-stone-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,7 @@
     </div>
 
     <!-- Link para Cadastro -->
-    <div class="mt-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
+    <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
       Não é um membro?
       <div
         (click)="goToRegisterPage()"
@@ -124,10 +124,10 @@
     </div>
   </section>
 
-  <span class="w-px hidden bg-zinc-200 dark:bg-zinc-800 md:flex"> </span>
+  <span class="w-px hidden bg-stone-200 dark:bg-gray-800 md:flex"> </span>
 
   <svg-login
-    class="flex-1 hidden md:flex after:content-[''] after:w-full after:h-full relative after:absolute after:z-20 after:bg-gradient-to-b after:from-transparent after:from-60% after:via-white after:via-78% after:to-[100%] after:to-white dark:after:to-zinc-950 dark:after:via-zinc-950"
+    class="flex-1 hidden md:flex after:content-[''] after:w-full after:h-full relative after:absolute after:z-20 after:bg-gradient-to-b after:from-transparent after:from-60% after:via-white after:via-78% after:to-[100%] after:to-white dark:after:to-gray-950 dark:after:via-gray-950"
   ></svg-login>
 
   <div class="flex absolute top-0 pointer-events-none left-0 w-full h-full overflow-hidden z-20">

@@ -32,7 +32,7 @@
 }
 
 .dark .checkmark {
-  --circle-bg: var(--color-zinc-900); /* Fundo do círculo no MODO ESCURO (zinc-800) */
+  --circle-bg: var(--color-gray-900); /* Fundo do círculo no MODO ESCURO (gray-800) */
 }
 
 // .cdk-overlay-container {
@@ -78,4 +78,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .no-spinner {
   -moz-appearance: textfield; /* Para Firefox */
+}
+
+.scroll-none {
+  // Para Firefox
+  scrollbar-width: none;
+
+  // Para IE e Edge (versões antigas)
+  -ms-overflow-style: none;
+
+  // Para Chrome, Safari, Opera e Edge (baseado em Chromium)
+  &::-webkit-scrollbar {
+    display: none; // Oculta a barra de rolagem
+  }
 }

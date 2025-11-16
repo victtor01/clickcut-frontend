@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Observable } from 'rxjs';
 import { PaginatedResult } from '../DTOs/paginated-result-response';
 import { Booking } from '../models/Booking';
@@ -15,9 +15,9 @@ export type BookingsByDay = Record<string, Booking[]>;
 export class BookingsService {
   constructor(private readonly apiService: ApiService) {}
 
-  public getAll(startAt?: string, endAt?: string): Observable<BookingsByDay> {
-    const startDate = startAt ? dayjs(startAt).startOf('week') : dayjs();
-    const endDate = startDate.endOf('week');
+  public getAll(startAt?: Dayjs, endAt?: Dayjs): Observable<BookingsByDay> {
+    const startDate = startAt ? dayjs(startAt).startOf('month') : dayjs().startOf("week");
+    const endDate = endAt ? dayjs(endAt).endOf('month') : dayjs().endOf("week");
 
     const params = new HttpParams()
       .set('startAt', startDate.format('YYYY-MM-DD'))

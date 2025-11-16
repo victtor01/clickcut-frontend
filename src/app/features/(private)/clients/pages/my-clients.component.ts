@@ -30,7 +30,7 @@ export class MyClientsComponent implements OnInit {
     this.clientModalRef.open(ClientModalProfile, {
       width: '100%',
       maxWidth: '50rem',
-      backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       data: {
         summary: summary,

@@ -1,12 +1,12 @@
 <section
-  class="flex flex-col relative p-5 items-center h-screen overflow-auto overflow-x-hidden w-full bg-gradient-to-bl from-stone-50 to-white dark:from-zinc-950/50 dark:to-zinc-950/50"
+  class="flex flex-col relative p-5 items-center h-screen overflow-auto overflow-x-hidden w-full bg-gradient-to-bl from-stone-50 to-white dark:from-gray-950/50 dark:to-gray-950/50"
 >
   <div
     class="w-full mt-[10%] bg-transparent backdrop-blur-xl md:rounded-t-2xl rounded-2xl flex flex-col items-center text-center md:relative md:bottom-auto md:left-auto md:translate-x-0 md:m-auto"
   >
     <header class="mb-8">
-      <h2 class="text-3xl sm:text-3xl text-zinc-700 dark:text-gray-100">Selecione uma loja</h2>
-      <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+      <h2 class="text-3xl sm:text-3xl text-gray-700 dark:text-gray-100">Selecione uma loja</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
         Escolha uma loja para continuar ou adicione uma nova.
       </p>
     </header>
@@ -22,13 +22,13 @@
         >
 
           <div
-            class="group saira-font w-[8rem] h-[8rem] aspect-square relative overflow-hidden flex flex-col items-center justify-center gap-1 rounded-full bg-stone-100 dark:bg-zinc-800 hover:ring-2 hover:ring-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-offset-zinc-900"
+            class="group saira-font w-[8rem] h-[8rem] aspect-square relative overflow-hidden flex flex-col items-center justify-center gap-1 rounded-full bg-neutral-100 dark:bg-gray-800 hover:ring-2 hover:ring-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-offset-gray-900"
           >
             @if (bus.logoUrl) {
               <img [src]="bus.logoUrl" alt="Avatar do cliente" class="object-cover" />
             } @else {
               <span
-                class="font-medium text-2xl text-zinc-400 tracking-wider group-hover:text-gray-500 dark:group-hover:text-white transition-colors"
+                class="font-medium text-2xl text-gray-400 tracking-wider group-hover:text-gray-500 dark:group-hover:text-white transition-colors"
                 >{{ bus.name[0] }}</span
               >
             }
@@ -50,7 +50,7 @@
       >
         <a
           [routerLink]="['/create-business']"
-          class="group aspect-square flex w-[8rem] h-[8rem] items-center justify-center rounded-full bg-transparent border-2 border-zinc-700 text-zinc-600 transition-all duration-200 ease-in-out hover:scale-110 dark:hover:border-white hover:border-black hover:text-black dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-offset-zinc-900"
+          class="group aspect-square flex w-[8rem] h-[8rem] items-center justify-center rounded-full bg-transparent border-2 border-gray-700 text-gray-600 transition-all duration-200 ease-in-out hover:scale-110 dark:hover:border-white hover:border-black hover:text-black dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-offset-gray-900"
         >
           <i class="material-icons-outlined !text-[3rem]">add</i>
         </a>
@@ -61,11 +61,11 @@
 </section>
 
 @if (selectedBusiness) {
-  <div class="fixed inset-0 z-40 bg-gray-100 dark:bg-zinc-900">
+  <div class="fixed inset-0 z-40 bg-neutral-1dark:bg-grayeutral-900">
     <button
       type="button"
       (click)="this.selectedBusiness = undefined"
-      class="absolute right-10 top-10 w-12 h-12 dark:hover:bg-zinc-700 bg-white dark:bg-zinc-800 grid place-items-center rounded-full"
+      class="absolute right-10 top-10 w-12 h-12 dark:hover:bg-neutral-700 bg-whidark:bg-grayeutral-800 grid place-items-center rounded-full"
     >
       <i class="material-icons-outlined dark:text-white text-gray-600">close</i>
     </button>

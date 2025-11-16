@@ -58,20 +58,20 @@
       class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/60 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
-        <span class="relative font-medium text-zinc-700 dark:text-zinc-300"> Receita do Mês </span>
+        <span class="relative font-medium text-gray-700 dark:text-gray-300"> Receita do Mês </span>
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
           <div
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
           <i
-            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
             >trending_up</i
           >
         </div>
       </header>
 
       <div class="text-left">
-        <p class="text-4xl font-bold text-zinc-700 dark:text-zinc-100 saira-font">
+        <p class="text-4xl font-bold text-gray-700 dark:text-gray-100 saira-font">
           {{ revenue?.revenue | toFormatBrl }}
         </p>
       </div>
@@ -90,7 +90,7 @@
             }
             {{ revenuePercentageChange | number: '1.0-1' }}%
           </span>
-          <span class="text-xs text-zinc-500 dark:text-zinc-400">vs. Mês Anterior</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">vs. Mês Anterior</span>
         </div>
       }
     </div>
@@ -99,13 +99,13 @@
       class="flex flex-col justify-between rounded-2xl border min-w-[20rem] h-[10rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/60 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
-        <span class="relative font-medium text-zinc-700 dark:text-zinc-300"> Visão Geral </span>
+        <span class="relative font-medium text-gray-700 dark:text-gray-300"> Visão Geral </span>
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
           <div
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
           <i
-            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
             >analytics</i
           >
         </div>
@@ -113,13 +113,13 @@
       <div class="flex-1 flex justify-around mt-3 items-center px-4 gap-2 relative">
         <div class="flex flex-col items-center gap-1 opacity-60 relative -top-3">
           <div
-            class="w-14 h-14 grid place-items-center rounded-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700"
+            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700"
           >
-            <span class="text-xl font-bold text-zinc-500 dark:text-zinc-400 saira-font">{{
+            <span class="text-xl font-bold text-gray-500 dark:text-gray-400 saira-font">{{
               general?.past
             }}</span>
           </div>
-          <span class="text-xs text-zinc-400 dark:text-zinc-500">Passados</span>
+          <span class="text-xs text-gray-400 dark:text-gray-500">Passados</span>
         </div>
 
         <div class="flex flex-col items-center gap-1 relative top-0">
@@ -135,33 +135,33 @@
 
         <div class="flex flex-col items-center gap-1 relative -top-5">
           <div
-            class="w-14 h-14 grid place-items-center rounded-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700"
+            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700"
           >
-            <span class="text-xl font-bold text-zinc-700 dark:text-zinc-300 saira-font">{{
+            <span class="text-xl font-bold text-gray-700 dark:text-gray-300 saira-font">{{
               general?.tomorrow
             }}</span>
           </div>
-          <span class="text-xs text-zinc-500 dark:text-zinc-400">Amanhã</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">Amanhã</span>
         </div>
 
         <div class="flex flex-col items-center gap-1 relative -top-2">
           <div
-            class="w-14 h-14 grid place-items-center rounded-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700"
+            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700"
           >
-            <span class="text-xl font-bold text-zinc-700 dark:text-zinc-300 saira-font">{{
+            <span class="text-xl font-bold text-gray-700 dark:text-gray-300 saira-font">{{
               general?.future
             }}</span>
           </div>
-          <span class="text-xs text-zinc-500 dark:text-zinc-400">Futuros</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">Futuros</span>
         </div>
       </div>
     </div>
 
     <div
-      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-zinc-200/70 backdrop-blur-lg bg-white/60 dark:bg-black/20 dark:border-white/10"
+      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-black/20 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
-        <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
+        <span class="relative font-medium text-gray-700 dark:text-gray-300">
           Métodos de pagamento
         </span>
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
@@ -169,7 +169,7 @@
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
           <i
-            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
             >payments</i
           >
         </div>
@@ -205,10 +205,10 @@
       </div>
     </div>
     <div
-      class="flex flex-col justify-between rounded-2xl border p-6 h-[10rem] min-w-[18rem] shadow-none dark:shadow-lg border-zinc-200/70 backdrop-blur-lg bg-white/60 dark:bg-black/20 dark:border-white/10"
+      class="flex flex-col justify-between rounded-2xl border p-6 h-[10rem] min-w-[18rem] shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-black/20 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
-        <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
+        <span class="relative font-medium text-gray-700 dark:text-gray-300">
           Serviços populares
         </span>
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
@@ -216,7 +216,7 @@
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
           <i
-            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
             >cards_star</i
           >
         </div>
@@ -242,7 +242,7 @@
                 <i class="material-symbols-outlined !text-amber-500">star</i>
               } @else {
                 <div
-                  class="h-6 w-6 grid place-items-center rounded-full bg-zinc-100 dark:bg-zinc-700 text-xs font-bold text-zinc-500 dark:text-zinc-400"
+                  class="h-6 w-6 grid place-items-center rounded-full bg-stone-100 dark:bg-gray-700 text-xs font-bold text-gray-500 dark:text-gray-400"
                 >
                   {{ $index + 1 }}
                 </div>
@@ -251,12 +251,12 @@
 
             <div class="flex flex-grow items-baseline justify-between gap-4">
               <span
-                class="text-sm font-medium text-zinc-600 saira-font dark:text-zinc-200 truncate"
+                class="text-sm font-medium text-gray-600 saira-font dark:text-gray-200 truncate"
                 [title]="service.service.title"
               >
                 {{ service.service.title }}
               </span>
-              <span class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+              <span class="text-sm font-semibold text-gray-800 dark:text-gray-100">
                 {{ service.count }}x
               </span>
             </div>
@@ -266,10 +266,10 @@
     </div>
 
     <div
-      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-zinc-200/70 backdrop-blur-lg bg-white/60 dark:bg-black/20 dark:border-white/10"
+      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-black/20 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
-        <span class="relative font-medium text-zinc-700 dark:text-zinc-300">
+        <span class="relative font-medium text-gray-700 dark:text-gray-300">
           Agendamentos no mês de agosto
         </span>
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
@@ -277,7 +277,7 @@
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
           <i
-            class="material-icons-outlined !text-lg text-zinc-700 dark:text-zinc-300 relative z-[1]"
+            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
             >timeline</i
           >
         </div>

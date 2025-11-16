@@ -9,16 +9,16 @@ import { ClientProfileSettingsComponent } from '@app/features/(private)/clients/
 import { LogoComponent } from '@app/shared/components/logo/logo.component';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
-  saxAddSquareBold,
-  saxHeartBold,
-  saxHome2Bold,
-  saxRepeatBold,
+    saxAddSquareBold,
+    saxHeartBold,
+    saxHome2Bold,
+    saxRepeatBold,
 } from '@ng-icons/iconsax/bold';
 import {
-  saxAddSquareOutline,
-  saxHeartOutline,
-  saxHome2Outline,
-  saxRepeatOutline,
+    saxAddSquareOutline,
+    saxHeartOutline,
+    saxHome2Outline,
+    saxRepeatOutline,
 } from '@ng-icons/iconsax/outline';
 import { firstValueFrom } from 'rxjs';
 
@@ -173,7 +173,7 @@ export class HubLayoutComponent {
       maxWidth: '800px', // A largura pode ser ajustada para o modal de edição
       height: '90%', // Altura ajustada para permitir scroll interno
       maxHeight: '700px',
-      backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       data: {
         user: clientAccount, // Passando os dados do usuário para o modal de edição

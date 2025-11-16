@@ -1,24 +1,24 @@
 <form class="px-4" [formGroup]="inviteForm" (ngSubmit)="onSubmit()" novalidate>
   <div
-    class="rounded-xl border border-zinc-200/80 bg-white dark:border-zinc-800 dark:bg-zinc-900/50"
+    class="rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
   >
     <!-- Cabeçalho do Card -->
     <div class="p-6">
       <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-100">Convidar Novo Membro</h3>
-      <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
         O membro convidado terá acesso para gerenciar agendamentos e serviços.
       </p>
     </div>
 
     <!-- Corpo do Card com o Input -->
-    <div class="border-t border-zinc-200/80 p-6 dark:border-zinc-800">
-      <label for="inviteEmail" class="text-sm font-medium text-gray-700 dark:text-zinc-300">
+    <div class="border-t border-gray-200/80 p-6 dark:border-gray-800">
+      <label for="inviteEmail" class="text-sm font-medium text-gray-700 dark:text-gray-300">
         E-mail do Convidado
       </label>
       <div class="mt-2 flex flex-col gap-4 sm:flex-row">
         <div class="relative w-full">
           <i
-            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             >alternate_email</i
           >
           <input
@@ -26,14 +26,14 @@
             type="email"
             formControlName="email"
             placeholder="nome@exemplo.com"
-            class="w-full rounded-lg border placeholder:text-zinc-400 border-zinc-300 bg-transparent py-2.5 pl-10 pr-4 text-zinc-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:text-zinc-100"
+            class="w-full rounded-lg border placeholder:text-gray-400 border-gray-300 bg-transparent py-2.5 pl-10 pr-4 text-gray-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-gray-100"
             [class.border-red-500]="email?.invalid && (email?.dirty || email?.touched)"
           />
         </div>
         <button
           type="submit"
           [disabled]="inviteForm.invalid || submissionState() === 'loading'"
-          class="flex w-full text-nowrap items-center justify-center gap-2 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800 dark:disabled:text-zinc-400 disabled:text-zinc-200 sm:w-auto"
+          class="flex w-full text-nowrap items-center justify-center gap-2 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800 dark:disabled:text-gray-400 disabled:text-gray-200 sm:w-auto"
         >
           @if (submissionState() === 'loading') {
             <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>

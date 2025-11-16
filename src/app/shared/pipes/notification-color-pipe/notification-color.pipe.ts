@@ -20,7 +20,7 @@ export class NotificationColorPipe implements PipeTransform {
       case 'PAYMENT_RECEIVED':
         return 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900 dark:text-emerald-300';
       default:
-        return 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300';
+        return 'bg-stone-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300';
     }
   }
 }

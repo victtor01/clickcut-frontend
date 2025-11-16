@@ -1,6 +1,6 @@
-<div class="flex h-screen flex-col overflow-auto bg-zinc-50 dark:bg-zinc-950">
+<div class="flex h-screen flex-col overflow-auto bg-stone-50 dark:bg-gray-950">
   <div
-    class="pointer-events-none absolute inset-0 bg-gradient-to-b from-purple-500/10 via-white/5 to-white dark:from-zinc-900 dark:via-zinc-900/80 dark:to-zinc-900"
+    class="pointer-events-none absolute inset-0 bg-gradient-to-b from-purple-500/10 via-white/5 to-white dark:from-gray-900 dark:via-gray-900/80 dark:to-gray-900"
   ></div>
 
   <div
@@ -12,10 +12,10 @@
     </div>
 
     <header class="flex flex-col gap-2">
-      <h1 class="text-3xl font-semibold text-zinc-700 dark:text-zinc-100 saira-font">
+      <h1 class="text-3xl font-semibold text-gray-700 dark:text-gray-100 saira-font">
         Agendamento Confirmado!
       </h1>
-      <p class="text-zinc-600 dark:text-zinc-400">
+      <p class="text-gray-600 dark:text-gray-400">
         Seu horário foi agendado com sucesso. Enviamos todos os detalhes para o seu e-mail.
       </p>
     </header>
@@ -23,7 +23,7 @@
     <div class="mt-4 w-full">
       <button
         type="button"
-        class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
+        class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950"
       >
         Ver Detalhes do Agendamento
       </button>
@@ -53,7 +53,7 @@
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           ></path>
         </svg>
-        <p class="text-zinc-600 dark:text-zinc-400">Carregando detalhes do agendamento...</p>
+        <p class="text-gray-600 dark:text-gray-400">Carregando detalhes do agendamento...</p>
       </div>
     }
 
@@ -75,10 +75,10 @@
             />
           </svg>
         </div>
-        <h1 class="text-2xl font-bold text-zinc-800 dark:text-zinc-100">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
           Agendamento não encontrado
         </h1>
-        <p class="max-w-md text-zinc-600 dark:text-zinc-400">
+        <p class="max-w-md text-gray-600 dark:text-gray-400">
           O link que você usou pode estar incorreto ou o agendamento pode ter sido cancelado.
         </p>
       </header>
@@ -91,14 +91,14 @@
           <div class="w-full max-w-[20rem] text-purple-500">
             <svg-send-email></svg-send-email>
           </div>
-          <h1 class="text-3xl font-bold text-zinc-700 dark:text-zinc-100">
+          <h1 class="text-3xl font-bold text-gray-700 dark:text-gray-100">
             @if (codeSent) {
               <span>Verifique seu E-mail</span>
             } @else {
               <span>Valide seu Agendamento</span>
             }
           </h1>
-          <p class="text-zinc-600 dark:text-zinc-400">
+          <p class="text-gray-600 dark:text-gray-400">
             @if (codeSent) {
               <span>
                 Olá, {{ booking.title }}. Inseria abaixo o código de 6 dígitos que enviamos para o
@@ -123,14 +123,14 @@
                 [value]="validationCode()"
                 (input)="onCodeInput($event)"
                 placeholder="000000"
-                class="w-full rounded-lg border border-zinc-300 bg-white p-4 text-center text-3xl font-bold tracking-[0.5em] text-zinc-800 placeholder:tracking-normal placeholder:text-zinc-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:placeholder:text-zinc-500"
+                class="w-full rounded-lg border border-gray-300 bg-white p-4 text-center text-3xl font-bold tracking-[0.5em] text-gray-800 placeholder:tracking-normal placeholder:text-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:placeholder:text-gray-500"
               />
             </div>
             <button
               type="button"
               (click)="verifyCode()"
               [disabled]="validationCode().length !== 6 || isVerifyingCode"
-              class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-zinc-950"
+              class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-gray-950"
             >
               @if (isVerifyingCode) {
                 <svg
@@ -164,7 +164,7 @@
             <button
               type="button"
               (click)="requestValidationCode()"
-              class="text-sm font-medium text-purple-600 transition-colors hover:text-purple-500 disabled:cursor-not-allowed disabled:text-zinc-400 dark:text-purple-400 dark:hover:text-purple-300 dark:disabled:text-zinc-500"
+              class="text-sm font-medium text-purple-600 transition-colors hover:text-purple-500 disabled:cursor-not-allowed disabled:text-gray-400 dark:text-purple-400 dark:hover:text-purple-300 dark:disabled:text-gray-500"
             >
               @if (isVerifyingCode) {
                 <span>Reenviando...</span>
@@ -188,7 +188,7 @@
                 type="button"
                 (click)="requestValidationCode()"
                 [disabled]="isRequestingCode"
-                class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-zinc-950"
+                class="flex w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-white transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-gray-950"
               >
                 @if (isRequestingCode) {
                   <svg
@@ -224,12 +224,12 @@
   </div>
 
   <footer
-    class="relative z-10 flex-1 w-full border-t border-zinc-200 bg-white/50 dark:border-zinc-800 dark:bg-zinc-950/50"
+    class="relative z-10 flex-1 w-full border-t border-gray-200 bg-white/50 dark:border-gray-800 dark:bg-gray-950/50"
   >
     <div
       class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-8 md:flex-row"
     >
-      <div class="text-center text-sm text-zinc-600 dark:text-zinc-400 md:text-left">
+      <div class="text-center text-sm text-gray-600 dark:text-gray-400 md:text-left">
         <p>&copy; 2025 ClickCut.</p>
         <p>Todos os direitos reservados.</p>
       </div>
@@ -238,23 +238,23 @@
         <nav class="flex gap-x-6">
           <a
             href="#"
-            class="text-sm text-zinc-600 transition hover:text-purple-600 dark:text-zinc-400 dark:hover:text-purple-400"
+            class="text-sm text-gray-600 transition hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
             >Termos</a
           >
           <a
             href="#"
-            class="text-sm text-zinc-600 transition hover:text-purple-600 dark:text-zinc-400 dark:hover:text-purple-400"
+            class="text-sm text-gray-600 transition hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
             >Privacidade</a
           >
         </nav>
 
-        <div class="hidden h-6 w-px bg-zinc-300 dark:bg-zinc-700 sm:block"></div>
+        <div class="hidden h-6 w-px bg-stone-300 dark:bg-gray-700 sm:block"></div>
 
         <div class="flex items-center gap-x-4">
           <a
             href="#"
             aria-label="LinkedIn"
-            class="text-zinc-500 transition hover:text-purple-600 dark:hover:text-purple-400"
+            class="text-gray-500 transition hover:text-purple-600 dark:hover:text-purple-400"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -265,7 +265,7 @@
           <a
             href="#"
             aria-label="GitHub"
-            class="text-zinc-500 transition hover:text-purple-600 dark:hover:text-purple-400"
+            class="text-gray-500 transition hover:text-purple-600 dark:hover:text-purple-400"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path

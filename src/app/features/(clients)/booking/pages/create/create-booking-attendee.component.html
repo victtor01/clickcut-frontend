@@ -13,11 +13,11 @@
     </div>
 
     <h1
-      class="text-3xl font-semibold tracking-tight text-zinc-800 saira-font dark:text-white sm:text-2xl mt-4"
+      class="text-3xl font-semibold tracking-tight text-gray-800 saira-font dark:text-white sm:text-2xl mt-4"
     >
       Novo Agendamento
     </h1>
-    <p class="mt-2 max-w-md text-base text-zinc-500 dark:text-zinc-400">
+    <p class="mt-2 max-w-md text-base text-gray-500 dark:text-gray-400">
       Escolha um de seus negócios favoritos para começar a agendar um serviço.
     </p>
   </header>
@@ -26,10 +26,10 @@
     <button
       *ngFor="let business of favorites"
       (click)="createMeet(business.id)"
-      class="group flex w-full transform items-center gap-3 sm:gap-4 rounded-xl border border-zinc-200 bg-white p-3 sm:p-4 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-100/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-white/[.05] dark:hover:shadow-none"
+      class="group flex w-full transform items-center gap-3 sm:gap-4 rounded-xl border border-gray-200 bg-white p-3 sm:p-4 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-100/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-gray-800 dark:bg-gray-900 dark:hover:bg-white/[.05] dark:hover:shadow-none"
     >
       <div
-        class="relative h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 rounded-full border-4 border-white bg-zinc-200 dark:border-zinc-900 dark:bg-zinc-700"
+        class="relative h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 rounded-full border-4 border-white bg-stone-200 dark:border-gray-900 dark:bg-gray-700"
       >
         <img
           *ngIf="business.logoUrl"
@@ -41,12 +41,12 @@
           *ngIf="!business.logoUrl"
           class="flex h-full w-full items-center justify-center rounded-full"
         >
-          <i class="material-symbols-outlined text-zinc-500">store</i>
+          <i class="material-symbols-outlined text-gray-500">store</i>
         </div>
       </div>
 
       <div class="flex-1 min-w-0">
-        <h2 class="truncate text-base font-bold text-zinc-900 dark:text-white sm:text-lg">
+        <h2 class="truncate text-base font-bold text-gray-900 dark:text-white sm:text-lg">
           {{ business.name }}
         </h2>
         <div class="flex items-center gap-1.5 mt-1">
@@ -72,13 +72,13 @@
               >star</i
             >
             <i
-              class="material-symbols-outlined !text-sm sm:!text-base text-zinc-300 dark:text-zinc-600"
+              class="material-symbols-outlined !text-sm sm:!text-base text-gray-300 dark:text-gray-600"
               >star_half</i
             >
           </div>
-          <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">(4.5)</span>
+          <span class="text-xs font-medium text-gray-500 dark:text-gray-400">(4.5)</span>
         </div>
-        <p class="mt-1 truncate text-xs text-zinc-500 dark:text-zinc-400 sm:text-sm">
+        <p class="mt-1 truncate text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
           Barbearia • Aberto agora
         </p>
       </div>
@@ -94,7 +94,7 @@
 
   <ng-template #emptyState>
     <div
-      class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-800/50"
+      class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white p-12 text-center dark:border-gray-700 dark:bg-gray-800/50"
     >
       <div
         class="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-500/10"
@@ -106,7 +106,7 @@
       <h3 class="mt-4 text-xl font-semibold text-slate-600 saira-font dark:text-white">
         Adicione favoritos para agendar
       </h3>
-      <p class="mt-1 text-zinc-500 dark:text-zinc-400">
+      <p class="mt-1 text-gray-500 dark:text-gray-400">
         Para agendar um serviço, primeiro adicione o negócio à sua lista de favoritos.
       </p>
       <button

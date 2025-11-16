@@ -3,21 +3,21 @@
 } -->
 
 <section
-  class="flex flex-col overflow-hidden md:rounded-3xl border border-zinc-200/80 not-md:h-screen h-full md:max-h-[50rem] bg-white dark:border-zinc-800 dark:bg-zinc-900"
+  class="flex flex-col overflow-hidden md:rounded-3xl border border-gray-200/80 not-md:h-screen h-full md:max-h-[50rem] bg-white dark:border-gray-800 dark:bg-gray-900"
 >
   <header
-    class="flex flex-shrink-0 items-center justify-between border-b border-zinc-200/80 p-4 dark:border-zinc-800"
+    class="flex flex-shrink-0 items-center justify-between border-b border-gray-200/80 p-4 dark:border-gray-800"
   >
     <button
       (click)="toggleSidebar()"
-      class="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 md:hidden"
+      class="rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800 md:hidden"
     >
       <mat-icon>menu</mat-icon>
     </button>
-    <h2 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100">Buscar Agendamentos</h2>
+    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Buscar Agendamentos</h2>
     <button
       (click)="close()"
-      class="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+      class="rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800"
     >
       <mat-icon>close</mat-icon>
     </button>
@@ -25,7 +25,7 @@
 
   <main class="relative flex flex-1 overflow-hidden md:flex-row" [style.perspective.px]="1000">
     <aside
-      class="absolute left-0 top-0 z-30 max-h-full flex overflow-auto w-72 flex-shrink-0 flex-col border-b border-zinc-200/80 bg-white dark:border-zinc-800 dark:bg-zinc-900 md:static md:w-1/3 md:border-b-0 md:border-r md:bg-transparent dark:md:bg-transparent transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0"
+      class="absolute left-0 top-0 z-30 max-h-full flex overflow-auto w-72 flex-shrink-0 flex-col border-b border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900 md:static md:w-1/3 md:border-b-0 md:border-r md:bg-transparent dark:md:bg-transparent transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0"
       [class.translate-x-0]="isSidebarOpen()"
     >
       <div class="relative px-3 mt-2">
@@ -33,10 +33,10 @@
           type="text"
           placeholder="Buscar por cliente ou serviço..."
           [formControl]="searchControl"
-          class="w-full rounded-lg border border-zinc-300 bg-white dark:bg-zinc-900 shadow py-2 pl-10 pr-4 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:text-zinc-100"
+          class="w-full rounded-lg border border-gray-300 bg-white dark:bg-gray-900 shadow py-2 pl-10 pr-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-gray-100"
         />
         <i
-          class="material-icons-outlined px-2 pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 !h-5 !w-5 text-zinc-400"
+          class="material-icons-outlined px-2 pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 !h-5 !w-5 text-gray-400"
         >
           search
         </i>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="space-y-1">
-          <h4 class="px-3 text-xs font-semibold uppercase text-zinc-400">Períodos</h4>
+          <h4 class="px-3 text-xs font-semibold uppercase text-gray-400">Períodos</h4>
           @for (filter of periodFilters(); track filter.label) {
             <button (click)="selectFilter(filter)" [ngClass]="getFilterClasses(filter)">
               <mat-icon class="!text-lg">{{ filter.icon }}</mat-icon>
@@ -63,7 +63,7 @@
         </div>
 
         <div class="space-y-1">
-          <h4 class="px-3 text-xs font-semibold uppercase text-zinc-400">Meses Anteriores</h4>
+          <h4 class="px-3 text-xs font-semibold uppercase text-gray-400">Meses Anteriores</h4>
           @for (month of previousMonthFilters(); track month.label) {
             <button (click)="selectFilter(month)" [ngClass]="getFilterClasses(month)">
               <mat-icon class="!text-lg">{{ month.icon }}</mat-icon>
@@ -92,11 +92,11 @@
           @for (result of searchResults(); track result.id) {
             <li
               (click)="open(result)"
-              class="cursor-pointer flex relative group items-center overflow-hidden gap-4 py-4 px-3 hover:ring-1 hover:ring-zinc-100 dark:hover:ring-zinc-800 rounded-lg transition-colors bg-gradient-to-tr from-transparent hover:to-violet-500/10"
+              class="cursor-pointer flex relative group items-center overflow-hidden gap-4 py-4 px-3 hover:ring-1 hover:ring-gray-100 dark:hover:ring-gray-800 rounded-lg transition-colors bg-gradient-to-tr from-transparent hover:to-violet-500/10"
             >
               <div class="flex relative">
                 <div
-                  class="flex relative h-10 w-10 items-center justify-center rounded-lg rounded-tl-sm bg-zinc-100 dark:bg-zinc-800 overflow-hidden"
+                  class="flex relative h-10 w-10 items-center justify-center rounded-lg rounded-tl-sm bg-stone-100 dark:bg-gray-800 overflow-hidden"
                 >
                   @if (result?.services?.[0]?.service?.photoUrl) {
                     <img
@@ -104,25 +104,25 @@
                       class="h-full w-full object-cover"
                     />
                   } @else {
-                    <i class="material-symbols-outlined text-zinc-500">person</i>
+                    <i class="material-symbols-outlined text-gray-500">person</i>
                   }
                 </div>
 
                 @if (result.client) {
                   <div
-                    class="absolute bottom-0 right-0 bg-zinc-100 dark:bg-zinc-800 grid place-items-center ring-2 translate-1 w-4 h-4 ring-white dark:ring-zinc-900 rounded-full"
+                    class="absolute bottom-0 right-0 bg-stone-100 dark:bg-gray-800 grid place-items-center ring-2 translate-1 w-4 h-4 ring-white dark:ring-gray-900 rounded-full"
                   >
                     @if (result?.client?.avatarUrl) {
                       <img [src]="result?.client?.avatarUrl" class="h-full w-full object-cover" />
                     } @else {
-                      <i class="material-symbols-outlined text-zinc-500 !text-xs">person</i>
+                      <i class="material-symbols-outlined text-gray-500 !text-xs">person</i>
                     }
                   </div>
                 }
               </div>
               <div class="flex flex-1 flex-col">
-                <p class="font-semibold text-zinc-800 dark:text-white">{{ result.title }}</p>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                <p class="font-semibold text-gray-800 dark:text-white">{{ result.title }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
                   {{ !!result?.client?.fullName ? result.client!.fullName + ',' : '' }}
                   {{ result.startAt | date: "EEE dd 'de' MMM" }}
                 </p>
