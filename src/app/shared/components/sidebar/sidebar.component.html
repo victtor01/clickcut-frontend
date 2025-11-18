@@ -43,20 +43,25 @@
         class="absolute left-0 w-1 bg-indigo-500 rounded-r-full duration-300 ease-in-out"
       ></span>
 
-      <button
-        #tabElement
-        *ngFor="let tab of tabs"
-        [attr.data-active]="tab.id === activeTabId"
-        (click)="selectTab(tab)"
-        class="relative flex flex-col mx-auto items-center justify-center w-20 h-20 rounded-lg text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
-      >
-        <span
-          [ngClass]="tab.id === activeTabId ? 'material-icons' : 'material-icons-outlined'"
-          class="text-3xl transition-all"
-          >{{ tab.icon }}</span
+      @for (tab of tabs; track $index) {
+        @let selected = tab.id === activeTabId;
+
+        <button
+          #tabElement
+          [attr.data-active]="selected"
+          (click)="selectTab(tab)"
+          class="relative flex flex-col mx-auto items-center justify-center w-20 h-20 rounded-lg text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
         >
-        <span class="text-xs font-medium mt-1">{{ tab.label }}</span>
-      </button>
+          <ng-icon
+            [attr.data-selected]="selected"
+            [name]="!selected ? tab.icon : tab.selected"
+            size="26"
+            class="drop-shadow-lg data-[selected=true]:drop-shadow-slate-500/50 data-[selected=true]:dark:drop-shadow-indigo/40"
+          >
+          </ng-icon>
+          <span class="text-xs font-medium mt-1">{{ tab.label }}</span>
+        </button>
+      }
     </div>
   </aside>
 
@@ -139,12 +144,13 @@
   [attr.data-blur]="isOpenCreateBooking()"
   class="hidden relative w-[18rem] z-40 flex-shrink-0 flex-col border-gray-200 overflow-y-auto border-r border-slate shadow-none bg-white dark:border-gray-800/50 dark:bg-gray-900/20 backdrop-blur-lg lg:flex"
 >
-  <div class="flex flex-1 flex-col relative">
+  <div class="flex flex-1 flex-col relative h-screen overflow-hidden">
     @if (isOpenCreateBooking()) {
       <div
         class="inset-0 bg-violet-100/50 dark:bg-black/50 animate-fade-in absolute top-0 left-0 w-full h-auto z-40"
       ></div>
     }
+
     <div class="mb-4 p-5">
       <a href="#" class="flex items-center gap-2">
         <div class="flex flex-1 items-center gap-2">
@@ -157,7 +163,7 @@
           <span
             class="text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 dark:bg-violet-500/20 dark:text-indigo-300"
           >
-            {{plan?.planId}}
+            {{ plan?.planId }}
           </span>
         </div>
       </a>
@@ -211,15 +217,16 @@
       Menu
     </h3>
 
-    <nav class="flex-1 px-5">
+    <nav class="flex-1 px-5 flex-col overflow-auto">
       <ul class="flex flex-col gap-1">
         @for (tab of tabs; track $index) {
           @let invalid = tab.plan && !validPlan(tab.plan);
+          @let selected = tab.id === activeTabId;
 
           <li class="relative flex-1">
             <button
               (click)="selectTab(tab)"
-              class="group flex w-full text-start items-center gap-3 rounded-lg px-3 py-1.5 font-medium transition-colors duration-200"
+              class="group flex w-full text-start items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors duration-200"
               [ngClass]="{
                 'bg-indigo-50 text-indigo-950 cursor-default dark:bg-gray-800/50 dark:text-violet-50':
                   tab.id === activeTabId,
@@ -229,14 +236,18 @@
                   tab.id !== activeTabId,
               }"
             >
-              <i
-                class="material-symbols-outlined !text-2xl"
-                [ngStyle]="{
+              <!-- [ngStyle]="{
                   'font-variation-settings': tab.id === activeTabId ? '\'FILL\' 1' : '\'FILL\' 0',
-                }"
-                >{{ tab.icon }}</i
+                }" -->
+              <ng-icon
+                [attr.data-selected]="selected"
+                [name]="!selected ? tab.icon : tab.selected"
+                size="26"
+                class="drop-shadow-lg data-[selected=true]:drop-shadow-slate-500/50 data-[selected=true]:dark:drop-shadow-white/40"
               >
-              <span class="flex-1">{{ tab.label }}</span>
+                {{ tab.icon }}
+              </ng-icon>
+              <span class="flex-1 text-lg">{{ tab.label }}</span>
               @if (invalid) {
                 <div
                   class="flex p-0.5 px-2 font-semibold text-center rounded-full bg-violet-500 text-violet-50 text-xs"
@@ -260,7 +271,9 @@
             (click)="openBusinessDetails()"
             class="group flex text-left w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-slate-100 dark:hover:bg-gray-700/50"
           >
-            <div class="relative h-10 w-10 flex-shrink-0 rounded-full bg-stone-200 dark:bg-gray-700">
+            <div
+              class="relative h-10 w-10 flex-shrink-0 rounded-full bg-stone-200 dark:bg-gray-700"
+            >
               @if (business?.logoUrl) {
                 <img
                   [src]="business?.logoUrl"
@@ -318,7 +331,7 @@
         </div>
       </div>
     } @else {
-      <div class="px-5 mt-5 group">
+      <div class="px-5 group">
         <div
           class="p-3 bg-indigo-500 border-t border-violet-400 relative text-center shadow shadow-violet-500/20 dark:shadow-black justify-center items-center bg-gradient-to-br from-violet-600 via-transparent to-indigo-600 rounded-xl flex flex-col"
         >

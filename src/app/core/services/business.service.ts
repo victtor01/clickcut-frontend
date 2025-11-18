@@ -25,7 +25,6 @@ export class BusinessService {
       );
     }
 
-    // 4. Se não tem dados, faz a chamada HTTP (substitua pelo seu método real).
     return this.getBusinessSession().pipe(
       tap((business) => {
         this.businessSession$$.next(business);
@@ -33,12 +32,16 @@ export class BusinessService {
     );
   }
 
+  public delete(): Observable<any> {
+    return this.apiService.delete('/business');
+  }
+
   public updatePassword(newPassword: string): Observable<{ message: string }> {
     return this.apiService.put('/business/password', { newPassword });
   }
 
   public removePin(): Observable<void> {
-    return this.apiService.delete("/business/password");
+    return this.apiService.delete('/business/password');
   }
 
   public getAll(): Observable<Business[]> {

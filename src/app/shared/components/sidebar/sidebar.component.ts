@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    HostListener,
-    QueryList,
-    signal,
-    ViewChild,
-    ViewChildren,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  QueryList,
+  signal,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
@@ -19,8 +19,24 @@ import { BusinessService } from '@app/core/services/business.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { PinEntryComponent } from '@app/features/(private)/select/components/pin-entry/pin-entry.component';
 import { NgIcon, NgIconComponent, provideIcons } from '@ng-icons/core';
+import { hugeLink06 } from '@ng-icons/huge-icons';
+import {
+  saxBag2Bold,
+  saxHome2Bold,
+  saxLinkSquareBold,
+  saxPeopleBold,
+  saxProfile2userBold,
+} from '@ng-icons/iconsax/bold';
 import { saxAddSquareBulk } from '@ng-icons/iconsax/bulk';
-import { solarCrownBold } from '@ng-icons/solar-icons/bold';
+import {
+  saxBag2Outline,
+  saxHome2Outline,
+  saxLinkSquareOutline,
+  saxPeopleOutline,
+  saxProfile2userOutline,
+} from '@ng-icons/iconsax/outline';
+import { solarCalendarMarkBold, solarCrownBold, solarTagBold } from '@ng-icons/solar-icons/bold';
+import { solarCalendarMark, solarTag } from '@ng-icons/solar-icons/outline';
 import { firstValueFrom } from 'rxjs';
 import { BookingSearchModalComponent } from '../booking-search/booking-search.component';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
@@ -32,6 +48,7 @@ interface Tab {
   icon: string;
   label: string;
   route: string;
+  selected: string;
   plan?: SubscriptionPlan | null;
 }
 
@@ -39,6 +56,26 @@ const icons = {
   solarCrownBold,
 };
 
+const sidebarIcons = {
+  saxHome2Outline,
+  saxBag2Outline,
+  saxPeopleOutline,
+  solarTag,
+  hugeLink06,
+  saxProfile2userOutline,
+  solarCalendarMark,
+  saxLinkSquareOutline,
+};
+
+const sidebarBoldIcons = {
+  saxHome2Bold,
+  saxBag2Bold,
+  saxPeopleBold,
+  solarTagBold,
+  saxProfile2userBold,
+  solarCalendarMarkBold,
+  saxLinkSquareBold,
+};
 @Component({
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
@@ -55,18 +92,66 @@ const icons = {
   providers: [
     provideIcons({
       ...icons,
+      ...sidebarBoldIcons,
+      ...sidebarIcons,
       saxAddSquareBulk,
     }),
   ],
 })
 export class SidebarComponent implements AfterViewInit {
   public tabs: Tab[] = [
-    { id: 'home', icon: 'home', label: 'Início', route: '/home' },
-    { id: 'bookings', icon: 'event', label: 'Agendas', route: '/bookings' },
-    { id: 'services', icon: 'shopping_bag', label: 'Serviços', route: '/services' },
-    { id: 'clients', icon: 'contacts', label: 'Clientes', route: '/clients' },
-    { id: 'mp', icon: 'graph_1', label: 'Integrações', route: '/integrations', plan: 'equipe' },
-    { id: 'payroll', icon: 'sell', label: 'Comissões', route: '/payroll', plan: 'equipe' },
+    {
+      id: 'home',
+      icon: 'saxHome2Outline',
+      label: 'Início',
+      route: '/home',
+      selected: 'saxHome2Bold',
+    },
+    {
+      id: 'bookings',
+      icon: 'solarCalendarMark',
+      label: 'Agendas',
+      route: '/bookings',
+      selected: 'solarCalendarMarkBold',
+    },
+    {
+      id: 'services',
+      icon: 'saxBag2Outline',
+      label: 'Serviços',
+      route: '/services',
+      selected: 'saxBag2Bold',
+    },
+    {
+      id: 'clients',
+      icon: 'saxPeopleOutline',
+      label: 'Clientes',
+      route: '/clients',
+      selected: 'saxPeopleBold',
+    },
+    {
+      id: 'mp',
+      icon: 'saxLinkSquareOutline',
+      label: 'Integrações',
+      route: '/integrations',
+      plan: 'equipe',
+      selected: 'saxLinkSquareBold',
+    },
+    {
+      id: 'payroll',
+      icon: 'solarTag',
+      label: 'Comissões',
+      route: '/payroll',
+      plan: 'equipe',
+      selected: 'solarTagBold',
+    },
+    {
+      id: 'meem',
+      icon: 'saxProfile2userOutline',
+      label: 'Equipe',
+      route: '/members',
+      plan: 'equipe',
+      selected: 'saxProfile2userBold',
+    },
   ];
 
   public isBusinessOpen = signal(true);

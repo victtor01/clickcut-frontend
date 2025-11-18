@@ -14,11 +14,12 @@ import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
 import { AcceptInviteComponent } from './configure/pages/invites/accept/accept-invite.component';
 import { InvitesComponent } from './configure/pages/invites/invites.component';
-import { MembersComponent } from './configure/pages/members/members.component';
+import { ConfigureMembersComponent } from './configure/pages/members/members.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { SecurityComponent } from './configure/pages/security/security.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { IntegrateComponent } from './integrate/integrate.component';
+import { MembersComponent } from './members/members.component';
 import { PayoutReviewComponent } from './payouts/pages/review/payout-reviews.component';
 import { PayrollComponent } from './payouts/payroll.component';
 import { PlanComponent } from './plan/plan.component';
@@ -46,6 +47,7 @@ export const PRIVATE_ROUTES: Routes = [
             data: { animation: 'HomeLayoutPage' },
             children: [
               { path: 'home', component: HomePageComponent },
+              { path: 'members', component: MembersComponent },
               { path: 'clients', component: MyClientsComponent },
               {
                 path: 'payroll',
@@ -88,7 +90,7 @@ export const PRIVATE_ROUTES: Routes = [
               { path: 'security', component: SecurityComponent },
               { path: 'profile', component: ConfigureProfileComponent },
               { path: 'invites', component: InvitesComponent },
-              { path: 'members', component: MembersComponent },
+              { path: 'members', component: ConfigureMembersComponent },
             ],
           },
         ],

@@ -13,7 +13,7 @@ import { MemberDetailsModalComponent } from './components/member-details/member-
 import { RoleModalComponent } from './components/role-modal/role-modal.component';
 
 @Component({ templateUrl: 'members.component.html', imports: [RouterModule] })
-export class MembersComponent implements OnInit {
+export class ConfigureMembersComponent implements OnInit {
   private membersService = inject(MembersService);
   private rolesService = inject(RolesService);
   private toastService = inject(ToastService);

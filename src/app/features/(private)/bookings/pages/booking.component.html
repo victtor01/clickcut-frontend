@@ -1,20 +1,10 @@
 <section
-  class="p-4 bg-white bg-gradient-to-br from-violet-50 dark:from-gray-950 to-violet-100 dark:to-gray-900 overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
+  class="p-4 bg-white bg-gradient-to-br from-stone-50 dark:from-gray-950 to-violet-100 dark:to-gray-900 overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
 >
-  <!-- <current-week [dateWithCount]="countOfDates" [currentDate]="currentDate"></current-week> -->
   <header
-    class="relative flex p-3 px-4 rounded-xl items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/40 flex-shrink-0 z-20"
+    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/40 flex-shrink-0 z-20"
   >
     <div class="flex items-center gap-3">
-      <button
-        class="p-2 w-9 h-9 rounded-md dark:hover:bg-gray-700 text-gray-600 hover:bg-gray-100 dark:text-gray-300 transition-colors"
-        aria-label="Menu principal"
-      >
-        <span class="material-icons-outlined">menu</span>
-      </button>
-      <span class="text-xl font-bold text-gray-800 dark:text-gray-100 hidden sm:inline"
-        >Sua Logo</span
-      >
       <a
         [routerLink]="['/bookings/create']"
         [queryParams]="{ currentDate: currentDate.format('YYYY-MM-DD') }"
@@ -38,7 +28,7 @@
       <div class="flex items-center gap-1 p-1 rounded-md bg-gray-100 dark:bg-gray-800">
         <button
           (click)="previousDay()"
-          class="p-1 rounded-md dark:hover:bg-gray-700 text-gray-600 hover:bg-white dark:text-gray-300 transition-colors"
+          class="p-1 rounded-md dark:hover:bg-gray-700 grid place-items-center text-gray-600 hover:bg-white dark:text-gray-300 transition-colors"
           aria-label="Anterior"
         >
           <span class="material-icons-outlined">chevron_left</span>
@@ -50,14 +40,14 @@
         </h2>
         <button
           (click)="nextDay()"
-          class="p-1 rounded-md dark:hover:bg-gray-700 text-gray-600 hover:bg-white dark:text-gray-300 transition-colors"
+          class="p-1 rounded-md dark:hover:bg-gray-700 text-gray-600 grid place-items-center hover:bg-white dark:text-gray-300 transition-colors"
           aria-label="Próximo"
         >
           <span class="material-icons-outlined">chevron_right</span>
         </button>
       </div>
 
-      <div class="p-1 bg-gray-100 dark:bg-gray-800 rounded-md flex items-center gap-1 ml-4">
+      <div class="p-1 bg-gray-100 xl:flex hidden dark:bg-gray-800 rounded-md items-center gap-1 ml-4">
         <button
           class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700"
         >
@@ -82,12 +72,6 @@
         aria-label="Pesquisar"
       >
         <span class="material-icons-outlined">search</span>
-      </button>
-      <button
-        class="p-2 w-9 h-9 rounded-md dark:hover:bg-gray-700 text-gray-600 hover:bg-gray-100 dark:text-gray-300 transition-colors"
-        aria-label="Notificações"
-      >
-        <span class="material-icons-outlined">notifications</span>
       </button>
       <div
         class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm"

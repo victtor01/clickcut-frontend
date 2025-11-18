@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -13,6 +13,7 @@ import {
 import { Business, TimeSlot } from '@app/core/models/Business';
 import { User } from '@app/core/models/User';
 import { UpdateBusinessDTO } from '@app/core/schemas/update-business.dto';
+import { AuthService } from '@app/core/services/auth.service';
 import { BusinessService } from '@app/core/services/business.service';
 import { MembersService } from '@app/core/services/members.service';
 import { ToastService } from '@app/core/services/toast.service';
@@ -39,8 +40,7 @@ export interface WeeklySchedule {
 }
 
 @Component({
-  selector: 'app-configure-business', // ✨ Adicionado
-  standalone: true, // ✨ Adicionado
+  selector: 'app-configure-business',
   templateUrl: 'configure-business.component.html',
   imports: [
     CommonModule,
@@ -59,10 +59,10 @@ export interface WeeklySchedule {
 })
 export class ConfigureBusinessComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly destroyRef = inject(DestroyRef); // ✨ Injetado
   private readonly businessService = inject(BusinessService);
   private readonly toastService = inject(ToastService);
   private readonly membersService = inject(MembersService);
+  private readonly authService = inject(AuthService);
 
   // --- Estado do Formulário ---
   public readonly form: FormGroup;
@@ -75,6 +75,7 @@ export class ConfigureBusinessComponent implements OnInit {
 
   public members?: User[];
   public business?: Business;
+  public session?: User;
 
   public reviewLogoUrl?: string;
   public reviewBannerUrl?: string;
@@ -87,7 +88,6 @@ export class ConfigureBusinessComponent implements OnInit {
 
   constructor() {
     this.form = this.formBuilder.group({
-      // Controles existentes
       name: ['', [Validators.required]],
       revenueGoal: [0],
       paymentAccountId: [null as string | null],
@@ -110,18 +110,23 @@ export class ConfigureBusinessComponent implements OnInit {
   get name() {
     return this.form.get('name');
   }
+
   get revenueGoal() {
     return this.form.get('revenueGoal');
   }
+
   get paymentAccountId() {
     return this.form.get('paymentAccountId');
   }
+
   get handle() {
     return this.form.get('handle');
   }
+
   get description() {
     return this.form.get('description');
   }
+
   get phoneNumber() {
     return this.form.get('phoneNumber');
   }
@@ -129,6 +134,7 @@ export class ConfigureBusinessComponent implements OnInit {
   public async ngOnInit(): Promise<void> {
     await this.getSessionBusiness();
     await this.getMembers();
+    await this.loadSession();
   }
 
   public async getSessionBusiness(): Promise<void> {
@@ -152,6 +158,10 @@ export class ConfigureBusinessComponent implements OnInit {
     });
   }
 
+  private async loadSession(): Promise<void> {
+    this.session = await firstValueFrom(this.authService.currentUser$);
+  }
+
   private handleAvailabilityValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       if (!control.value || (control.pristine && !control.touched)) {
@@ -173,9 +183,15 @@ export class ConfigureBusinessComponent implements OnInit {
           this.isHandleAvailable.set(true);
           return of(null);
         }),
-        first(), 
+        first(),
       );
     };
+  }
+
+  public async delete(): Promise<void> {
+    await firstValueFrom(this.businessService.delete()).catch((err) => {
+      this.toastService.error(err?.error.message);
+    });
   }
 
   public async getMembers(): Promise<void> {
@@ -225,7 +241,7 @@ export class ConfigureBusinessComponent implements OnInit {
 
     this.isLoading = true;
 
-   const data = {
+    const data = {
       name: this.form.get('name')?.value,
       revenueGoal: this.form.get('revenueGoal')?.value,
       paymentAccountId: this.form.get('paymentAccountId')?.value,
@@ -233,7 +249,7 @@ export class ConfigureBusinessComponent implements OnInit {
       description: this.form.get('description')?.value,
       phoneNumber: this.form.get('phoneNumber')?.value,
       removeLogoFile: false,
-      removeBannerFile: false,  
+      removeBannerFile: false,
       logoFile: this.fileLogo || null,
       bannerFile: this.fileBanner || null,
     } satisfies UpdateBusinessDTO;
