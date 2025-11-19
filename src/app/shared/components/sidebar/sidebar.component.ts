@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   QueryList,
   signal,
   ViewChild,
@@ -155,13 +156,19 @@ export class SidebarComponent implements AfterViewInit {
 
   public isBusinessOpen = signal(true);
   public business: Business | null = null;
-  public session: User | null = null;
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
   public isLoadingSelectBusiness: boolean = false;
   public businesses: Business[] = [];
   public isOpenCreateBooking = signal<boolean>(false);
   private isOpenSearch: boolean = false;
+  public session: User | null = null;
+
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
+  private readonly businessService = inject(BusinessService);
+  private readonly toastService = inject(ToastService);
 
   @ViewChildren('tabElement') private tabElements!: QueryList<ElementRef<HTMLElement>>;
   private animationTimeout?: number;
@@ -175,14 +182,6 @@ export class SidebarComponent implements AfterViewInit {
     this.isOpenCreateBooking.update((data) => !data);
   }
 
-  constructor(
-    private readonly router: Router,
-    private readonly authService: AuthService,
-    private readonly dialog: MatDialog,
-    private readonly businessService: BusinessService,
-    private readonly toastService: ToastService,
-  ) {}
-
   ngOnInit(): void {
     const currentTab = this.tabs.find((tab) => this.router.url.startsWith(tab.route));
     if (currentTab) {
@@ -190,8 +189,8 @@ export class SidebarComponent implements AfterViewInit {
     }
 
     this.getSessionBusiness();
-    this.getSession();
     this.getAllBusiness();
+    this.getSession();
   }
 
   ngAfterViewInit(): void {
@@ -204,12 +203,12 @@ export class SidebarComponent implements AfterViewInit {
   }
 
   public get plan() {
-    return this.session?.subscription;
+    return this.business?.planId;
   }
 
   public validPlan(plan: SubscriptionPlan): boolean {
     if (this?.plan) {
-      return isValidPlan(this?.plan.planId, plan);
+      return isValidPlan(this?.plan, plan);
     }
 
     return false;
@@ -217,6 +216,10 @@ export class SidebarComponent implements AfterViewInit {
 
   public async getAllBusiness(): Promise<void> {
     this.businesses = await firstValueFrom(this.businessService.getAll());
+  }
+
+  public async getSession(): Promise<void> {
+    this.session = await firstValueFrom(this.authService.currentUser$);
   }
 
   public openBusinessDetails() {
@@ -272,10 +275,6 @@ export class SidebarComponent implements AfterViewInit {
     this.business = await firstValueFrom(this.authService.currentBusiness$);
 
     this.isBusinessOpen.set(this.business?.isOpen ?? true);
-  }
-
-  public async getSession(): Promise<void> {
-    this.session = await firstValueFrom(this.authService.currentUser$);
   }
 
   public selectTab(tab: Tab): void {

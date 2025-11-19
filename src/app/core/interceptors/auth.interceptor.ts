@@ -24,16 +24,16 @@ export class AuthInterceptor implements HttpInterceptor {
           this.toastService.error(
             error?.error?.message || 'Você não tem permissão para essa ação!',
           );
-        } 
+        }
 
         if (error.status === 401) {
           console.error('Não autenticado (401 Unauthorized)');
           this.router.navigate(['/login']);
         }
 
-         if (error.status === 402) {
+        if (error.status === 402) {
           console.error('Plano inválido');
-          this.router.navigate(['/plan']);
+          this.router.navigate(['/plan'], { replaceUrl: true });
         }
 
         return throwError(() => error);

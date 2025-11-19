@@ -20,3 +20,4 @@ export type SubscriptionStatus =
 
 export const IsValidPlan = (currPlan: SubscriptionPlan, required: SubscriptionPlan) => 
 	subscriptionPlans.indexOf(currPlan) >= subscriptionPlans.indexOf(required);
+

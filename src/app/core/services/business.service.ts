@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { objectToFormData } from '@app/shared/utils/object-to-form';
 import dayjs from 'dayjs';
 import { BehaviorSubject, filter, first, Observable, tap } from 'rxjs';
+import { BusinessSetupItem } from '../DTOs/business-setup-state.response';
 import { ClientsSummaryResponse } from '../DTOs/clients-summary-response';
 import { Business, TimeSlot } from '../models/Business';
 import { BusinessStatement } from '../models/BusinessStatement';
@@ -30,6 +31,10 @@ export class BusinessService {
         this.businessSession$$.next(business);
       }),
     );
+  }
+
+  public getBusinessSetupState(): Observable<BusinessSetupItem[]> {
+    return this.apiService.get('/business/setup-state');
   }
 
   public delete(): Observable<any> {

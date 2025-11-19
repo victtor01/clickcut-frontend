@@ -3,6 +3,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router'; // Para o botão de "Configurar"
 import { TimeSlot } from '@app/core/models/Business';
 import { BusinessService } from '@app/core/services/business.service';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { hugeTimeSetting03 } from '@ng-icons/huge-icons';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { firstValueFrom } from 'rxjs';
@@ -15,11 +17,12 @@ type Status = 'LOADING' | 'OPEN' | 'CLOSED' | 'NO_SCHEDULE';
   selector: 'app-working-hours',
   templateUrl: './working-hours.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgIconComponent],
+  providers: [provideIcons({ hugeTimeSetting03 })],
 })
 export class WorkingHoursComponent implements OnInit {
   public status = signal<Status>('LOADING');
-  public statusMessage = signal<string>(''); 
+  public statusMessage = signal<string>('');
   private allSlots: TimeSlot[] = [];
 
   private readonly businessService = inject(BusinessService);
@@ -54,8 +57,8 @@ export class WorkingHoursComponent implements OnInit {
     }
 
     const now = dayjs();
-    const currentDayOfWeek = now.day(); 
-    const currentTime = now.format('HH:mm:ss'); 
+    const currentDayOfWeek = now.day();
+    const currentTime = now.format('HH:mm:ss');
 
     const todaySlots = slots
       .filter((s) => s.dayOfWeek === currentDayOfWeek)
@@ -76,7 +79,7 @@ export class WorkingHoursComponent implements OnInit {
       return;
     }
 
-		for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 7; i++) {
       const nextDayOfWeek = (currentDayOfWeek + i) % 7;
       const nextDaySlots = slots
         .filter((s) => s.dayOfWeek === nextDayOfWeek)

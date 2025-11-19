@@ -3,6 +3,7 @@ import { HomeEnterComponent } from '../components/enter-component/home-enter.com
 import { HomeBookingsComponent } from '../components/home-bookings/home-bookings.component';
 import { HomeDashboardComponent } from '../components/home-dashboard/home-dashboard.component';
 import { PendingPaymentsComponent } from '../components/pending-payments/pending-payments.component';
+import { SetupStateComponent } from '../components/setup-state/setup-state.component';
 import { WorkingHoursComponent } from '../components/working-hours/working-hours.component';
 
 @Component({
@@ -13,6 +14,7 @@ import { WorkingHoursComponent } from '../components/working-hours/working-hours
     HomeBookingsComponent,
     PendingPaymentsComponent,
     WorkingHoursComponent,
+    SetupStateComponent,
 ],
 })
 export class HomePageComponent {

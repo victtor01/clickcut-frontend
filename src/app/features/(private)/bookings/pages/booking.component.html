@@ -116,7 +116,7 @@
         @for (booking of bookingsForCurrentDay; track booking.id) {
           <div
             [attr.data-status]="booking.status"
-            class="booking-item mr-2 -ml-6 items-start relative my-[1px] bg-indigo-100 p-1 dark:bg-indigo-600 rounded-sm flex z-10 cursor-pointer overflow-hidden data-[status=PAID]:bg-gray-900 data-[status=COMPLETED]:bg-violet-600"
+            class="booking-item mr-2 -ml-6 items-start relative my-[1px] bg-violet-600 text-white p-1 dark:bg-indigo-600 rounded-sm flex z-10 cursor-pointer overflow-hidden data-[status=PAID]:bg-indigo-100 data-[status=PAID]:text-gray-600 dark:data-[status=PAID]:bg-gray-900 data-[status=COMPLETED]:bg-violet-600 data-[status=COMPLETED]:text-white"
             [ngStyle]="getBookingGridStyle(booking)"
             [title]="
               booking.title +
@@ -128,13 +128,13 @@
             "
           >
             @if (booking.status === 'COMPLETED') {
-              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-950 text-center flex saira-font animate-pulse text-xs bg-violet-400/50 px-3 rounded-full">
+              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-white text-center flex saira-font animate-pulse text-xs bg-violet-400/50 px-3 rounded-full">
                 Pagamento
               </div>
             }
 
              @if (booking.status === 'PAID') {
-              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-300 text-center flex saira-font text-xs bg-gray-800 px-3 rounded-full">
+              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-600 dark:text-gray-300 text-center flex saira-font text-xs bg-violet-500/10 dark:bg-gray-800 px-3 rounded-full">
                 PAGO
               </div>
             }

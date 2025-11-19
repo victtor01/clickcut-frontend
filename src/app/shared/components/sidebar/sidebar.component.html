@@ -163,7 +163,7 @@
           <span
             class="text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 dark:bg-violet-500/20 dark:text-indigo-300"
           >
-            {{ plan?.planId }}
+            {{ plan }}
           </span>
         </div>
       </a>
@@ -261,7 +261,7 @@
       </ul>
     </nav>
 
-    @if (this?.plan?.planId === 'pro' && business?.id) {
+    @if (this?.plan === 'pro' && business?.id) {
       <div class="px-5 mb-2 mt-4">
         <div
           class="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-gray-800 dark:bg-gray-800/50"

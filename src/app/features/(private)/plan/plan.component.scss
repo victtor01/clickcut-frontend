@@ -1,0 +1,23 @@
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  // Às vezes, adicionar um translateZ ajuda o navegador a separar as camadas
+  transform: translateZ(0); 
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+// Classe utilitária para o efeito de texto "emboss" (relevo) no cartão
+.text-shadow-sm {
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+}

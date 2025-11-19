@@ -1,4 +1,5 @@
 import { Service } from './Service';
+import { SubscriptionPlan } from './Subscription';
 import { User } from './User';
 
 export interface Business {
@@ -11,6 +12,7 @@ export interface Business {
   isOpen?: boolean;
   services?: Service[];
   address: BusinessAddress,
+  planId?: SubscriptionPlan;
   bannerUrl?: string;
   logoUrl?: string;
   members?: User[];
