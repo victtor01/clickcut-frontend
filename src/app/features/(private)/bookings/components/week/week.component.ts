@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import dayjs, { Dayjs } from 'dayjs';
 
 @Component({
@@ -23,6 +32,13 @@ export class WeekComponent {
 
   @ViewChild('scrollContainer') // [!code ++]
   private scrollContainer!: ElementRef<HTMLDivElement>; // [!code ++]
+
+  @Output()
+  public onClick = new EventEmitter<Dayjs>();
+
+  public whenClick(day: Dayjs): void {
+    this.onClick.emit(day);
+  }
 
   @Input()
   public set currentDate(date: Dayjs) {

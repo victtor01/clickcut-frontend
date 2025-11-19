@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { CreateSubscriptionDTO } from '@app/core/schemas/create-subscription.dto';
 import { SubscriptionsService } from '@app/core/services/subscriptions.service';
+import { DefaultFooterComponent } from "@app/shared/components/default-footer/default-footer.component";
 import { environment } from '@env/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -20,7 +21,7 @@ declare var MercadoPago: any;
   selector: 'app-plan',
   standalone: true,
   // ✨ Adicionado CurrencyPipe para o modal
-  imports: [CommonModule, MatIconModule, RouterModule, CurrencyPipe],
+  imports: [CommonModule, MatIconModule, RouterModule, CurrencyPipe, DefaultFooterComponent],
   templateUrl: './plan.component.html',
 })
 export class PlanComponent implements OnInit, OnDestroy {
@@ -178,10 +179,6 @@ export class PlanComponent implements OnInit, OnDestroy {
           if (error) return console.warn('Formulário falhou ao montar.', error);
         },
         onError: (error: any) => {
-          console.error('======= ERRO DO MERCADO PAGO =======');
-          console.error(error);
-          console.error('======================================');
-
           let userMessage = 'Dados do cartão inválidos.';
           if (error.message && error.message.includes('domain')) {
             userMessage =

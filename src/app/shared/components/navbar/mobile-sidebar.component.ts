@@ -1,32 +1,33 @@
 import { CommonModule } from '@angular/common';
 import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    HostListener,
-    inject,
-    QueryList,
-    signal,
-    ViewChildren,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  QueryList,
+  signal,
+  ViewChildren,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, RouterModule } from '@angular/router';
+import { Event, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Business } from '@app/core/models/Business';
 import { AuthService } from '@app/core/services/auth.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
-    saxCalendarBold,
-    saxHome1Bold,
-    saxMenuBold,
-    saxShoppingBagBold,
+  saxCalendarBold,
+  saxHome1Bold,
+  saxMenuBold,
+  saxShoppingBagBold,
 } from '@ng-icons/iconsax/bold';
 import {
-    saxCalendarOutline,
-    saxHome1Outline,
-    saxMenuOutline,
-    saxShopOutline,
-    saxShoppingBagOutline,
+  saxCalendarOutline,
+  saxHome1Outline,
+  saxMenuOutline,
+  saxShopOutline,
+  saxShoppingBagOutline,
 } from '@ng-icons/iconsax/outline';
+import { filter, Subscription } from 'rxjs';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
 import { CreateBookingNavbar } from '../create-booking/create-booking.component';
 
@@ -45,7 +46,7 @@ interface MenuItem {
 
 @Component({
   templateUrl: './mobile-sidebar.component.html',
-  selector: 'mobile-sidebar',
+  selector: 'mobile-navbar',
   imports: [CommonModule, RouterModule, NgIconComponent, CreateBookingNavbar],
   styleUrl: './mobile-sidebar.component.scss',
   providers: [
@@ -62,7 +63,7 @@ interface MenuItem {
     }),
   ],
 })
-export class MobileSidebarComponent implements AfterViewInit {
+export class MobileNavBarComponent implements AfterViewInit {
   public navTabs: NavTab[] = [
     { id: 'home', iconBold: 'saxHome1Bold', iconOutline: 'saxHome1Outline', route: '/home' },
     {
@@ -90,6 +91,7 @@ export class MobileSidebarComponent implements AfterViewInit {
 
   public isOpenCreateBooking = signal<boolean>(false);
   public avaibleDays = signal<string[]>([]);
+  private routerSubscription?: Subscription;
 
   public business?: Business;
   public activeTabId: string;
@@ -101,6 +103,29 @@ export class MobileSidebarComponent implements AfterViewInit {
 
   constructor(private readonly router: Router) {
     this.activeTabId = this.navTabs[0].id;
+
+    this.routerSubscription = this.router.events
+      .pipe(filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.setActiveTabBasedOnUrl();
+      });
+  }
+
+  private setActiveTabBasedOnUrl(): void {
+    const currentTab = this.navTabs.find((tab) => this.router.url.includes(tab.route));
+
+    if (currentTab) {
+      // Se achou e é diferente do atual, atualiza
+      if (currentTab.id !== this.activeTabId) {
+        this.activeTabId = currentTab.id;
+        setTimeout(() => this.updateIndicatorPosition(), 0);
+      }
+    } else {
+      // SE NÃO ACHOU NENHUMA ABA (está em outra rota)
+      // Limpa o ID ativo e esconde o indicador
+      this.activeTabId = '';
+      this.indicatorStyle = { opacity: 0 };
+    }
   }
 
   ngOnInit(): void {

@@ -1,72 +1,80 @@
 <section
-  class="p-4 bg-white bg-gradient-to-br from-stone-50 dark:from-gray-950 to-violet-100 dark:to-gray-900 overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
+  class="p-4 bg-transparent bg-gradient-to-b from-stone-50 dark:from-gray-950 to-transparent dark:to-transparent overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
 >
   <header
-    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/40 flex-shrink-0 z-20"
+    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/40 flex-shrink-0 z-20 h-16 overflow-hidden"
   >
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 z-30 relative shrink-0">
       <a
         [routerLink]="['/bookings/create']"
         [queryParams]="{ currentDate: currentDate.format('YYYY-MM-DD') }"
-        class="bg-indigo-600 text-white flex items-center gap-2 rounded-full p-2 px-4 shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700 active:scale-95"
+        class="bg-indigo-600 text-white flex items-center justify-center gap-2 rounded-full w-10 h-10 md:w-auto md:h-auto p-0 md:p-2 md:px-4 shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700 active:scale-95"
       >
         <i class="material-icons-outlined !text-xl">add</i>
-        <span class="font-medium hidden sm:inline">Agendamento</span>
+        <span class="font-medium hidden md:inline">Agendamento</span>
       </a>
     </div>
 
-    <div class="flex items-center gap-4">
-      <button
-        type="button"
-        (click)="navigateToNow()"
-        [attr.data-now]="isNow()"
-        class="rounded-md p-2 px-3 font-medium text-sm transition-colors border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-slate-200 dark:hover:bg-gray-700 data-[now=false]:bg-indigo-600 data-[now=false]:text-white data-[now=false]:border-indigo-600 data-[now=false]:hover:bg-indigo-700"
-      >
-        <span>Hoje</span>
-      </button>
+    <div class="inset-0 flex items-center justify-center z-10 pointer-events-none">
+      <div class="flex items-center justify-center pointer-events-auto">
+        <button
+          type="button"
+          (click)="navigateToNow()"
+          [attr.data-now]="isNow()"
+          class="hidden md:block rounded-md p-2 px-3 font-medium text-sm transition-colors border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-slate-200 dark:hover:bg-gray-700 data-[now=false]:bg-indigo-600 data-[now=false]:text-white data-[now=false]:border-indigo-600 data-[now=false]:hover:bg-indigo-700 mr-2"
+        >
+          <span>Hoje</span>
+        </button>
 
-      <div class="flex items-center gap-1 p-1 rounded-md bg-gray-100 dark:bg-gray-800">
-        <button
-          (click)="previousDay()"
-          class="p-1 rounded-md dark:hover:bg-gray-700 grid place-items-center text-gray-600 hover:bg-white dark:text-gray-300 transition-colors"
-          aria-label="Anterior"
+        <div
+          class="flex items-center gap-1 p-1 rounded-md bg-gray-100 dark:bg-gray-800 shadow-sm md:shadow-none"
         >
-          <span class="material-icons-outlined">chevron_left</span>
-        </button>
-        <h2
-          class="text-base font-semibold text-center text-gray-800 dark:text-gray-100 capitalize min-w-[150px] mx-2"
-        >
-          {{ formattedDate }}
-        </h2>
-        <button
-          (click)="nextDay()"
-          class="p-1 rounded-md dark:hover:bg-gray-700 text-gray-600 grid place-items-center hover:bg-white dark:text-gray-300 transition-colors"
-          aria-label="Próximo"
-        >
-          <span class="material-icons-outlined">chevron_right</span>
-        </button>
-      </div>
+          <button
+            (click)="previousDay()"
+            class="p-1 rounded-md dark:hover:bg-gray-700 grid place-items-center text-gray-600 hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
+            aria-label="Anterior"
+          >
+            <span class="material-icons-outlined !text-lg md:!text-2xl">chevron_left</span>
+          </button>
 
-      <div class="p-1 bg-gray-100 xl:flex hidden dark:bg-gray-800 rounded-md items-center gap-1 ml-4">
-        <button
-          class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700"
+          <h2
+            class="text-sm md:text-base font-semibold text-center text-gray-800 dark:text-gray-100 capitalize min-w-[80px] max-w-[100px] md:max-w-none md:min-w-[150px] px-1 truncate"
+          >
+            {{ formattedDate }}
+          </h2>
+
+          <button
+            (click)="nextDay()"
+            class="p-1 rounded-md dark:hover:bg-gray-700 text-gray-600 grid place-items-center hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
+            aria-label="Próximo"
+          >
+            <span class="material-icons-outlined !text-lg md:!text-2xl">chevron_right</span>
+          </button>
+        </div>
+
+        <div
+          class="p-1 bg-gray-100 lg:flex hidden dark:bg-gray-800 rounded-md items-center gap-1 ml-2"
         >
-          Dia
-        </button>
-        <button
-          class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700"
-        >
-          Semana
-        </button>
-        <button
-          class="px-3 py-1 text-sm font-medium rounded bg-white dark:bg-gray-700 text-indigo-600 dark:text-white shadow-sm"
-        >
-          Mês
-        </button>
+          <button
+            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 transition-all"
+          >
+            Dia
+          </button>
+          <button
+            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 transition-all"
+          >
+            Semana
+          </button>
+          <button
+            class="px-3 py-1 text-sm font-medium rounded bg-white dark:bg-gray-700 text-indigo-600 dark:text-white shadow-sm transition-all"
+          >
+            Mês
+          </button>
+        </div>
       </div>
     </div>
 
-    <div class="flex items-center gap-3">
+    <div class="flex items-center justify-end gap-2 md:gap-3 z-30 relative shrink-0">
       <button
         class="p-2 w-9 h-9 rounded-md dark:hover:bg-gray-700 text-gray-600 hover:bg-gray-100 dark:text-gray-300 transition-colors"
         aria-label="Pesquisar"
@@ -74,17 +82,21 @@
         <span class="material-icons-outlined">search</span>
       </button>
       <div
-        class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm"
+        class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-indigo-500/20 shrink-0"
       >
         U
       </div>
     </div>
   </header>
 
-  <current-week [dateWithCount]="countOfDates" [currentDate]="currentDate"></current-week>
+  <current-week
+    (onClick)="onSelectDate($event)"
+    [dateWithCount]="countOfDates"
+    [currentDate]="currentDate"
+  ></current-week>
 
   <section class="font-sans mt-5">
-    <div class="h-auto rounded-lg overflow-y-auto">
+    <div #scheduleContainer class="h-auto rounded-lg overflow-hidden">
       <div
         class="grid grid-cols-[4rem_1fr] grid-rows-[repeat(1440,1px)] pt-5 min-h-full relative"
         [ngStyle]="timelineGridStyle"
@@ -103,7 +115,8 @@
 
         @for (booking of bookingsForCurrentDay; track booking.id) {
           <div
-            class="booking-item mr-2 -ml-6 items-start my-[1px] bg-indigo-100 p-1 dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex z-10 cursor-pointer overflow-hidden"
+            [attr.data-status]="booking.status"
+            class="booking-item mr-2 -ml-6 items-start relative my-[1px] bg-indigo-100 p-1 dark:bg-indigo-600 rounded-sm flex z-10 cursor-pointer overflow-hidden data-[status=PAID]:bg-gray-900 data-[status=COMPLETED]:bg-violet-600"
             [ngStyle]="getBookingGridStyle(booking)"
             [title]="
               booking.title +
@@ -114,6 +127,18 @@
               ')'
             "
           >
+            @if (booking.status === 'COMPLETED') {
+              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-950 text-center flex saira-font animate-pulse text-xs bg-violet-400/50 px-3 rounded-full">
+                Pagamento
+              </div>
+            }
+
+             @if (booking.status === 'PAID') {
+              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-300 text-center flex saira-font text-xs bg-gray-800 px-3 rounded-full">
+                PAGO
+              </div>
+            }
+
             <div class="flex flex-col text-[12px] leading-tight pointer-events-none">
               <span class="font-semibold truncate">{{ booking.title }}</span>
               <span>{{ day(booking.startAt).format('HH:mm') }}</span>

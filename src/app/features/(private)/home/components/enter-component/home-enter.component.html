@@ -4,25 +4,25 @@
 
 <div class="flex relative flex-col p-5 gap-4">
   <header
-    class="items-center gap-2 rounded-2xl z-60 flex justify-between relative w-full dark:text-gray-300 text-gray-500"
+    class="items-center gap-2 rounded-2xl z-20 flex justify-between relative w-full dark:text-gray-300 text-gray-500"
   >
-    <div class="flex flex-col">
-      <h1 class="text-3xl font-light">
+    <div class="flex flex-col overflow-hidden">
+      <h1 class=" text-xl lg:text-3xl font-light text-nowrap overflow-hidden text-ellipsis">
         Olá, <b class="font-semibold">{{ statement?.userSession?.username }}</b>
       </h1>
-      <span class="text-gray-500 dark:text-gray-400">Bem vindo de volta a sua loja...</span>
+      <span class="text-gray-500 overflow-hidden dark:text-gray-400 text-nowrap flex-1 text-ellipsis">Bem vindo de volta a sua loja...</span>
     </div>
 
     <div
-      class="relative flex items-center gap-2 rounded-full bg-white/60 dark:bg-gray-800/50 p-1 shadow-sm border border-white/20 dark:border-gray-700/80"
+      class="relative  flex items-center gap-2 rounded-full bg-white/60 dark:bg-gray-900/50 p-1 shadow-sm border border-white/20 dark:border-gray-700/80"
     >
-      @if (statement?.bannerUrl) {
+      <!-- @if (statement?.bannerUrl) {
         <img
           [src]="statement?.bannerUrl"
           alt="Banner da loja"
           class="absolute inset-0 h-full w-full rounded-full object-cover -z-10 opacity-20"
         />
-      }
+      } -->
 
       <button
         class="relative grid h-12 w-12 group shrink-0 place-items-center rounded-full text-gray-500 hover:bg-black/5 dark:text-gray-400 dark:hover:bg-white/10 transition-colors"
@@ -220,13 +220,13 @@
     <section class="flex items-center justify-between gap-1">
       <div class="flex gap-2 flex-1 items-center min-w-0">
         <div
-          class="relative overflow-hidden w-12 h-12 bg-stone-200 dark:bg-gray-800 rounded-full shadow-xl grid place-items-center aspect-square"
+          class="relative overflow-hidden min-w-12 h-12 bg-stone-200 dark:bg-gray-800 rounded-full shadow-xl grid place-items-center aspect-square"
         >
           @if (statement?.logoUrl) {
             <img
               [src]="statement?.logoUrl"
               alt="Banner da loja"
-              class="absolute h-full w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
+              class="absolute h-full  w-full rounded-2xl object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
             />
           } @else {
             <i class="material-icons-outlined text-gray-500 dark:text-gray-400">store</i>

@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Booking } from '@app/core/models/Booking';
 import { AppointmentsService } from '@app/core/services/appointments.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { DefaultFooterComponent } from "@app/shared/components/default-footer/default-footer.component";
 import { SvgFinishComponent } from '@app/shared/components/finish-svg/finish-svg.component';
 import { firstValueFrom } from 'rxjs';
 import { SvgSendEmail } from './components/svg-send-email/svg-send-email.component';
@@ -20,7 +21,7 @@ import { SvgSendEmail } from './components/svg-send-email/svg-send-email.compone
   selector: 'app-validate-booking',
   templateUrl: 'validate-booking.component.html',
   standalone: true,
-  imports: [SvgSendEmail, CommonModule, SvgFinishComponent],
+  imports: [SvgSendEmail, CommonModule, SvgFinishComponent, DefaultFooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidateBookingComponent implements OnInit {

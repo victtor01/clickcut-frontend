@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingsByDay, BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
@@ -24,14 +24,31 @@ export class BookingComponent implements OnInit, OnDestroy {
   private timer: any;
   public scale = 2;
 
+  @ViewChild('main')
+  private scheduleContainer!: ElementRef<HTMLDivElement>; // Referência ao DIV pai
+
   @ViewChild('timeIndicator')
   private timeIndicator!: ElementRef;
 
-  constructor(
-    private readonly bookingsService: BookingsService,
-    private readonly toastService: ToastService,
-    private readonly dialogDetails: MatDialog,
-  ) {}
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly bookingsService = inject(BookingsService);
+  private readonly toastService = inject(ToastService);
+  private readonly dialogDetails = inject(MatDialog);
+
+  constructor() {
+    this.route.queryParamMap.subscribe((params) => {
+      const param = params.get('curr');
+
+      if (param) {
+        const day = dayjs(param, 'YYYY-MM-DD').add(20, "hours");
+
+        if (day.isValid()) {
+          this.currentDate = day;
+        }
+      }
+    });
+  }
 
   get day() {
     return dayjs;
@@ -62,6 +79,11 @@ export class BookingComponent implements OnInit, OnDestroy {
     }, 30000);
   }
 
+  public onSelectDate(day: Dayjs): void {
+    this.currentDate = day;
+    this.setCurrentDateInUrl(this.currentDate);
+  }
+
   public activeFilter = signal<BookingFilter>('all');
 
   public setFilter(filter: BookingFilter): void {
@@ -69,7 +91,7 @@ export class BookingComponent implements OnInit, OnDestroy {
     console.log('Filtro ativo:', this.activeFilter());
   }
 
-  private ensureBookingsAreLoaded(): void {
+  private ensureBookingsAreLoaded(date?: string): void {
     const dateKey = this.currentDate.format('YYYY-MM-DD');
 
     if (this._bookingsByDay[dateKey]) {
@@ -102,12 +124,22 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   public previousDay(): void {
     this.currentDate = this.currentDate.subtract(1, 'day');
+    this.setCurrentDateInUrl(this.currentDate);
     this.ensureBookingsAreLoaded();
   }
 
   public nextDay(): void {
     this.currentDate = this.currentDate.add(1, 'day');
+    this.setCurrentDateInUrl(this.currentDate);
     this.ensureBookingsAreLoaded();
+  }
+
+  private setCurrentDateInUrl(currentDate: Dayjs) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { curr: currentDate.format('YYYY-MM-DD') },
+      queryParamsHandling: 'merge',
+    });
   }
 
   get currentTimeIndicatorStyle(): { [key: string]: any } {
@@ -158,11 +190,26 @@ export class BookingComponent implements OnInit, OnDestroy {
   }
 
   private scrollToCurrentTime(): void {
-    if (this.isToday && this.timeIndicator?.nativeElement) {
-      this.timeIndicator.nativeElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+    // Verifica se é hoje e se o indicador e o contêiner foram renderizados
+    if (
+      this.isToday &&
+      this.timeIndicator?.nativeElement &&
+      this.scheduleContainer?.nativeElement
+    ) {
+      const indicatorElement = this.timeIndicator.nativeElement;
+      const containerElement = this.scheduleContainer.nativeElement;
+
+      // Calcula a posição do indicador dentro do contêiner scrollável
+      const indicatorPosition = indicatorElement.offsetTop;
+
+      // Calcula o meio da tela do contêiner para centralizar a rolagem
+      const offset = containerElement.clientHeight / 2;
+
+      // Define a nova posição de rolagem do contêiner
+      containerElement.scrollTop = indicatorPosition - offset;
+    } else if (this.timeIndicator?.nativeElement) {
+      // Fallback se o contêiner scrollável não for encontrado, mas o alvo sim
+      this.timeIndicator.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
 

@@ -79,7 +79,6 @@ const sidebarBoldIcons = {
 @Component({
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     RouterModule,

@@ -13,9 +13,10 @@
       @for (day of dates; track $index) {
         <div
           #dayElement
+          (click)="whenClick(day)"
           [attr.data-now]="isNow(day)"
           [attr.data-current]="day.isSame(currentDate, 'date')"
-          class="transition-all relative min-w-16 h-16 flex items-center justify-center flex-col rounded-lg cursor-pointer group hover:bg-gray-100 dark:hover:bg-gray-800 data-[current=true]:bg-indigo-600 data-[current=true]:z-30 data-[current=true]:shadow-sm data-[now=true]:border data-[now=true]:border-indigo-500"
+          class="transition-all relative min-w-16 active:bg-stone-100 dark:active:bg-gray-800 h-16 flex items-center justify-center flex-col rounded-lg cursor-pointer group hover:bg-gray-100 dark:hover:bg-gray-800 data-[current=true]:bg-indigo-600 data-[current=true]:z-30 data-[current=true]:shadow-sm data-[now=true]:border data-[now=true]:border-indigo-500"
         >
           <span
             [attr.data-current]="day.isSame(currentDate, 'date')"

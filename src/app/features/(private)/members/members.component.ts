@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { MemberPerformanceResponse } from '@app/core/DTOs/members-performace-response';
 import { MembersService } from '@app/core/services/members.service';
+import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs from 'dayjs';
 import { firstValueFrom } from 'rxjs';
 
@@ -18,16 +20,16 @@ interface MemberUI {
   initial: string;
   name: string;
   role: string;
+  revenue: number;
   avatarUrl?: string | null;
   stats: DailyStat[];
   totalWeek: number;
 }
 
-
 @Component({
   selector: 'app-members',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, ToFormatBrlPipe, RouterModule],
   templateUrl: './members.component.html',
 })
 export class MembersComponent implements OnInit {
@@ -59,36 +61,31 @@ export class MembersComponent implements OnInit {
     const end = dayjs().endOf('week');
 
     try {
-      // 1. CHAMA O SERVIÇO REAL (descomentado)
-      // (Assumindo que o serviço 'getPerformace' existe e está injetado)
       const data: MemberPerformanceResponse[] = await firstValueFrom(
-        this.membersService.getPerformace(start, end)
+        this.membersService.getPerformace(start, end),
       );
-
-      console.log(data)
 
       // 2. Mapeia a resposta da API para a interface da UI
       const uiData = data.map((m) => this.mapToUI(m));
       this.members.set(uiData);
-
     } catch (error) {
-      console.error("Erro ao buscar dados da performance:", error);
+      console.error('Erro ao buscar dados da performance:', error);
       this.members.set([]); // Limpa em caso de erro
     } finally {
       this.isLoading.set(false);
     }
   }
 
-
   private mapToUI(data: MemberPerformanceResponse): MemberUI {
     const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-    const maxCount = Math.max(...data.dailyStats.map(s => s.bookingCount), 1); 
+    const maxCount = Math.max(...data.dailyStats.map((s) => s.bookingCount), 1);
 
     const stats = data.dailyStats.map((stat, index) => ({
-      day: days[index], 
+      day: days[index],
       count: stat.bookingCount,
-      heightPercent: stat.bookingCount === 0 ? 4 : Math.max((stat.bookingCount / maxCount) * 100, 4),
+      heightPercent:
+        stat.bookingCount === 0 ? 4 : Math.max((stat.bookingCount / maxCount) * 100, 4),
     }));
 
     return {
@@ -98,7 +95,8 @@ export class MembersComponent implements OnInit {
       role: data.roleName,
       avatarUrl: data.avatarUrl,
       stats: stats,
-      totalWeek: data.totalBookings, 
+      revenue: data.revenue,
+      totalWeek: data.totalBookings,
     };
   }
 }
