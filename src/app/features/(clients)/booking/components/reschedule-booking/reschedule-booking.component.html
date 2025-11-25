@@ -50,6 +50,7 @@
         [whenSelectAction]="selectTime"
         [serviceIds]="serviceIds"
         [currentDate]="selectedDate()?.format('YYYY-MM-DD')"
+        [booking]="{ assignedToId: this.assignedToId, businessId: this.businessId }"
       ></all-times>
     }
   </section>

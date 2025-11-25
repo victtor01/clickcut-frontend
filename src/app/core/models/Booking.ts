@@ -11,12 +11,13 @@ export interface Booking {
   endAt: Date;
   services?: BookingService[];
   business?: Business;
+  businessId: string;
+  assignedToId: string;
   client?: Client;
   commissionAmount: number;
   status: BookingStatus;
   assignedTo?: User;
 }
-
 
 export type BookingStatus =
   | 'CREATED'
@@ -27,6 +28,6 @@ export type BookingStatus =
   | 'PAID'
   | 'CANCELLED'
   | 'NO_SHOW'
-  | "CANCELLED_BY_CLIENT"
-  | "CANCELLED_BY_MANAGER"
-  | "CANCELLED_LATE_BY_CLIENT"
+  | 'CANCELLED_BY_CLIENT'
+  | 'CANCELLED_BY_MANAGER'
+  | 'CANCELLED_LATE_BY_CLIENT';

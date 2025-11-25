@@ -1,72 +1,118 @@
-<form class="px-4" [formGroup]="inviteForm" (ngSubmit)="onSubmit()" novalidate>
-  <div
-    class="rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
-  >
-    <!-- Cabeçalho do Card -->
-    <div class="p-6">
-      <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-100">Convidar Novo Membro</h3>
-      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-        O membro convidado terá acesso para gerenciar agendamentos e serviços.
-      </p>
-    </div>
+<section class="max-w-3xl mx-auto space-y-8">
+  
+  <form class="px-4" [formGroup]="inviteForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50">
+      <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-100">Convidar Novo Membro</h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          O membro convidado receberá um e-mail com instruções para acessar.
+        </p>
+      </div>
 
-    <!-- Corpo do Card com o Input -->
-    <div class="border-t border-gray-200/80 p-6 dark:border-gray-800">
-      <label for="inviteEmail" class="text-sm font-medium text-gray-700 dark:text-gray-300">
-        E-mail do Convidado
-      </label>
-      <div class="mt-2 flex flex-col gap-4 sm:flex-row">
-        <div class="relative w-full">
-          <i
-            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            >alternate_email</i
+      <div class="border-t border-gray-200/80 p-6 dark:border-gray-800">
+        <label for="inviteEmail" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          E-mail do Convidado
+        </label>
+        <div class="mt-2 flex flex-col gap-4 sm:flex-row">
+          <div class="relative w-full">
+            <i class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">alternate_email</i>
+            <input
+              id="inviteEmail"
+              type="email"
+              formControlName="email"
+              placeholder="nome@exemplo.com"
+              class="w-full rounded-lg border placeholder:text-gray-400 border-gray-300 bg-transparent py-2.5 pl-10 pr-4 text-gray-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-gray-100"
+              [class.border-red-500]="email?.invalid && (email?.dirty || email?.touched)"
+            />
+          </div>
+          <button
+            type="submit"
+            [disabled]="inviteForm.invalid || submissionState() === 'loading'"
+            class="flex w-full text-nowrap items-center justify-center gap-2 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800 dark:disabled:text-gray-400 disabled:text-gray-200 sm:w-auto"
           >
-          <input
-            id="inviteEmail"
-            type="email"
-            formControlName="email"
-            placeholder="nome@exemplo.com"
-            class="w-full rounded-lg border placeholder:text-gray-400 border-gray-300 bg-transparent py-2.5 pl-10 pr-4 text-gray-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-gray-100"
-            [class.border-red-500]="email?.invalid && (email?.dirty || email?.touched)"
-          />
+            @if (submissionState() === 'loading') {
+              <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
+              <span>Enviando...</span>
+            } @else {
+              <i class="material-symbols-outlined !text-base">send</i>
+              <span>Enviar Convite</span>
+            }
+          </button>
         </div>
-        <button
-          type="submit"
-          [disabled]="inviteForm.invalid || submissionState() === 'loading'"
-          class="flex w-full text-nowrap items-center justify-center gap-2 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800 dark:disabled:text-gray-400 disabled:text-gray-200 sm:w-auto"
-        >
-          @if (submissionState() === 'loading') {
-            <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
-            <span>Enviando...</span>
-          } @else {
-            <i class="material-symbols-outlined !text-base">send</i>
-            <span>Enviar Convite</span>
+
+        <div class="mt-2 min-h-[1.5rem]">
+          @if (email?.invalid && (email?.dirty || email?.touched)) {
+            <div @fade class="text-sm text-red-500 dark:text-red-400">
+              Por favor, insira um e-mail válido.
+            </div>
           }
-        </button>
-      </div>
-
-      <!-- Mensagens de Validação e Feedback -->
-      <div class="mt-2 min-h-[1.5rem]">
-        @if (email?.invalid && (email?.dirty || email?.touched)) {
-          <div @fade class="text-sm text-red-500 dark:text-red-400">
-            Por favor, insira um e-mail válido.
-          </div>
-        }
-
-        @if (submissionState() === 'success') {
-          <div @fade class="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
-            <i class="material-symbols-outlined !text-base">check_circle</i>
-            <span>Convite enviado com sucesso!</span>
-          </div>
-        }
-
-        @if (submissionState() === 'error') {
-          <div @fade class="flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
-            <i class="material-symbols-outlined !text-base">error</i>
-            <span>Ocorreu um erro. Tente novamente.</span>
-          </div>
-        }
+          @if (submissionState() === 'success') {
+            <div @fade class="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+              <i class="material-symbols-outlined !text-base">check_circle</i>
+              <span>Convite enviado com sucesso!</span>
+            </div>
+          }
+          @if (submissionState() === 'error') {
+            <div @fade class="flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
+              <i class="material-symbols-outlined !text-base">error</i>
+              <span>Ocorreu um erro. Tente novamente.</span>
+            </div>
+          }
+        </div>
       </div>
     </div>
+  </form>
+
+  <div class="px-4">
+    <h3 class="mb-4 text-lg font-semibold text-gray-700 dark:text-white">Convites Enviados</h3>
+    
+    @if (allInvitations().length > 0) {
+      <div class="flex flex-col gap-3">
+        @for (invite of allInvitations(); track invite.id) {
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-gray-700">
+            
+            <div class="flex items-center gap-4">
+              <div class="grid h-10 w-10 place-items-center rounded-full bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                <i class="material-symbols-outlined !text-xl">mail</i>
+              </div>
+              
+              <div>
+                <p class="font-medium text-gray-900 dark:text-gray-100">
+                  {{ invite.inviteeEmail }}
+                </p>
+                <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                  <span>Expira em: {{ invite.expiresAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 self-end sm:self-auto">
+              <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium"
+                [ngClass]="getStatusStyles(invite.status)">
+                {{ getStatusLabel(invite.status) }}
+              </span>
+              
+              @if (invite.status === 'Pending') {
+                 <button 
+                   title="Cancelar convite"
+                   class="text-gray-400 hover:text-red-500 transition-colors dark:text-gray-600 dark:hover:text-red-400">
+                    <i class="material-symbols-outlined !text-lg">cancel</i>
+                 </button>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 py-12 text-center dark:border-gray-700 dark:bg-gray-900/30">
+        <div class="grid h-12 w-12 place-items-center rounded-full bg-gray-100 dark:bg-gray-800">
+          <i class="material-symbols-outlined text-gray-400">drafts</i>
+        </div>
+        <h3 class="mt-3 text-sm font-medium text-gray-900 dark:text-white">Nenhum convite enviado</h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Os convites que você enviar aparecerão aqui.</p>
+      </div>
+    }
   </div>
-</form>
+
+</section>

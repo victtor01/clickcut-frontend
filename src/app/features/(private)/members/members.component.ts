@@ -47,13 +47,13 @@ export class MembersComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.fetchData();
+    this.getMembers();
   }
 
   /**
-   * Busca os dados reais da API e os mapeia para a UI.
+   * Busca os dados rea is da API e os mapeia para a UI.
    */
-  async fetchData() {
+  public async getMembers(): Promise<void> {
     this.isLoading.set(true);
 
     // Define o período da "semana atual" (de Domingo a Sábado)
@@ -65,12 +65,11 @@ export class MembersComponent implements OnInit {
         this.membersService.getPerformace(start, end),
       );
 
-      // 2. Mapeia a resposta da API para a interface da UI
       const uiData = data.map((m) => this.mapToUI(m));
       this.members.set(uiData);
     } catch (error) {
       console.error('Erro ao buscar dados da performance:', error);
-      this.members.set([]); // Limpa em caso de erro
+      this.members.set([]);
     } finally {
       this.isLoading.set(false);
     }

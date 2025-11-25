@@ -48,7 +48,7 @@
     <div
       class="absolute flex flex-col bottom-0 pb-24 left-1/2 -translate-x-1/2 min-h-[20rem] max-h-[90vh] md:max-h-[80vh] overflow-y-auto rounded-t-2xl md:rounded-2xl w-full md:w-[90%] max-w-lg bg-white shadow-2xl shadow-gray-500/20 dark:shadow-black dark:bg-gray-950 border border-b-0 border-gray-200 dark:border-gray-800"
     >
-      <app-create-booking-navbar></app-create-booking-navbar>
+      <app-create-booking-navbar (onCloseEmit)="toggleCreate($event)"></app-create-booking-navbar>
     </div>
   </div>
 }

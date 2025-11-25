@@ -5,10 +5,12 @@ import { MatIconModule } from '@angular/material/icon'; // ✨ Importado MatIcon
 import { Router, RouterModule } from '@angular/router'; // ✨ Importado RouterModule
 import { Booking, BookingStatus } from '@app/core/models/Booking';
 import { BookingService } from '@app/core/models/BookingService';
+import { AppointmentsService } from '@app/core/services/appointments.service';
 import { AttendeeService } from '@app/core/services/attendee.service';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { hugeAlertSquare, hugeMoneyReceiveCircle, hugeSent } from '@ng-icons/huge-icons';
+import { Dayjs } from 'dayjs';
 import { firstValueFrom } from 'rxjs';
 import {
   RescheduleBookingComponent,
@@ -18,14 +20,12 @@ import {
 const icons = {
   hugeAlertSquare,
   hugeMoneyReceiveCircle,
-  hugeSent
-}
+  hugeSent,
+};
 
 @Component({
   templateUrl: './hub-home.component.html',
-  providers: [
-    provideIcons(icons)
-  ],
+  providers: [provideIcons(icons)],
   imports: [
     NgIconComponent,
     CommonModule,
@@ -38,6 +38,7 @@ const icons = {
 export class HubHomeComponent implements OnInit {
   // --- Injeções ---
   private readonly attendeeService = inject(AttendeeService);
+  private readonly appointmentsService = inject(AppointmentsService);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
 
@@ -51,16 +52,23 @@ export class HubHomeComponent implements OnInit {
   // --- Sinais Computados (Listas Separadas) ---
   public upcomingBookings = computed(() =>
     this.allBookings()
-      .filter((b) => (b.status === 'CONFIRMED' || b.status === 'IN_PROGRESS') && new Date(b.startAt) > new Date())
+      .filter(
+        (b) =>
+          (b.status === 'CONFIRMED' || b.status === 'IN_PROGRESS') &&
+          new Date(b.startAt) > new Date(),
+      )
       .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()),
   );
 
-   public lateBookings = computed(() =>
+  public lateBookings = computed(() =>
     this.allBookings()
-      .filter((b) => (b.status === 'CONFIRMED' || b.status === 'IN_PROGRESS') && new Date(b.startAt)  < new Date())
+      .filter(
+        (b) =>
+          (b.status === 'CONFIRMED' || b.status === 'IN_PROGRESS') &&
+          new Date(b.startAt) < new Date(),
+      )
       .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()),
   );
-
 
   public pendingPaymentBookings = computed(() =>
     this.allBookings()
@@ -188,10 +196,23 @@ export class HubHomeComponent implements OnInit {
 
     const reschedule = this.dialog.open(RescheduleBookingComponent, {
       data,
+      maxWidth: '50rem',
+      width: 'min(30rem, 100%)',
     });
 
-    reschedule.afterClosed().subscribe((data) => {});
-    // this.closeSettings();
+    reschedule.afterClosed().subscribe((data: Dayjs) => {
+      if(!data) return;
+
+      this.appointmentsService.rescheduleByAttendee(booking.id, data.toISOString()).subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    });
   }
 
   public cancelBooking(booking: Booking): void {

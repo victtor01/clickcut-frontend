@@ -26,8 +26,7 @@ export class AppointmentsService {
   }
 
   public findServices(businessId: string, userId: string): Observable<Service[]> {
-    const params = new HttpParams()
-      .set("userId", userId);
+    const params = new HttpParams().set('userId', userId);
 
     return this.apiService.get(`/appointments/${businessId}/services`, params);
   }
@@ -43,6 +42,17 @@ export class AppointmentsService {
   public sendCode(bookingId: string): Observable<{ message: string }> {
     return this.apiService.post('/appointments/send-code', {
       bookingId,
+    });
+  }
+
+  public cancelByAttendee(bookingId: string): Observable<any> {
+    return this.apiService.delete(`/appointments/${bookingId}`);
+  }
+
+  public rescheduleByAttendee(bookingId: string, startAt: string): Observable<Booking> {
+    return this.apiService.patch('/attendee/bookings/reschedule', {
+      bookingId,
+      startAt,
     });
   }
 

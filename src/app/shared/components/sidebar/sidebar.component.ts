@@ -159,10 +159,13 @@ export class SidebarComponent implements AfterViewInit {
   public activeTabId: string = this.tabs[0].id;
   public indicatorStyle: { [key: string]: any } = { opacity: 0 };
   public isLoadingSelectBusiness: boolean = false;
-  public businesses: Business[] = [];
   public isOpenCreateBooking = signal<boolean>(false);
   private isOpenSearch: boolean = false;
   public session: User | null = null;
+
+  public businesses = signal<Business[]>([]);
+  public outhersBusiness = signal<Business[]>([]);
+  public myBusiness = signal<Business[]>([]);
 
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
@@ -182,15 +185,15 @@ export class SidebarComponent implements AfterViewInit {
     this.isOpenCreateBooking.update((data) => !data);
   }
 
-  ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     const currentTab = this.tabs.find((tab) => this.router.url.startsWith(tab.route));
     if (currentTab) {
       this.activeTabId = currentTab.id;
     }
 
-    this.getSessionBusiness();
-    this.getAllBusiness();
-    this.getSession();
+    await Promise.all([this.getSession(), this.getSessionBusiness()]);
+
+    await this.getAllBusiness();
   }
 
   ngAfterViewInit(): void {
@@ -215,7 +218,17 @@ export class SidebarComponent implements AfterViewInit {
   }
 
   public async getAllBusiness(): Promise<void> {
-    this.businesses = await firstValueFrom(this.businessService.getAll());
+    const all = await firstValueFrom(this.businessService.getAll());
+
+    console.log(all);
+    this.businesses.set(all);
+
+    const my = all.length ? all.filter((b) => b.ownerId == this.session?.id) : [];
+
+    const outhers = all.length ? all.filter((b) => b.ownerId != this.session?.id) : [];
+
+    this.myBusiness.set(my);
+    this.outhersBusiness.set(outhers);
   }
 
   public async getSession(): Promise<void> {

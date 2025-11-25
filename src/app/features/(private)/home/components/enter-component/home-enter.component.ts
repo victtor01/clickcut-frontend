@@ -184,7 +184,6 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
 
   private subscribeToEvents(): void {
     const bookingSub = this.realTimeService.notifications$.subscribe((notification) => {
-      this.toastService.success('Nova notificação disponível');
       this.notifications = [...this.notifications, notification];
     });
 

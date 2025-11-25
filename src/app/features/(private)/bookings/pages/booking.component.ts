@@ -225,22 +225,6 @@ export class BookingComponent implements OnInit, OnDestroy {
   }
 
   public openModalForHour(date: Date): void {
-    const dateInUTC = dayjs(date).utc();
-    const startOfHour = dateInUTC.startOf('hour');
-    const startOfNextHour = startOfHour.add(1, 'hour');
-
-    const bookings: Booking[] = this._bookingsByDay[dayjs(date).format('YYYY-MM-DD')] || [];
-
-    const bookingsInHour = bookings.filter((booking) => {
-      const bookingStartAtUTC = dayjs(booking.startAt);
-
-      const isAfterOrOnStart =
-        bookingStartAtUTC.isAfter(startOfHour) || bookingStartAtUTC.isSame(startOfHour);
-      const isBeforeNextHour = bookingStartAtUTC.isBefore(startOfNextHour);
-
-      return isAfterOrOnStart && isBeforeNextHour;
-    });
-
     const dailyBookings: Booking[] = this._bookingsByDay[dayjs(date).format('YYYY-MM-DD')] || [];
 
     const dialogRef = this.dialogDetails.open(DetailsBookingComponent, {

@@ -155,7 +155,7 @@ export class MobileNavBarComponent implements AfterViewInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  public toggleCreate(): void {
+  public toggleCreate(a?: any): void {
     this.isOpenCreateBooking.update((data) => !data);
   }
 

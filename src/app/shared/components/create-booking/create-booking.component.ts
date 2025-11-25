@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  EventEmitter,
+  inject,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Service } from '@app/core/models/Service';
 import { BookingsService } from '@app/core/services/booking.service';
@@ -9,6 +18,9 @@ import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { firstValueFrom } from 'rxjs';
 
+import { Router } from '@angular/router';
+import { CreateBookingDTO } from '@app/core/schemas/create-booking.dto';
+import { ToastService } from '@app/core/services/toast.service';
 import { CalendarPickerComponent } from '../calendar-picker/calendar-picker.component';
 
 dayjs.locale('pt-br');
@@ -22,14 +34,16 @@ type Step = 'services' | 'calendar' | 'slots';
 })
 export class CreateBookingNavbar implements OnInit {
   // --- Serviços ---
+  private readonly toastService = inject(ToastService);
   private readonly servicesService = inject(ServicesService);
   private readonly bookingsService = inject(BookingsService);
+  private readonly router = inject(Router);
 
   // --- Sinais de Estado (Pai) ---
   public services = signal<Service[]>([]);
-  public selectedServices = signal<string[]>([]);
   public currentStep = signal<Step>('services');
-  public isLoadingNextStep = signal(false);
+  public selectedServices = signal<string[]>([]);
+  public isLoadingNextStep = signal<boolean>(false);
   public selectedTime?: string;
 
   // --- Sinais de Calendário (Pai gerencia o estado) ---
@@ -37,6 +51,9 @@ export class CreateBookingNavbar implements OnInit {
   public currentYear = signal(dayjs().year());
   public selectedDate = signal<Dayjs | null>(null);
   public availableDays = signal<Set<string>>(new Set());
+
+  @Output()
+  public onCloseEmit = new EventEmitter<boolean>();
 
   // Sinal computado para o botão "Continuar"
   public canContinue = computed(() => {
@@ -53,7 +70,6 @@ export class CreateBookingNavbar implements OnInit {
   });
 
   constructor() {
-    // Efeito para buscar dados quando a etapa do calendário for ativada
     effect(async () => {
       const step = this.currentStep();
       const month = this.currentMonth();
@@ -97,20 +113,44 @@ export class CreateBookingNavbar implements OnInit {
     }
   }
 
-  public goStep(): void {
-    if (!this.canContinue()) return; // Corrigido para usar o computed
+  public async goStep(): Promise<void> {
+    if (!this.canContinue()) return;
 
     const currStep = this.currentStep();
+
     const steps: Record<Step, Step> = {
       services: 'calendar',
       calendar: 'slots',
       slots: 'slots',
     };
+
     const newStep = steps[currStep];
     this.currentStep.set(newStep);
 
-    if (newStep === 'slots') {
-      // logica aqui
+    if (newStep !== 'slots') return;
+
+    if (!this.selectedDate() || !this.selectTime) {
+      return;
+    }
+
+    const [hours, minutes] = this.selectedTime!.split(':').map(Number);
+
+    const startAt = this.selectedDate()!.hour(hours).minute(minutes).second(0).millisecond(0);
+
+    const createBookingDTO = {
+      title: '',
+      serviceId: this.selectedServices(),
+      startAt: startAt!.toISOString(),
+    } satisfies CreateBookingDTO;
+
+    const response = await firstValueFrom(this.bookingsService.create(createBookingDTO));
+
+    if (response.id) {
+      this.toastService.success('Criado com sucesso!');
+      this.router.navigate(['/bookings', response.id]);
+      this.close();
+    } else {
+      this.toastService.error('Houve um erro');
     }
   }
 
@@ -130,9 +170,6 @@ export class CreateBookingNavbar implements OnInit {
     }
   }
 
-  /**
-   * ✨ CORRIGIDO: Este método é chamado pelo (monthChanged) do filho
-   */
   public onMonthChanged(offset: number): void {
     this.selectedDate.set(null); // Limpa a data selecionada
     const newDate = dayjs(new Date(this.currentYear(), this.currentMonth())).add(offset, 'month');
@@ -140,18 +177,13 @@ export class CreateBookingNavbar implements OnInit {
     this.currentMonth.set(newDate.month());
   }
 
-  /**
-   * ✨ CORRIGIDO: Este método é chamado pelo (dateSelected) do filho
-   * O parâmetro 'day' agora é do tipo 'CalendarDay'.
-   */
-public onDateSelected(date: Dayjs): void {
+  public onDateSelected(date: Dayjs): void {
     this.selectedDate.set(date);
     this.currentYear.set(date.year());
     this.currentMonth.set(date.month());
   }
-  
-  public close() {
-    // this.dialogRef.close();
-  }
 
+  public close() {
+    this.onCloseEmit.emit(true);
+  }
 }

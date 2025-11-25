@@ -21,9 +21,8 @@ export type RescheduleBookingDialogData = {
 };
 
 @Component({
-  selector: 'app-reschedule-booking', // Adicionei um seletor
+  selector: 'app-reschedule-booking',
   templateUrl: './reschedule-booking.component.html',
-  standalone: true,
   imports: [CommonModule, MatIconModule, CalendarPickerComponent, AllTimesComponent],
 })
 export class RescheduleBookingComponent {
@@ -120,7 +119,7 @@ export class RescheduleBookingComponent {
 
   public onDateSelected(day: Dayjs): void {
     this.selectedDate.set(day);
-    this.selectedTime.set(null); // Limpa a hora anterior
+    this.selectedTime.set(null);
   }
 
   // --- Manipuladores de Eventos dos Horários ---

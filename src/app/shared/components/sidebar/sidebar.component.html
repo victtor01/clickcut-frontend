@@ -86,7 +86,56 @@
 <div
   class="h-screen border-r relative border-gray-100 z-50 gap-2 flex-col dark:border-gray-800/50 lg:flex hidden overflow-visible dark:bg-gray-900/20 bg-white"
 >
-  @for (bus of businesses; track $index) {
+
+  @for (bus of outhersBusiness(); track $index) {
+    <div class="group relative px-2 first:mt-2 h-12">
+      @if (bus.id === business?.id) {
+        <div
+          class="w-1 h-9 rounded-r-xl bg-stone-800 dark:bg-indigo-50 top-1/2 -translate-y-1/2 left-0 absolute"
+        ></div>
+      }
+
+      <button
+        type="button"
+        (click)="selectBusiness(bus)"
+        class="w-12 h-12 bg-stone-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-700 rounded-full relative opacity-80 hover:opacity-100"
+      >
+        @if (bus.logoUrl) {
+          <img [src]="bus.logoUrl" alt="Avatar do cliente" class="object-cover" />
+        } @else {
+          <div
+            class="font-medium text-xl overflow-visible grid place-items-center text-gray-400 tracking-wider group-hover:text-gray-500 dark:group-hover:text-white transition-colors"
+          >
+            <i class="material-symbols-outlined !text-3xl">store</i>
+            <div
+              class="ring-1 ring-white dark:ring-gray-800 overflow-visible bg-stone-100 dark:bg-indigo-500 text-center grid absolute place-items-center rounded-full w-4 h-4 bottom-0 right-0 text-xs"
+            >
+              @if (bus?.owner?.photoUrl) {
+                <img
+                  [src]="bus!.owner!.photoUrl"
+                  [alt]="'Logo de ' + business?.name"
+                  class="h-full w-full rounded-full object-cover"
+                />
+              } @else {
+                <span class="text-xs">{{ bus.owner?.username?.[0] ?? bus.name[0] }}</span>
+              }
+            </div>
+          </div>
+        }
+      </button>
+      <div
+        class="group-hover:max-w-[10rem] max-w-0 ml-2 overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100 transition-all p-1 px-3 top-1/2 -translate-y-1/2 text-nowrap left-[100%] rounded-full bg-white/30 dark:bg-gray-800/20 backdrop-blur-xl absolute"
+      >
+        <span class="saira-font text-gray-500 dark:text-violet-100 font-semibold">
+          {{ bus.name }}
+        </span>
+      </div>
+    </div>
+  }
+  
+  <span class="bg-gradient-to-r from-transparent to-transparent via-zinc-200 dark:via-gray-700 h-px flex mx-2" ></span>
+
+  @for (bus of myBusiness(); track $index) {
     <div class="group relative px-2 first:mt-2 h-12">
       @if (bus.id === business?.id) {
         <div
@@ -122,6 +171,7 @@
       </div>
     </div>
   }
+
 
   <button
     type="button"
@@ -472,7 +522,7 @@
       <div
         class="flex flex-col h-auto max-h-[60vh] overflow-auto rounded-2xl rounded-tl-md w-[30rem] bg-white shadow-2xl shadow-violet-200 dark:shadow-black dark:bg-gray-950 border border-gray-200/0 dark:border-gray-800"
       >
-        <app-create-booking-navbar></app-create-booking-navbar>
+        <app-create-booking-navbar (onCloseEmit)="this.isOpenCreateBooking.set(false)"></app-create-booking-navbar>
       </div>
     </div>
   </div>
