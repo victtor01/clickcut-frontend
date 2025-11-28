@@ -19,6 +19,7 @@ import { ConfigureProfileComponent } from './configure/pages/profile/profile.com
 import { SecurityComponent } from './configure/pages/security/security.component';
 import { HomePageComponent } from './home/pages/home-page.component';
 import { IntegrateComponent } from './integrate/integrate.component';
+import { MarketingGenerator } from './marketing/pages/generator/pages/marketing-generator.component';
 import { MembersComponent } from './members/members.component';
 import { PayoutReviewComponent } from './payouts/pages/review/payout-reviews.component';
 import { PayrollComponent } from './payouts/payroll.component';
@@ -49,6 +50,7 @@ export const PRIVATE_ROUTES: Routes = [
               { path: 'home', component: HomePageComponent },
               { path: 'members', component: MembersComponent },
               { path: 'clients', component: MyClientsComponent },
+              { path: 'marketing', component: MarketingGenerator },
               {
                 path: 'payroll',
                 children: [

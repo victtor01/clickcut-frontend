@@ -25,6 +25,7 @@ import {
   saxBag2Bold,
   saxHome2Bold,
   saxLinkSquareBold,
+  saxMagicpenBold,
   saxPeopleBold,
   saxProfile2userBold,
 } from '@ng-icons/iconsax/bold';
@@ -33,6 +34,7 @@ import {
   saxBag2Outline,
   saxHome2Outline,
   saxLinkSquareOutline,
+  saxMagicpenOutline,
   saxPeopleOutline,
   saxProfile2userOutline,
 } from '@ng-icons/iconsax/outline';
@@ -65,6 +67,7 @@ const sidebarIcons = {
   hugeLink06,
   saxProfile2userOutline,
   solarCalendarMark,
+  saxMagicpenOutline,
   saxLinkSquareOutline,
 };
 
@@ -73,6 +76,7 @@ const sidebarBoldIcons = {
   saxBag2Bold,
   saxPeopleBold,
   solarTagBold,
+  saxMagicpenBold,
   saxProfile2userBold,
   solarCalendarMarkBold,
   saxLinkSquareBold,
@@ -143,6 +147,14 @@ export class SidebarComponent implements AfterViewInit {
       route: '/payroll',
       plan: 'equipe',
       selected: 'solarTagBold',
+    },
+    {
+      id: "post",
+      icon: "saxMagicpenOutline", 
+      selected: "saxMagicpenBold",
+      route: "/marketing",
+      plan: "solo",
+      label: "Post"
     },
     {
       id: 'meem',

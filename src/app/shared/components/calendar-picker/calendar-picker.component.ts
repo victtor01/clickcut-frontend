@@ -29,7 +29,6 @@ export interface CalendarDay {
 })
 export class CalendarPickerComponent implements OnChanges {
   // --- ENTRADAS (Inputs) ---
-  // O componente pai (o "cérebro") envia estes dados.
   @Input() availableDays: Set<string> = new Set();
   @Input() isLoading = false;
   @Input() month: number = dayjs().month();
@@ -37,7 +36,6 @@ export class CalendarPickerComponent implements OnChanges {
   @Input() selectedDate: Dayjs | null = null;
 
   // --- SAÍDAS (Outputs) ---
-  // O componente filho "avisa" o pai quando o usuário interage.
   @Output() monthChanged = new EventEmitter<number>();
   @Output() dateSelected = new EventEmitter<Dayjs>();
 

@@ -12,6 +12,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { hugeAlertSquare, hugeMoneyReceiveCircle, hugeSent } from '@ng-icons/huge-icons';
 import { Dayjs } from 'dayjs';
 import { firstValueFrom } from 'rxjs';
+import { CancelBookingByClient } from '../booking/components/cancel-booking/cancel-booking.component';
 import {
   RescheduleBookingComponent,
   RescheduleBookingDialogData,
@@ -177,13 +178,14 @@ export class HubHomeComponent implements OnInit {
   }
 
   public registerPayment(booking: Booking): void {
-    console.log('Abrir modal de pagamento para:', booking.id);
     this.closeSettings();
     // Ex: this.dialog.open(RegisterPaymentModalComponent, { data: booking });
   }
 
   public openReschedule(booking: Booking): void {
-    if (!booking?.services?.length || !booking.assignedTo?.id || !booking.assignedTo.id) {
+    this.closeSettings();
+
+    if (!booking?.services?.length || !booking.assignedTo?.id) {
       return;
     }
 
@@ -201,7 +203,7 @@ export class HubHomeComponent implements OnInit {
     });
 
     reschedule.afterClosed().subscribe((data: Dayjs) => {
-      if(!data) return;
+      if (!data) return;
 
       this.appointmentsService.rescheduleByAttendee(booking.id, data.toISOString()).subscribe({
         next: (data) => {
@@ -216,8 +218,14 @@ export class HubHomeComponent implements OnInit {
   }
 
   public cancelBooking(booking: Booking): void {
-    console.log('Abrir modal de cancelamento para:', booking.id);
     this.closeSettings();
+
+    const cancel = this.dialog.open(CancelBookingByClient, {
+      data: { bookingId: booking.id },
+      maxWidth: '50rem',
+      width: 'min(30rem, 100%)',
+    });
+
     // Ex: this.dialog.open(CancelBookingModalComponent, { data: booking });
   }
 }

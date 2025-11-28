@@ -46,7 +46,7 @@ export class AppointmentsService {
   }
 
   public cancelByAttendee(bookingId: string): Observable<any> {
-    return this.apiService.delete(`/appointments/${bookingId}`);
+    return this.apiService.delete(`/attendee/bookings/${bookingId}`);
   }
 
   public rescheduleByAttendee(bookingId: string, startAt: string): Observable<Booking> {

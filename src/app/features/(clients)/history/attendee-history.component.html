@@ -61,9 +61,9 @@
               Próximos
             </h2>
             <ul class="relative mt-6 space-y-8">
-              <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800"></div>
-
-              <li *ngFor="let booking of upcomingBookings" class="relative pl-16">
+              
+              <li *ngFor="let booking of upcomingBookings" class="relative pl-16 group " >
+                <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800 group-last:hidden"></div>
                 <div class="absolute -left-0 top-1">
                   <span
                     class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-gray-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950 ring-indigo-500 dark:ring-indigo-400"
@@ -114,10 +114,10 @@
             >
               Anteriores
             </h2>
-            <ul class="relative mt-6 space-y-8">
-              <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800"></div>
-
-              <li *ngFor="let booking of pastBookings" class="relative pl-16">
+            <ul class="relative mt-6">
+              
+              <li *ngFor="let booking of pastBookings" class="relative pl-16 pb-5 last:pb-0 group">
+                <div class="absolute left-[1.1rem] top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800 group-last:hidden"></div>
                 <div class="absolute -left-0 top-1">
                   <span
                     class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-gray-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950"

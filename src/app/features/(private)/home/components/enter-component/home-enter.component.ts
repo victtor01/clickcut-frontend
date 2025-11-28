@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -55,6 +55,7 @@ const icons = {
     NotificationIconPipe,
     NotificationColorPipe,
     NgIconComponent,
+    DatePipe
   ],
   providers: [provideIcons(icons)],
   animations: [

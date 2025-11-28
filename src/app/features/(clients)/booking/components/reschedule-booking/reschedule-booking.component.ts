@@ -41,13 +41,11 @@ export class RescheduleBookingComponent {
   public currentStep = signal<Step>('calendar');
   public isLoading = signal(true);
 
-  // --- Sinais do Calendário ---
   public currentMonth = signal(dayjs().month());
   public currentYear = signal(dayjs().year());
   public selectedDate = signal<Dayjs | null>(null);
   public availableDays = signal<Set<string>>(new Set());
 
-  // --- Sinais dos Horários ---
   public selectedTime = signal<string | null>(null);
 
   // Sinal computado para o botão "Continuar"
@@ -84,6 +82,7 @@ export class RescheduleBookingComponent {
     let avaibleDays: string[] = [];
 
     try {
+      // transformar o index no mes certo, por isso o month + 1;
       const newMonth = month + 1;
 
       if (this.assignedToId && this.businessId) {

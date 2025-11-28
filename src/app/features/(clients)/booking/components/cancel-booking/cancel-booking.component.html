@@ -1,0 +1,90 @@
+<div class="flex flex-col gap-6 p-6 sm:p-8">
+  <!-- Cabeçalho com Ícone de Alerta -->
+  <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
+    <div
+      class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
+    >
+      <mat-icon class="!h-8 !w-8 !text-3xl">event_busy</mat-icon>
+    </div>
+    <div>
+      <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Cancelar Agendamento?</h2>
+      <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+        Esta ação liberará o horário para outros clientes.
+      </p>
+    </div>
+  </div>
+
+  <!-- Card de Resumo do Agendamento (Para confirmar o que está cancelando) -->
+  @if (booking(); as b) {
+    <div
+      class="rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-800/50"
+    >
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            Serviço
+          </span>
+          <span class="font-medium text-zinc-900 dark:text-white">
+            {{ b.title }}
+          </span>
+        </div>
+        <div class="text-right flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            Data e Hora
+          </span>
+          <div class="flex flex-col items-end">
+            <span class="font-medium text-zinc-900 dark:text-white">
+              {{ b.startAt | date: 'dd/MM/yyyy' }}
+            </span>
+            <span class="text-sm text-zinc-500 dark:text-zinc-400">
+              {{ b.startAt | date: 'HH:mm' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profissional -->
+      @if (b.assignedTo) {
+        <div class="mt-4 flex items-center gap-3 border-t border-zinc-200 pt-3 dark:border-zinc-700">
+          <img
+            [src]="b.assignedTo.photoUrl"
+            class="h-8 w-8 rounded-full bg-zinc-200 object-cover dark:bg-zinc-700"
+            alt=""
+          />
+          <span class="text-sm text-zinc-600 dark:text-zinc-300">
+            Com <strong class="font-medium text-zinc-900 dark:text-white">{{ b.assignedTo.username }}</strong>
+          </span>
+        </div>
+      }
+    </div>
+  } @else {
+    <!-- Skeleton Loading simples -->
+    <div class="h-24 w-full animate-pulse rounded-xl bg-zinc-100 dark:bg-zinc-800"></div>
+  }
+
+  <!-- Botões de Ação -->
+  <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+    <button
+      type="button"
+      (click)="close()"
+      [disabled]="isSubmitting()"
+      class="rounded-lg px-4 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:text-zinc-200 dark:hover:bg-zinc-800"
+    >
+      Não, manter
+    </button>
+
+    <button
+      type="button"
+      (click)="cancel()"
+      [disabled]="isSubmitting() || !booking()"
+      class="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-red-400 disabled:opacity-70 dark:disabled:bg-red-900"
+    >
+      @if (isSubmitting()) {
+        <mat-icon class="animate-spin !text-lg">progress_activity</mat-icon>
+        <span>Cancelando...</span>
+      } @else {
+        <span>Sim, cancelar</span>
+      }
+    </button>
+  </div>
+</div>
