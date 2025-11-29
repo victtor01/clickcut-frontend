@@ -2,7 +2,7 @@
   <button
     type="button"
     (click)="back()"
-    class="w-12 h-12 rounded-full grid place-items-center border border-zinc-300 dark:border-zinc-800"
+    class="w-12 h-12 rounded-full grid place-items-center border border-gray-300 dark:border-gray-800"
   >
     <i class="material-icons-outlined !text-3xl">chevron_left</i>
   </button>
@@ -11,10 +11,10 @@
 <form
   [formGroup]="businessForm"
   (ngSubmit)="onSubmit()"
-  class="relative flex w-[90%] max-w-[35rem] flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white m-auto dark:border-zinc-800 dark:bg-zinc-900"
+  class="relative flex w-[90%] max-w-[35rem] flex-col overflow-hidden rounded-xl border border-gray-200 bg-white m-auto dark:border-gray-800 dark:bg-gray-900"
 >
   <div
-    class="absolute inset-0 pointer-events-none bg-gradient-to-b from-purple-500/5 via-white/20 to-white dark:from-zinc-900 dark:via-zinc-900/80 dark:to-zinc-900"
+    class="absolute inset-0 pointer-events-none bg-gradient-to-b from-purple-500/5 via-white/20 to-white dark:from-gray-900 dark:via-gray-900/80 dark:to-gray-900"
   ></div>
 
   <div *ngIf="step === 'NAME'" class="flex flex-col gap-6 p-8 text-center relative">
@@ -22,10 +22,10 @@
       <div class="w-[15rem] h-[15rem]">
         <svg-enter></svg-enter>
       </div>
-      <h1 class="text-3xl font-bold text-zinc-700 dark:text-zinc-100">
+      <h1 class="text-3xl font-bold text-gray-700 dark:text-gray-100">
         Qual o nome da sua grande ideia?
       </h1>
-      <p class="max-w-md text-zinc-600 dark:text-zinc-400">
+      <p class="max-w-md text-gray-600 dark:text-gray-400">
         Este será o nome que seus clientes verão. Escolha um que represente bem o seu negócio.
       </p>
     </header>
@@ -35,12 +35,12 @@
         type="text"
         id="name"
         formControlName="name"
-        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-grayral-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
         placeholder=""
       />
       <label
         for="name"
-        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-neutral-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-40dark:bg-grayutral-900"
       >
         Nome
       </label>
@@ -57,7 +57,7 @@
       <button
         type="button"
         (click)="next()"
-        class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-purple-500 to-purple-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
+        class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-purple-500 to-purple-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950"
         [ngClass]="{
           'opacity-50 cursor-not-allowed': name?.invalid,
           'opacity-80 hover:opacity-100': name?.valid
@@ -73,10 +73,10 @@
       <div class="w-[15rem] h-[15rem]">
         <money-svg></money-svg>
       </div>
-      <h1 class="text-3xl font-bold text-zinc-700 dark:text-zinc-100">
+      <h1 class="text-3xl font-bold text-gray-700 dark:text-gray-100">
         Defina uma meta para o seu negócio
       </h1>
-      <p class="max-w-md text-zinc-600 dark:text-zinc-400">
+      <p class="max-w-md text-gray-600 dark:text-gray-400">
         Mensalmente esse valor será zerado e servirá como uma meta para você alcançar
       </p>
     </header>
@@ -86,7 +86,7 @@
         type="text"
         id="price"
         formControlName="revenueGoal"
-        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-grayral-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
         placeholder=""
         appMoneyInput
         [showCurrencySymbol]="true"
@@ -96,7 +96,7 @@
       />
       <label
         for="price"
-        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-neutral-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-40dark:bg-grayutral-900"
       >
         Meta
       </label>
@@ -106,7 +106,7 @@
       <button
         type="button"
         (click)="next()"
-        class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-purple-500 to-purple-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
+        class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-purple-500 to-purple-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950"
         [ngClass]="{
           'opacity-50 cursor-not-allowed': revenueGoal?.invalid,
           'opacity-80 hover:opacity-100': revenueGoal?.valid
@@ -122,10 +122,10 @@
       <div class="w-[15rem] h-[15rem]">
         <world-svg></world-svg>
       </div>
-      <h1 class="text-3xl font-bold text-zinc-700 dark:text-zinc-100">
+      <h1 class="text-3xl font-bold text-gray-700 dark:text-gray-100">
         Onde está localizado o seu negócio?
       </h1>
-      <p class="max-w-md text-zinc-600 dark:text-zinc-400">
+      <p class="max-w-md text-gray-600 dark:text-gray-400">
         Usaremos isso para acessibilidade dos seus clientes!
       </p>
     </header>
@@ -138,20 +138,20 @@
         [ngModelOptions]="{ standalone: true }"
         (input)="filterTimezones()"
         (focus)="showResults = true"
-        class="w-full p-3 pl-4 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        class="w-full p-3 pl-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-grayral-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
 
       <div
         *ngIf="showResults"
-        class="absolute z-10 w-full mb-4 bottom-[100%] bg-white h-[20rem] dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg overflow-y-auto"
+        class="absolute z-10 w-full mb-4 bottom-[100%] bg-white h-[20rem] dark:bg-grayral-800 border border-gray-300 dark:border-gray-700 rounded-lg overflow-y-auto"
       >
-        <div *ngIf="filteredTimezones.length === 0" class="p-4 text-center text-zinc-500">
+        <div *ngIf="filteredTimezones.length === 0" class="p-4 text-center text-gray-500">
           Nenhum fuso horário encontrado.
         </div>
         @for (item of filteredTimezones; track $index) {
         <div
           (click)="selectTimezone(item)"
-          class="p-4 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
+          class="p-4 cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
         >
           {{ item.label }}
         </div>
@@ -171,7 +171,7 @@
       <button
         type="submit"
         [disabled]="businessForm.invalid"
-        class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-purple-500 to-purple-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-950"
+        class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-purple-500 to-purple-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-950"
       >
         <span>Finalizar Cadastro</span>
       </button>

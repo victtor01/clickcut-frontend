@@ -1,0 +1,181 @@
+<section
+  class="flex flex-col sm:my-8 sm:rounded-xl border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900 max-w-2xl w-full"
+>
+  <header
+    class="flex items-start justify-between border-b border-gray-200/80 p-6 dark:border-gray-800"
+  >
+    <div class="flex items-center gap-4">
+      <div
+        class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-500/10"
+      >
+        <i class="material-symbols-outlined text-indigo-600 dark:text-indigo-400">badge</i>
+      </div>
+      <div>
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Detalhes do Membro</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Edite o salário, comissão e cargos do membro.
+        </p>
+      </div>
+    </div>
+    <button
+      (click)="closeDialog()"
+      class="rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-100 dark:text-gray-400 grid place-items-center w-12 h-12 dark:hover:bg-gray-700"
+      aria-label="Fechar modal"
+    >
+      <i class="material-symbols-outlined">close</i>
+    </button>
+  </header>
+
+  <!-- Corpo Principal do Modal -->
+  <main class="flex-1 overflow-y-auto p-6">
+    @if (!form) {
+      <!-- Estado de Carregamento Inicial -->
+      <div class="flex items-center justify-center py-10">
+        <i class="material-symbols-outlined animate-spin text-4xl text-indigo-500"
+          >progress_activity</i
+        >
+      </div>
+    } @else {
+      <!-- Formulário -->
+      <form [formGroup]="form" (ngSubmit)="onFormSubmit()" id="memberDetailsForm" class="space-y-8">
+        <!-- Seção de Informações do Usuário (Não Editável) -->
+        <div
+          class="flex items-center gap-4 rounded-lg border border-gray-200/80 bg-white p-4 dark:bg-gray-800/50 dark:border-gray-800"
+        >
+          <img
+            [src]="
+              member.user.photoUrl ||
+              'https://placehold.co/600x600/6366f1/FFFFFF?text=' + member.user.username.charAt(0)
+            "
+            alt="Foto de {{ member.user.username }}"
+            class="h-14 w-14 rounded-full object-cover"
+          />
+          <div>
+            <p class="font-semibold text-gray-900 dark:text-white">{{ member.user.username }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ member.user.email }}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <!-- Campo Salário -->
+          <div>
+            <label for="salary" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Salário (R$)
+            </label>
+            <div class="relative mt-2">
+              <i
+                class="material-symbols-outlined !text-2xl opacity-80 pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                >payments</i
+              >
+              <input
+                type="number"
+                step="0.01"
+                appMoneyInput
+                formControlName="salary"
+                [showCurrencySymbol]="false"
+                class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-gray-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
+                placeholder=""
+              />
+            </div>
+            @if (form.get('salary')?.invalid && form.get('salary')?.touched) {
+              <p class="mt-1 text-xs text-red-500">
+                Salário é obrigatório e não pode ser negativo.
+              </p>
+            }
+          </div>
+
+          <!-- Campo Comissão -->
+          <div>
+            <label
+              for="commissionRate"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Taxa de Comissão (%)
+            </label>
+            <div class="relative mt-2">
+              <i
+                class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                >percent</i
+              >
+              <input
+                id="commissionRate"
+                type="number"
+                formControlName="commissionRate"
+                placeholder="Ex: 10"
+                class="w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-10 pr-4 text-gray-800 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-gray-100"
+                [class.border-red-500]="
+                  form.get('commissionRate')?.invalid && form.get('commissionRate')?.touched
+                "
+              />
+            </div>
+            @if (form.get('commissionRate')?.invalid && form.get('commissionRate')?.touched) {
+              <p class="mt-1 text-xs text-red-500">Comissão é obrigatória (0 a 100).</p>
+            }
+          </div>
+        </div>
+
+        <!-- Seção de Cargos -->
+        <div>
+          <h3 class="text-base font-medium text-gray-700 dark:text-gray-300">Cargos</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+            Selecione os cargos que este membro pode exercer.
+          </p>
+          <ul
+            formArrayName="roles"
+            class="divide-y divide-gray-200/80 rounded-lg border border-gray-200/80 dark:divide-gray-800 dark:border-gray-800"
+          >
+            @for (role of data.allRoles; track role.id; let i = $index) {
+              <li class="flex items-center justify-between p-4">
+                <label [for]="'role-' + i" class="cursor-pointer pr-4">
+                  <span class="font-medium text-sm text-gray-800 dark:text-gray-200">{{
+                    role.name
+                  }}</span>
+                </label>
+
+                <label
+                  [for]="'role-' + i"
+                  class="relative inline-flex flex-shrink-0 cursor-pointer items-center"
+                >
+                  <input
+                    [id]="'role-' + i"
+                    type="checkbox"
+                    [formControlName]="i"
+                    class="peer sr-only"
+                  />
+                  <div
+                    class="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:bg-gray-700 dark:peer-focus:ring-indigo-800"
+                  ></div>
+                </label>
+              </li>
+            }
+          </ul>
+        </div>
+      </form>
+    }
+  </main>
+
+  <footer
+    class="flex justify-end gap-3 border-t border-gray-200/80 bg-stone-50 p-4 dark:border-gray-800 dark:bg-gray-900/50"
+  >
+    <button
+      (click)="closeDialog()"
+      type="button"
+      class="rounded-lg bg-transparent px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-stone-100 dark:text-gray-200 dark:hover:bg-gray-800"
+    >
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      form="memberDetailsForm"
+      [disabled]="form.invalid || isLoading()"
+      class="flex min-w-[150px] rounded-full items-center justify-center gap-2 bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800"
+    >
+      @if (isLoading()) {
+        <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
+        <span>Salvando...</span>
+      } @else {
+        <span>Salvar Alterações</span>
+      }
+    </button>
+  </footer>
+</section>

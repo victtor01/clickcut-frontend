@@ -1,0 +1,145 @@
+<section
+  class="flex flex-col sm:rounded-xl border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900 w-full max-w-lg"
+>
+  <header
+    class="flex items-center px-4 p-4 justify-between border-b border-gray-200 dark:border-gray-700"
+  >
+    <h2 class="text-xl saira-font text-gray-800 dark:text-gray-100">Registrar Pagamento</h2>
+    <button
+      (click)="closeModal()"
+      aria-label="Fechar modal"
+      class="grid place-items-center w-10 h-10"
+    >
+      <i class="material-icons-outlined">close</i>
+    </button>
+  </header>
+
+  @if (payout.status !== 'PAID') {
+    <main mat-dialog-content class="p-6 space-y-6">
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium text-gray-700 dark:text-gray-200">Resumo do Pagamento</h3>
+        <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <dt class="text-gray-500">Período:</dt>
+          <dd class="text-gray-800 dark:text-gray-100 font-medium">
+            {{ payout.start | date: 'dd/MM/yyyy' }} -
+            {{ payout.end | date: 'dd/MM/yyyy' }}
+          </dd>
+
+          <dt class="text-gray-500">Salário Base:</dt>
+          <dd class="text-gray-800 dark:text-gray-100 font-medium">
+            {{ payout.baseSalary | currency: 'BRL' }}
+          </dd>
+
+          <dt class="text-gray-500">Total de Comissão:</dt>
+          <dd class="text-gray-800 dark:text-gray-100 font-medium">
+            {{ payout.totalCommission | currency: 'BRL' }}
+          </dd>
+
+          <dt
+            class="text-gray-600 dark:text-gray-300 text-base font-semibold col-span-2 pt-2 border-t border-gray-200 dark:border-gray-700 mt-2"
+          >
+            Valor Total a Pagar:
+          </dt>
+          <dd class="text-emerald-600 dark:text-emerald-400 text-2xl font-bold col-span-2">
+            {{ payout.totalAmount | currency: 'BRL' }}
+          </dd>
+        </dl>
+      </div>
+
+      <div class="space-y-2">
+        <label
+          for="proof-upload"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+        >
+          Comprovante de Pagamento (Opcional)
+        </label>
+        <button
+          type="button"
+          (click)="fileInput.click()"
+          class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-stone-50 dark:hover:bg-gray-700"
+        >
+          <mat-icon>attach_file</mat-icon>
+          <span>Anexar Arquivo</span>
+        </button>
+        <input
+          hidden
+          #fileInput
+          type="file"
+          id="proof-upload"
+          (change)="onFileSelected($event)"
+          accept="image/*,.pdf"
+        />
+        @if (proofFile) {
+          <div class="mt-2 text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+            <mat-icon class="text-base w-4 h-4">check_circle</mat-icon>
+            <span>{{ proofFile.name }}</span>
+          </div>
+        }
+      </div>
+    </main>
+
+    <footer
+      mat-dialog-actions
+      align="end"
+      class="p-4 border-t border-gray-200 dark:border-gray-700 sm:rounded-b-xl"
+    >
+      <button mat-stroked-button (click)="closeModal()">Cancelar</button>
+      <button
+        mat-flat-button
+        class="!bg-indigo-500 !text-indigo-50"
+        (click)="registerPayment()"
+        [disabled]="isSubmitting"
+      >
+        @if (isSubmitting) {
+          <span>Registrando...</span>
+        } @else {
+          <span>Confirmar Pagamento</span>
+        }
+      </button>
+    </footer>
+  } @else {
+    <div class="p-4 flex flex-col py-10">
+      <app-finish-svg></app-finish-svg>
+
+      <span
+        class="flex text-center flex-1 items-center justify-center mt-5 text-violet-400 font-semibold font-saira"
+      >
+        Pagamento concluído
+      </span>
+
+      <div class="grid place-items-center mt-10">
+        <a
+          (click)="closeModal()"
+          [routerLink]="['/payroll/review']"
+          [queryParams]="{ payoutId: this.payout.id }"
+          class="mt-3 flex gap-4 rounded-full relative overflow-hidden hover:bg-gradient-to-r hover:from-indigo-500 transition-all group bg-violet-500 hover:bg-violet-600 p-2 px-6 text-violet-50 items-center"
+        >
+          <span class="saira-font text-lg font-semibold transition-all group-hover:mr-10">
+            Ver Resumo
+          </span>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="#fff"
+            xmlns="http://www.w3.org/2000/svg"
+            class="absolute right-0 transition-all translate-x-[100%] group-hover:-translate-x-5 opacity-0 group-hover:opacity-100"
+          >
+            <g clip-path="url(#clip0_4418_8610)">
+              <path
+                d="M16.1401 2.95907L7.11012 5.95907C1.04012 7.98907 1.04012 11.2991 7.11012 13.3191L9.79012 14.2091L10.6801 16.8891C12.7001 22.9591 16.0201 22.9591 18.0401 16.8891L21.0501 7.86907C22.3901 3.81907 20.1901 1.60907 16.1401 2.95907ZM16.4601 8.33907L12.6601 12.1591C12.5101 12.3091 12.3201 12.3791 12.1301 12.3791C11.9401 12.3791 11.7501 12.3091 11.6001 12.1591C11.3101 11.8691 11.3101 11.3891 11.6001 11.0991L15.4001 7.27907C15.6901 6.98907 16.1701 6.98907 16.4601 7.27907C16.7501 7.56907 16.7501 8.04907 16.4601 8.33907Z"
+                fill="white"
+                style="fill: var(--fillg)"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_4418_8610">
+                <rect width="24" height="24" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </a>
+      </div>
+    </div>
+  }
+</section>

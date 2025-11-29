@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -15,7 +15,7 @@ import { finalize } from 'rxjs';
 
 @Component({
   templateUrl: './profile.component.html',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, DatePipe],
 })
 export class ConfigureProfileComponent implements OnInit {
   constructor(
@@ -85,7 +85,6 @@ export class ConfigureProfileComponent implements OnInit {
 
   public submit(): void {
     if (!this.form.valid) {
-      console.log('teste');
       return;
     }
 

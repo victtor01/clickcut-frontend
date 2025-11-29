@@ -28,7 +28,7 @@ export class ServicesComponent {
 
   public openCreateService() {
     const dialogRef = this.createDialogRef.open(CreateServiceModalComponent, {
-      backdropClass: ['bg-gray-200/50', 'dark:bg-zinc-950/60', "backdrop-blur-sm"],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-stone-950/60', "backdrop-blur-sm"],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(50rem, 90%)',

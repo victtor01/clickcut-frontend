@@ -1,10 +1,65 @@
-<section class="flex relative h-screen bg-white dark:bg-zinc-950 overflow-auto overflow-x-hidden">
-  <sidebar></sidebar>
+<div
+  class="relative transform-gpu w-full h-[100dvh] bg-white dark:bg-black bg-gradient-to-l from-white dark:from-gray-900/20 to-white dark:to-gray-900/20 perspective-[1500px]"
+>
+  <div class="fixed inset-0 w-full h-full z-0 will-change-transform">
+    <app-mobile-menu></app-mobile-menu>
+  </div>
 
-  <section
-    class="flex flex-col overflow-x-hidden border-zinc-200 lg:m-2 bg-white/50 backdrop-blur-sm dark:bg-zinc-950/30 flex-1 pb-[5rem] lg:rounded-xl lg:border overflow-auto dark:border-zinc-800"
+  <div
+    class="relative transform-gpu w-full h-full z-10 bg-white dark:bg-gray-950 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] origin-left shadow-2xl will-change-transform backface-hidden"
+    [ngClass]="{
+      'translate-x-[70%] rotate-y-[-15deg] scale-[0.85] rounded-[30px] overflow-hidden border border-gray-700/30':
+        isSidebarOpen(),
+      'translate-x-0 rotate-y-0 rounded-none': !isSidebarOpen(),
+    }"
   >
-    <router-outlet></router-outlet>
-  </section>
-  <mobile-sidebar></mobile-sidebar>
-</section>
+    <div
+      class="absolute flex md:hidden inset-0 bg-black/10 dark:bg-black/50 z-[60] transition-opacity duration-500 cursor-pointer"
+      [class.opacity-0]="!isSidebarOpen()"
+      [class.pointer-events-none]="!isSidebarOpen()"
+      (click)="toggleSidebar()"
+    ></div>
+
+    <div
+      class="absolute top-5 left-5 z-[70] flex md:hidden transition-all duration-300 ease-in-out"
+      [ngClass]="{
+        '-translate-y-[150%] opacity-0 scale-50': !showMenuButton() && !isSidebarOpen(),
+        'translate-y-0 opacity-100 scale-100': showMenuButton() || isSidebarOpen(),
+      }"
+    >
+      <button
+        (click)="toggleSidebar()"
+        class="shadow-lg shadow-gray-950/80 backdrop-blur-sm dark:shadow-gray-950/50 bg-gray-100/90 dark:bg-gray-900/90 rounded-xl grid place-items-center w-13 h-13 transition-transform active:scale-95"
+      >
+        <ng-icon
+          [name]="isSidebarOpen() ? 'solarCloseCircleLinear' : 'hugeMenu02'"
+          size="25"
+          class="transition-all duration-300 text-gray-700 dark:text-gray-200"
+          [class.text-red-500]="isSidebarOpen()"
+          [class.rotate-90]="isSidebarOpen()"
+        ></ng-icon>
+      </button>
+    </div>
+
+    <section
+      class="flex relative h-[100dvh] bg-gradient-to-l bg-white from-white to-indigo-50/40 dark:bg-gray-950 dark:from-gray-900/20 dark:to-gray-900/20"
+    >
+      <sidebar class="h-auto flex"></sidebar>
+
+      <section
+        #main
+        (scroll)="onMainScroll($event)"
+        class="flex touch-pan-y flex-col h-[100dvh] overflow-x-hidden relative bg-transparent flex-1 overflow-auto dark:border-gray-800"
+      >
+        <div
+          class="pointer-events-none z-10 absolute top-0 left-[20%] -translate-y-[50%] w-[60vh] h-[60vh] aura-animada"
+        ></div>
+
+        <div class="relative z-20">
+          <router-outlet></router-outlet>
+        </div>
+      </section>
+      <mobile-navbar></mobile-navbar>
+    </section>
+  </div>
+</div>

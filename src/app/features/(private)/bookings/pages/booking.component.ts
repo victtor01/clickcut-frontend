@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
-import { BookingsByDay, BookingService } from '@app/core/services/booking.service';
+import { BookingsByDay, BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { WeekComponent } from '../components/week/week.component';
 import { DetailsBookingComponent } from './details/details-booking-modal.component';
 dayjs.locale('pt-br');
+
+type BookingFilter = 'all' | 'paid' | 'pending';
 
 @Component({
   templateUrl: './booking.component.html',
@@ -20,17 +22,37 @@ export class BookingComponent implements OnInit, OnDestroy {
   public isLoading = true;
   private _bookingsByDay: BookingsByDay = {};
   private timer: any;
-  public dayjs = dayjs;
   public scale = 2;
+
+  @ViewChild('main')
+  private scheduleContainer!: ElementRef<HTMLDivElement>; // Referência ao DIV pai
 
   @ViewChild('timeIndicator')
   private timeIndicator!: ElementRef;
 
-  constructor(
-    private readonly bookingsService: BookingService,
-    private readonly toastService: ToastService,
-    private readonly dialogDetails: MatDialog
-  ) {}
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly bookingsService = inject(BookingsService);
+  private readonly toastService = inject(ToastService);
+  private readonly dialogDetails = inject(MatDialog);
+
+  constructor() {
+    this.route.queryParamMap.subscribe((params) => {
+      const param = params.get('curr');
+
+      if (param) {
+        const day = dayjs(param, 'YYYY-MM-DD').add(20, "hours");
+
+        if (day.isValid()) {
+          this.currentDate = day;
+        }
+      }
+    });
+  }
+
+  get day() {
+    return dayjs;
+  }
 
   get bookingsForCurrentDay(): Booking[] {
     const dateKey = this.currentDate.format('YYYY-MM-DD');
@@ -57,7 +79,19 @@ export class BookingComponent implements OnInit, OnDestroy {
     }, 30000);
   }
 
-  private ensureBookingsAreLoaded(): void {
+  public onSelectDate(day: Dayjs): void {
+    this.currentDate = day;
+    this.setCurrentDateInUrl(this.currentDate);
+  }
+
+  public activeFilter = signal<BookingFilter>('all');
+
+  public setFilter(filter: BookingFilter): void {
+    this.activeFilter.set(filter);
+    console.log('Filtro ativo:', this.activeFilter());
+  }
+
+  private ensureBookingsAreLoaded(date?: string): void {
     const dateKey = this.currentDate.format('YYYY-MM-DD');
 
     if (this._bookingsByDay[dateKey]) {
@@ -90,12 +124,22 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   public previousDay(): void {
     this.currentDate = this.currentDate.subtract(1, 'day');
+    this.setCurrentDateInUrl(this.currentDate);
     this.ensureBookingsAreLoaded();
   }
 
   public nextDay(): void {
     this.currentDate = this.currentDate.add(1, 'day');
+    this.setCurrentDateInUrl(this.currentDate);
     this.ensureBookingsAreLoaded();
+  }
+
+  private setCurrentDateInUrl(currentDate: Dayjs) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { curr: currentDate.format('YYYY-MM-DD') },
+      queryParamsHandling: 'merge',
+    });
   }
 
   get currentTimeIndicatorStyle(): { [key: string]: any } {
@@ -112,8 +156,8 @@ export class BookingComponent implements OnInit, OnDestroy {
   private fetchBookingsForWeek(date: Dayjs): void {
     this.isLoading = true;
 
-    const startOfWeek = date.startOf('week').format('YYYY-MM-DD');
-    const endOfWeek = date.endOf('week').format('YYYY-MM-DD');
+    const startOfWeek = date.startOf('month');
+    const endOfWeek = date.endOf('month');
 
     this.bookingsService.getAll(startOfWeek, endOfWeek).subscribe({
       next: (newBookings) => {
@@ -133,21 +177,39 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   get countOfDates(): Record<string, number> {
     if (this._bookingsByDay) {
-      return Object.entries(this._bookingsByDay).reduce((acc, [key, value]) => {
-        acc[key] = value?.length || 0;
-        return acc;
-      }, {} as Record<string, number>);
+      return Object.entries(this._bookingsByDay).reduce(
+        (acc, [key, value]) => {
+          acc[key] = value?.length || 0;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
     }
 
     return {};
   }
 
   private scrollToCurrentTime(): void {
-    if (this.isToday && this.timeIndicator?.nativeElement) {
-      this.timeIndicator.nativeElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+    // Verifica se é hoje e se o indicador e o contêiner foram renderizados
+    if (
+      this.isToday &&
+      this.timeIndicator?.nativeElement &&
+      this.scheduleContainer?.nativeElement
+    ) {
+      const indicatorElement = this.timeIndicator.nativeElement;
+      const containerElement = this.scheduleContainer.nativeElement;
+
+      // Calcula a posição do indicador dentro do contêiner scrollável
+      const indicatorPosition = indicatorElement.offsetTop;
+
+      // Calcula o meio da tela do contêiner para centralizar a rolagem
+      const offset = containerElement.clientHeight / 2;
+
+      // Define a nova posição de rolagem do contêiner
+      containerElement.scrollTop = indicatorPosition - offset;
+    } else if (this.timeIndicator?.nativeElement) {
+      // Fallback se o contêiner scrollável não for encontrado, mas o alvo sim
+      this.timeIndicator.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
 
@@ -163,29 +225,25 @@ export class BookingComponent implements OnInit, OnDestroy {
   }
 
   public openModalForHour(date: Date): void {
-    const dateFormated = dayjs(date);
-
-    const bookings: Booking[] = this._bookingsByDay[dateFormated.format('YYYY-MM-DD')];
-
-    const start = dateFormated.startOf('hour').subtract(1, 'minute');
-    const end = dateFormated.endOf('hour').add(1, 'minute');
-
-    const bookingsInHour = bookings.filter((booking) => {
-      return dayjs(booking.startAt).isAfter(start) && dayjs(booking.startAt).isBefore(end);
-    });
+    const dailyBookings: Booking[] = this._bookingsByDay[dayjs(date).format('YYYY-MM-DD')] || [];
 
     const dialogRef = this.dialogDetails.open(DetailsBookingComponent, {
-      width: 'min(50rem, 90%)',
-      backdropClass: ['bg-transparent', 'dark:bg-zinc-950/10', 'backdrop-blur-lg'],
-      panelClass: 'dialog-no-container',
+      backdropClass: ['bg-white/60', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
+      panelClass: ['dialog-no-container'],
+      maxWidth: '100rem',
+      width: 'min(60rem, 90%)',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
-      data: { bookings: bookingsInHour },
+      data: { bookings: dailyBookings, initialDate: date },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
+  }
+
+  public hourToDay(hour: number) {
+    return this.currentDate.hour(hour).minute(0).second(0).toDate();
   }
 
   public isNow() {

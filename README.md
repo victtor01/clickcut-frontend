@@ -54,6 +54,20 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+## For testing pwa
+
+### Init ngrok
+```shell
+ngrok http http://localhost:8080 --host-header="localhost:8080"
+```
+
+## init frontend angular 
+```bash
+ng build 
+
+http-server -p 8080 --proxy http://10.220.0.8:5055
+```
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

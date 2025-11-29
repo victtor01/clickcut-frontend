@@ -1,150 +1,365 @@
 @if (booking) {
-<div class="flex flex-col gap-4 p-3 bg-white rounded-lg dark:bg-zinc-950 dark:border-zinc-800">
-  <header
-    class="flex gap-4 items-center flex-wrap justify-between text-gray-500 dark:text-gray-200"
-  >
-    <div class="flex gap-4 items-center">
-      <a
-        [routerLink]="['/bookings']"
-        class="w-10 h-10 aspect-square bg-zinc-100 dark:bg-zinc-900 grid place-items-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+  @switch (booking.status) {
+    @case ('CANCELLED') {
+      <div
+        class="mb-6 flex mx-5 mt-5 items-center gap-3 rounded-lg border border-yellow-300 bg-yellow-50 p-4 dark:border-yellow-700 dark:bg-yellow-900/50"
+        role="alert"
       >
-        <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
-      </a>
-      <h1 class="saira-font text-xl font-bold">Detalhes do Agendamento</h1>
-    </div>
-
-    <button
-      (click)="openModalToPay()"
-      type="button"
-      class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-white/5 dark:bg-zinc-800/20 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-zinc-800/50 active:scale-95"
-    >
-      <i class="material-icons-outlined text-base">qr_code</i>
-      <span>Pagar Agora</span>
-    </button>
-  </header>
-
-  <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-2">
-    <section class="lg:col-span-2 flex flex-col gap-6">
-      <input
-        type="text"
-        id="bookingTitle"
-        placeholder="Ex: Corte para festa"
-        class="outline-none bg-transparent text-3xl saira-font font-semibold text-gray-800 dark:text-gray-100"
-        [defaultValue]="booking.title"
-      />
-
-      <div class="flex flex-col gap-3">
-        <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-          Cliente
-        </h2>
-        @if (booking.client) {
-        <div class="flex items-center gap-4 p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg">
-          <img
-            [src]="booking.client"
-            alt="Avatar do cliente"
-            class="w-12 h-12 rounded-full object-cover"
-          />
-          <div>
-            <p class="font-bold text-gray-800 dark:text-gray-100">{{ booking.client.fullName }}</p>
-            <a href="#" class="text-sm text-indigo-500 hover:underline">Ver perfil</a>
-          </div>
+        <i class="material-symbols-outlined flex-shrink-0 text-yellow-600 dark:text-yellow-400"
+          >cancel</i
+        >
+        <div>
+          <h3 class="font-semibold text-yellow-800 dark:text-yellow-200">Agendamento Cancelado</h3>
+          <p class="text-sm text-yellow-700 dark:text-yellow-300">
+            Este agendamento não está mais ativo e não pode ser modificado.
+          </p>
         </div>
-        }@else {
-        <div class="dark:text-gray-400 text-sm">Nenhum cliente para esse agendamento!</div>
-        }
+      </div>
+    }
+
+    @case ('NO_SHOW') {
+      <div
+        class="mb-6 flex mx-5 mt-5 items-center gap-3 rounded-lg border border-red-300 bg-red-50 p-4 dark:border-red-700 dark:bg-red-900/50"
+        role="alert"
+      >
+        <i class="material-symbols-outlined flex-shrink-0 text-red-600 dark:text-red-400"
+          >person_off</i
+        >
+        <div>
+          <h3 class="font-semibold text-red-800 dark:text-red-200">Cliente Não Compareceu</h3>
+          <p class="text-sm text-red-700 dark:text-red-300">
+            Este agendamento foi marcado como "não compareceu".
+          </p>
+        </div>
+      </div>
+    }
+  }
+
+  <div
+    class="flex flex-col pb-[5rem] gap-4 p-3 relative data-[invalid=true]:pointer-events-none"
+    [attr.data-invalid]="isInvalid"
+  >
+    <header
+      class="flex gap-4 items-center flex-wrap justify-between text-gray-500 dark:text-gray-200"
+    >
+      <div class="flex gap-4 items-center">
+        <a
+          [routerLink]="['/bookings']"
+          class="w-10 h-10 aspect-square bg-stone-100 dark:bg-gray-900 grid place-items-center rounded-full hover:bg-stone-100 dark:hover:bg-gray-800 transition-colors"
+        >
+          <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
+        </a>
+        <h1 class="saira-font text-xl font-bold">Detalhes do Agendamento</h1>
       </div>
 
-      <div class="flex flex-col gap-3">
-        <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-          Serviços
-        </h2>
-        <div
-          class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg divide-y divide-gray-200 dark:divide-zinc-800"
-        >
-          @for (service of booking.services; track service.id ) {
-          <div class="flex justify-between items-center py-2 px-2">
-            <p class="text-gray-700 text-lg dark:text-gray-300">{{ service.title }}</p>
-            <p class="font-semibold text-gray-800 dark:text-gray-300">
-              {{ service.price | toFormatBrl }}
-            </p>
+      <div class="flex gap-2">
+        <div class="flex relative items-center">
+          <button
+            type="button"
+            (click)="handleEdit()"
+            class="opacity-80 hover:opacity-100 w-10 h-10 bg-white shadow dark:bg-gray-700 rounded-full grid place-items-center"
+          >
+            @if (openMenu) {
+              <i class="material-symbols-outlined !text-2xl text-gray-600 dark:text-indigo-50">
+                close
+              </i>
+            } @else {
+              <i class="material-symbols-outlined !text-2xl text-gray-600 dark:text-indigo-50">
+                menu
+              </i>
+            }
+          </button>
+
+          @if (openMenu) {
+            <div
+              class="flex flex-col divide-y divide-gray-100 shadow-gray-500/20 dark:divide-gray-700 w-[15rem] overflow-hidden right-0 z-20 not-sm:left-0 mt-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-black absolute top-[100%]"
+            >
+              <button
+                type="button"
+                (click)="openNoShow()"
+                class="flex p-2 hover:bg-stone-100 items-center dark:hover:bg-gray-700"
+              >
+                <i class="material-symbols-outlined !text-xl w-10">person_off</i>
+                <span class="saira-font"> Não apareceu </span>
+              </button>
+              <button
+                type="button"
+                (click)="openCancel()"
+                class="flex p-2 hover:bg-stone-100 items-center dark:hover:bg-gray-700"
+              >
+                <i class="material-symbols-outlined !text-xl w-10 text-red-500">close</i>
+                <span class="saira-font text-red-500"> Cancelar </span>
+              </button>
+            </div>
+          }
+        </div>
+
+        <div class="flex flex-col relative">
+          <button
+            (click)="openModalToPay()"
+            type="button"
+            class="flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-violet-500 dark:text-violet-400 bg-violet-50 dark:bg-gray-800 border border-white/10 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:border-white/20 hover:bg-white/10 dark:hover:bg-gray-800/50 active:scale-95"
+          >
+            <i class="material-icons-outlined text-base">qr_code</i>
+            <span>Pagar Agora</span>
+          </button>
+
+          <div
+            class="flex absolute mt-1 top-[100%] w-[90%] left-1/2 -translate-x-1/2 flex-1 min-h-2 rounded-full overflow-hidden bg-stone-100 dark:bg-gray-700"
+          >
+            <span class="flex bg-violet-500 rounded-r-xl" [style.width.%]="porcetagePaid"></span>
           </div>
+
+          @if (booking.status === 'COMPLETED') {
+            <div class="w-4 h-4 bg-violet-600 rounded-full animate-ping absolute right-0 top-0">
+            </div>
+            <div class="w-4 h-4 bg-violet-600 rounded-full absolute right-0 top-0"></div>
           }
         </div>
       </div>
+    </header>
 
-      <div class="flex flex-col gap-3">
-        <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-          Horário
-        </h2>
-        <div class="flex items-center gap-4 p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg">
-          <i class="material-icons-outlined text-indigo-500">watch_later</i>
-          <div>
-            <p class="font-bold text-gray-800 dark:text-gray-100">
-              {{ dayjs(booking.startAt).format('HH:mm') }} -
-              {{ dayjs(booking.endAt).format('HH:mm') }}
-            </p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              {{ dayjs(booking.startAt).format('dddd, D [de] MMMM') }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <all-payments *ngIf="!!bookingId" [bookingId]="bookingId"></all-payments>
-    </section>
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-2">
+      <section class="lg:col-span-2 flex flex-col gap-6">
+        <input
+          type="text"
+          id="bookingTitle"
+          placeholder="Ex: Corte para festa"
+          class="outline-none bg-transparent text-3xl saira-font font-semibold text-gray-800 dark:text-gray-100"
+          [defaultValue]="booking.title"
+        />
 
-    <div class="lg:col-span ">
-      <aside
-        class="sticky lg:top-5 p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg flex flex-col gap-4"
-      >
-        <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-          Status
-        </h2>
-
-        <div class="relative flex-grow flex flex-col justify-between">
-          <div>
-            @for (status of getTimelineStatuses(); track status) {
-            <div class="flex gap-4" [class.is-complete]="isStatusComplete(status)">
-              <div class="flex flex-col items-center w-8">
-                <div
-                  class="timeline-dot grid place-items-center"
-                  [ngClass]="getStatusColor(status)"
-                >
-                  <i class="material-icons-outlined text-white text-sm">{{
-                    getStatusIcon(status)
-                  }}</i>
-                </div>
-                @if (!$last) {
-                <div class="w-0.5 flex-grow" [ngClass]="getLineColor(status)"></div>
-                }
+        <div class="flex flex-col gap-3">
+          <h2
+            class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
+          >
+            Cliente
+          </h2>
+          @if (booking.client) {
+            <div
+              class="flex items-center gap-4 p-3 bg-white border border-slate-100 dark:border-gray-800/60 dark:bg-gray-900 rounded-lg"
+            >
+              <img
+                *ngIf="booking.client.avatarUrl"
+                [src]="booking.client"
+                alt="Avatar do cliente"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+              <div class="flex flex-1 flex-col">
+                <p class="font-bold text-gray-800 dark:text-gray-100">
+                  {{ booking.client.fullName }}
+                </p>
+                <a href="#" class="text-sm text-indigo-500 hover:underline">Ver perfil</a>
               </div>
-              <div class="pt-1" [class.pb-8]="!$last">
-                <p class="font-semibold text-gray-800 dark:text-gray-100">{{ status }}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Status atualizado</p>
+              <div>
+                <p class="text-gray-800 text-sm px-2 opacity-60 dark:text-gray-100">
+                  {{ booking.client.email }}
+                </p>
               </div>
             </div>
+          } @else {
+            <div class="dark:text-gray-400 text-sm">Nenhum cliente para esse agendamento!</div>
+          }
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <header class="flex items-center justify-between gap-4">
+            <h2
+              class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
+            >
+              Serviços
+            </h2>
+
+            @if (this.pendingBooking) {
+              <div class="flex items-center group gap-3 relative">
+                <div
+                  class="gap-2 hidden group-hover:flex bg-white absolute py-1 rounded-lg text-gray-500 dark:text-violet-50 saira-font text-base dark:bg-gray-800 right-[100%] mr-5"
+                >
+                  <div class="relative text-nowrap px-3">
+                    <div
+                      class="w-3 h-3 bg-white dark:bg-gray-800 top-1/2 rotate-45 -translate-y-1/2 translate-x-1/2 absolute right-0"
+                    ></div>
+                    <span> Editar serviços </span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  (click)="openAllServices()"
+                  class="w-10 h-10 bg-white dark:bg-gray-800/70 dark:hover:bg-gray-800 grid rounded-full place-items-center"
+                >
+                  <i class="material-icons-outlined">edit</i>
+                </button>
+              </div>
+            }
+          </header>
+          <div
+            class="flex flex-col bg-white border border-slate-100 dark:border-gray-800/60 dark:bg-gray-900 rounded-lg divide-y divide-gray-200 dark:divide-gray-800"
+          >
+            @for (service of booking.services; track service.id) {
+              <div
+                (click)="openService(service)"
+                class="flex ring-0 rounded-lg active:ring- hover:ring-2 ring-violet-500 cursor-pointer items-center justify-between gap-4 p-4 hover:bg-stone-100 dark:hover:bg-gray-800/50"
+              >
+                <div class="flex items-center gap-4">
+                  <div
+                    class="w-10 h-10 relative rounded-2xl overflow-hidden rounded-tl-lg bg-stone-100 dark:bg-gray-800"
+                  >
+                    @if (service.service?.photoUrl) {
+                      <img
+                        [src]="service.service?.photoUrl"
+                        alt="Foto do Serviço"
+                        class="absolute h-full w-full object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
+                      />
+                    }
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800 dark:text-gray-200">{{ service.title }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      Base: {{ service.price / 100 | currency: 'BRL' }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex flex-col items-end gap-1 text-right">
+                  <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    {{ service.finalPrice / 100 | currency: 'BRL' }}
+                  </p>
+
+                  <div class="flex items-center gap-2">
+                    @if (service.extraFee > 0) {
+                      <span
+                        class="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 dark:bg-green-500/10 dark:text-green-400"
+                      >
+                        + {{ service.extraFee / 100 | currency: 'BRL' }}
+                      </span>
+                    }
+                    @if (service.discount > 0) {
+                      <span
+                        class="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 dark:bg-red-500/10 dark:text-red-400"
+                      >
+                        - {{ service.discount / 100 | currency: 'BRL' }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
             }
           </div>
-
-          <button
-            *ngIf="!(isCompleted() || isPaid())"
-            (click)="advanceStatus()"
-            class="relative group w-full flex items-center justify-center gap-2 p-3 mt-4 active:scale-90 font-semibold dark:text-gray-200 bg-white/40 text-gray-500 dark:bg-zinc-800/20 border border-white/10 rounded-lg backdrop-blur-lg shadow-lg overflow-hidden transition-all ease-in-out duration-300 hover:border-white/20"
-          >
-            <span
-              #auroraGlow
-              id="auroraGlow"
-              class="absolute -z-10 h-32 w-32 bg-violet-600 opacity-0 group-active:opacity-50 group-hover:opacity-25 blur-3xl transition-opacity duration-500"
-            ></span>
-            <span>{{ getTextButton() }}</span>
-            <i class="material-icons-outlined">arrow_forward</i>
-          </button>
         </div>
-      </aside>
-    </div>
-  </main>
-</div>
+
+        <div class="flex flex-col gap-3">
+          <header class="flex justify-between items-center gap-2">
+            <h2
+              class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
+            >
+              Horário
+            </h2>
+
+            @if (pendingBooking) {
+              <div class="flex items-center group gap-3 relative">
+                <div
+                  class="gap-2 hidden group-hover:flex bg-white absolute py-1 rounded-lg text-gray-500 dark:text-violet-50 saira-font text-base dark:bg-gray-800 right-[100%] mr-5"
+                >
+                  <div class="relative text-nowrap px-3">
+                    <div
+                      class="w-3 h-3 bg-white dark:bg-gray-800 top-1/2 rotate-45 -translate-y-1/2 translate-x-1/2 absolute right-0"
+                    ></div>
+                    <span> Mudar horário </span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  (click)="openReschedule()"
+                  class="w-10 h-10 bg-white dark:bg-gray-800/70 dark:hover:bg-gray-800 grid rounded-full place-items-center"
+                >
+                  <i class="material-symbols-outlined">edit_square</i>
+                </button>
+              </div>
+            }
+          </header>
+          <div
+            class="flex items-center gap-4 p-3 bg-white border border-slate-100 dark:border-gray-800/60 dark:bg-gray-900 rounded-lg"
+          >
+            <i class="material-icons-outlined text-indigo-500">watch_later</i>
+            <div>
+              <p class="font-bold text-gray-800 dark:text-gray-100">
+                {{ dayjs(booking.startAt).format('HH:mm') }} -
+                {{ dayjs(booking.endAt).format('HH:mm') }}
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ dayjs(booking.startAt).format('dddd, D [de] MMMM') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        @if (bookingId) {
+          <all-payments
+            [bookingId]="bookingId"
+            [totalPrice]="totalPrice"
+            (handleTotalPaid)="updateTotalPaid($event)"
+          ></all-payments>
+        }
+      </section>
+
+      <div class="lg:col-span">
+        <aside
+          class="sticky lg:top-5 p-4 bg-white border border-slate-100 dark:border-gray-800/60 dark:bg-gray-900 rounded-lg flex flex-col gap-4"
+        >
+          <h2
+            class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"
+          >
+            Status
+          </h2>
+
+          <div class="relative flex-grow flex flex-col justify-between">
+            <div>
+              @for (status of getTimelineStatuses(); track status) {
+                <div class="flex gap-4" [class.is-complete]="isStatusComplete(status)">
+                  <div class="flex flex-col items-center w-8">
+                    <div
+                      class="timeline-dot grid place-items-center"
+                      [ngClass]="getStatusColor(status)"
+                    >
+                      <i class="material-icons-outlined text-white text-sm">{{
+                        getStatusIcon(status)
+                      }}</i>
+                    </div>
+                    @if (!$last) {
+                      <div class="w-0.5 flex-grow" [ngClass]="getLineColor(status)"></div>
+                    }
+                  </div>
+                  <div class="pt-1" [class.pb-8]="!$last">
+                    <p class="font-semibold text-gray-800 dark:text-gray-100">{{ status }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Status atualizado</p>
+                  </div>
+                </div>
+              }
+            </div>
+
+            @if (!isCompleted() && !isPaid()) {
+              <button
+                (click)="advanceStatus()"
+                class="relative group w-full flex items-center justify-center gap-2 p-3 mt-4 active:scale-90 font-semibold dark:text-gray-200 bg-white/40 text-gray-500 dark:bg-gray-800/20 border border-white/10 rounded-lg backdrop-blur-lg shadow-lg overflow-hidden transition-all ease-in-out duration-300 hover:border-white/20"
+              >
+                <span
+                  #auroraGlow
+                  id="auroraGlow"
+                  class="absolute -z-10 h-32 w-32 bg-violet-600 opacity-0 group-active:opacity-50 group-hover:opacity-25 blur-3xl transition-opacity duration-500"
+                ></span>
+                <span>{{ getTextButton() }}</span>
+                <i class="material-icons-outlined">arrow_forward</i>
+              </button>
+            }
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
 } @else {
-<div class="grid place-items-center h-64">
-  <p class="text-gray-500">Carregando detalhes...</p>
-</div>
+  <div class="grid place-items-center h-64">
+    <p class="text-gray-500">Carregando detalhes...</p>
+  </div>
 }

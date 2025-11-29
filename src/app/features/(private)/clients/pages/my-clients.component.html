@@ -1,0 +1,85 @@
+<div class="p-4 sm:p-6 lg:p-8">
+  <div *ngIf="clientsSummary">
+    <header class="mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1
+            class="text-2xl font-semibold tracking-tight text-gray-600 dark:text-white sm:text-4xl"
+          >
+            Meus Clientes
+          </h1>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Você tem {{ clientsSummary.clientsCount }} clientes cadastrados.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <div *ngIf="clientsSummary.clientsCount > 0; else noClientsTemplate">
+      <div
+        class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900"
+      >
+        <ul class="divide-y divide-gray-200 dark:divide-gray-800">
+          <button
+            type="button"
+            (click)="openProfileModal(item)"
+            *ngFor="let item of clientsSummary.summary"
+            class="group flex flex-1 w-full items-center justify-between p-4 transition-colors hover:bg-stone-50 dark:hover:bg-gray-800/50"
+          >
+            <div class="flex items-center gap-4">
+              <div class="relative h-10 w-10 flex-shrink-0">
+                <img
+                  *ngIf="item.client.avatarUrl"
+                  [src]="item.client.avatarUrl"
+                  [alt]="item.client.fullName"
+                  class="h-full w-full rounded-full object-cover"
+                />
+                <div
+                  *ngIf="!item.client.avatarUrl"
+                  class="flex h-full w-full items-center justify-center rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400"
+                >
+                  <span class="text-sm font-semibold">{{ item.client.fullName[0] }}</span>
+                </div>
+              </div>
+              <div class="flex-1">
+                <p class="font-semibold text-gray-800 dark:text-gray-100">
+                  {{ item.client.fullName }}
+                </p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ item.client.email }}</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+              <div class="hidden sm:block text-right">
+                <p class="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                  {{ item.countOfBookings }}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Agendamentos</p>
+              </div>
+              <button
+                type="button"
+                class="flex-shrink-0 rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-200 hover:text-gray-800 dark:hover:bg-gray-700 dark:hover:text-gray-100"
+              >
+                <i class="material-icons-outlined !text-xl">more_vert</i>
+              </button>
+            </div>
+          </button>
+        </ul>
+      </div>
+    </div>
+
+    <ng-template #noClientsTemplate>
+      <div
+        class="text-center rounded-xl border-2 border-dashed border-gray-200 p-12 dark:border-gray-800"
+      >
+        <i class="material-icons-outlined text-5xl text-gray-400">people</i>
+        <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
+          Nenhum cliente encontrado
+        </h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Comece adicionando um novo cliente para ver seus dados aqui.
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</div>

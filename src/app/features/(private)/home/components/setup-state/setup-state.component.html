@@ -1,0 +1,213 @@
+@if (this.progress() !== 100) {
+    <div class="flex px-4 pb-2 gap-1 text-gray-600 dark:text-indigo-200 items-center">
+    <i class="material-symbols-outlined !text-xl">settings</i>
+    <span class="font-semibold text-gray-600 dark:text-indigo-200 saira-font">Setup</span>
+  </div>
+
+  <div class="flex flex-col gap-3 px-4 pb-4">
+    <div
+      class="w-full rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-gray-900/50"
+    >
+      <div class="border-b border-zinc-100 p-6 dark:border-zinc-800">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">
+              Configuração do Negócio
+            </h2>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+              Complete seu perfil para receber agendamentos
+            </p>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400"
+              >{{ progress() }}%</span
+            >
+          </div>
+        </div>
+
+        <!-- Barra de Progresso -->
+        <div class="mt-4 h-2 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+          <div
+            class="h-full bg-gradient-to-r rounded-full from-indigo-500 to-purple-600 transition-all duration-1000 ease-out"
+            [style.width.%]="progress()"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Lista de Passos -->
+      <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
+        @for (step of uiSteps(); track step.id) {
+          <div
+            class="group flex items-center justify-between p-4 flex-wrap gap-y-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50"
+          >
+            <div class="flex items-center gap-4">
+              <!-- Ícone do Status (Check ou Círculo) -->
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-full transition-colors"
+                [ngClass]="{
+                  'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400':
+                    step.isCompleted,
+                  'bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400':
+                    !step.isCompleted && step.isCritical,
+                  'bg-gray-100 text-zinc-500 dark:bg-gray-800 dark:text-zinc-400':
+                    !step.isCompleted && !step.isCritical,
+                }"
+              >
+                @if (step.isCompleted) {
+                  <!-- Icone Check -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                } @else {
+                  <ng-container [ngSwitch]="step.icon">
+                    <svg
+                      *ngSwitchCase="'id-card'"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <svg
+                      *ngSwitchCase="'map-pin'"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <svg
+                      *ngSwitchCase="'clock'"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <svg
+                      *ngSwitchCase="'scissors'"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="6" cy="6" r="3" />
+                      <circle cx="6" cy="18" r="3" />
+                      <line x1="20" y1="4" x2="8.12" y2="15.88" />
+                      <line x1="14.47" y1="14.48" x2="20" y2="20" />
+                      <line x1="8.12" y1="8.12" x2="12" y2="12" />
+                    </svg>
+                    <svg
+                      *ngSwitchCase="'image'"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                      <circle cx="9" cy="9" r="2" />
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                    </svg>
+                  </ng-container>
+                }
+              </div>
+
+              <!-- Texto -->
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-medium transition-colors"
+                    [ngClass]="{
+                      'text-zinc-900 dark:text-white': !step.isCompleted,
+                      'text-zinc-500 line-through dark:text-zinc-500': step.isCompleted,
+                    }"
+                  >
+                    {{ step.label }}
+                  </span>
+
+                  <!-- Badges -->
+                  @if (!step.isCompleted && step.isCritical) {
+                    <span
+                      class="inline-flex items-center rounded-md bg-rose-50 px-2 py-1 text-xs font-medium text-rose-700 ring-1 ring-inset ring-rose-600/20 dark:bg-rose-900/30 dark:text-rose-400 dark:ring-rose-500/30"
+                      >Obrigatório</span
+                    >
+                  }
+                  @if (!step.isCompleted && step.isRecommended) {
+                    <span
+                      class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-900/30 dark:text-blue-400 dark:ring-blue-500/30"
+                      >Recomendado</span
+                    >
+                  }
+                </div>
+                <span class="text-sm text-zinc-500 dark:text-zinc-400">
+                  {{ step.isCompleted ? 'Configuração realizada com sucesso.' : step.description }}
+                </span>
+              </div>
+            </div>
+
+            <div>
+              @if (!step.isCompleted) {
+                <a
+                  [routerLink]="[step.route]"
+                  class="flex items-center gap-1 rounded-full bg-gray-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-gray-700 dark:bg-violet-50 dark:text-zinc-900 dark:hover:bg-gray-200"
+                >
+                  Resolver
+                  <i class="material-icons-outlined">arrow_right_alt</i>
+                </a>
+              } @else {
+                <a
+                  [routerLink]="[step.route]"
+                  class="lg:invisible flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-400 transition hover:bg-gray-100 hover:text-zinc-600 group-hover:visible bg-gray-100 dark:bg-gray-800 lg:bg-transparent dark:hover:bg-gray-800 dark:hover:text-zinc-300"
+                >
+                  Editar
+                </a>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
+

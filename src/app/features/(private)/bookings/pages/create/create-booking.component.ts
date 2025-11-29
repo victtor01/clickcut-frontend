@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Service } from '@app/core/models/Service';
 import { CreateBookingDTO } from '@app/core/schemas/create-booking.dto';
-import { BookingService } from '@app/core/services/booking.service';
+import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { AllServicesComponent } from '@app/features/(private)/services/components/all-services/all-services.component';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
@@ -20,18 +20,17 @@ dayjs.extend(customParseFormat);
 export class CreateBookingComponent implements OnInit {
   constructor(
     private readonly toastService: ToastService,
-    private readonly bookingService: BookingService,
+    private readonly bookingService: BookingsService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {}
 
   private _selectedServices: Service[] = [];
-
   private _selectedTime?: string;
   private _currentDate?: Dayjs;
   private _buttonActive: boolean = false;
   private _step: number = 1;
-
+    
   get selectedServices() {
     return this._selectedServices;
   }
@@ -80,10 +79,8 @@ export class CreateBookingComponent implements OnInit {
 
     if (dateFromQuery) {
       this._currentDate = dayjs(dateFromQuery);
-      console.log('Data recebida da URL:', this._currentDate.format('DD/MM/YYYY'));
     } else {
       this._currentDate = dayjs();
-      console.log('Nenhuma data passada na URL, usando data atual.');
     }
   }
 
@@ -129,7 +126,7 @@ export class CreateBookingComponent implements OnInit {
     }
 
     const [hours, minutes] = this._selectedTime.split(':').map(Number);
-    const bookingDayjsObject = this._currentDate
+    const bookingDayjsObject = this._currentDate  
       .hour(hours)
       .minute(minutes)
       .second(0)
@@ -143,12 +140,12 @@ export class CreateBookingComponent implements OnInit {
 
     this.bookingService.create(createBookingDTO).subscribe({
       next: (data) => {
-        console.log(data);
         this.toastService.success(`Agendamento criado as ${this._selectedTime}`);
         this.router.navigate(['/bookings']);
       },
 
       error: (err) => {
+        this.toastService.error(err?.error?.message || "Houve um erro interno!", 5000)
         console.log(err);
       },
     });

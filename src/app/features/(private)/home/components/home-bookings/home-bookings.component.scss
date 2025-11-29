@@ -1,0 +1,26 @@
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 27px; 
+  bottom: 0;
+  width: 2px; 
+	height: 90%;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  top: -0.5rem;
+  left: 28px; 
+  transform: translateX(-50%);
+  border-radius: 100%;
+	width: 10px;
+	height: 10px;
+}
+
+
+/* Opcional: para o tema escuro */
+.dark .timeline::before {
+  background-color: #3f3f46; /* Cor da linha para o modo escuro (gray-700) */
+}

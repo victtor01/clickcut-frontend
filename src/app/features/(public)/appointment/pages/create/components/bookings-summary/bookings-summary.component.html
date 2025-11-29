@@ -1,0 +1,283 @@
+<div class="hidden lg:block w-[28rem] pr-4 pt-4">
+  <div class="lg:sticky lg:top-8">
+    <div
+      class="rounded-2xl border border-gray-200/80 bg-white p-6 dark:border-gray-800 dark:bg-gray-900"
+    >
+      <h2 class="text-xl font-semibold saira-font  text-gray-600 dark:text-gray-100">Resumo do Agendamento</h2>
+
+      <div class="mt-8 space-y-4">
+        <h3
+          class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+        >
+          <i class="material-icons-outlined text-base">receipt_long</i>
+          <span>Serviços</span>
+        </h3>
+
+        @if (data && data.services.length > 0) {
+          <ul class="space-y-3 pt-2">
+            @for (item of data.services; track item.id) {
+              <li class="flex items-baseline justify-between text-gray-700 dark:text-gray-300">
+                <span>{{ item.title }}</span>
+                <span class="font-medium text-gray-900 dark:text-gray-100">{{
+                  item.price | toFormatBrl
+                }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div
+            class="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-200 p-6 text-center text-gray-500 dark:border-gray-700 dark:text-gray-400"
+          >
+            <i class="material-icons-outlined text-4xl text-gray-300 dark:text-gray-600"
+              >list_alt</i
+            >
+            <p class="text-sm">Nenhum serviço selecionado.</p>
+          </div>
+        }
+      </div>
+
+      <hr class="my-6 border-gray-200/80 dark:border-gray-800" />
+
+      <div class="space-y-4">
+        <h3
+          class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+        >
+          <i class="material-icons-outlined text-base">person_outline</i>
+          <span>Profissional</span>
+        </h3>
+        @if (data && data.assignTo) {
+          <div class="flex items-center gap-4 pt-2">
+            <div
+              class="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-stone-200 dark:bg-gray-700"
+            >
+              @if (data.assignTo.photoUrl) {
+                <img
+                  [src]="data.assignTo.photoUrl"
+                  [alt]="data.assignTo.username"
+                  class="h-full w-full object-cover"
+                />
+              } @else {
+                <div class="grid h-full w-full place-items-center">
+                  <i class="material-icons-outlined text-2xl text-gray-400 dark:text-gray-500"
+                    >person</i
+                  >
+                </div>
+              }
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900 dark:text-gray-100">
+                {{ data.assignTo.username }}
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{ data.assignTo.email }}</p>
+            </div>
+          </div>
+        } @else {
+          <div class="flex animate-pulse items-center gap-4 pt-2">
+            <div class="h-12 w-12 rounded-full bg-stone-200 dark:bg-gray-700"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-4 rounded bg-stone-200 dark:bg-gray-700"></div>
+              <div class="h-3 w-3/4 rounded bg-stone-200 dark:bg-gray-700"></div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <hr class="my-6 border-gray-200/80 dark:border-gray-800" />
+
+      <div class="space-y-4">
+        <h3
+          class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+        >
+          <i class="material-icons-outlined text-base">calendar_today</i>
+          <span>Data e Hora</span>
+        </h3>
+        @if (data && data.date) {
+          <div class="space-y-3 pt-2">
+            <div class="flex items-baseline justify-between">
+              <span class="text-gray-600 dark:text-gray-400">Data</span>
+              <span class="font-medium text-gray-900 dark:text-gray-100">{{
+                data.date.toDate() | date: 'dd/MM/yyyy'
+              }}</span>
+            </div>
+            <div class="flex items-baseline justify-between">
+              <span class="text-gray-600 dark:text-gray-400">Horário</span>
+              <span class="font-medium text-gray-900 dark:text-gray-100">{{
+                data.date.toDate() | date: 'HH:mm'
+              }}</span>
+            </div>
+          </div>
+        } @else {
+          <div class="animate-pulse space-y-3 pt-2">
+            <div class="h-4 rounded bg-stone-200 dark:bg-gray-700"></div>
+            <div class="h-4 rounded bg-stone-200 dark:bg-gray-700"></div>
+          </div>
+        }
+      </div>
+
+      <hr class="my-6 border-gray-200/80 dark:border-gray-800" />
+
+      <div class="space-y-4">
+        <div class="flex justify-between text-gray-600 dark:text-gray-400">
+          <span>Duração total</span>
+          <span class="font-medium">{{ totalDuration }} min</span>
+        </div>
+        <div
+          class="flex items-baseline justify-between text-xl font-bold text-gray-900 dark:text-gray-100"
+        >
+          <span>Total</span>
+          <span>{{ totalPrice | toFormatBrl }}</span>
+        </div>
+        <footer class="pt-6">
+          <button
+            type="button"
+            (click)="next()"
+            [disabled]="!isValid"
+            class="flex w-full transform items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-base text-white shadow-lg shadow-indigo-500/30 transition-all duration-300 ease-in-out hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 dark:focus:ring-offset-gray-900"
+          >
+            <span class="saira-font font-semibold">Próximo</span>
+            <i class="material-icons-outlined !text-lg">arrow_forward</i>
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="lg:hidden fixed flex-col bottom-4 left-4 right-4 z-40 flex cursor-pointer items-center justify-between rounded-2xl border border-gray-200 bg-white/70 p-4 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-800/70"
+>
+  <div (click)="openSummary()" class="flex justify-between flex-1 w-full">
+    <div class="text-left">
+      <p class="text-sm text-gray-500 dark:text-gray-400">Total do Agendamento</p>
+      <p class="text-lg font-bold text-gray-700 dark:text-gray-100">
+        {{ totalPrice | toFormatBrl }}
+      </p>
+    </div>
+    <div class="flex items-center gap-1 font-semibold text-violet-600 dark:text-violet-400">
+      <span>Ver Resumo</span>
+      <i class="material-icons-outlined">expand_less</i>
+    </div>
+  </div>
+
+  <footer class="flex-1 w-full mt-1">
+    <button
+      type="button"
+      (click)="next()"
+      [disabled]="!isValid"
+      class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-sm flex-1 font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-950"
+    >
+      <span>Confirmar Horário</span>
+    </button>
+  </footer>
+</div>
+
+@if (isSummaryOpen) {
+  <div
+    (click)="closeSummary()"
+    class="lg:hidden h-screen overflow-auto fixed top-0 left-0 inset-0 z-50 bg-white/40 dark:bg-black/50 backdrop-blur-sm animate-fade-in"
+  >
+    <div
+      (click)="$event.stopPropagation()"
+      class="fixed bottom-5 left-0 right-0 mx-4 max-h-[85vh] transform-gpu animate-slide-up overflow-y-auto rounded-2xl border border-gray-200 bg-stone-50 p-6 dark:border-gray-700 dark:bg-gray-900"
+    >
+      <button
+        (click)="closeSummary()"
+        class="absolute top-4 right-4 grid h-8 w-8 place-items-center rounded-full bg-stone-200 dark:bg-gray-700"
+      >
+        <i class="material-icons-outlined !text-xl">close</i>
+      </button>
+
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">Resumo do Agendamento</h2>
+
+      @if (data && data.services.length > 0) {
+        <h3 class="mt-6 mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">SERVIÇOS</h3>
+        <div class="space-y-4">
+          @for (item of data.services; track item.id) {
+            <div class="flex justify-between items-center text-gray-700 dark:text-gray-300">
+              <span>{{ item.title }}</span>
+              <span class="font-medium">{{ item.price | toFormatBrl }}</span>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="text-center text-gray-500 dark:text-gray-400 py-4">
+          <p>Nenhum serviço selecionado.</p>
+        </div>
+      }
+
+      <hr class="my-6 border-gray-200 dark:border-gray-700" />
+
+      <h3 class="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">PROFISSIONAL</h3>
+      @if (data && data.assignTo) {
+        <div class="flex items-center gap-3">
+          <div
+            class="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-stone-200 dark:bg-gray-700"
+          >
+            @if (data.assignTo.photoUrl) {
+              <img
+                [src]="data.assignTo.photoUrl"
+                [alt]="data.assignTo.username"
+                class="h-full w-full object-cover"
+              />
+            } @else {
+              <div class="grid h-full w-full place-items-center">
+                <i class="material-icons-outlined text-gray-400 dark:text-gray-500">person</i>
+              </div>
+            }
+          </div>
+          <div>
+            <p class="font-semibold text-gray-800 dark:text-gray-200">
+              {{ data.assignTo.username }}
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ data.assignTo.email }}</p>
+          </div>
+        </div>
+      } @else {
+        <div class="text-center text-gray-500 dark:text-gray-400 py-4">
+          <p>Nenhum profissional selecionado.</p>
+        </div>
+      }
+
+      <hr class="my-6 border-gray-200 dark:border-gray-700" />
+
+      <h3 class="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">DATA E HORA</h3>
+      @if (data && data.date) {
+        <div class="flex justify-between items-center text-gray-700 dark:text-gray-300">
+          <span>Data</span>
+          <span class="font-medium">{{ data.date.toDate() | date: 'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="flex justify-between items-center text-gray-700 dark:text-gray-300 mt-2">
+          <span>Horário</span>
+          <span class="font-medium">{{ data.date.toDate() | date: 'HH:mm' }}</span>
+        </div>
+      } @else {
+        <div class="text-center text-gray-500 dark:text-gray-400 py-4">
+          <p>Data e/ou hora não selecionadas.</p>
+        </div>
+      }
+
+      <hr class="my-6 border-gray-200 dark:border-gray-700" />
+
+      <div class="space-y-4">
+        <div class="flex justify-between text-gray-600 dark:text-gray-400">
+          <span>Duração total</span>
+          <span class="font-medium">{{ totalDuration }} min</span>
+        </div>
+        <div class="flex justify-between text-lg font-bold text-gray-800 dark:text-gray-100">
+          <span>Total</span>
+          <span>{{ totalPrice | toFormatBrl }}</span>
+        </div>
+        <footer class="mt-8">
+          <button
+            type="button"
+            (click)="next()"
+            [disabled]="!isValid"
+            class="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-bl from-violet-500 to-violet-600 p-4 px-4 text-lg font-semibold text-indigo-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-950"
+          >
+            <span>Confirmar Horário</span>
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+}

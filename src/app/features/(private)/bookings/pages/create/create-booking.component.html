@@ -1,11 +1,11 @@
 <section
   *ngIf="step === 1"
-  class="flex flex-col gap-4 p-5 border-b border-zinc-200 dark:border-zinc-700"
+  class="flex flex-col gap-4 p-5 border-b border-gray-200 dark:border-gray-700"
 >
   <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
     <a
       [routerLink]="['/bookings']"
-      class="w-10 h-10 aspect-square bg-zinc-100 dark:bg-zinc-900 grid place-items-center rounded-full"
+      class="w-10 h-10 aspect-square bg-stone-100 dark:bg-gray-900 grid place-items-center rounded-full"
     >
       <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
     </a>
@@ -19,12 +19,12 @@
 
 <section
   *ngIf="step === 2"
-  class="flex flex-col gap-4 p-5 border-b border-zinc-200 dark:border-zinc-700"
+  class="flex flex-col gap-4 p-5 border-b border-gray-200 dark:border-gray-700"
 >
   <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
     <a
       [routerLink]="['/bookings']"
-      class="w-10 h-10 aspect-square bg-zinc-100 dark:bg-zinc-900 grid place-items-center rounded-full"
+      class="w-10 h-10 aspect-square bg-stone-100 dark:bg-gray-900 grid place-items-center rounded-full"
     >
       <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
     </a>
@@ -32,13 +32,13 @@
     <h1 class="saira-font text-xl">Selecione a hora</h1>
   </header>
 
-  <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+  <div class="flex flex-wrap gap-2 flex-col lg:flex-row">
     @for (item of selectedServices; track $index) {
     <div
-      class="h-[6rem] flex bg-white dark:text-gray-200 flex-1 shadow-zinc-400/10 border-zinc-200 text-zinc-600 dark:border-zinc-800 shadow-lg dark:shadow-black gap-3 dark:bg-zinc-900 overflow-hidden border rounded-2xl"
+      class="h-[6rem] flex bg-white sm:max-w-[20rem] w-full dark:text-gray-200 flex-1 shadow-gray-400/10 border-gray-200 text-gray-600 dark:border-gray-800 shadow-lg dark:shadow-black gap-3 dark:bg-gray-900 overflow-hidden border rounded-2xl"
     >
       <div
-        class="p-2 aspect-square bg-gradient-to-br from-indigo-50 to-violet-50/80 dark:from-zinc-950/20 dark:to-indigo-500/10 relative border-zinc-200 rounded-t-xl overflow-hidden dark:border-zinc-800 border-b grid place-items-center"
+        class="p-2 aspect-square w-[5rem] bg-gradient-to-br from-indigo-50 to-violet-50/80 dark:from-gray-950/20 dark:to-indigo-500/10 relative border-gray-200 rounded-t-xl overflow-hidden dark:border-gray-800 border-b grid place-items-center"
       >
         <img
           *ngIf="item.photoUrl"
@@ -80,7 +80,7 @@
       type="text"
       id="bookingTitle"
       placeholder="Ex: Corte para festa"
-      class="w-full p-3 bg-zinc-100 dark:bg-zinc-900 dark:placeholder:text-gray-500 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+      class="w-full p-3 bg-stone-100 dark:bg-gray-900 dark:placeholder:text-gray-500 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
     />
   </div>
 

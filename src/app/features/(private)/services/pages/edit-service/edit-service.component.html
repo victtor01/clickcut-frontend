@@ -3,7 +3,7 @@
     class="flex items-center gap-2 p-4 justify-between border-b border-stone-200 dark:border-stone-800"
   >
     <div class="flex gap-2 items-center">
-      <a [routerLink]="['/services']" class="grid place-items-center w-10 h-10 rounded-full bg-white/40 active:bg-stone-200 border-l backdrop-blur-sm border-white dark:bg-zinc-800 dark:border-zinc-800">
+      <a [routerLink]="['/services']" class="grid place-items-center w-10 h-10 rounded-full bg-white/40 active:bg-stone-200 border-l backdrop-blur-sm border-white dark:bg-gray-800 dark:border-gray-800">
         <i class="material-symbols-outlined"> keyboard_arrow_left </i>
       </a>
       <h1 class="text-xl font-saira text-stone-800 dark:text-stone-100">Editar serviço</h1>
@@ -28,7 +28,7 @@
 
         <label
           for="photo-upload"
-          class="group relative aspect-square w-full cursor-pointer flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-100 hover:border-blue-500 hover:bg-blue-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-500 dark:hover:bg-stone-700/60 transition-all"
+          class="group relative aspect-square w-full cursor-pointer flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-100 hover:border-blue-500 hover:bg-blue-50 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-500 dark:hover:bg-gray-700/60 transition-all"
         >
           <img
             *ngIf="imagemPreview"
@@ -38,7 +38,7 @@
           />
 
           <div
-            class="z-20 flex flex-col items-center rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm text-stone-500 dark:text-stone-400 text-center p-4"
+            class="z-20 flex flex-col items-center rounded-xl border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm text-stone-500 dark:text-stone-400 text-center p-4"
             [class.text-white]="service?.photoUrl"
             [class.opacity-0]="service?.photoUrl"
             [class.group-hover:opacity-100]="service?.photoUrl"
@@ -59,13 +59,13 @@
           <input
             id="title"
             type="text"
-            class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 px-4 py-3 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+            class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 px-4 py-3 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-gray-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
             placeholder=""
             formControlName="title"
           />
           <label
             for="title"
-            class="absolute left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+            class="absolute left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-gray-900"
           >
             Nome do serviço
           </label>
@@ -74,12 +74,12 @@
         <div class="relative">
           <textarea
             formControlName="description"
-            class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 px-4 py-3 text-stone-900 focus:border-blue-600 focus:outline-none min-h-[100px] dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+            class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 px-4 py-3 text-stone-900 focus:border-blue-600 focus:outline-none min-h-[100px] dark:bg-gray-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
             placeholder=" "
           ></textarea>
           <label
             for="description"
-            class="absolute left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+            class="absolute left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-gray-900"
           >
             Descrição (opcional)
           </label>
@@ -93,12 +93,12 @@
             <input
               type="number"
               formControlName="durationInMinutes"
-              class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+              class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-gray-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
               placeholder=" "
             />
             <label
               for="duration"
-              class="absolute left-12 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+              class="absolute left-12 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-gray-900"
             >
               Duração (minutos)
             </label>
@@ -114,12 +114,12 @@
               appMoneyInput
               formControlName="price"
               [showCurrencySymbol]="false"
-              class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-zinc-900 dark:border-zinc-800 dark:text-stone-100 dark:focus:border-blue-500"
+              class="peer block w-full rounded-lg border-2 border-stone-300 bg-stone-50 py-3 pl-12 pr-4 text-stone-900 focus:border-blue-600 focus:outline-none dark:bg-gray-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
               placeholder=""
             />
             <label
               for="price"
-              class="absolute left-12 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-zinc-900"
+              class="absolute left-12 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-blue-600 bg-stone-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-400 dark:bg-gray-900"
             >
               Preço
             </label>
@@ -128,7 +128,7 @@
 
         <label
           for="isActiveToggle"
-          class="flex cursor-pointer items-center justify-between rounded-lg bg-stone-100 dark:bg-zinc-900/50 p-4"
+          class="flex cursor-pointer items-center justify-between rounded-lg bg-stone-100 dark:bg-gray-900/50 p-4"
         >
           <div class="text-stone-800 dark:text-stone-200">
             <h3 class="font-medium">Serviço ativo</h3>
@@ -138,7 +138,7 @@
           </div>
           <div class="relative">
             <input id="isActiveToggle" formControlName="isActive" type="checkbox" class="sr-only" />
-            <div class="block h-8 w-14 rounded-full bg-stone-300 dark:bg-stone-700"></div>
+            <div class="block h-8 w-14 rounded-full bg-stone-300 dark:bg-gray-700"></div>
             <div class="dot absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition"></div>
           </div>
         </label>

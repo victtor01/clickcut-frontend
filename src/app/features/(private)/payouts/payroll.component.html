@@ -1,0 +1,319 @@
+<div class="mx-auto py-6 max-w-7xl px-4 space-y-12">
+  <header>
+    <h1 class="text-2xl font-semibold tracking-tight text-gray-600 dark:text-white sm:text-4xl">
+      Folha de Pagamento
+    </h1>
+    <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
+      Gere e visualize os pagamentos de salário e comissão da sua equipe.
+    </p>
+  </header>
+
+  <section class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <div class="lg:col-span-2">
+      <div
+        class="rounded-xl border border-gray-200/80 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/50"
+      >
+        <div class="mb-4 flex items-center justify-between">
+          <button
+            (click)="prevMonth()"
+            class="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-stone-100 dark:hover:bg-gray-800"
+          >
+            <i class="material-symbols-outlined !text-xl text-gray-500">chevron_left</i>
+          </button>
+          <h2 class="text-lg font-semibold capitalize text-gray-700 dark:text-gray-200">
+            {{ currentDate | date: 'MMMM yyyy' }}
+          </h2>
+          <button
+            (click)="nextMonth()"
+            class="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-stone-100 dark:hover:bg-gray-800"
+          >
+            <i class="material-symbols-outlined !text-xl text-gray-500">chevron_right</i>
+          </button>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center">
+          @for (day of ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']; track day) {
+            <div class="p-2 text-xs font-medium text-gray-500 dark:text-gray-400">{{ day }}</div>
+          }
+          @for (week of calendarWeeks; track week) {
+            @for (day of week; track day.date) {
+              <div
+                (click)="selectDay(day)"
+                class="relative z-10 grid h-10 group w-10 mx-auto place-items-center rounded-full text-sm font-medium transition-colors"
+                [ngClass]="{
+                  'text-gray-700 dark:text-gray-200': day.isCurrentMonth,
+                  'text-gray-400 dark:text-gray-600': !day.isCurrentMonth,
+
+                  'bg-red-200 !text-red-500 cursor-not-allowed dark:bg-red-900/50 dark:!text-red-400/80':
+                    isUnavailable(day.date),
+
+                  'bg-indigo-600 !text-white hover:bg-indigo-700':
+                    !isUnavailable(day.date) &&
+                    (day.date.getTime() === periodStart?.getTime() ||
+                      day.date.getTime() === periodEnd?.getTime()),
+
+                  'bg-indigo-100 dark:bg-indigo-500/10':
+                    !isUnavailable(day.date) && isInRange(day.date),
+
+                  'hover:bg-stone-100 dark:hover:bg-gray-800 cursor-pointer':
+                    !isUnavailable(day.date) &&
+                    day.isCurrentMonth &&
+                    !(
+                      day.date.getTime() === periodStart?.getTime() ||
+                      day.date.getTime() === periodEnd?.getTime()
+                    ),
+                }"
+              >
+                @if (!isUnavailable(day.date) && day.date.getTime() === periodStart?.getTime()) {
+                  <div
+                    class="absolute scale-50 -top-1 group-hover:scale-100 group-active:scale-100 transition-all -translate-y-1/2"
+                  >
+                    <i
+                      class="material-symbols-outlined text-indigo-500 rotate-90"
+                      [style.font-variation-settings]="'\'FILL\' 1'"
+                      >label</i
+                    >
+                  </div>
+                }
+
+                @if (day.date.getTime() === periodEnd?.getTime()) {
+                  <div
+                    class="absolute scale-50 -bottom-2 group-hover:scale-100 group-active:scale-100 translate-y-1/2 transition-all"
+                  >
+                    <i
+                      class="material-symbols-outlined text-indigo-500 rotate-270"
+                      [style.font-variation-settings]="'\'FILL\' 1'"
+                      >label</i
+                    >
+                  </div>
+                }
+
+                {{ day.date | date: 'd' }}
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6">
+      <div
+        class="rounded-xl border border-gray-200/80 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/50"
+      >
+        <h3 class="font-semibold text-gray-800 dark:text-white">Gerar Folha de Pagamento</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          Selecione o membro e o período no calendário.
+        </p>
+
+        @if (isPeriodInvalid) {
+          <div class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <p>
+              O período selecionado inclui datas indisponíveis. Por favor, escolha um novo
+              intervalo.
+            </p>
+          </div>
+        }
+
+        <div class="mt-6 space-y-4">
+          <div class="relative mt-1">
+            <button
+              type="button"
+              (click)="toggleDropdown()"
+              class="relative w-full cursor-pointer rounded-lg border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            >
+              <span class="block truncate text-gray-500 dark:text-indigo-50">{{
+                selectedMember?.user?.username
+              }}</span>
+
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <svg
+                  class="h-5 w-5 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zM10 17a.75.75 0 01-.53-.22l-3.5-3.5a.75.75 0 011.06-1.06L10 15.19l2.97-2.97a.75.75 0 011.06 1.06l-3.5 3.5A.75.75 0 0110 17z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </button>
+
+            @if (isOpen) {
+              <ul
+                class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-gray-200 ring-opacity-5 focus:outline-none dark:bg-gray-800"
+              >
+                @for (member of members; track member.user.id) {
+                  <li
+                    (click)="selectMember(member)"
+                    class="relative cursor-pointer select-none py-2 pl-10 pr-4 text-gray-900 hover:bg-indigo-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    <span
+                      class="block truncate"
+                      [class.font-semibold]="member.user.id === selectedMember?.user?.id"
+                    >
+                      {{ member.user.username }}
+                    </span>
+
+                    @if (member.user.id === selectedMember?.user?.id) {
+                      <span
+                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600 dark:text-indigo-400"
+                      >
+                        <svg
+                          class="h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                    }
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                for="start-date"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Início</label
+              >
+              <input
+                id="start-date"
+                type="text"
+                [value]="periodStart | date: 'dd/MM/yyyy'"
+                readonly
+                class="mt-1 w-full cursor-default rounded-lg border-gray-300 bg-stone-100 py-2 px-3 dark:border-gray-700 dark:bg-gray-800"
+              />
+            </div>
+            <div>
+              <label
+                for="end-date"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Fim</label
+              >
+              <input
+                id="end-date"
+                type="text"
+                [value]="periodEnd | date: 'dd/MM/yyyy'"
+                readonly
+                class="mt-1 w-full cursor-default rounded-lg border-gray-300 bg-stone-100 py-2 px-3 dark:border-gray-700 dark:bg-gray-800"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 mt-5">
+          <span class="text-base font-semibold text-slate-500 dark:text-violet-50"
+            >Deseja adicionar pagamentos passados pendentes?</span
+          >
+          <button
+            type="button"
+            role="switch"
+            [attr.aria-checked]="true"
+            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+            [ngClass]="true ? 'bg-indigo-600' : 'bg-stone-200 dark:bg-gray-700'"
+          >
+            <span
+              aria-hidden="true"
+              class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+              [ngClass]="true ? 'translate-x-5' : 'translate-x-0'"
+            ></span>
+          </button>
+        </div>
+
+        <button
+          type="button"
+          (click)="generate()"
+          class="mt-6 w-full rounded-full bg-indigo-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:bg-indigo-400"
+          [disabled]="!periodStart || !periodEnd"
+        >
+          Gerar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div
+      class="overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
+    >
+      <div class="border-b border-gray-200/80 p-6 dark:border-gray-800">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Histórico</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Folhas de pagamento geradas anteriormente.
+        </p>
+      </div>
+      <ul class="divide-y divide-gray-200/80 dark:divide-gray-800">
+        @for (review of payouts; track review.payroll.id) {
+          <li
+            (click)="openPayroll(review.payroll)"
+            class="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-full"
+                [ngClass]="
+                  review.payroll.status === 'PAID'
+                    ? 'bg-green-100 dark:bg-green-500/10'
+                    : 'bg-amber-100 dark:bg-amber-500/10'
+                "
+              >
+                <i
+                  class="material-symbols-outlined"
+                  [ngClass]="
+                    review.payroll.status === 'PAID'
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-amber-600 dark:text-amber-400'
+                  "
+                >
+                  {{ review.payroll.status === 'PAID' ? 'PAID' : 'pending_actions' }}
+                </i>
+              </div>
+              <div>
+                <p class="font-semibold text-gray-800 dark:text-white">
+                  {{ review.payroll.start | date: 'dd/MM' }} -
+                  {{ review.payroll.end | date: 'dd/MM/yyyy' }}
+                </p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Para: {{ review.user.username }}
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-6">
+              <p class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ review.payroll.totalAmount | currency: 'BRL' }}
+              </p>
+              <span
+                class="rounded-full px-2.5 py-0.5 text-xs font-medium"
+                [ngClass]="
+                  review.payroll.status === 'PAID'
+                    ? 'bg-green-100 text-green-800 dark:bg-green-500/10 dark:text-green-400'
+                    : 'bg-amber-100 text-amber-800 dark:bg-amber-500/10 dark:text-amber-400'
+                "
+              >
+                {{ review.payroll.status === 'PAID' ? 'Pago' : 'Pendente' }}
+              </span>
+              <button
+                class="rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-100 dark:hover:bg-gray-800"
+              >
+                <i class="material-symbols-outlined">more_vert</i>
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,52 @@
+<section class="flex flex-col gap-2">
+  <div *ngIf="step != 1" class="p-3">
+    <button
+      type="button"
+      (click)="back()"
+      class="w-12 h-12 rounded-full grid place-items-center border border-gray-300 dark:border-gray-800 bg-white dark:bg-gray-900"
+    >
+      <i class="material-icons-outlined !text-3xl">chevron_left</i>
+    </button>
+  </div>
+
+  <section class="flex mb-[10rem] gap-5 m-auto w-full max-w-[80rem] flex-col lg:flex-row">
+    @switch (step) {
+      @case (1) {
+        <select-assign (onFavorite)="favorite()" class="flex-1" [selectedUser]="assignedTo" (selectAssignOutput)="selectAssigner($event)" />
+      }
+
+      @case (2) {
+        <app-select-service
+          [props]="props"
+          (changesServices)="selectServices($event)"
+          class="flex w-full max-w-[50rem]"
+        ></app-select-service>
+      }
+
+      @case (3) {
+        <app-select-date-time
+          [props]="props"
+          (onChangeDateOutput)="selectDateTime($event)"
+          class="flex w-full max-w-[50rem]"
+        >
+        </app-select-date-time>
+      }
+
+      @case (4) {
+        <app-confirm-booking
+          class="flex-1"
+          [selectedServices]="services"
+          [selectedAssigner]="assignedTo"
+          (submitOutput)="selectClient($event)" 
+        >
+        </app-confirm-booking>
+      }
+    }
+
+    <app-booking-summary
+      [data]="this.props"
+      [isValid]="this.isValid"
+      (nextStep)="next()"
+    ></app-booking-summary>
+  </section>
+</section>

@@ -1,0 +1,162 @@
+<div class="p-5 z-20 relative bg-white shadow dark:bg-gray-900/50 backdrop-blur-xl border-t border-l border-gray-100 dark:border-gray-700/60 shadow-violet-50/60 dark:shadow-gray-950 m-5 rounded-xl">
+  <!-- Banner de Sucesso (Seu código original) -->
+  @if (isConnected) {
+    <div
+      class="flex mb-4 p-3 bg-green-400 gap-4 rounded items-center text-emerald-950 font-semibold dark:bg-green-900/50 dark:text-green-300"
+    >
+      <i class="material-icons-outlined">check</i>
+      <span class="font-medium saira-font text-lg">Você está conectado ao Mercado Pago!</span>
+    </div>
+  }
+
+  <!-- Card de Conexão (Seu código original) -->
+  <div class="border rounded-lg dark:border-gray-800 border-gray-200">
+    <div class="p-6 flex sm:flex-row flex-col gap-4 sm:items-center justify-between flex-wrap">
+      <div class="w-40">
+        <mp-logo></mp-logo>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div>
+          <h3 class="font-semibold text-lg text-gray-500 dark:text-gray-100">Mercado Pago</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Receba pagamentos via PIX.</p>
+        </div>
+
+        <div>
+          @if (connectionStatus() === 'success') {
+            <span
+              class="px-4 py-2 rounded-md bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300"
+            >
+              Conectado
+            </span>
+          } @else {
+            <button
+              (click)="connectMercadoPago()"
+              class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+            >
+              Conectar
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [NOVA SEÇÃO] Resumo Financeiro -->
+  @if (isConnected && summary()) {
+    <div class="mt-8">
+      <!-- Título da Seção -->
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Resumo Financeiro</h2>
+
+      <!-- Grid de Estatísticas -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card Faturamento Hoje -->
+        <div class="border rounded-lg dark:border-gray-800 border-gray-200 p-4">
+          <h3 class="text-sm text-gray-500 dark:text-gray-400">Faturamento (Hoje)</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {{ summary()!.revenueToday | currency: 'BRL' }}
+          </p>
+        </div>
+
+        <!-- Card Faturamento 7d -->
+        <div class="border rounded-lg dark:border-gray-800 border-gray-200 p-4">
+          <h3 class="text-sm text-gray-500 dark:text-gray-400">Faturamento (7d)</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {{ summary()!.revenueLast7Days | currency: 'BRL' }}
+          </p>
+        </div>
+
+        <!-- Card Faturamento 30d -->
+        <div class="border rounded-lg dark:border-gray-800 border-gray-200 p-4">
+          <h3 class="text-sm text-gray-500 dark:text-gray-400">Faturamento (30d)</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {{ summary()!.revenueLast30Days | currency: 'BRL' }}
+          </p>
+        </div>
+
+        <!-- Card Ticket Médio -->
+        <div class="border rounded-lg dark:border-gray-800 border-gray-200 p-4">
+          <h3 class="text-sm text-gray-500 dark:text-gray-400">Ticket Médio (30d)</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {{ summary()!.averageTicket30Days | currency: 'BRL' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- [NOVA SEÇÃO] Pendências -->
+      <div class="mt-8">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+          Pagamentos Pendentes
+        </h3>
+        @if (summary()!.pendingPaymentsCount > 0) {
+          <!-- Card de Total Pendente -->
+          <div
+            class="border rounded-lg dark:border-gray-800 border-gray-200 p-4 mb-4 bg-yellow-50 dark:bg-yellow-900/20"
+          >
+            <h3 class="text-sm text-yellow-600 dark:text-yellow-400">Total Pendente</h3>
+            <p class="text-2xl font-bold text-yellow-900 dark:text-yellow-200 mt-1">
+              {{ summary()!.pendingPaymentsTotalAmount | currency: 'BRL' }}
+              <span class="text-base font-normal">
+                ({{ summary()!.pendingPaymentsCount }} pagamentos)
+              </span>
+            </p>
+          </div>
+
+          <!-- Lista de Pagamentos Pendentes -->
+          <div class="border rounded-lg dark:border-gray-800 border-gray-200 overflow-hidden">
+            <ul class="divide-y dark:divide-gray-800">
+              @for (payment of summary()!.pendingPaymentsList; track payment.id) {
+                <li class="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <!-- Info do Pagamento -->
+                  <div>
+                    <p class="font-medium text-gray-900 dark:text-white">
+                      {{ payment.description || 'Pagamento sem descrição' }}
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                      {{ payment.payerEmail || 'Email não informado' }}
+                    </p>
+                  </div>
+                  <!-- Valor e Data -->
+                  <div class="mt-2 sm:mt-0 text-left sm:text-right">
+                    <span class="text-lg font-semibold text-gray-900 dark:text-white">
+                      {{ payment.amount | currency: 'BRL' }}
+                    </span>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                      Criado em: {{ payment.dateCreated | date: 'dd/MM/yy' }}
+                    </p>
+                  </div>
+                </li>
+              }
+            </ul>
+          </div>
+        } @else {
+          <!-- Mensagem de "Nenhuma pendência" -->
+          <div
+            class="border-dashed border-2 rounded-lg dark:border-gray-800 border-gray-200 p-6 text-center"
+          >
+            <p class="text-gray-500 dark:text-gray-400">Nenhum pagamento pendente no momento.</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (isConnected) {
+    <div class="flex">
+      <a
+        routerLink="['/configure']"
+        type="button"
+        class="flex rounded-full mt-8 px-5 opacity-90 gap-3 items-center hover:opacity-100 p-2 bg-stone-100 dark:text-violet-100 text-gray-500 dark:bg-gray-800/70"
+      >
+        <i class="material-symbols-outlined !text-lg">settings</i>
+        <span class="saira-font font-bold">Configurar</span>
+      </a>
+    </div>
+  }
+
+  @if (connectionStatus() === 'error') {
+    <p class="text-red-500 mt-4">
+      Ocorreu um erro ao tentar conectar sua conta. Por favor, tente novamente.
+    </p>
+  }
+</div>

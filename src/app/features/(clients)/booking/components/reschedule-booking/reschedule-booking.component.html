@@ -1,0 +1,82 @@
+<div class="flex flex-col max-h-[80vh] bg-white dark:bg-gray-900">
+  <header class="flex p-4 justify-between items-center">
+    @if (currentStep() === 'slots') {
+      <button
+        (click)="goToCalendarStep()"
+        class="grid place-items-center w-10 h-10 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800"
+      >
+        <i class="material-symbols-outlined">arrow_back</i>
+      </button>
+    } @else {
+      <div class="w-10 h-10"></div>
+      <!-- Espaçador -->
+    }
+
+    <h1 class="text-lg font-semibold text-gray-700 dark:text-violet-100">
+      @if (currentStep() === 'calendar') {
+        <span>Remarcar dia</span>
+      } @else {
+        <span>Escolha um novo horário</span>
+      }
+    </h1>
+
+    <button
+      class="grid place-items-center w-10 h-10 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800"
+    >
+      <i class="material-symbols-outlined">close</i>
+    </button>
+  </header>
+
+  <section class="flex-1 overflow-y-auto p-4">
+    @if (currentStep() === 'calendar') {
+      <app-calendar-picker
+        [month]="currentMonth()"
+        [year]="currentYear()"
+        [availableDays]="availableDays()"
+        [selectedDate]="selectedDate()"
+        [isLoading]="isLoading()"
+        (monthChanged)="onMonthChanged($event)"
+        (dateSelected)="onDateSelected($event)"
+      ></app-calendar-picker>
+    }
+
+    @if (currentStep() === 'slots') {
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-white px-4 mb-4">
+        Horários para {{ selectedDate()?.toString() | date: 'dd/MM/yyyy' }}
+      </h3>
+
+      <all-times
+        [selectedTime]="selectedTime()"
+        [whenSelectAction]="selectTime"
+        [serviceIds]="serviceIds"
+        [currentDate]="selectedDate()?.format('YYYY-MM-DD')"
+        [booking]="{ assignedToId: this.assignedToId, businessId: this.businessId }"
+      ></all-times>
+    }
+  </section>
+
+  <footer class="p-4 border-t border-gray-200 dark:border-gray-800">
+    @if (currentStep() === 'calendar') {
+      <button
+        (click)="goToSlotsStep()"
+        [disabled]="!canContinue()"
+        class="flex w-full items-center justify-center gap-2 rounded-full bg-violet-500 bg-gradient-to-r active:from-indigo-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-600/20 transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 disabled:opacity-70 dark:disabled:bg-indigo-800"
+      >
+        <span>Continuar</span>
+      </button>
+    } @else {
+      <button
+        (click)="onReschedule()"
+        [disabled]="!selectedTime() || isLoading()"
+        class="flex w-full items-center justify-center gap-2 rounded-full bg-purple-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-purple-600/20 transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-400 disabled:opacity-70 dark:disabled:bg-purple-800"
+      >
+        @if (isLoading()) {
+          <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
+          <span>Confirmando...</span>
+        } @else {
+          <span>Confirmar Remarcação</span>
+        }
+      </button>
+    }
+  </footer>
+</div>

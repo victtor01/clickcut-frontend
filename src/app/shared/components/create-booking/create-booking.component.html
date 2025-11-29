@@ -1,0 +1,96 @@
+<header class="flex p-4 justify-between items-center">
+  @if (currentStep() === 'calendar' || currentStep() === 'slots') {
+    <button
+      (click)="goToServiceStep()"
+      class="grid place-items-center w-10 h-10 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800"
+    >
+      <i class="material-symbols-outlined">arrow_back</i>
+    </button>
+  } @else {
+    <div class="w-10 h-10"></div>
+  }
+
+  @if (currentStep() === 'services') {
+    <h1 class="text-md text-gray-700 dark:text-violet-100">Selecione o serviço</h1>
+  } @else if (currentStep() === 'calendar') {
+    <h1 class="text-md text-gray-700 dark:text-violet-100">Dias disponíveis</h1>
+  } @else {
+    <h1 class="text-md text-gray-700 dark:text-violet-100">Horários disponíveis</h1>
+  }
+</header>
+
+<section class="flex-1 overflow-y-auto px-4">
+  @if (currentStep() === 'services') {
+    <ul class="space-y-3">
+      @for (service of services(); track service.id) {
+        <li
+          (click)="selectBookings(service)"
+          [attr.data-selected]="isServiceSelected(service)"
+          class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 dark:border-gray-800 border-stone-300 data-[selected=true]:border-indigo-100 dark:data-[selected=true]:border-violet-500 dark:data-[selected=true]:bg-indigo-900/20 data-[selected=true]:bg-indigo-50/50"
+        >
+          <div
+            [attr.data-selected]="isServiceSelected(service)"
+            class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border bg-white dark:bg-gray-900 transition-all border-gray-300 dark:border-gray-700
+            data-[selected=true]:bg-indigo-50 data-[selected=true]:border-indigo-400/50 dark:data-[selected=true]:border-indigo-900/50 dark:data-[selected=true]:bg-indigo-400/50"
+          >
+            @if (isServiceSelected(service)) {
+              <i class="material-symbols-outlined !text-sm text-gray-800 dark:text-white">check</i>
+            }
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-semibold text-gray-800 dark:text-white truncate">
+              {{ service.title }}
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
+              {{ service.description }}
+            </p>
+          </div>
+          <div class="text-right">
+            <p class="font-semibold text-gray-800 dark:text-white">
+              {{ service.price / 100 | currency: 'BRL' }}
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              {{ service.durationInMinutes }} min
+            </p>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (currentStep() === 'calendar') {
+    <app-calendar-picker
+      [month]="currentMonth()"
+      [year]="currentYear()"
+      [availableDays]="availableDays()"
+      [selectedDate]="selectedDate()"
+      [isLoading]="isLoadingNextStep()"
+      (monthChanged)="onMonthChanged($event)"
+      (dateSelected)="onDateSelected($event)"
+    ></app-calendar-picker>
+  }
+
+  @if (currentStep() === 'slots') {
+    <all-times
+      [selectedTime]="selectedTime"
+      [whenSelectAction]="selectTime"
+      [serviceIds]="this.selectedServices()"
+      [currentDate]="this.selectedDate()?.format('YYYY-MM-DD')"
+    ></all-times>
+  }
+</section>
+
+<footer class="p-4">
+  <button
+    (click)="goStep()"
+    [disabled]="!canContinue() || isLoadingNextStep()"
+    class="flex w-full items-center justify-center gap-2 rounded-full bg-violet-500 bg-gradient-to-r active:from-indigo-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-600/20 transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 disabled:opacity-70 dark:disabled:bg-indigo-800"
+  >
+    @if (isLoadingNextStep()) {
+      <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>
+      <span>Buscando...</span>
+    } @else {
+      <span>Continuar</span>
+    }
+  </button>
+</footer>

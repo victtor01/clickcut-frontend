@@ -1,52 +1,54 @@
 <section
-  class="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-9 flex-1"
+  class="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-9 flex-1"
 >
   @for (service of services; track $index) {
-  <button
-    (click)="action(service)"
-    [attr.data-active]="activated(service)"
-    class="flex flex-col relative bg-white border overflow-hidden border-zinc-300 text-gray-500 data-[active=true]:border-indigo-500 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-gray-200 rounded-xl ring-offset-2 dark:ring-offset-zinc-950 data-[active=true]:ring-2 dark:ring-indigo-500 transition-shadow"
-  >
-    <div
-      class="absolute right-2 backdrop-blur-sm top-2 z-20 text-sm p-px px-2 rounded-full text-indigo-950 dark:text-indigo-50 bg-indigo-300/20 dark:bg-indigo-500"
-    > 
-      {{ service.price | toFormatBrl }}
-    </div>
-    <div
-      class="p-2 aspect-square bg-gradient-to-br from-indigo-50 to-violet-50/80 dark:from-zinc-950/20 dark:to-indigo-500/10 relative border-zinc-200 rounded-t-xl overflow-hidden dark:border-zinc-800 border-b grid place-items-center"
+    <button
+      (click)="action(service)"
+      [attr.data-active]="activated(service)"
+      class="flex flex-col relative bg-white border overflow-hidden border-gray-300 text-gray-500 data-[active=true]:border-indigo-500 dark:border-gray-800 dark:bg-gray-900/50 dark:text-gray-200 rounded-xl ring-offset-2 dark:ring-offset-gray-950 data-[active=true]:ring-2 dark:ring-indigo-500 transition-shadow"
     >
-      <img
-        *ngIf="service.photoUrl"
-        [ngSrc]="service.photoUrl"
-        alt="Foto do Serviço"
-        priority
-        fill
-        class="absolute h-full w-full object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
-      />
-
       <div
-        *ngIf="!service.photoUrl"
-        class="text-gray-600 dark:text-indigo-200 capitalize saira-font text-[3rem] font-semibold"
+        class="absolute right-2 backdrop-blur-sm top-2 z-20 text-sm p-px px-2 rounded-full text-indigo-950 dark:text-indigo-50 bg-indigo-300/20 dark:bg-indigo-500"
       >
-        {{service?.title?.[0] || null}}
+        {{ service.price | toFormatBrl }}
       </div>
 
       <div
-        *ngIf="!!isEdit"
-        type="button"
-        class="absolute group cursor-pointer flex w-full h-full hover:bg-indigo-500/10 transition-all z-20 bg-white/30 backdrop-blur-xs rounded-t-xl dark:bg-zinc-950/80"
+        class="p-2 aspect-square bg-gradient-to-br from-indigo-50 to-violet-50/80 dark:from-gray-950/20 dark:to-black/10 relative border-gray-200 rounded-t-xl overflow-hidden dark:border-gray-800 border-b grid place-items-center"
       >
-        <div class="m-auto text-sm rounded-full w-10 h-10">
-          <i class="material-icons-outlined group-hover:text-indigo-500 transition-all !text-2xl"
-            >edit</i
+        <img
+          *ngIf="service.photoUrl"
+          [ngSrc]="service.photoUrl"
+          alt="Foto do Serviço"
+          priority
+          fill
+          class="absolute h-full w-full object-cover z-10 opacity-70 group-hover:opacity-40 dark:opacity-60 dark:group-hover:opacity-30 transition-opacity"
+        />
+
+        @if (!service.photoUrl) {
+          <div
+            class="text-gray-600 dark:text-indigo-200 capitalize saira-font text-[3rem] font-semibold"
           >
+            <i class="material-symbols-outlined text-gray-600 dark:text-violet-50 !text-[80%] drop-shadow-xl drop-shadow-violet-200/50">deployed_code</i>
+          </div>
+        }
+
+        <div
+          *ngIf="!!isEdit"
+          type="button"
+          class="absolute group cursor-pointer flex w-full h-full hover:bg-indigo-500/10 transition-all z-20 bg-white/30 backdrop-blur-xs rounded-t-xl dark:bg-gray-950/80"
+        >
+          <div class="m-auto text-sm rounded-full w-10 h-10">
+            <i class="material-icons-outlined group-hover:text-indigo-500 transition-all !text-2xl"
+              >edit</i
+            >
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="p-2">
-      {{ service.title || 'no name' }}
-    </div>
-  </button>
+      <div class="p-2">
+        {{ service.title || 'no name' }}
+      </div>
+    </button>
   }
 </section>

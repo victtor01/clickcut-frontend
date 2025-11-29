@@ -1,0 +1,147 @@
+<div
+  [@slideFade]
+  class="absolute overflow-hidden bottom-14 lg:bottom-0 w-[30rem] h-[20rem] z-20 left-1/2 -translate-x-1/2 pointer-events-none"
+  *ngIf="hasUnfavoritedItems"
+>
+  <div class="relative w-full h-full flex-1">
+    <div
+      class="flex w-[10rem] h-[10rem] bg-indigo-500 rounded-full blur-3xl absolute left-1/2 top-[90%] -translate-x-1/2"
+    ></div>
+  </div>
+</div>
+
+<div
+  [@slideFade]
+  *ngIf="hasUnfavoritedItems"
+  class="fixed bottom-20 lg:bottom-6 left-1/2 pointer-events-auto z-50 flex -translate-x-1/2 transform items-center justify-between gap-4 rounded-full bg-white/40 backdrop-blur-lg shadow px-4 py-3 dark:border-gray-700 dark:bg-gray-800"
+>
+  <p class="text-sm font-medium text-nowrap text-gray-700 dark:text-gray-200">
+    Sua lista de favoritos foi alterada.
+  </p>
+  <button
+    (click)="fetchFavorites()"
+    class="flex items-center gap-2 rounded-full bg-violet-50 px-4 py-1.5 text-sm font-semibold text-gray-500 transition-colors hover:bg-violet-100"
+  >
+    <i class="material-symbols-outlined !text-base">refresh</i>
+    <span>Atualizar</span>
+  </button>
+</div>
+
+
+<div class="mx-auto flex flex-col max-w-7xl h-screen overflow-auto py-4 px-3">
+  <header class="mb-8">
+    <h1
+      class="text-3xl font-semibold tracking-tight text-gray-700 saira-font dark:text-white sm:text-2xl"
+    >
+      Meus Favoritos
+    </h1>
+    <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
+      Os negócios que você salvou para não perder de vista.
+    </p>
+  </header>
+
+  <div
+    *ngIf="favorites.length > 0; else emptyState"
+    class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  >
+    <div
+      *ngFor="let business of favorites"
+      class="group relative flex transform flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-800"
+    >
+      <div class="relative h-32 w-full bg-stone-100 dark:bg-gray-700">
+        <img
+          *ngIf="business.bannerUrl"
+          [src]="business.bannerUrl"
+          alt="Banner de {{ business.name }}"
+          class="h-full w-full object-cover"
+        />
+        <div
+          *ngIf="!business.bannerUrl"
+          class="h-full w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-900/50 dark:to-violet-900/50"
+        ></div>
+      </div>
+
+      <div class="flex flex-1 flex-col p-4">
+        <div class="-mt-12 mb-2 flex">
+          <div
+            class="relative h-16 w-16 flex-shrink-0 rounded-full border-4 border-white bg-stone-200 dark:border-gray-800 dark:bg-gray-700"
+          >
+            <img
+              *ngIf="business.logoUrl"
+              [src]="business.logoUrl"
+              alt="Logo de {{ business.name }}"
+              class="h-full w-full rounded-full object-cover"
+            />
+            <div
+              *ngIf="!business.logoUrl"
+              class="flex h-full w-full items-center justify-center rounded-full"
+            >
+              <i class="material-symbols-outlined text-gray-500">store</i>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white">{{ business.name }}</h2>
+        <p class="mt-1 flex-grow text-sm text-gray-600 dark:text-gray-400">
+          Descrição fictícia do negócio.
+        </p>
+
+        <div class="mt-4 flex items-center gap-2">
+          <button
+            type="button"
+            (click)="openBusinessDetails(business.id)"
+            class="flex-1 rounded-full opacity-90 hover:opacity-100 bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition-opacity"
+          >
+            Ver Perfil
+          </button>
+
+          <button
+            (click)="toggleFavorite(business)"
+            class="rounded-lg p-2 w-10 h-10 transition-colors hover:bg-stone-100 dark:hover:bg-gray-700"
+            [class.text-red-500]="favoritedStatus[business.id]"
+            [class.text-gray-400]="!favoritedStatus[business.id]"
+            [title]="
+              favoritedStatus[business.id] ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'
+            "
+          >
+            <i
+              class="material-symbols-outlined"
+              [ngStyle]="{
+                'font-variation-settings': favoritedStatus[business.id]
+                  ? '\'FILL\' 1'
+                  : '\'FILL\' 0',
+              }"
+            >
+              favorite
+            </i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyState>
+    <div
+      class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white p-12 text-center dark:border-gray-700 dark:bg-gray-800/50"
+    >
+      <div
+        class="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-500/10"
+      >
+        <i class="material-symbols-outlined text-3xl text-indigo-500 dark:text-indigo-400"
+          >favorite_border</i
+        >
+      </div>
+      <h3 class="mt-4 text-xl font-semibold text-slate-600 saira-font dark:text-white">
+        Sua lista de favoritos está vazia
+      </h3>
+      <p class="mt-1 text-gray-500 dark:text-gray-400">
+        Explore os negócios e salve os que você mais gostar para encontrá-los facilmente aqui.
+      </p>
+      <button
+        class="mt-6 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+      >
+        Explorar Negócios
+      </button>
+    </div>
+  </ng-template>
+</div>

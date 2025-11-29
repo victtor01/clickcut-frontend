@@ -1,0 +1,190 @@
+<div class="mx-auto max-w-3xl my-10 px-5">
+  <header class="mb-8 flex gap-5">
+    <a
+      [routerLink]="['/payroll']"
+      class="flex w-10 h-10 dark:bg-gray-800 bg-white rounded-full items-center text-white justify-center"
+      ><i class="material-symbols-outlined dark:text-white !text-lg">chevron_backward</i></a
+    >
+    <div class="flex flex-col gap-1">
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+        Revisão da Folha de Pagamento
+      </h1>
+      <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
+        Confira todos os agendamentos e comissões incluídos neste pagamento.
+      </p>
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <div
+      class="flex items-center justify-center rounded-xl border border-gray-200/80 bg-white p-12 dark:border-gray-800 dark:bg-gray-900/50"
+    >
+      <i class="material-symbols-outlined animate-spin text-4xl text-indigo-500">
+        progress_activity
+      </i>
+    </div>
+  } @else {
+    @if (payout(); as p) {
+      <div
+        class="rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50 mb-8"
+      >
+        <header
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 border-b border-gray-200/80 dark:border-gray-800"
+        >
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Resumo do Pagamento</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Período: {{ p.start | date: 'dd/MM/yy' }} - {{ p.end | date: 'dd/MM/yy' }}
+            </p>
+          </div>
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 mt-3 sm:mt-0"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+            Pago em {{ p.paidAt | date: 'dd/MM/yy' }}
+          </span>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="p-6">
+            <dl class="space-y-4">
+              <div class="flex items-center justify-between">
+                <dt class="text-sm text-gray-600 dark:text-gray-400">Salário Base</dt>
+                <dd class="font-medium text-gray-900 dark:text-gray-100">
+                  {{ p.baseSalary | currency: 'BRL' }}
+                </dd>
+              </div>
+              <div class="flex items-center justify-between">
+                <dt class="text-sm text-gray-600 dark:text-gray-400">Total de Comissão</dt>
+                <dd class="font-medium text-green-600 dark:text-green-500">
+                  + {{ p.totalCommission | currency: 'BRL' }}
+                </dd>
+              </div>
+              <div class="border-t border-gray-200/80 dark:border-gray-800 !my-3"></div>
+              <div class="flex items-center justify-between">
+                <dt class="text-base font-semibold text-gray-900 dark:text-white">Total Pago</dt>
+                <dd class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                  {{ p.totalAmount | currency: 'BRL' }}
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div
+            class="p-6 border-t md:border-t-0 md:border-l border-gray-200/80 dark:border-gray-800"
+          >
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+              Comprovante de Pagamento
+            </h3>
+
+            @if (p.proofOfPaymentUrl) {
+              <div class="mt-4 space-y-4">
+                <a
+                  [href]="p.proofOfPaymentUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full h-48 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:opacity-80 transition-opacity"
+                >
+                  <img
+                    [src]="p.proofOfPaymentUrl"
+                    alt="Comprovante de pagamento"
+                    class="h-full w-full object-cover"
+                  />
+                </a>
+                <button
+                  type="button"
+                  (click)="downloadProof(p.proofOfPaymentUrl, p.id)"
+                  [disabled]="isDownloading()"
+                  class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-stone-100 px-4 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-stone-20dark:bg-grayone-800 dark:text-gray-200 dark:hover:bg-gray-700 disabled:opacity-50"
+                >
+                  @if (isDownloading()) {
+                    <i class="material-symbols-outlined animate-spin !text-base"
+                      >progress_activity</i
+                    >
+                    <span>Baixando...</span>
+                  } @else {
+                    <i class="material-symbols-outlined !text-base">download</i>
+                    <span>Baixar Comprovante</span>
+                  }
+                </button>
+              </div>
+            } @else {
+              <div
+                class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 text-center"
+              >
+                <i class="material-symbols-outlined text-4xl text-gray-400">image_not_supported</i>
+                <p class="mt-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Nenhum comprovante foi anexado.
+                </p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="space-y-6">
+      @for (group of groupedBookings(); track group.day) {
+        <div
+          class="rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50 overflow-hidden"
+        >
+          <header
+            class="flex items-center justify-between p-4 bg-stone-50 dark:bg-gray-800/50 border-b border-gray-200/80 dark:border-gray-800"
+          >
+            <p class="text-sm font-semibold capitalize text-indigo-600 dark:text-indigo-400">
+              {{ group.day }}
+            </p>
+            <div class="flex items-baseline gap-2">
+              <span class="text-xs font-medium text-gray-500 dark:text-gray-400"
+                >Total do Dia:</span
+              >
+              <span class="text-lg font-bold text-gray-900 dark:text-gray-100">
+                {{ group.dayTotalCommission | currency: 'BRL' }}
+              </span>
+            </div>
+          </header>
+
+          <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+            @for (booking of group.bookings; track booking.id) {
+              <li
+                (click)="openBookingDetails(booking)"
+                class="flex items-center justify-between p-4 transition-colors duration-150 ease-in-out hover:bg-stone-100 dark:hover:bg-gray-800/50 cursor-pointer"
+              >
+                <div class="flex items-center gap-4">
+                  <span class="w-12 text-left font-mono text-sm text-gray-500 dark:text-gray-400">
+                    {{ booking.startAt | date: 'HH:mm' }}
+                  </span>
+                  <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                    {{ booking.title }}
+                  </span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm font-medium text-green-600 dark:text-green-500">
+                    + {{ booking.commissionAmount | currency: 'BRL' }}
+                  </span>
+                  <i class="material-symbols-outlined text-gray-400">chevron_right</i>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      } @empty {
+        <div
+          class="flex flex-col items-center justify-center p-12 text-center rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
+        >
+          <div
+            class="flex h-16 w-16 items-center justify-center rounded-full bg-stone-100 dark:bg-gray-800"
+          >
+            <i class="material-symbols-outlined text-3xl text-gray-500">folder_off</i>
+          </div>
+          <h3 class="mt-4 text-xl font-semibold text-gray-900 dark:text-white">
+            Nenhum Agendamento Encontrado
+          </h3>
+          <p class="mt-1 text-gray-500 dark:text-gray-400">
+            Não há agendamentos vinculados a esta folha de pagamento.
+          </p>
+        </div>
+      }
+    </div>
+  }
+</div>

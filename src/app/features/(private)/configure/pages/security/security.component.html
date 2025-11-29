@@ -1,0 +1,200 @@
+<div class="mx-auto max-w-4xl space-y-8 px-5">
+  <header>
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+      Segurança
+    </h1>
+    <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
+      Gerencie suas senhas de acesso e a segurança do seu negócio.
+    </p>
+  </header>
+
+  <section>
+    <form
+      [formGroup]="userPasswordForm"
+      (ngSubmit)="onUserPasswordSubmit()"
+      class="overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
+    >
+      <div class="border-b border-gray-200/80 p-6 dark:border-gray-800">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Senha da Conta</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Altere a senha de acesso à sua conta pessoal.
+        </p>
+      </div>
+
+      <div class="space-y-6 p-6">
+        <div>
+          <label
+            for="currentPassword"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Senha Atual</label
+          >
+          <div class="relative mt-2">
+            <input
+              id="currentPassword"
+              [type]="'password'"
+							value="fj90asjf09j3ljaq39sj"
+							readonly
+							class="w-full rounded-lg border text-gray-500 border-gray-300 dark:bg-transparent bg-transparent py-2 pl-4 pr-10 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-white"
+            />
+          </div>
+        </div>
+        <!-- <div>
+          <label
+            for="newPassword"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Nova Senha</label
+          >
+          <div class="relative mt-2">
+            <input
+              [type]="hideNewPassword() ? 'password' : 'text'"
+              id="newPassword"
+              formControlName="newPassword"
+              class="w-full rounded-lg border border-gray-300 bg-transparent py-2 pl-4 pr-10 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-white"
+            />
+            <button
+              type="button"
+              (click)="hideNewPassword.set(!hideNewPassword())"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            >
+              <i class="material-symbols-outlined">{{
+                hideNewPassword() ? 'visibility' : 'visibility_off'
+              }}</i>
+            </button>
+          </div>
+        </div>
+        <div>
+          <label
+            for="confirmPassword"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Confirmar Nova Senha</label
+          >
+          <div class="relative mt-2">
+            <input
+              [type]="hideConfirmPassword() ? 'password' : 'text'"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              class="w-full rounded-lg border border-gray-300 bg-transparent py-2 pl-4 pr-10 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-white"
+            />
+            <button
+              type="button"
+              (click)="hideConfirmPassword.set(!hideConfirmPassword())"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            >
+              <i class="material-symbols-outlined">{{
+                hideConfirmPassword() ? 'visibility' : 'visibility_off'
+              }}</i>
+            </button>
+          </div>
+        </div> -->
+      </div>
+
+      <div
+        class="flex items-center justify-between text-gray-500 dark:text-white border-t border-gray-200/80 p-4 dark:border-gray-800"
+      >
+				<div class="flex gap-2 items-center">
+					<h2>Esqueceu sua senha?</h2>
+				</div>
+
+        <a
+        [routerLink]="['/forgot-password']"
+        class="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:bg-indigo-400 dark:disabled:bg-indigo-600"
+        >
+          Alterar Senha
+        </a>
+      </div>
+    </form>
+  </section>
+
+  <section>
+    <div
+      class="overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
+    >
+      <div class="border-b border-gray-200/80 p-6 dark:border-gray-800">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+          Senha do Negócio (PIN)
+        </h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Proteja o acesso ao seu negócio com um PIN de 4 dígitos para seleção de perfil.
+        </p>
+      </div>
+
+      @if (business?.hasPassword) {
+        <div class="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-center gap-3">
+            <i class="material-symbols-outlined text-green-500">verified_user</i>
+            <p class="text-sm font-medium text-gray-700 dark:text-gray-200">
+              Seu negócio está protegido por senha.
+            </p>
+          </div>
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="rounded-lg bg-stone-100 px-4 py-2 text-sm font-semibold text-gray-800 transition-colors hover:bg-stone-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+            >
+              Alterar PIN
+            </button>
+            <button
+              (click)="removeBusinessPassword()"
+              type="button"
+              class="rounded-lg px-4 py-2 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
+            >
+              Remover
+            </button>
+          </div>
+        </div>
+      } @else {
+        <form [formGroup]="businessPasswordForm" (ngSubmit)="onBusinessPasswordSubmit()">
+          <div class="p-6">
+            <p
+              class="text-sm text-amber-700 dark:text-amber-400 mb-6 flex items-center gap-2 rounded-lg bg-amber-50 p-3 dark:bg-amber-500/10"
+            >
+              <i class="material-symbols-outlined">warning</i> Seu negócio não está protegido por
+              senha.
+            </p>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div>
+                <label
+                  for="newPin"
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  >Novo PIN de 4 dígitos</label
+                >
+                <input
+                  type="password"
+                  id="newPin"
+                  formControlName="newPin"
+                  maxlength="4"
+                  class="mt-2 w-full rounded-lg text-gray-500 border border-gray-300 bg-transparent py-2 px-4 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-white"
+                />
+              </div>
+              <div>
+                <label
+                  for="confirmPin"
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  >Confirmar PIN</label
+                >
+                <input
+                  type="password"
+                  id="confirmPin"
+                  formControlName="confirmPin"
+                  maxlength="4"
+                  class="mt-2 w-full rounded-lg border text-gray-500 border-gray-300 bg-transparent py-2 px-4 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:text-white"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-end border-t border-gray-200/80 p-4 dark:border-gray-800"
+          >
+            <button
+              type="submit"
+              [disabled]="businessPasswordForm.invalid"
+              class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800"
+            >
+              Definir PIN
+            </button>
+          </div>
+        </form>
+      }
+    </div>
+  </section>
+</div>

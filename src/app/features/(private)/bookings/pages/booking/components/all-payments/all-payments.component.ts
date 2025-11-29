@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
   BookingPayment,
   BookingPaymentMethod,
@@ -18,7 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class AllPaymentsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly paymentsService: PaymentService,
-    private readonly invalidationService: InvalidationService
+    private readonly invalidationService: InvalidationService,
   ) {}
 
   public ngOnDestroy(): void {
@@ -29,6 +29,12 @@ export class AllPaymentsComponent implements OnInit, OnDestroy {
   @Input({ required: true })
   public bookingId?: string | null;
 
+  @Input({ required: true })
+  public totalPrice!: number;
+
+  @Output()
+  public handleTotalPaid = new EventEmitter<number>();
+
   public payments: BookingPayment[] = [];
 
   private destroy$ = new Subject<void>();
@@ -36,22 +42,29 @@ export class AllPaymentsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (!this.bookingId) return;
 
-    this.loadAllServices();
+    this.loadAllPayments();
 
     this.invalidationService.invalidation$
       .pipe(takeUntil(this.destroy$))
       .subscribe((invalidatedKey: string) => {
         if (invalidatedKey === this.invalidationService.INVALIDATE_KEYS.service) {
-          this.loadAllServices();
+          this.loadAllPayments();
         }
       });
   }
 
-  private loadAllServices(): void {
+  private loadAllPayments(): void {
     this.paymentsService.findAll(this.bookingId!).subscribe({
       next: (value) => {
-        console.log(value);
         this.payments = value;
+
+        if (this.handleTotalPaid) {
+          this.handleTotalPaid.emit(
+            this.payments?.reduce((curr, payment) => {
+              return curr + payment.amount;
+            }, 0),
+          );
+        }
       },
     });
   }

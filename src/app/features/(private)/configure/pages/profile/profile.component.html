@@ -1,6 +1,6 @@
 <form (submit)="submit()" [formGroup]="form" class="px-8 flex flex-col pb-6 max-w-4xl mx-auto">
-  <h2 class="text-3xl font-bold mb-2 dark:text-zinc-100 text-gray-500">Configurar Perfil</h2>
-  <p class="text-gray-500 dark:text-zinc-400">
+  <h2 class="text-3xl font-bold mb-2 dark:text-gray-100 text-gray-500">Configurar Perfil</h2>
+  <p class="text-gray-500 dark:text-gray-400">
     Personalize a aparência da sua página e informações públicas.
   </p>
 
@@ -15,22 +15,22 @@
   </div>
 
   <div
-    class="border rounded-xl mt-6 bg-white dark:bg-zinc-900/50 dark:border-zinc-800 border-zinc-200/80"
+    class="border rounded-xl mt-6 bg-white dark:bg-gray-900/50 dark:border-gray-800 border-gray-200/80"
   >
     <div class="p-6">
       <h3 class="text-lg font-semibold saira-font text-gray-500 dark:text-gray-100">
         Informações do Perfil
       </h3>
-      <p class="text-sm text-gray-500 dark:text-zinc-400">
+      <p class="text-sm text-gray-500 dark:text-gray-400">
         Estes detalhes serão exibidos publicamente na sua loja.
       </p>
     </div>
-    <div class="p-6 border-t dark:border-zinc-800 border-zinc-200/80">
+    <div class="p-6 border-t dark:border-gray-800 border-gray-200/80">
       <div class="space-y-6">
         <div>
           <label
             for="nome"
-            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+            class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-1.5"
           >
             Nome Completo
           </label>
@@ -39,21 +39,21 @@
             id="nome"
             formControlName="name"
             placeholder="Digite seu nome"
-            class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-900/50 border border-zinc-300 dark:border-zinc-700 rounded-lg placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+            class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-700 rounded-lg placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
           />
         </div>
 
         <div class="relative flex flex-col">
           <label
             for="nome-loja"
-            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+            class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-1.5"
           >
             Email
           </label>
 
           <div
             [attr.data-editing]="editing"
-            class="flex z-20 items-center relative w-full text-gray-800 dark:text-zinc-100 transition-colors duration-200 ease-in-out border border-zinc-300 dark:border-zinc-700 rounded-lg placeholder-zinc-400 dark:placeholder-zinc-500 data-[editing=false]:bg-stone-100/50 bg-white dark:bg-zinc-900/50 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50 focus-within:border-blue-500"
+            class="flex z-20 items-center relative w-full text-gray-800 dark:text-gray-100 transition-colors duration-200 ease-in-out border border-gray-300 dark:border-gray-700 rounded-lg placeholder-gray-400 dark:placeholder-gray-500 bg-white data-[editing=false]:bg-stone-100/50 dark:data-[editing=false]:bg-stone-800/50 dark:bg-gray-900/50 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50 focus-within:border-blue-500"
           >
             <input
               type="text"
@@ -62,7 +62,7 @@
               placeholder="seu_email@gmail.com"
               formControlName="email"
               (click)="onInputEmailClick()"
-              class="flex flex-1 data-[editing=false]:cursor-pointer outline-none px-4 py-2.5 bg-transparent placeholder:text-zinc-300 dark:placeholder:text-zinc-600"
+              class="flex flex-1 data-[editing=false]:cursor-pointer outline-none px-4 py-2.5 bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-600"
             />
 
             <button
@@ -79,11 +79,11 @@
 
           @if(editing) {
           <div
-            class="flex gap-2 text-gray-500 dark:text-gray-100 border-zinc-200 dark:border-zinc-800 -mt-5 border-l mx-5 p-2 px-0 pt-7 relative"
+            class="flex gap-2 text-gray-500 dark:text-gray-100 border-gray-200 dark:border-gray-800 -mt-5 border-l mx-5 p-2 px-0 pt-7 relative"
           >
             <div class="px-4 items-center relative">
               <span
-                class="w-2 h-2 rounded-full bg-zinc-200 absolute left-0 top-[50%] -translate-[50%]"
+                class="w-2 h-2 rounded-full bg-stone-200 dark:bg-gray-800 absolute left-0 top-[50%] -translate-[50%]"
               ></span>
 
               <span class="text-sm opacity-80"> Enviaremos um código para o email acima </span>
@@ -93,13 +93,13 @@
                   type="text"
                   placeholder="123456"
                   formControlName="code"
-                  class="block w-full px-4 py-2.5 text-gray-800 dark:text-zinc-100 bg-white dark:bg-zinc-900/50 border border-zinc-300 dark:border-zinc-700 rounded-lg placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                  class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900/50 border border-gray-300 dark:border-gray-700 rounded-lg placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
                 />
 
                 <button
                   type="button"
                   (click)="sendConfirmEmail()"
-                  class="py-1 opacity-80 hover:opacity-100 rounded-lg bg-indigo-100 text-indigo-500 dark:text-indigo-100 dark:bg-indigo-900-50 flex items-center px-3 gap-2 text-nowrap"
+                  class="py-1 opacity-80 hover:opacity-100 rounded-lg bg-indigo-100 dark:bg-indigo-500 text-indigo-500 dark:text-indigo-100 dark:bg-indigo-900-50 flex items-center px-3 gap-2 text-nowrap"
                 >
                   <span class="text-sm saira-font">Enviar código</span>
                   <i class="material-symbols-outlined !text-lg">forward_to_inbox</i>
@@ -113,14 +113,14 @@
         <div>
           <label
             for="data-criacao"
-            class="block text-sm font-medium text-gray-800 dark:text-zinc-300 mb-1.5"
+            class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-1.5"
           >
             Entrou em
           </label>
           <div
-            class="block w-full px-4 py-2.5 bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 rounded-lg text-gray-600 dark:text-zinc-400"
+            class="block w-full px-4 py-2.5 bg-stone-100 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60 rounded-lg text-gray-600 dark:text-gray-400"
           >
-            {{ summary?.createdAt | date : 'YYYY-MM-dd' }}
+            {{ summary?.createdAt | date : 'yyyy-MM-dd' }}
           </div>
         </div>
       </div>
@@ -128,21 +128,21 @@
   </div>
 
   <div
-    class="border rounded-xl mt-5 bg-white dark:bg-zinc-900/50 dark:border-zinc-800 border-zinc-200/80"
+    class="border rounded-xl mt-5 bg-white dark:bg-gray-900/50 dark:border-gray-800 border-gray-200/80"
   >
     <div class="p-6">
       <h3 class="text-lg font-semibold saira-font text-gray-500 dark:text-gray-100">
         Foto de Perfil
       </h3>
-      <p class="text-sm text-gray-500 dark:text-zinc-400">
+      <p class="text-sm text-gray-500 dark:text-gray-400">
         Esta será sua imagem de avatar na plataforma.
       </p>
     </div>
     <div
-      class="p-6 border-t dark:border-zinc-800 border-zinc-200/80 flex flex-row items-center gap-6"
+      class="p-6 border-t dark:border-gray-800 border-gray-200/80 flex flex-row items-center gap-6"
     >
       <label
-        class="group relative max-w-[5rem] overflow-hidden aspect-square w-full cursor-pointer flex flex-col items-center justify-center rounded-full border-2 border-dashed border-stone-300 bg-stone-100 hover:border-blue-500 hover:bg-blue-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-500 dark:hover:bg-stone-700/60 transition-all"
+        class="group relative max-w-[5rem] overflow-hidden aspect-square w-full cursor-pointer flex flex-col items-center justify-center rounded-full border-2 border-dashed border-stone-300 bg-stone-100 hover:border-blue-500 hover:bg-blue-50 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-500 dark:hover:bg-gray-700/60 transition-all"
       >
         <img
           *ngIf="imagemPreview"
@@ -161,7 +161,7 @@
       <div class="flex items-center gap-3">
         <button
           type="button"
-          class="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors duration-200"
+          class="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-stone-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-200"
         >
           Remover
         </button>

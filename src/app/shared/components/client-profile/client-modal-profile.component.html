@@ -1,0 +1,132 @@
+<div
+  class="flex flex-col mx-4 relative bg-white rounded-xl dark:bg-gray-900 overflow-hidden text-gray-800 dark:text-gray-200"
+>
+  <header class="flex justify-between px-4 pt-4 pb-2 items-center">
+    <h1 class="text-gray-500 dark:text-indigo-50 saira-font text-xl">Perfil</h1>
+
+    <button
+      type="button"
+      (click)="close()"
+      class="bg-white self-end dark:bg-gray-800 z-20 grid place-items-center rounded-full w-10 h-10 text-gray-500 dark:text-indigo-50"
+    >
+      <i class="material-icons-outlined">close</i>
+    </button>
+  </header>
+
+  <section class="flex flex-1 flex-col md:flex-row">
+    <aside class="w-full sm:w-[14rem] flex-shrink-0 p-4">
+      <nav class="flex flex-row sm:flex-col gap-2">
+        <button
+          type="button"
+          (click)="setView('profile')"
+          [ngClass]="{
+            'bg-stone-100 dark:bg-gray-800 text-indigo-900 dark:text-indigo-400':
+              activeView === 'profile',
+            'hover:bg-stone-100/50 dark:hover:bg-gray-800/50': activeView !== 'profile',
+          }"
+          class="flex items-center gap-3 w-full saira-font text-left p-2 rounded-md transition-colors text-sm font-semibold"
+        >
+          <i class="material-icons-outlined !text-xl">person_outline</i>
+          <span>Perfil</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="setView('statistics')"
+          [ngClass]="{
+            'bg-stone-100 dark:bg-gray-800 text-indigo-900 dark:text-indigo-400':
+              activeView === 'statistics',
+            'hover:bg-stone-100/50 dark:hover:bg-gray-800/50': activeView !== 'statistics',
+          }"
+          class="flex items-center gap-3 w-full text-left saira-font text-gray-600 p-2 rounded-md transition-colors text-sm font-semibold"
+        >
+          <i class="material-icons-outlined !text-xl">bar_chart</i>
+          <span>Estatísticas</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="flex-1 min-w-0 flex flex-col">
+      <div [ngSwitch]="activeView">
+        <div *ngSwitchCase="'profile'">
+          <div class="relative mb-10 p-3">
+            <div class="h-32 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-600"></div>
+            <div class="absolute -bottom-6 left-10">
+              <ng-container *ngIf="client.avatarUrl; else defaultAvatar">
+                <img
+                  [src]="client.avatarUrl"
+                  alt="Avatar de {{ client.fullName }}"
+                  class="w-28 h-28 rounded-full border-4 border-white dark:border-gray-900 object-cover bg-stone-200 dark:bg-gray-700"
+                />
+              </ng-container>
+              <ng-template #defaultAvatar>
+                <div
+                  class="w-20 h-20 rounded-full border-4 border-white dark:border-gray-900 bg-stone-200 dark:bg-gray-700 flex items-center justify-center"
+                >
+                  <i class="material-icons-outlined text-5xl text-gray-500">person</i>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <div class="px-5 pb-6 flex flex-col gap-5">
+            <div>
+              <h3
+                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+              >
+                Nome Completo
+              </h3>
+              <p class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ client.fullName }}
+              </p>
+            </div>
+            <div>
+              <h3
+                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+              >
+                Email
+              </h3>
+              <p class="text-base text-gray-700 dark:text-gray-300">{{ client.email }}</p>
+            </div>
+            <div *ngIf="client.phoneNumber">
+              <h3
+                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+              >
+                Telefone
+              </h3>
+              <p class="text-base text-gray-700 dark:text-gray-300">{{ client.phoneNumber }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'statistics'" class="p-6">
+          <header class="mb-6">
+            <h2 class="text-xl font-bold text-gray-600 dark:text-indigo-50">Resumo de Atividade</h2>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              Visão geral dos agendamentos de {{ client.fullName.split(' ')[0] }}.
+            </p>
+          </header>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              class="p-4 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800/50"
+            >
+              <div class="flex items-center gap-5">
+                <div
+                  class="flex items-center justify-center min-h-10 min-w-10 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400"
+                >
+                  <i class="material-icons-outlined">event_available</i>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Total de Agendamentos</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                    {{ summary!.countOfBookings || 0 }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+</div>

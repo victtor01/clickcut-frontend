@@ -6,14 +6,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '@app/core/services/api.service';
+import { ThemeService } from '@app/core/services/theme.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { LogoComponent } from '@app/shared/components/logo/logo.component';
 
 @Component({
   templateUrl: './login.component.html',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, LogoComponent],
 })
 export class LoginComponent {
   public loginForm: FormGroup;
@@ -22,7 +24,8 @@ export class LoginComponent {
     private readonly fb: FormBuilder,
     private readonly apiService: ApiService,
     private readonly toastService: ToastService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly _: ThemeService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -37,7 +40,8 @@ export class LoginComponent {
     }
 
     this.apiService.post('/auth', this.loginForm.value).subscribe({
-      next: (_) => {
+      next: (data) => {
+        console.log(data)
         this.toastService.success(`Login bem-sucedido`);
         this.router.navigate(['/select']);
       },

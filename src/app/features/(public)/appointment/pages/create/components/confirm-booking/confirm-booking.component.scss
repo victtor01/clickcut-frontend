@@ -1,0 +1,57 @@
+/* Em seu arquivo global de estilos (ex: styles.scss) ou no <style> do componente */
+
+/* Animações para as bolhas */
+@keyframes bubble-float-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(10px, -15px) scale(1.05);
+  }
+  50% {
+    transform: translate(-5px, 10px) scale(0.95);
+  }
+  75% {
+    transform: translate(15px, 5px) scale(1.02);
+  }
+}
+
+@keyframes bubble-float-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  30% {
+    transform: translate(-10px, 20px) scale(0.98);
+  }
+  60% {
+    transform: translate(10px, -10px) scale(1.03);
+  }
+  90% {
+    transform: translate(-5px, 15px) scale(0.99);
+  }
+}
+
+@keyframes bubble-float-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(5px, -10px) scale(1.07);
+  }
+  80% {
+    transform: translate(-10px, 5px) scale(0.96);
+  }
+}
+
+/* Aplicando as animações */
+.animate-bubble-1 {
+  animation: bubble-float-1 15s ease-in-out infinite alternate;
+}
+
+.animate-bubble-2 {
+  animation: bubble-float-2 18s ease-in-out infinite alternate-reverse;
+}
+
+.animate-bubble-3 {
+  animation: bubble-float-3 12s ease-in-out infinite alternate;
+}

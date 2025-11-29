@@ -1,0 +1,88 @@
+<div
+  class="flex flex-col justify-between rounded-2xl m-4 mt-0 border min-h-[10rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/80 dark:bg-black/20 border-stone-200/50 dark:border-white/10"
+>
+  <header class="justify-between flex items-center gap-2 mb-4">
+    <span class="relative font-medium text-gray-700 dark:text-gray-300">Meu Status</span>
+
+    @if (status() === 'OPEN' || status() === 'CLOSED') {
+      <button
+        [routerLink]="['/configure/business/times']"
+        aria-label="Editar horários"
+        class="py-px px-3 flex items-center gap-4 border border-gray-100 dark:border-gray-600/70 rounded-full text-gray-500 hover:bg-stone-100/50 dark:text-gray-400 dark:hover:bg-white/10 transition-colors"
+      >
+        <span>Configurar</span>
+        <i class="material-icons-outlined !text-lg">edit</i>
+      </button>
+    }
+  </header>
+
+  <main class="flex flex-col justify-center flex-1 min-h-[6rem]">
+    @switch (status()) {
+      @case ('LOADING') {
+        <!-- Estado de Carregamento -->
+        <div class="flex items-center justify-center h-full">
+          <i
+            class="material-symbols-outlined animate-spin text-3xl text-gray-500 dark:text-gray-400"
+            >progress_activity</i
+          >
+        </div>
+      }
+
+      @case ('OPEN') {
+        <!-- Estado ABERTO -->
+        <div class="flex flex-col text-left animate-fade-in">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="relative flex h-3 w-3">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+              ></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+            <span class="text-2xl font-bold text-green-600 dark:text-green-400">Aberto Agora</span>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            {{ statusMessage() }}
+          </p>
+        </div>
+      }
+
+      @case ('CLOSED') {
+        <!-- Estado FECHADO -->
+        <div class="flex flex-col text-left animate-fade-in">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="relative flex h-3 w-3">
+              <span
+                class="relative inline-flex rounded-full h-3 w-3 bg-stone-400 dark:bg-gray-600"
+              ></span>
+            </span>
+            <span class="text-2xl font-bold text-gray-600 dark:text-gray-300">Fechado</span>
+          </div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ statusMessage() }}
+          </p>
+        </div>
+      }
+
+      @case ('NO_SCHEDULE') {
+        <div class="flex flex-col items-center justify-center text-center animate-fade-in">
+          <i class="material-symbols-outlined !text-4xl text-gray-400 dark:text-gray-500"
+            >release_alert</i
+          >
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-300">
+            Nenhum horário definido.
+          </p>
+
+          <button
+            [routerLink]="['/configure/business/times']"
+            class="mt-4 group rounded-full flex items-center px-4 overflow-hidden py-2 relative text-sm font-semibold text-white transition-all ease-in-out bg-gradient-to-br from-indigo-500 via-indigo-500 to-violet-600 bg-[length:200%_200%] bg-left-top hover:bg-right-bottom"
+          >
+            <span class="group-hover:mr-5 transition-all">
+              Configurar Agenda
+            </span>
+            <ng-icon name="hugeTimeSetting03" size="20" class="absolute right-2 translate-x-[200%] group-hover:translate-x-0 transition-all"></ng-icon>
+          </button>
+        </div>
+      }
+    }
+  </main>
+</div>

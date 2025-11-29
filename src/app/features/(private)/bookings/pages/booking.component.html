@@ -1,115 +1,183 @@
-<current-week [dateWithCount]="countOfDates" [currentDate]="currentDate"></current-week>
-
-<section class="p-4 font-sans flex-1 w-full flex-col max-w-[80rem] mx-auto">
-  <header class="flex items-center justify-between">
-    <button
-      (click)="previousDay()"
-      class="p-2 w-10 h-10 rounded-full bg-gray-200/30 border-l backdrop-blur-sm border-white/40 dark:border-zinc-800 text-gray-500 hover:bg-gray-200 dark:bg-zinc-900 dark:text-white transition-colors"
-      aria-label="Dia anterior"
-    >
-      <span class="material-icons-outlined">chevron_left</span>
-    </button>
-
-    <h2 class="text-xl font-bold text-center text-gray-800 dark:text-gray-100 capitalize">
-      {{ formattedDate }}
-    </h2>
-
-    <button
-      (click)="nextDay()"
-      class="p-2 w-10 h-10 rounded-full bg-gray-200/30 border-l backdrop-blur-sm border-white/40 dark:border-zinc-800 text-gray-500 hover:bg-gray-200 dark:bg-zinc-900 dark:text-white transition-colors"
-      aria-label="Próximo dia"
-    >
-      <span class="material-icons-outlined">chevron_right</span>
-    </button>
-  </header>
-
-  <section class="flex flex-row items-center justify-between mt-6">
-    <div class="flex gap-2 items-center">
+<section
+  class="p-4 bg-transparent bg-gradient-to-b from-stone-50 dark:from-gray-950 to-transparent dark:to-transparent overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
+>
+  <header
+    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/40 flex-shrink-0 z-20 h-16 overflow-hidden"
+  >
+    <div class="flex items-center gap-3 z-30 relative shrink-0">
       <a
         [routerLink]="['/bookings/create']"
         [queryParams]="{ currentDate: currentDate.format('YYYY-MM-DD') }"
-        class="bg-indigo-500 text-indigo-50 items-center flex gap-4 active:bg-indigo-600 focus:ring-offset-2 dark:ring-offset-slate-900 rounded-full transition-all active:scale-110 ease-in-out active:ring-2 dark:active:ring-indigo-700 p-2 px-4"
+        class="bg-indigo-600 text-white flex items-center justify-center gap-2 rounded-full w-10 h-10 md:w-auto md:h-auto p-0 md:p-2 md:px-4 shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700 active:scale-95"
       >
-        <i class="material-icons-outlined">add</i>
-        <span class="saira-font">Agendamento</span>
+        <i class="material-icons-outlined !text-xl">add</i>
+        <span class="font-medium hidden md:inline">Agendamento</span>
       </a>
     </div>
 
-    <button
-      type="button"
-      (click)="navigateToNow()"
-      [attr.data-now]="isNow()"
-      class="p-2 px-4 rounded-full bg-stone-100 dark:bg-zinc-900 active:bg-stone-300 dark:active:bg-zinc-800 data-[now=false]:bg-indigo-500 data-[now=false]:text-white dark:text-white text-gray-500"
-    >
-      <span class="saira-font">Hoje</span>
-    </button>
-  </section>
+    <div class="inset-0 flex items-center justify-center z-10 pointer-events-none">
+      <div class="flex items-center justify-center pointer-events-auto">
+        <button
+          type="button"
+          (click)="navigateToNow()"
+          [attr.data-now]="isNow()"
+          class="hidden md:block rounded-md p-2 px-3 font-medium text-sm transition-colors border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-slate-200 dark:hover:bg-gray-700 data-[now=false]:bg-indigo-600 data-[now=false]:text-white data-[now=false]:border-indigo-600 data-[now=false]:hover:bg-indigo-700 mr-2"
+        >
+          <span>Hoje</span>
+        </button>
+
+        <div
+          class="flex items-center gap-1 p-1 rounded-md bg-gray-100 dark:bg-gray-800 shadow-sm md:shadow-none"
+        >
+          <button
+            (click)="previousDay()"
+            class="p-1 rounded-md dark:hover:bg-gray-700 grid place-items-center text-gray-600 hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
+            aria-label="Anterior"
+          >
+            <span class="material-icons-outlined !text-lg md:!text-2xl">chevron_left</span>
+          </button>
+
+          <h2
+            class="text-sm md:text-base font-semibold text-center text-gray-800 dark:text-gray-100 capitalize min-w-[80px] max-w-[100px] md:max-w-none md:min-w-[150px] px-1 truncate"
+          >
+            {{ formattedDate }}
+          </h2>
+
+          <button
+            (click)="nextDay()"
+            class="p-1 rounded-md dark:hover:bg-gray-700 text-gray-600 grid place-items-center hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
+            aria-label="Próximo"
+          >
+            <span class="material-icons-outlined !text-lg md:!text-2xl">chevron_right</span>
+          </button>
+        </div>
+
+        <div
+          class="p-1 bg-gray-100 lg:flex hidden dark:bg-gray-800 rounded-md items-center gap-1 ml-2"
+        >
+          <button
+            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 transition-all"
+          >
+            Dia
+          </button>
+          <button
+            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 transition-all"
+          >
+            Semana
+          </button>
+          <button
+            class="px-3 py-1 text-sm font-medium rounded bg-white dark:bg-gray-700 text-indigo-600 dark:text-white shadow-sm transition-all"
+          >
+            Mês
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end gap-2 md:gap-3 z-30 relative shrink-0">
+      <button
+        class="p-2 w-9 h-9 rounded-md dark:hover:bg-gray-700 text-gray-600 hover:bg-gray-100 dark:text-gray-300 transition-colors"
+        aria-label="Pesquisar"
+      >
+        <span class="material-icons-outlined">search</span>
+      </button>
+      <div
+        class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-indigo-500/20 shrink-0"
+      >
+        U
+      </div>
+    </div>
+  </header>
+
+  <current-week
+    (onClick)="onSelectDate($event)"
+    [dateWithCount]="countOfDates"
+    [currentDate]="currentDate"
+  ></current-week>
 
   <section class="font-sans mt-5">
-    <div class="h-auto rounded-lg overflow-y-auto">
+    <div #scheduleContainer class="h-auto rounded-lg overflow-hidden">
       <div
         class="grid grid-cols-[4rem_1fr] grid-rows-[repeat(1440,1px)] pt-5 min-h-full relative"
         [ngStyle]="timelineGridStyle"
       >
         @for (hour of [].constructor(24); let i = $index; track $index) {
-        <div
-          class="col-start-1 col-end-3 row-start-1 flex items-center pr-2 z-0 pointer-events-none"
-          [style.grid-row]="i * 60 + 1"
-        >
-          <span class="text-xs text-gray-400 dark:text-gray-500 w-10 text-right pr-2"
-            >{{ i }}:00</span
+          <div
+            class="col-start-1 col-end-3 row-start-1 flex items-center pr-2 z-0 pointer-events-none"
+            [style.grid-row]="i * 60 + 1"
           >
-          <div class="flex-grow h-px bg-gray-200 dark:bg-zinc-700"></div>
-        </div>
-        } @for (booking of bookingsForCurrentDay; track booking.id) {
-        <button
-          type="button"
-          class="booking-item mr-2 -ml-6 items-start my-[1px] bg-indigo-100 p-2 dark:bg-indigo-900/60 border-l-4 border-indigo-500 rounded-r-lg flex z-10 cursor-pointer data-[late=true]:bg-rose-500/10 data-[late=true]:border-rose-500 data-[paid=true]:bg-indigo-100 dark:data-[paid=true]:bg-blue-900/60 data-[paid=false]:shadow-md data-[paid=false]:shadow-zinc-500/20 dark:data-[paid=false]:dark:shadow-black data-[paid=true]:dark:opacity-60"
-          (click)="openModalForHour(booking.startAt)"
-          [attr.data-late]="isLate(booking)"
-          [attr.data-paid]="booking.status == 'PAID'"
-          [ngStyle]="getBookingGridStyle(booking)"
-        >
-          <div class="flex flex-col items-start">
-            <span
-              class="font-semibold text-sm text-indigo-800 dark:text-indigo-200 truncate pointer-events-none"
+            <span class="text-xs text-gray-400 dark:text-gray-500 w-10 text-right pr-2"
+              >{{ i }}:00</span
             >
-              {{ booking.title }}
-            </span>
-            <span
-              [attr.data-late]="isLate(booking)"
-              class="text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none data-[late=true]:text-red-600"
-            >
-              {{ dayjs(booking.startAt).format('HH:mm') }} -
-              {{ dayjs(booking.endAt).format('HH:mm') }}
-            </span>
+            <div class="flex-grow h-px bg-stone-200 dark:bg-gray-700"></div>
           </div>
+        }
 
-          <div class="flex justify-end items-end flex-1" *ngIf="booking.status === 'PAID'">
-            <div class="w-10 h-10 rounded-full grid place-items-center">
-              <i class="material-icons-outlined !text-2xl dark:text-blue-500">paid</i>
+        @for (booking of bookingsForCurrentDay; track booking.id) {
+          <div
+            [attr.data-status]="booking.status"
+            class="booking-item mr-2 -ml-6 items-start relative my-[1px] bg-violet-600 text-white p-1 dark:bg-indigo-600 rounded-sm flex z-10 cursor-pointer overflow-hidden data-[status=PAID]:bg-indigo-100 data-[status=PAID]:text-gray-600 dark:data-[status=PAID]:bg-gray-900 data-[status=COMPLETED]:bg-violet-600 data-[status=COMPLETED]:text-white"
+            [ngStyle]="getBookingGridStyle(booking)"
+            [title]="
+              booking.title +
+              ' (' +
+              day(booking.startAt).format('HH:mm') +
+              ' - ' +
+              day(booking.endAt).format('HH:mm') +
+              ')'
+            "
+          >
+            @if (booking.status === 'COMPLETED') {
+              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-white text-center flex saira-font animate-pulse text-xs bg-violet-400/50 px-3 rounded-full">
+                Pagamento
+              </div>
+            }
+
+             @if (booking.status === 'PAID') {
+              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-600 dark:text-gray-300 text-center flex saira-font text-xs bg-violet-500/10 dark:bg-gray-800 px-3 rounded-full">
+                PAGO
+              </div>
+            }
+
+            <div class="flex flex-col text-[12px] leading-tight pointer-events-none">
+              <span class="font-semibold truncate">{{ booking.title }}</span>
+              <span>{{ day(booking.startAt).format('HH:mm') }}</span>
             </div>
           </div>
-        </button>
-        } @if (isToday) {
-        <div
-          #timeIndicator
-          class="col-start-1 col-end-3 row-start-1 flex items-center z-30 pointer-events-none"
-          [ngStyle]="currentTimeIndicatorStyle"
-        >
-          <div class="w-10 text-blue-500 flex justify-end">
-            <span class="material-icons-outlined text-base">chevron_right</span>
-          </div>
-          <div class="flex-grow h-0.5 bg-blue-500"></div>
-        </div>
-        } @if (isLoading) {
-        <div
-          class="col-start-1 col-end-3 row-start-1 row-end-[-1] flex items-center justify-center z-20 pointer-events-none"
-        >
+        }
+
+        @for (hour of [].constructor(24); let i = $index; track $index) {
           <div
-            class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"
-          ></div>
-        </div>
+            (click)="openModalForHour(hourToDay(i))"
+            class="col-start-2 -ml-6 mr-2 z-20 group cursor-pointer relative overflow-visible"
+            [style.grid-row]="i * 60 + 1 + ' / span 60'"
+          >
+            <div
+              class="w-full h-[140px] -translate-y-1/2 absolute left-0 top-1/2 rounded-lg border scale-80 group-hover:scale-[101%] transition-all border-zinc-300 pointer-events-none bg-white dark:bg-gray-700 dark:border-zinc-400 z-40 opacity-0 group-hover:opacity-40"
+            ></div>
+          </div>
+        }
+
+        @if (isToday) {
+          <div
+            #timeIndicator
+            class="col-start-1 col-end-3 row-start-1 flex items-center z-30 pointer-events-none"
+            [ngStyle]="currentTimeIndicatorStyle"
+          >
+            <div class="w-10 text-blue-500 flex justify-end">
+              <span class="material-icons-outlined text-base">chevron_right</span>
+            </div>
+            <div class="flex-grow h-0.5 bg-blue-500"></div>
+          </div>
+        }
+        @if (isLoading) {
+          <div
+            class="col-start-1 col-end-3 row-start-1 row-end-[-1] flex items-center justify-center z-20 pointer-events-none"
+          >
+            <div
+              class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"
+            ></div>
+          </div>
         }
       </div>
     </div>

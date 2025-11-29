@@ -1,11 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { HomeEnterComponent } from '../components/enter-component/home-enter.component';
 import { HomeBookingsComponent } from '../components/home-bookings/home-bookings.component';
 import { HomeDashboardComponent } from '../components/home-dashboard/home-dashboard.component';
-import { HomeLastActionsComponent } from "../components/last-actions/home-last-actions.component";
+import { PendingPaymentsComponent } from '../components/pending-payments/pending-payments.component';
+import { SetupStateComponent } from '../components/setup-state/setup-state.component';
+import { WorkingHoursComponent } from '../components/working-hours/working-hours.component';
 
 @Component({
   templateUrl: 'home-page.component.html',
-  imports: [HomeDashboardComponent, HomeLastActionsComponent, HomeLastActionsComponent, HomeEnterComponent, HomeBookingsComponent],
+  imports: [
+    HomeDashboardComponent,
+    HomeEnterComponent,
+    HomeBookingsComponent,
+    PendingPaymentsComponent,
+    WorkingHoursComponent,
+    SetupStateComponent,
+],
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+  public isPromoCardExpanded = signal(false);
+
+  public togglePromoCard(): void {
+    this.isPromoCardExpanded.update((v) => !v);
+  }
+}

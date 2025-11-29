@@ -1,14 +1,22 @@
+import { BookingService } from './BookingService';
+import { Business } from './Business';
 import { Client } from './Client';
-import { Service } from './Service';
+import { User } from './User';
 
 export interface Booking {
+  finalPrice: number;
   id: string;
   title: string;
   startAt: Date;
   endAt: Date;
-  services?: Service[]
+  services?: BookingService[];
+  business?: Business;
+  businessId: string;
+  assignedToId: string;
   client?: Client;
+  commissionAmount: number;
   status: BookingStatus;
+  assignedTo?: User;
 }
 
 export type BookingStatus =
@@ -19,4 +27,7 @@ export type BookingStatus =
   | 'COMPLETED'
   | 'PAID'
   | 'CANCELLED'
-  | 'NO_SHOW';
+  | 'NO_SHOW'
+  | 'CANCELLED_BY_CLIENT'
+  | 'CANCELLED_BY_MANAGER'
+  | 'CANCELLED_LATE_BY_CLIENT';

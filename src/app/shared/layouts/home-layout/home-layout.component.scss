@@ -1,0 +1,59 @@
+  @property --c-center {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: transparent;
+  }
+
+  @property --c-mid {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: transparent;
+  }
+
+  .aura-animada {
+    --c-center: rgba(168, 85, 247, 0);
+    --c-mid: rgba(168, 85, 247, 0);
+
+    background: radial-gradient(circle, var(--c-center) 0%, var(--c-mid) 50%, transparent 70%);
+
+    filter: blur(50px);
+    mix-blend-mode: screen;
+    opacity: 0.5;
+
+    animation:
+      auraColors 100s ease-in-out infinite,
+      auraFloat 140s ease-in-out infinite alternate;
+
+    will-change: transform, background;
+  }
+
+  @keyframes auraColors {
+    0% {
+      --c-center: rgba(168, 85, 247, 0);
+      --c-mid: rgba(168, 85, 247, 0);
+    }
+    20% {
+      --c-center: rgba(168, 85, 247, 0.6);
+      --c-mid: rgba(168, 85, 247, 0.2);
+    }
+    50% {
+      --c-center: rgba(56, 189, 248, 0.5);
+      --c-mid: rgba(125, 211, 252, 0.3);
+    }
+    80% {
+      --c-center: rgba(168, 85, 247, 0.5);
+      --c-mid: rgba(168, 85, 247, 0.1);
+    }
+    100% {
+      --c-center: rgba(168, 85, 247, 0);
+      --c-mid: rgba(168, 85, 247, 0);
+    }
+  }
+  @keyframes auraFloat {
+    0% {
+      transform: translateY(0) scale(0.9);
+    }
+    100% {
+      transform: translateY(-10%) scale(1.1);
+    }
+  }
