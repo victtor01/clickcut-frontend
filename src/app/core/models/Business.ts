@@ -28,7 +28,6 @@ export interface TimeSlot {
   endTime: string;
 }
 
-
 export interface BusinessAddress {
   street: string;
   number: string;

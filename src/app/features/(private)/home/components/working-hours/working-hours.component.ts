@@ -3,6 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router'; // Para o botão de "Configurar"
 import { TimeSlot } from '@app/core/models/Business';
 import { BusinessService } from '@app/core/services/business.service';
+import { TimeSlotSummaryPipe } from '@app/shared/pipes/time-slot-summary-pipe/time-slot-summary.pipe';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { hugeTimeSetting03 } from '@ng-icons/huge-icons';
 import dayjs from 'dayjs';
@@ -17,13 +18,13 @@ type Status = 'LOADING' | 'OPEN' | 'CLOSED' | 'NO_SCHEDULE';
   selector: 'app-working-hours',
   templateUrl: './working-hours.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgIconComponent],
+  imports: [CommonModule, RouterModule, NgIconComponent, TimeSlotSummaryPipe],
   providers: [provideIcons({ hugeTimeSetting03 })],
 })
 export class WorkingHoursComponent implements OnInit {
   public status = signal<Status>('LOADING');
   public statusMessage = signal<string>('');
-  private allSlots: TimeSlot[] = [];
+  public allSlots: TimeSlot[] = [];
 
   private readonly businessService = inject(BusinessService);
 

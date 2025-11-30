@@ -76,13 +76,36 @@
             [routerLink]="['/configure/business/times']"
             class="mt-4 group rounded-full flex items-center px-4 overflow-hidden py-2 relative text-sm font-semibold text-white transition-all ease-in-out bg-gradient-to-br from-indigo-500 via-indigo-500 to-violet-600 bg-[length:200%_200%] bg-left-top hover:bg-right-bottom"
           >
-            <span class="group-hover:mr-5 transition-all">
-              Configurar Agenda
-            </span>
-            <ng-icon name="hugeTimeSetting03" size="20" class="absolute right-2 translate-x-[200%] group-hover:translate-x-0 transition-all"></ng-icon>
+            <span class="group-hover:mr-5 transition-all"> Configurar Agenda </span>
+            <ng-icon
+              name="hugeTimeSetting03"
+              size="20"
+              class="absolute right-2 translate-x-[200%] group-hover:translate-x-0 transition-all"
+            ></ng-icon>
           </button>
         </div>
       }
+    }
+
+    @if (status() !== 'NO_SCHEDULE') {
+      <div class="flex mt-3 flex-wrap gap-x-1 text-sm">
+        @for (group of this.allSlots | timeSlotSummary; track $index) {
+          <div class="flex gap-1">
+            <span class="font-semibold text-zinc-800 dark:text-zinc-200">
+              {{ group.daysLabel }}:
+            </span>
+            <div>
+              @for (shift of group.shifts; track $index) {
+                {{ shift }}
+              }
+            </div>
+          </div>
+          
+          @if (!$last) {
+          <div class="border-b border-zinc-100 dark:border-zinc-800"></div>
+        }
+      }
+    </div>
     }
   </main>
 </div>

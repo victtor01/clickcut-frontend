@@ -36,7 +36,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   public cardFlipped = signal(false);
   
   public cardName = signal(''); 
-  public cardNumber = signal(''); // Usado no template para mostrar o número real
+  public cardNumber = signal('');
   public cardMonth = signal('');
   public cardYear = signal('');
   public cardCvv = signal('');
