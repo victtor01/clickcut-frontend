@@ -1,0 +1,241 @@
+<div
+(click)="$event.stopPropagation()"
+class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden bg-white shadow-2xl dark:bg-gray-950 animate-scale-in flex flex-col md:flex-row"
+>
+	<div class="flex-1 bg-white dark:bg-gray-950 flex flex-col justify-center">
+		<h3 class="mb-6 text-xl font-bold text-zinc-800 dark:text-white">Dados do cartão</h3>
+		<form id="form-checkout" class="space-y-5">
+			<div class="group">
+				<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400">
+					Nome do Titular
+				</label>
+				<input
+					id="form-checkout-cardholderName"
+					name="cardholderName"
+					type="text"
+					placeholder="Como impresso no cartão"
+					(input)="onInputName($event)"
+					(focus)="focusFront()"
+					class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
+				/>
+			</div>
+
+			<!-- Número -->
+			<div class="group">
+				<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400"
+					>Número do Cartão</label
+				>
+				<input
+					id="form-checkout-cardNumber"
+					type="text"
+					placeholder="0000 0000 0000 0000"
+					(input)="onInputNumber($event)"
+					(focus)="focusFront()"
+					class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors font-mono"
+				/>
+			</div>
+
+			<!-- Grid: Validade e CVV -->
+			<div class="grid grid-cols-3 gap-4">
+				<!-- Mês -->
+				<div class="col-span-1">
+					<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400"
+						>Mês</label
+					>
+					<input
+						id="form-checkout-cardExpirationMonth"
+						type="text"
+						placeholder="MM"
+						maxlength="2"
+						(input)="onInputMonth($event)"
+						(focus)="focusFront()"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+					/>
+				</div>
+				<!-- Ano -->
+				<div class="col-span-1">
+					<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400"
+						>Ano</label
+					>
+					<input
+						id="form-checkout-cardExpirationYear"
+						type="text"
+						placeholder="AA"
+						maxlength="2"
+						(input)="onInputYear($event)"
+						(focus)="focusFront()"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+					/>
+				</div>
+				<!-- CVV -->
+				<div class="col-span-1">
+					<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400"
+						>CVV</label
+					>
+					<input
+						id="form-checkout-securityCode"
+						type="text"
+						placeholder="123"
+						maxlength="4"
+						(input)="onInputCvv($event)"
+						(focus)="focusBack()"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+					/>
+				</div>
+			</div>
+
+			<!-- Documento -->
+			<div class="flex gap-3">
+				<div class="w-1/3">
+					<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400"
+						>Tipo</label
+					>
+					<select
+						id="form-checkout-identificationType"
+						name="identificationType"
+						(focus)="focusFront()"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-2 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white transition-colors"
+					></select>
+				</div>
+				<div class="w-2/3">
+					<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400"
+						>Documento</label
+					>
+					<input
+						id="form-checkout-identificationNumber"
+						name="identificationNumber"
+						type="text"
+						placeholder="CPF / CNPJ"
+						(focus)="focusFront()"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
+					/>
+				</div>
+			</div>
+
+			<!-- Ocultos -->
+			<div class="hidden">
+				<select id="form-checkout-issuer" name="issuer"></select>
+				<select id="form-checkout-installments" name="installments"></select>
+			</div>
+
+			<!-- Botão Submit -->
+			<button
+				type="submit"
+				[disabled]="isSubmitting()"
+				class="mt-6 w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-600/40 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+			>
+				@if (isSubmitting()) {
+					<i class="material-symbols-outlined animate-spin !text-lg">progress_activity</i>
+					<span>Processando...</span>
+				} @else {
+					<span>Adicionar cartão</span>
+				}
+			</button>
+		</form>
+	</div>
+
+  <div
+    class="relative flex flex-col z-20 mt-18 text-white flex-1 px-5"
+  >
+    <div class="perspective-1000 relative z-10 h-48">
+      <div
+        class="relative h-full transition-transform duration-700 transform-style-3d"
+        [class.rotate-y-180]="cardFlipped()"
+      >
+        <div
+          class="absolute inset-0 h-full rounded-lg p-6 shadow-xl backdrop-blur-md border border-white/20 backface-hidden flex flex-col justify-between transition-colors duration-500"
+          [ngClass]="{
+            'bg-indigo-600': !cardBrand(),
+            'bg-blue-700': cardBrand() === 'visa',
+            'bg-orange-600': cardBrand() === 'Mastercard',
+            'bg-emerald-600': cardBrand() === 'amex',
+            'bg-gray-800': ['elo', 'hipercard'].includes(cardBrand() || ''),
+          }"
+        >
+          <div class="absolute inset-0 rounded-2xl"></div>
+
+          <div class="relative z-10 flex items-center justify-between">
+            <div
+              class="h-8 w-12 rounded-md bg-gradient-to-r from-yellow-200 to-yellow-400 shadow-sm border border-yellow-500/30 flex items-center justify-center"
+            >
+              <div class="h-4 w-6 border border-yellow-600/20 rounded-sm"></div>
+            </div>
+
+            @if (cardBrand()) {
+              <span class="text-lg font-bold uppercase tracking-wider drop-shadow-md">{{
+                cardBrand()
+              }}</span>
+            } @else {
+              <mat-icon class="text-white/80">contactless</mat-icon>
+            }
+          </div>
+
+          <!-- NÚMERO REAL -->
+          <div
+            class="relative z-10 flex gap-3 font-mono text-xl tracking-widest text-white text-shadow-sm mt-2 h-auto"
+          >
+            @if (cardNumber()) {
+              {{ cardNumber() }}
+            } @else {
+              <span>••••</span><span>••••</span><span>••••</span><span>••••</span>
+            }
+          </div>
+
+          <div
+            class="relative z-10 flex justify-between text-xs uppercase tracking-wider text-white/80"
+          >
+            <div class="flex flex-col max-w-[70%]">
+              <span class="mb-1 text-[9px] opacity-70">Titular</span>
+              <span class="font-semibold text-white truncate text-sm">
+                {{ cardName() || 'NOME DO TITULAR' }}
+              </span>
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="mb-1 text-[9px] opacity-70">Validade</span>
+              <span class="font-semibold text-white">
+                {{ cardMonth() || 'MM' }}/{{ cardYear() || 'AA' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- VERSO -->
+        <div
+          class="absolute inset-0 h-full z-20 rounded-lg shadow-xl backdrop-blur-md border border-white/20 backface-hidden rotate-y-180 flex flex-col justify-center overflow-hidden"
+          [ngClass]="{
+            'bg-indigo-600': !cardBrand(),
+            'bg-blue-700': cardBrand() === 'visa',
+            'bg-orange-600': cardBrand() === 'Mastercard',
+            'bg-emerald-600': cardBrand() === 'amex',
+            'bg-gray-800': ['elo', 'hipercard'].includes(cardBrand() || ''),
+          }"
+        >
+          <div class="absolute inset-0 bg-white/10 rounded-2xl"></div>
+          <div class="absolute top-6 left-0 h-10 w-full bg-black/80"></div>
+
+          <div class="relative z-10 mt-8 px-6">
+            <div class="flex flex-col items-end gap-1">
+              <span class="text-[9px] uppercase tracking-widest text-white mr-2">CVV</span>
+              <div
+                class="h-8 w-full rounded bg-white flex items-center justify-end px-2 text-gray-800 font-mono text-sm"
+              >
+                {{ cardCvv() || '***' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute bottom-4 right-6 flex items-center gap-2 opacity-60 text-white">
+            <mat-icon class="!text-lg">security</mat-icon>
+            <span class="text-[10px] uppercase">Secure</span>
+          </div>
+        </div>
+      </div>
+			<div class="relative z-10 flex items-center gap-2 text-xs text-indigo-200/80 mt-4">
+				<mat-icon class="!text-base">lock</mat-icon>
+				<span>Pagamento seguro via Mercado Pago</span>
+			</div>
+    </div>
+
+  </div>
+
+</div>

@@ -115,8 +115,6 @@ export class PlanComponent implements OnInit, OnDestroy {
 
     console.log('Inicializando CardForm com iframe: false');
 
-    // No modo iframe: false, o estilo é controlado pelo CSS/Tailwind do seu HTML,
-    // mas o MP ainda aceita um objeto style vazio ou básico.
     const mpStyle = {
       base: { color: '#333' }, 
     };

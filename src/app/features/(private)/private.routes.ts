@@ -15,6 +15,7 @@ import { ConnectionsComponent } from './configure/pages/connections/connections.
 import { AcceptInviteComponent } from './configure/pages/invites/accept/accept-invite.component';
 import { InvitesComponent } from './configure/pages/invites/invites.component';
 import { ConfigureMembersComponent } from './configure/pages/members/members.component';
+import { CreatePaymentMethodComponent } from './configure/pages/paymethod/pages/create-payment-method/create-payment-method.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { SecurityComponent } from './configure/pages/security/security.component';
 import { HomePageComponent } from './home/pages/home-page.component';
@@ -85,6 +86,12 @@ export const PRIVATE_ROUTES: Routes = [
             data: { animation: 'ConfigurePage' },
             children: [
               { path: '', pathMatch: 'full', component: ConnectionsComponent },
+              {
+                path: 'pay-methods',
+                children: [
+                  { path: 'create', component: CreatePaymentMethodComponent },
+                ],
+              },
               { path: 'business', component: ConfigureBusinessComponent },
               { path: 'business/links', component: BusinessLinksComponent },
               { path: 'business/times', component: BusinessTimesComponent },

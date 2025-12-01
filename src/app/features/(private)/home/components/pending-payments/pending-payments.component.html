@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col rounded-2xl border min-h-[10rem] flex-1 mx-3 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-gray-900/50 border-stone-200/50 dark:border-white/5"
+  class="flex flex-col rounded-2xl border min-h-[10rem] flex-1 mx-3 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/30 dark:bg-gray-900/40 border-stone-200/50 dark:border-white/5"
 >
   <header
     class="justify-between p-5 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2"
@@ -32,7 +32,7 @@
         <ul class="divide-y divide-white/10 dark:divide-white/5 overflow-auto flex-1 max-h-[15rem]">
           @for (booking of pendingBookings(); track booking.id) {
             <li
-              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-6"
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4"
             >
               <div class="flex items-center gap-3 min-w-0 flex-1">
                 @if (!!getPhotoOfBooking(booking)) {
