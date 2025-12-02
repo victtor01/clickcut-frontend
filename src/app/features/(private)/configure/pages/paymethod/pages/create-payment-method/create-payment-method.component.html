@@ -1,9 +1,14 @@
 <div
 (click)="$event.stopPropagation()"
-class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden bg-white shadow-2xl dark:bg-gray-950 animate-scale-in flex flex-col md:flex-row"
+class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in flex flex-col md:flex-row"
 >
 	<div class="flex-1 bg-white dark:bg-gray-950 flex flex-col justify-center">
-		<h3 class="mb-6 text-xl font-bold text-zinc-800 dark:text-white">Dados do cartão</h3>
+		<header class="flex gap-2 items-center mb-5">
+			<a [routerLink]="['/configure/pay-methods']" class="group">
+				<i class="material-symbols-outlined text-gray-500 dark:text-white !text-2xl group-hover:-translate-x-1 transition-transform">arrow_left_alt</i>
+			</a>
+			<h3 class="text-xl font-bold text-zinc-800 dark:text-white">Dados do cartão</h3>
+		</header>
 		<form id="form-checkout" class="space-y-5">
 			<div class="group">
 				<label class="mb-1 block text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400">

@@ -1,10 +1,10 @@
 export interface PaymentMethod {
-	id: string; // Guid
+	readonly id: string;
 	lastFourDigits: string;
-	brand: string; // visa, master
+	brand: string;
 	holderName: string;
 	expirationMonth: number;
 	expirationYear: number;
-	userId?: string | null; // Guid
-	clientAccountId?: string | null; // Guid
+	userId?: string | null;
+	clientAccountId?: string | null; 
 }

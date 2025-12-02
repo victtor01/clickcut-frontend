@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { objectToFormData } from '@app/shared/utils/object-to-form';
 import { Observable } from 'rxjs';
+import { Subscription } from '../models/Subscription';
 import { User } from '../models/User';
 import { CreateManagerAccountDTO } from '../schemas/create-manager-account.dto';
 import { UpdateUserDTO } from '../schemas/update-user.dto';
@@ -16,6 +17,10 @@ export class UsersService {
 
   public sendEmailToChangeEmail(email: string) {
     return this.apiService.post('/users/change-email/code', { email });
+  }
+
+  public getSubscription(): Observable<Subscription> {
+    return this.apiService.get('/users/subscription');
   }
 
   public update(data: UpdateUserDTO): Observable<User> {

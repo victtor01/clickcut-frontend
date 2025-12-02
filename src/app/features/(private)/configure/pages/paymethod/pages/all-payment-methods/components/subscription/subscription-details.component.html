@@ -1,0 +1,141 @@
+<header class="mb-8 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+  <div>
+    <h1 class="text-2xl font-bold text-zinc-900 dark:text-white saira-font">Assinatura</h1>
+    <p class="text-sm text-zinc-500 dark:text-zinc-400">
+      Gerencie seu plano e detalhes de faturamento.
+    </p>
+  </div>
+
+  <a
+    routerLink="/plans"
+    class="group flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-5 py-2 text-sm font-medium text-zinc-700 transition-all hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-800 dark:text-zinc-300 dark:hover:bg-gray-700 dark:hover:text-white"
+  >
+    <mat-icon class="!text-lg group-hover:scale-110 transition-transform"
+      >diamond</mat-icon
+    >
+    <span>Ver Planos</span>
+  </a>
+</header>
+
+@if (isLoading()) {
+  <div class="h-64 w-full max-w-2xl animate-pulse rounded-3xl bg-zinc-200 dark:bg-gray-800"></div>
+
+} @else {
+  @if (subscription(); as sub) {
+    <div
+      class="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-gradient-to-br p-8 text-white shadow-2xl transition-transform hover:scale-[1.01]"
+      [ngClass]="getCardGradient(sub.planId)"
+    >
+      <div
+        class="absolute inset-0 opacity-10"
+        style="
+          background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+          background-size: 24px 24px;
+        "
+      ></div>
+
+      <div class="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
+      <div class="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-black/10 blur-3xl"></div>
+
+      <div class="relative z-10 flex flex-col h-full justify-between gap-8">
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest opacity-70">Plano Atual</p>
+            <h2 class="text-4xl font-black tracking-tight mt-1">{{ getPlanLabel(sub.planId) }}</h2>
+          </div>
+
+          <div
+            class="flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-wide backdrop-blur-md"
+            [ngClass]="getStatusBadgeColor(sub.status)"
+          >
+            <div class="h-1.5 w-1.5 rounded-full bg-current"></div>
+            {{ getStatusLabel(sub.status) }}
+          </div>
+        </div>
+
+        @if (sub.status === 'PastDue') {
+          <div class="rounded-xl bg-red-500/20 border border-red-200/20 p-4 backdrop-blur-md">
+            <div class="flex items-center gap-3 text-red-100">
+              <mat-icon class="!text-2xl">error_outline</mat-icon>
+              <div>
+                <p class="font-bold">Pagamento Pendente</p>
+                <p class="text-xs opacity-90">Atualize seu cartão para não perder acesso.</p>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="flex items-end justify-between border-t border-white/20 pt-6">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1">
+              Próxima Renovação
+            </p>
+            <div class="flex items-center gap-2 text-lg font-medium font-mono">
+              <mat-icon class="!text-lg opacity-80">calendar_today</mat-icon>
+              <span>{{ sub.nextPaymentDate | date: 'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <p class="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1">
+              ID de Membro
+            </p>
+            <p class="font-mono text-sm opacity-80 truncate max-w-[150px]">
+              ....{{ sub.managerId.slice(-8) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-7 mt-2 flex flex-wrap gap-4">
+      @if (sub.status === 'PastDue') {
+        <button
+          routerLink="/settings/payments"
+          class="flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 font-bold text-white shadow-lg shadow-red-500/20 transition-all hover:bg-red-500 active:scale-95"
+        >
+          <mat-icon>credit_card</mat-icon>
+          Atualizar Pagamento
+        </button>
+      }
+
+      @if (sub.status === 'Active') {
+        <button
+          routerLink="/plans"
+          class="flex items-center gap-2 rounded-xl bg-white border border-zinc-200 px-6 py-3 font-semibold text-zinc-700 shadow-sm transition-all hover:bg-zinc-50 hover:border-zinc-300 dark:bg-gray-900 dark:border-gray-700 dark:text-zinc-200 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          <mat-icon>upgrade</mat-icon>
+          Mudar de Plano
+        </button>
+
+        <button
+          class="flex items-center gap-2 rounded-xl px-6 py-3 font-medium text-zinc-500 hover:text-red-500 transition-colors dark:text-zinc-400 dark:hover:text-red-400"
+        >
+          Cancelar Assinatura
+        </button>
+      }
+    </div>
+  } @else {
+    <div
+      class="w-full max-w-2xl rounded-3xl border-2 border-dashed border-zinc-300 bg-zinc-50 p-10 text-center dark:border-gray-700 dark:bg-gray-900/50"
+    >
+      <div
+        class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-200 dark:bg-gray-800"
+      >
+        <mat-icon class="!text-3xl text-zinc-400">star_border</mat-icon>
+      </div>
+      <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Você está no Plano Gratuito</h2>
+      <p class="mx-auto mt-2 max-w-md text-sm text-zinc-500 dark:text-zinc-400">
+        Faça um upgrade para o plano Pro para desbloquear relatórios financeiros, gestão de equipe e
+        muito mais.
+      </p>
+      <button
+        routerLink="/plans"
+        class="mt-8 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-3 font-bold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-600/30 active:scale-95"
+      >
+        <mat-icon>rocket_launch</mat-icon>
+        Ver Planos Premium
+      </button>
+    </div>
+  }
+}

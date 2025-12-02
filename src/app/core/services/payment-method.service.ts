@@ -11,4 +11,8 @@ export class PaymentMethodService {
   public create(data: CreatePaymentMethodDTO): Observable<PaymentMethod> {
     return this.apiService.post('/payment-methods', data);
   }
+
+  public findAll(): Observable<PaymentMethod[]> {
+    return this.apiService.get('/payment-methods');
+  }
 }

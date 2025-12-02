@@ -20,6 +20,7 @@ export class SidebarConfigureComponent {
     { path: '/configure', icon: 'link', label: 'Conexões' },
     { path: '/configure/profile', icon: 'account_circle', label: 'Perfil' },
     { path: '/configure/security', icon: 'admin_panel_settings', label: 'Segurança' },
+    { path: '/configure/pay-methods', icon: 'crown', label: 'Assinatura' },
     {
       icon: 'store',
       label: 'Negócio',

@@ -1,0 +1,68 @@
+<section
+  class="flex w-full flex-col px-6 md:px-10 gap-8 transition-colors duration-300"
+>
+  <header class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <div class="flex flex-col gap-1">
+      <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white saira-font">
+        Faturamento
+      </h1>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400">
+        Gerencie seu plano atual e suas formas de pagamento.
+      </p>
+    </div>
+
+    <nav
+      class="flex p-1 gap-1 bg-white border border-zinc-200 rounded-xl shadow-sm dark:bg-gray-900 dark:border-gray-800 w-fit self-start md:self-auto"
+    >
+      <button
+        (click)="selectTab('subscription')"
+        class="relative flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+        [ngClass]="{
+          'bg-zinc-100 text-zinc-900 shadow-inner dark:bg-gray-800 dark:text-white':
+            tabSelected() === 'subscription',
+          'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-gray-800/50 dark:hover:text-zinc-200':
+            tabSelected() !== 'subscription',
+        }"
+      >
+        <i
+          class="!text-[18px] !w-[18px] !h-[18px] transition-colors material-symbols-outlined"
+          [class.text-indigo-500]="tabSelected() === 'subscription'"
+        >
+          verified
+        </i>
+        <span>Minha Assinatura</span>
+      </button>
+
+      <button
+        (click)="selectTab('methods')"
+        class="relative flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+        [ngClass]="{
+          'bg-zinc-100 text-zinc-900 shadow-inner dark:bg-gray-800 dark:text-white':
+            tabSelected() === 'methods',
+          'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-gray-800/50 dark:hover:text-zinc-200':
+            tabSelected() !== 'methods',
+        }"
+      >
+        <i
+          class="!text-[18px] !w-[18px] !h-[18px] transition-colors material-symbols-outlined"
+          [class.text-indigo-500]="tabSelected() === 'methods'"
+        >
+          credit_card
+        </i>
+        <span>Formas de Pagamento</span>
+      </button>
+    </nav>
+  </header>
+
+  <div class="w-full animate-fade-in">
+    @switch (tabSelected()) {
+      @case ('subscription') {
+        <app-my-subscription></app-my-subscription>
+      }
+
+      @case ('methods') {
+        <app-all-payment-methods></app-all-payment-methods>
+      }
+    }
+  </div>
+</section>

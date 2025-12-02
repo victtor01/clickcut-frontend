@@ -57,9 +57,13 @@ export class PlanComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     try {
       const publicKey = environment.mercadoPagoPublicKey;
-      if (!publicKey || !publicKey.startsWith('TEST-')) {
+
+      if (!publicKey) {
         console.warn('⚠️ Use uma chave de TESTE para evitar erros em localhost.');
       }
+
+      console.log(publicKey)
+      
       this.mpInstance = new MercadoPago(publicKey, { locale: 'pt-BR' });
     } catch (e) {
       console.error(e);

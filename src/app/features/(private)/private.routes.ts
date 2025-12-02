@@ -15,6 +15,7 @@ import { ConnectionsComponent } from './configure/pages/connections/connections.
 import { AcceptInviteComponent } from './configure/pages/invites/accept/accept-invite.component';
 import { InvitesComponent } from './configure/pages/invites/invites.component';
 import { ConfigureMembersComponent } from './configure/pages/members/members.component';
+import { MyPlanComponent } from './configure/pages/paymethod/pages/all-payment-methods/my-plan.component';
 import { CreatePaymentMethodComponent } from './configure/pages/paymethod/pages/create-payment-method/create-payment-method.component';
 import { ConfigureProfileComponent } from './configure/pages/profile/profile.component';
 import { SecurityComponent } from './configure/pages/security/security.component';
@@ -89,6 +90,7 @@ export const PRIVATE_ROUTES: Routes = [
               {
                 path: 'pay-methods',
                 children: [
+                  { path: '', pathMatch: 'full', component: MyPlanComponent },
                   { path: 'create', component: CreatePaymentMethodComponent },
                 ],
               },
