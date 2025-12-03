@@ -1,0 +1,21 @@
+.auto-blur {
+  animation: autoBlurAnimation 1s linear both;
+  animation-timeline: view(70% auto);
+  pointer-events: auto;
+}
+
+@keyframes autoBlurAnimation {
+  from {
+    scale: 0.8;
+    opacity: 0.3;
+  }
+  45%,
+  55% {
+    scale: 1;
+    opacity: 1;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}

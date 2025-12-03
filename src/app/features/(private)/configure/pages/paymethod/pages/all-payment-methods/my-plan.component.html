@@ -1,6 +1,4 @@
-<section
-  class="flex w-full flex-col px-6 md:px-10 gap-8 transition-colors duration-300"
->
+<section class="flex w-full flex-col px-6 md:px-10 gap-8 transition-colors duration-300">
   <header class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
     <div class="flex flex-col gap-1">
       <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white saira-font">
@@ -24,12 +22,11 @@
             tabSelected() !== 'subscription',
         }"
       >
-        <i
+        <ng-icon
+          name="solarVerifiedCheckBold"
           class="!text-[18px] !w-[18px] !h-[18px] transition-colors material-symbols-outlined"
-          [class.text-indigo-500]="tabSelected() === 'subscription'"
         >
-          verified
-        </i>
+        </ng-icon>
         <span>Minha Assinatura</span>
       </button>
 
@@ -43,12 +40,11 @@
             tabSelected() !== 'methods',
         }"
       >
-        <i
+        <ng-icon
+          name="solarWalletBold"
           class="!text-[18px] !w-[18px] !h-[18px] transition-colors material-symbols-outlined"
-          [class.text-indigo-500]="tabSelected() === 'methods'"
         >
-          credit_card
-        </i>
+        </ng-icon>
         <span>Formas de Pagamento</span>
       </button>
     </nav>

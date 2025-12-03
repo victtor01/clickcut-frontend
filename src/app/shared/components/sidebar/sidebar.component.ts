@@ -38,7 +38,12 @@ import {
   saxPeopleOutline,
   saxProfile2userOutline,
 } from '@ng-icons/iconsax/outline';
-import { solarCalendarMarkBold, solarCrownBold, solarTagBold } from '@ng-icons/solar-icons/bold';
+import {
+  solarCalendarMarkBold,
+  solarCrownBold,
+  solarRocket2Bold,
+  solarTagBold,
+} from '@ng-icons/solar-icons/bold';
 import { solarCalendarMark, solarTag } from '@ng-icons/solar-icons/outline';
 import { firstValueFrom } from 'rxjs';
 import { BookingSearchModalComponent } from '../booking-search/booking-search.component';
@@ -57,6 +62,7 @@ interface Tab {
 
 const icons = {
   solarCrownBold,
+  solarRocket2Bold,
 };
 
 const sidebarIcons = {
@@ -84,6 +90,7 @@ const sidebarBoldIcons = {
 @Component({
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
+  styleUrls: ['sidebar.component.scss'],
   imports: [
     CommonModule,
     RouterModule,
@@ -149,12 +156,12 @@ export class SidebarComponent implements AfterViewInit {
       selected: 'solarTagBold',
     },
     {
-      id: "post",
-      icon: "saxMagicpenOutline", 
-      selected: "saxMagicpenBold",
-      route: "/marketing",
-      plan: "solo",
-      label: "Post"
+      id: 'post',
+      icon: 'saxMagicpenOutline',
+      selected: 'saxMagicpenBold',
+      route: '/marketing',
+      plan: 'solo',
+      label: 'Post',
     },
     {
       id: 'meem',

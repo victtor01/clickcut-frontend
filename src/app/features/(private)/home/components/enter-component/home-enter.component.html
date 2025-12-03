@@ -46,10 +46,12 @@
           size="22"
           class="group-hover:rotate-6 transition-transform"
         ></ng-icon>
-        <span
-          *ngIf="hasNotRead()"
-          class="absolute top-2.5 right-2.5 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-800/50"
-        ></span>
+
+        @if (hasNotRead()) {
+          <span
+            class="absolute top-2.5 right-2.5 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-800/50"
+          ></span>
+        }
       </button>
 
       <button
@@ -68,15 +70,13 @@
       <div class="relative" #menuContainer>
         <div
           (click)="toggleMenu()"
-          class="h-10 w-10 bg-white shadow grid text-gray-400 dark:text-gray-700 place-items-center shrink-0 overflow-hidden rounded-full cursor-pointer ring-2 ring-white/50 hover:ring-violet-400 transition-all"
+          class="h-10 w-10 bg-white dark:bg-gray-900 dark:text-white dark:ring-gray-700 shadow grid text-gray-400 place-items-center shrink-0 overflow-hidden rounded-full cursor-pointer ring-2 ring-white/50 hover:ring-violet-400 transition-all"
         >
-          <i *ngIf="!user?.photoUrl" class="material-icons-outlined !text-2xl">person</i>
-          <img
-            *ngIf="user?.photoUrl"
-            [src]="user?.photoUrl"
-            alt="Foto do Usuário"
-            class="h-full w-full object-cover"
-          />
+          @if (!user?.photoUrl) {
+            <ng-icon name="solarUserBold" size="22"></ng-icon>
+          } @else {
+            <img [src]="user?.photoUrl" alt="Foto do Usuário" class="h-full w-full object-cover" />
+          }
         </div>
 
         @if (isMenuOpen()) {

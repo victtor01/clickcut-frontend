@@ -5,6 +5,8 @@ import { TimeSlot } from '@app/core/models/Business';
 import { CreateTimeSlotDTO } from '@app/core/schemas/create-time-slot.dto';
 import { MembersService } from '@app/core/services/members.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { solarShopBold, solarUserBold } from '@ng-icons/solar-icons/bold';
 import { firstValueFrom } from 'rxjs';
 import { CreateTimeSlotComponent } from '../../../../components/create-time-slot/create-time-slot.component';
 
@@ -15,10 +17,16 @@ export interface WeeklySchedule {
   };
 }
 
+const icons = {
+  solarUserBold,
+  solarShopBold
+}
+
 @Component({
-  templateUrl: './member-times.component.html',
   selector: 'member-times',
-  imports: [CreateTimeSlotComponent, CommonModule],
+  templateUrl: './member-times.component.html',
+  providers: [provideIcons(icons)],
+  imports: [CreateTimeSlotComponent, CommonModule, NgIconComponent],
 })
 export class MemberTimesComponent implements OnInit {
   private readonly membersService = inject(MembersService);

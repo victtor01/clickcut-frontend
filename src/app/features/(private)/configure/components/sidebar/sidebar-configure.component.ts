@@ -20,15 +20,16 @@ export class SidebarConfigureComponent {
     { path: '/configure', icon: 'link', label: 'Conexões' },
     { path: '/configure/profile', icon: 'account_circle', label: 'Perfil' },
     { path: '/configure/security', icon: 'admin_panel_settings', label: 'Segurança' },
-    { path: '/configure/pay-methods', icon: 'crown', label: 'Assinatura' },
+    { path: '/configure/plan', icon: 'crown', label: 'Assinatura' },
     {
       icon: 'store',
       label: 'Negócio',
-      isExpanded: false, // Começa fechado
+      isExpanded: false,
       subItems: [
         { path: '/configure/business', label: 'Geral' },
-        { path: '/configure/business/links', label: 'Links' },
-        { path: '/configure/business/times', label: 'Horários' },
+        { path: '/configure/business/links', label: 'Meus links' },
+        { path: '/configure/business/times', label: 'Horários do negócio' },
+        { path: '/configure/members/operation', label: 'Meus horários' },
         { path: '/configure/business/address', label: 'Endereço' },
       ],
     },

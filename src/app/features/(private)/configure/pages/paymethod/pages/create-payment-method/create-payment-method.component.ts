@@ -210,7 +210,7 @@ export class CreatePaymentMethodComponent {
       await firstValueFrom(this.paymentMethodService.create(command));
 
       alert('Cartão salvo com sucesso!');
-      this.router.navigate(['/manager/pay-methods']);
+      this.router.navigate(['/configure/plan']);
     } catch (error: any) {
       console.error(`Erro ao salvar cartão`, error);
       alert(`Erro: ${error.message || 'Verifique os dados do cartão.'}`);

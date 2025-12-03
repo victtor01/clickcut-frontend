@@ -12,7 +12,7 @@ import { firstValueFrom, Subject, takeUntil } from 'rxjs';
   selector: 'all-services',
   imports: [ToFormatBrlPipe, RouterModule, CommonModule, NgOptimizedImage],
 })
-export class AllServicesComponent<T> implements OnInit, OnDestroy {
+export class AllServicesComponent implements OnInit, OnDestroy {
   constructor(
     private readonly serviceService: ServicesService,
     private readonly invalidationService: InvalidationService

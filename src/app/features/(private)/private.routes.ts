@@ -10,6 +10,7 @@ import { ConfigureBusinessComponent } from './configure/pages/business/configure
 import { BusinessAddressComponent } from './configure/pages/business/pages/address/business-address.component';
 import { BusinessLinksComponent } from './configure/pages/business/pages/links/business-links.component';
 import { BusinessTimesComponent } from './configure/pages/business/pages/times/business-times.component';
+import { MemberTimesComponent } from './configure/pages/business/pages/times/components/member-times-slots/member-times.component';
 import { ConfigureComponent } from './configure/pages/configure.component';
 import { ConnectionsComponent } from './configure/pages/connections/connections.component';
 import { AcceptInviteComponent } from './configure/pages/invites/accept/accept-invite.component';
@@ -88,7 +89,7 @@ export const PRIVATE_ROUTES: Routes = [
             children: [
               { path: '', pathMatch: 'full', component: ConnectionsComponent },
               {
-                path: 'pay-methods',
+                path: 'plan',
                 children: [
                   { path: '', pathMatch: 'full', component: MyPlanComponent },
                   { path: 'create', component: CreatePaymentMethodComponent },
@@ -102,6 +103,7 @@ export const PRIVATE_ROUTES: Routes = [
               { path: 'profile', component: ConfigureProfileComponent },
               { path: 'invites', component: InvitesComponent },
               { path: 'members', component: ConfigureMembersComponent },
+              { path: 'members/operation', component: MemberTimesComponent },
             ],
           },
         ],

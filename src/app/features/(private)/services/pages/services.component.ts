@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
@@ -7,7 +8,7 @@ import { CreateServiceModalComponent } from '../components/create-service-modal/
 
 @Component({
   templateUrl: './services.component.html',
-  imports: [AllServicesComponent, RouterModule],
+  imports: [AllServicesComponent, RouterModule, CommonModule],
 })
 export class ServicesComponent {
   constructor(private router: Router, private readonly createDialogRef: MatDialog) {}

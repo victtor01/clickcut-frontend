@@ -34,11 +34,13 @@ import {
   saxSettingBold,
   saxSun1Bold,
 } from '@ng-icons/iconsax/bold';
+import { solarUserBold } from '@ng-icons/solar-icons/bold';
 import { firstValueFrom, Subscription } from 'rxjs';
 
 const icons = {
   saxSettingBold,
   saxNotificationBold,
+  solarUserBold,
   saxMoonBold,
   saxSun1Bold,
   hugeDoor01,

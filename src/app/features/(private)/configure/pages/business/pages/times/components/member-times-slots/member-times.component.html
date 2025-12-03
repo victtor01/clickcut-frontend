@@ -1,18 +1,29 @@
-<div class="border rounded-xl bg-white dark:bg-gray-900/50 dark:border-gray-800 border-gray-200/80">
+<div
+  class="border rounded-xl bg-white mx-6 dark:bg-gray-900/50 dark:border-gray-800 border-gray-200/80"
+>
   <div class="p-6">
-    <h3 class="text-lg font-semibold saira-font text-gray-800 dark:text-gray-100">
-      Meus Horários de Atendimento
-    </h3>
-    <p class="text-sm text-gray-500 dark:text-gray-400">
-      Personalize sua agenda. Defina os horários exatos em que você estará disponível para receber
-      agendamentos.
-    </p>
+    <header class="flex gap-2">
+      <div
+        class="text-gray-500 dark:text-gray-200 rounded-full w-10 h-10 grid place-items-center bg-stone-100"
+      >
+        <ng-icon name="solarUserBold" size="20"></ng-icon>
+      </div>
+      <div class="flex flex-col gap-1">
+        <h3 class="text-lg font-semibold saira-font text-gray-500 dark:text-gray-100">
+          Meus horários de atendimento
+        </h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Personalize sua agenda. Defina os horários exatos em que você estará disponível para
+          receber agendamentos.
+        </p>
+      </div>
+    </header>
 
     <div
       class="mt-4 flex items-start gap-3 rounded-lg border border-indigo-200/80 bg-indigo-50 p-3 dark:border-indigo-800/50 dark:bg-indigo-900/20"
     >
       <i
-        class="material-symbols-outlined mt-0.5 text-lg text-indigo-600 dark:text-indigo-400"
+        class="material-symbols-outlined !text-lg text-indigo-600 dark:text-indigo-400"
         aria-hidden="true"
         >info</i
       >
@@ -82,11 +93,11 @@
 </div>
 
 @if (hasEditable) {
-  <div class="flex mt-2 justify-end">
+  <div class="flex mt-2 mx-6 justify-end">
     <button
       type="button"
       (click)="saveOperation()"
-      class="p-1 bg-violet-600 hover:bg-violet-500 rounded-full px-4"
+      class="p-1 text-lg bg-violet-600 hover:bg-violet-500 rounded-full px-4"
     >
       <span> Salvar </span>
     </button>

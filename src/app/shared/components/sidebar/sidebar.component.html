@@ -32,7 +32,7 @@
 ></span>
 
 <div
-  class="hidden md:flex px-2 lg:hidden flex-col gap-2 py-2 pl-2 overflow-auto overflow-x-hidden scroll-hidden h-full"
+  class="hidden z-10 md:flex px-2 lg:hidden scroll-none relative flex-col gap-2 py-2 pl-2 overflow-auto overflow-x-hidden scroll-hidden h-full"
 >
   <aside
     class="z-30 w-auto border border-gray-200 dark:border-gray-900 rounded-xl flex flex-col justify-center bg-white/50 dark:bg-gray-900 backdrop-blur-sm"
@@ -45,12 +45,11 @@
 
       @for (tab of tabs; track $index) {
         @let selected = tab.id === activeTabId;
-
         <button
           #tabElement
           [attr.data-active]="selected"
           (click)="selectTab(tab)"
-          class="relative flex flex-col mx-auto items-center justify-center w-20 h-20 rounded-lg text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
+          class="auto-blur relative flex flex-col mx-auto items-center justify-center w-20 h-20 rounded-lg text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200 data-[active=true]:text-indigo-500 dark:data-[active=true]:text-indigo-400"
         >
           <ng-icon
             [attr.data-selected]="selected"
@@ -70,12 +69,12 @@
   >
     <div class="relative flex flex-col py-3 gap-2">
       <button
-        class="relative flex flex-col mx-auto py-2 px-1 rounded-full items-center justify-center text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
+        class="relative auto-blur flex flex-col mx-auto py-2 px-1 rounded-full items-center justify-center text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
       >
         <i class="material-icons-outlined">settings</i>
       </button>
       <button
-        class="relative flex flex-col mx-auto items-center py-2 px-1 rounded-full justify-center text-gray-500 dark:text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors duration-200"
+        class="relative auto-blur flex flex-col mx-auto items-center py-2 px-1 rounded-full justify-center text-gray-500 dark:text-gray-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors duration-200"
       >
         <i class="material-icons-outlined">logout</i>
       </button>
@@ -84,9 +83,8 @@
 </div>
 
 <div
-  class="h-screen border-r relative border-gray-100 z-50 gap-2 flex-col dark:border-gray-800/50 lg:flex hidden overflow-visible dark:bg-gray-900/20 backdrop-blur-xl bg-white/90"
+  class="h-screen scroll-none border-r relative border-gray-100 z-50 gap-2 flex-col dark:border-gray-800/50 lg:flex hidden overflow-visible dark:bg-gray-900/20 backdrop-blur-xl bg-white/90"
 >
-
   @for (bus of outhersBusiness(); track $index) {
     <div class="group relative px-2 first:mt-2 h-12">
       @if (bus.id === business?.id) {
@@ -132,8 +130,10 @@
       </div>
     </div>
   }
-  
-  <span class="bg-gradient-to-r from-transparent to-transparent via-zinc-200 dark:via-gray-700 h-px flex mx-2" ></span>
+
+  <span
+    class="bg-gradient-to-r from-transparent to-transparent via-zinc-200 dark:via-gray-700 h-px flex mx-2"
+  ></span>
 
   @for (bus of myBusiness(); track $index) {
     <div class="group relative px-2 first:mt-2 h-12">
@@ -266,7 +266,7 @@
       Menu
     </h3>
 
-    <nav class="flex-1 px-5 flex-col overflow-auto">
+    <nav class="flex-1 px-5 flex-col overflow-auto scroll-hidden">
       <ul class="flex flex-col gap-1">
         @for (tab of tabs; track $index) {
           @let invalid = tab.plan && !validPlan(tab.plan);
@@ -396,19 +396,41 @@
             ></div>
           </div>
 
-          <div class="text-yellow-400 z-20 relative -translate-y-[90%]">
-            <ng-icon name="solarCrownBold" class="scale-200" size="20"></ng-icon>
-            <div
-              class="absolute -bottom-[1rem] bg-violet-900/60 w-6 group-hover:w-7 transition-all rotate-x-[68deg] h-4 rounded-full left-1/2 -translate-x-1/2"
-            ></div>
+          <div
+            class="z-20 relative -translate-y-[90%]"
+            [ngClass]="{
+              'text-gray-900 dark:text-yellow-50': this.plan === 'equipe',
+              'text-yellow-400': this.plan === 'solo',
+            }"
+          >
+            @if (this.plan === 'solo') {
+              <ng-icon name="solarCrownBold" class="scale-200" size="20"></ng-icon>
+              <div
+                class="absolute -bottom-[1rem] bg-violet-900/60 w-6 group-hover:w-7 transition-all rotate-x-[68deg] h-4 rounded-full left-1/2 -translate-x-1/2"
+              ></div>
+            } @else {
+              <ng-icon name="solarRocket2Bold" class="scale-200 z-20 relative" size="15"></ng-icon>
+              <div
+                class="w-5 h-5 absolute bg-indigo-50 rounded-full blur-lg bottom-0 left-1/2 -translate-x-1/2"
+              ></div>
+            }
           </div>
           <div class="text-xs relative -mt-2 text-white">
-            Desbloqueie integrações, comissões e muito mais!
+            @if (this.plan === 'solo') {
+              Desbloqueie integrações, comissões e muito mais!
+            }
+
+            @if (this.plan === 'equipe') {
+              Vamos turbinar e atrair novos clientes
+            }
           </div>
           <button
+            routerLink="['/configure/plan']"
             class="p-2 z-20 bg-indigo-950 rounded-xl hover:ring-2 hover:ring-indigo-200 transition-all w-full mt-2"
           >
-            <span class="text-violet-200 saira-font font-semibold text-sm"> Upgrade PRO </span>
+            <span class="text-violet-200 saira-font font-semibold text-sm">
+              {{ this.plan === 'solo' ? 'Fazer Upgrade' : 'Upgrade PRO' }}
+            </span>
           </button>
         </div>
       </div>
@@ -521,7 +543,9 @@
       <div
         class="flex flex-col h-auto max-h-[60vh] overflow-auto rounded-2xl rounded-tl-md w-[30rem] bg-white shadow-2xl shadow-violet-200 dark:shadow-black dark:bg-gray-950 border border-gray-200/0 dark:border-gray-800"
       >
-        <app-create-booking-navbar (onCloseEmit)="this.isOpenCreateBooking.set(false)"></app-create-booking-navbar>
+        <app-create-booking-navbar
+          (onCloseEmit)="this.isOpenCreateBooking.set(false)"
+        ></app-create-booking-navbar>
       </div>
     </div>
   </div>
