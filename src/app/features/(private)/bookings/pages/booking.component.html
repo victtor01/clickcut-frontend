@@ -113,6 +113,33 @@
           </div>
         }
 
+        @for (interval of closedIntervals(); track $index) {
+          <div
+            class="col-start-2 bg-gray-100/50 dark:bg-gray-900/50 border border-zinc-200 dark:border-gray-800/60 rounded-xl pointer-events-none z-10 flex items-center justify-center"
+            [ngStyle]="getClosedIntervalStyle(interval)"
+            style="
+              background-image: linear-gradient(
+                45deg,
+                #00000008 25%,
+                transparent 25%,
+                transparent 50%,
+                #00000008 50%,
+                #00000008 75%,
+                transparent 75%,
+                transparent
+              );
+              background-size: 20px 20px;
+            "
+          >
+            @if (interval.duration > 60) {
+              <span
+                class="text-xs uppercase font-bold text-gray-400/50 tracking-widest rotate-90 md:rotate-0"
+                >Fechado</span
+              >
+            }
+          </div>
+        }
+
         @for (booking of bookingsForCurrentDay; track booking.id) {
           <div
             [attr.data-status]="booking.status"
@@ -128,13 +155,17 @@
             "
           >
             @if (booking.status === 'COMPLETED') {
-              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-white text-center flex saira-font animate-pulse text-xs bg-violet-400/50 px-3 rounded-full">
+              <div
+                class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-white text-center flex saira-font animate-pulse text-xs bg-violet-400/50 px-3 rounded-full"
+              >
                 Pagamento
               </div>
             }
 
-             @if (booking.status === 'PAID') {
-              <div class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-600 dark:text-gray-300 text-center flex saira-font text-xs bg-violet-500/10 dark:bg-gray-800 px-3 rounded-full">
+            @if (booking.status === 'PAID') {
+              <div
+                class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-600 dark:text-gray-300 text-center flex saira-font text-xs bg-violet-500/10 dark:bg-gray-800 px-3 rounded-full"
+              >
                 PAGO
               </div>
             }

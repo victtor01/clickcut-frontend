@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { objectToFormData } from '@app/shared/utils/object-to-form';
 import { Observable } from 'rxjs';
+import { TimeSlot } from '../models/Business';
 import { Subscription } from '../models/Subscription';
 import { User } from '../models/User';
 import { CreateManagerAccountDTO } from '../schemas/create-manager-account.dto';
@@ -21,6 +22,10 @@ export class UsersService {
 
   public getSubscription(): Observable<Subscription> {
     return this.apiService.get('/users/subscription');
+  }
+
+  public getOperationHours(): Observable<TimeSlot[]> {
+    return this.apiService.get("/users/operation-hours")
   }
 
   public update(data: UpdateUserDTO): Observable<User> {

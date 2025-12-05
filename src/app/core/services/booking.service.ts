@@ -71,8 +71,6 @@ export class BookingsService {
       params = params.append('businessId', businessId);
     }
 
-    console.log(params)
-
     return this.apiService.get('/attendee/bookings/available-days', params);
   }
 

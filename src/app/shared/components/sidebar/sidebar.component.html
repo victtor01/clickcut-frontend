@@ -421,11 +421,11 @@
             }
 
             @if (this.plan === 'equipe') {
-              Vamos turbinar e atrair novos clientes
+              Vamos turbinar e atrair novos clientes para o seu negócio!
             }
           </div>
           <button
-            routerLink="['/configure/plan']"
+            [routerLink]="['/configure/plan']"
             class="p-2 z-20 bg-indigo-950 rounded-xl hover:ring-2 hover:ring-indigo-200 transition-all w-full mt-2"
           >
             <span class="text-violet-200 saira-font font-semibold text-sm">

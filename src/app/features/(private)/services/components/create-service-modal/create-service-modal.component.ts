@@ -73,6 +73,7 @@ export class CreateServiceModalComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.createForm.invalid) {
+      this.createForm.markAllAsTouched();
       console.error('Formulário inválido!');
       return;
     }
@@ -99,9 +100,9 @@ export class CreateServiceModalComponent implements OnInit {
         },
 
         error: ({ error }) => {
-          console.log(error)
+          console.log(error);
           this.toastService.error(error?.message);
-        }
+        },
       });
   }
 }

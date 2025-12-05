@@ -29,6 +29,10 @@
           <div
             class="group relative h-52 w-full overflow-hidden rounded-2xl bg-gradient-to-br p-6 text-white shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             [ngClass]="getBrandStyle(card.brand)"
+            [class.ring-2]="card.isDefault"
+            [class.ring-offset-2]="card.isDefault"
+            [class.ring-indigo-200]="card.isDefault"
+            [class.dark:ring-offset-zinc-950]="card.isDefault"
           >
             <div
               class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl"
@@ -45,17 +49,40 @@
                   <div class="w-6 h-4 border border-yellow-600/20 rounded-[2px]"></div>
                 </div>
 
-                <div class="flex flex-col items-end">
-                  <span class="text-lg font-bold uppercase tracking-widest italic opacity-90">
+                <div class="flex flex-col items-end gap-1">
+                  <div class="relative flex items-center saira-font italic">
                     {{ card.brand }}
-                  </span>
-                  <button
-                    (click)="deleteCard(card.id)"
-                    class="mt-1 rounded-full bg-white/20 w-10 h-10 grid place-items-center p-1.5 text-white opacity-0 transition-opacity hover:bg-white/30 group-hover:opacity-100 focus:opacity-100"
-                    title="Remover cartão"
-                  >
-                    <i class="!text-lg material-icons-outlined">delete</i>
-                  </button>
+                  </div>
+
+                  <div class="flex items-center gap-1 mt-1">
+                    @if (!card.isDefault) {
+                      <button
+                        (click)="setDefaultCard(card.id)"
+                        class="flex items-center gap-1 rounded-full bg-black/20 px-2 py-1 text-[10px] font-bold uppercase text-white/80 backdrop-blur-sm transition-all hover:bg-white hover:text-indigo-600 opacity-0 group-hover:opacity-100"
+                        title="Definir como principal"
+                      >
+                        <span>Usar</span>
+                        <mat-icon class="!text-sm">check_circle</mat-icon>
+                      </button>
+                    } @else {
+                      <div
+                        class="flex items-center gap-1 rounded-full bg-white/20 px-2 py-1 text-[10px] font-bold uppercase text-white backdrop-blur-sm shadow-sm border border-white/30"
+                      >
+                        <span>Principal</span>
+                        <mat-icon class="!text-sm text-green-300">verified</mat-icon>
+                      </div>
+                    }
+
+                    @if (!card.isDefault) {
+                      <button
+                        (click)="deleteCard(card.id)"
+                        class="rounded-full p-1.5 text-white/60 hover:bg-white/20 hover:text-white transition-colors opacity-0 group-hover:opacity-100"
+                        title="Remover cartão"
+                      >
+                        <mat-icon class="!text-lg">delete</mat-icon>
+                      </button>
+                    }
+                  </div>
                 </div>
               </div>
 
@@ -69,7 +96,7 @@
               <div class="flex items-end justify-between">
                 <div class="flex flex-col">
                   <span class="text-[10px] uppercase opacity-70">Titular</span>
-                  <span class="font-medium tracking-wide truncate max-w-[160px]">
+                  <span class="font-medium tracking-wide truncate max-w-[140px]">
                     {{ card.holderName | uppercase }}
                   </span>
                 </div>

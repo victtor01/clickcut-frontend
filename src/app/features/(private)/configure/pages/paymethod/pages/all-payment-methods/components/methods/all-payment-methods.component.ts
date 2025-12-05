@@ -21,6 +21,21 @@ export class AllPaymentMethodsComponent implements OnInit {
     this.fetchAllPaymentMethods();
   }
 
+  public async setDefaultCard(cardId: string): Promise<void> {
+    this.paymentMethods.update(cards => 
+      cards.map(c => ({ ...c, isDefault: c.id === cardId }))
+    );
+
+    try {
+      //  await firstValueFrom(this.paymentMethodService.setDefault(cardId));
+       // Sucesso (Toast opcional)
+    } catch (error) {
+       console.error('Erro ao definir padrão', error);
+       // Reverte se der erro (re-busca os dados)
+       this.fetchAllPaymentMethods();
+    }
+  }
+
   private async fetchAllPaymentMethods(): Promise<void> {
     try {
       this.isLoading.set(true);

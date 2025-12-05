@@ -1,42 +1,53 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Booking } from '@app/core/models/Booking';
+import { TimeSlot } from '@app/core/models/Business';
 import { Service } from '@app/core/models/Service';
 import { CreateBookingDTO } from '@app/core/schemas/create-booking.dto';
 import { BookingsService } from '@app/core/services/booking.service';
+import { BookingsByDay } from '@app/core/services/clients-account.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { UsersService } from '@app/core/services/users.service';
 import { AllServicesComponent } from '@app/features/(private)/services/components/all-services/all-services.component';
-import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { firstValueFrom } from 'rxjs';
 import { AllTimesComponent } from '../../components/all-times/all-times.component';
 
 dayjs.extend(customParseFormat);
 
 @Component({
   templateUrl: './create-booking.component.html',
-  imports: [AllServicesComponent, RouterLink, CommonModule, AllTimesComponent, ToFormatBrlPipe, NgOptimizedImage],
+  imports: [
+    AllServicesComponent,
+    RouterLink,
+    CommonModule,
+    AllTimesComponent,
+    NgOptimizedImage,
+  ],
 })
 export class CreateBookingComponent implements OnInit {
-  constructor(
-    private readonly toastService: ToastService,
-    private readonly bookingService: BookingsService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router
-  ) {}
+  private readonly toastService = inject(ToastService);
+  private readonly bookingService = inject(BookingsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly usersService = inject(UsersService);
 
   private _selectedServices: Service[] = [];
   private _selectedTime?: string;
   private _currentDate?: Dayjs;
   private _buttonActive: boolean = false;
-  private _step: number = 1;
-    
+
+  public timesOfBusiness = signal<TimeSlot[]>([]);
+  public bookingsToDay = signal<Booking[]>([]);
+
   get selectedServices() {
     return this._selectedServices;
   }
 
-  get step(): number {
-    return this._step;
+  get selectedServiceIds() {
+    return this._selectedServices.map((s) => s.id);
   }
 
   get timeStart(): string | void {
@@ -51,7 +62,7 @@ export class CreateBookingComponent implements OnInit {
 
       const endTime = startTime.add(
         this._selectedServices.reduce((curr, value) => curr + value.durationInMinutes, 0),
-        'minute'
+        'minute',
       );
 
       return endTime.format('HH:mm');
@@ -77,11 +88,10 @@ export class CreateBookingComponent implements OnInit {
   ngOnInit(): void {
     const dateFromQuery = this.route.snapshot.queryParamMap.get('currentDate');
 
-    if (dateFromQuery) {
-      this._currentDate = dayjs(dateFromQuery);
-    } else {
-      this._currentDate = dayjs();
-    }
+    this._currentDate = dateFromQuery ? dayjs(dateFromQuery) : dayjs();
+
+    this.fetchBookingsToDay();
+    this.fetchTimesSlots();
   }
 
   public activeButton(): void {
@@ -92,31 +102,25 @@ export class CreateBookingComponent implements OnInit {
     this._buttonActive = false;
   }
 
-  public nextStep(): void {
-    this._step += 1;
-  }
-
-  public backStep(): void {
-    if (this._step > 1) this._step -= 0;
-  }
-
   public submit(): void {
-    switch (this._step) {
-      case 1:
-        if (this._selectedServices) {
-          this.nextStep();
-          this.disabledButton();
-        } else {
-          this.toastService.error('Selecione um serviço!');
-        }
-        break;
+    this.createBooking();
+  }
 
-      case 2:
-        this.createBooking();
-        break;
-      default:
-        console.log('Operação inválida!');
-    }
+  public async fetchTimesSlots(): Promise<void> {
+    const data = await firstValueFrom(this.usersService.getOperationHours());
+
+    this.timesOfBusiness.set(data);
+  }
+
+  public async fetchBookingsToDay(): Promise<void> {
+    const today = dayjs();
+
+    const data: BookingsByDay = await firstValueFrom(this.bookingService.getAll(today, today));
+
+    const bookingsFormated: Booking[] = Object.entries(data)
+      .map(([_, bookings]) => bookings).flat();
+
+    this.bookingsToDay.set(bookingsFormated);
   }
 
   public createBooking(): void {
@@ -126,7 +130,7 @@ export class CreateBookingComponent implements OnInit {
     }
 
     const [hours, minutes] = this._selectedTime.split(':').map(Number);
-    const bookingDayjsObject = this._currentDate  
+    const bookingDayjsObject = this._currentDate
       .hour(hours)
       .minute(minutes)
       .second(0)
@@ -145,7 +149,7 @@ export class CreateBookingComponent implements OnInit {
       },
 
       error: (err) => {
-        this.toastService.error(err?.error?.message || "Houve um erro interno!", 5000)
+        this.toastService.error(err?.error?.message || 'Houve um erro interno!', 5000);
         console.log(err);
       },
     });

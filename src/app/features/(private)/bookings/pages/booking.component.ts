@@ -3,10 +3,13 @@ import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } f
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Booking, BookingStatus } from '@app/core/models/Booking';
+import { TimeSlot } from '@app/core/models/Business';
 import { BookingsByDay, BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { UsersService } from '@app/core/services/users.service';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { firstValueFrom } from 'rxjs';
 import { WeekComponent } from '../components/week/week.component';
 import { DetailsBookingComponent } from './details/details-booking-modal.component';
 dayjs.locale('pt-br');
@@ -24,6 +27,9 @@ export class BookingComponent implements OnInit, OnDestroy {
   private timer: any;
   public scale = 2;
 
+  public operatingHours = signal<TimeSlot[]>([]);
+  public closedIntervals = signal<{ start: number; duration: number }[]>([]);
+
   @ViewChild('main')
   private scheduleContainer!: ElementRef<HTMLDivElement>; // Referência ao DIV pai
 
@@ -32,6 +38,7 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly usersService = inject(UsersService);
   private readonly bookingsService = inject(BookingsService);
   private readonly toastService = inject(ToastService);
   private readonly dialogDetails = inject(MatDialog);
@@ -39,9 +46,9 @@ export class BookingComponent implements OnInit, OnDestroy {
   constructor() {
     this.route.queryParamMap.subscribe((params) => {
       const param = params.get('curr');
-
+      this.calculateClosedIntervals();
       if (param) {
-        const day = dayjs(param, 'YYYY-MM-DD').add(20, "hours");
+        const day = dayjs(param, 'YYYY-MM-DD').add(20, 'hours');
 
         if (day.isValid()) {
           this.currentDate = day;
@@ -69,7 +76,9 @@ export class BookingComponent implements OnInit, OnDestroy {
     return this.currentDate.format('dddd, D [de] MMMM');
   }
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
+    await this.fetchTimesSlots();
+
     this.ensureBookingsAreLoaded();
 
     this.timer = setInterval(() => {
@@ -79,16 +88,89 @@ export class BookingComponent implements OnInit, OnDestroy {
     }, 30000);
   }
 
+  public async fetchTimesSlots(): Promise<void> {
+    try {
+      const data = await firstValueFrom(this.usersService.getOperationHours());
+      this.operatingHours.set(data);
+      this.calculateClosedIntervals(); // Calcula para o dia inicial
+    } catch (e) {
+      console.error('Erro ao buscar horários', e);
+    }
+  }
+
+  // ✨ NOVO: Calcula os intervalos fechados para o dia atual
+  private calculateClosedIntervals() {
+    const dayOfWeek = this.currentDate.day(); // 0 (Dom) a 6 (Sáb)
+
+    // Filtra os slots de trabalho para o dia atual
+    const todaySlots = this.operatingHours().filter(
+      (s) =>
+        // Lida com string "1" ou number 1
+        String(s.dayOfWeek) === String(dayOfWeek),
+    );
+
+    // Se não tem slots, o dia todo está fechado
+    if (todaySlots.length === 0) {
+      this.closedIntervals.set([{ start: 0, duration: 1440 }]); // 0h as 24h
+      return;
+    }
+
+    // Ordena por horário de início
+    todaySlots.sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+    const intervals: { start: number; duration: number }[] = [];
+    let cursorMinute = 0; // Começa à meia-noite (0 min)
+
+    // Percorre os slots de trabalho para encontrar os "buracos"
+    todaySlots.forEach((slot) => {
+      const startMinute = this.timeToMinutes(slot.startTime);
+      const endMinute = this.timeToMinutes(slot.endTime);
+
+      // Se há um buraco entre o cursor e o início do slot
+      if (cursorMinute < startMinute) {
+        intervals.push({
+          start: cursorMinute,
+          duration: startMinute - cursorMinute,
+        });
+      }
+
+      // Atualiza o cursor para o fim deste turno de trabalho
+      if (endMinute > cursorMinute) cursorMinute = endMinute;
+    });
+
+    // Buraco final (Do último turno até o fim do dia)
+    if (cursorMinute < 1440) {
+      intervals.push({
+        start: cursorMinute,
+        duration: 1440 - cursorMinute,
+      });
+    }
+
+    this.closedIntervals.set(intervals);
+  }
+
+  private timeToMinutes(time: string): number {
+    const [h, m] = time.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  public getClosedIntervalStyle(interval: { start: number; duration: number }): any {
+    return {
+      'grid-row': `${interval.start + 1} / span ${interval.duration}`,
+      'grid-column': '1 / span 3', // Ocupa toda a largura (ou ajuste para '2' se quiser só na coluna de eventos)
+    };
+  }
+
   public onSelectDate(day: Dayjs): void {
     this.currentDate = day;
     this.setCurrentDateInUrl(this.currentDate);
+    this.calculateClosedIntervals();
   }
 
   public activeFilter = signal<BookingFilter>('all');
 
   public setFilter(filter: BookingFilter): void {
     this.activeFilter.set(filter);
-    console.log('Filtro ativo:', this.activeFilter());
   }
 
   private ensureBookingsAreLoaded(date?: string): void {
@@ -126,11 +208,13 @@ export class BookingComponent implements OnInit, OnDestroy {
     this.currentDate = this.currentDate.subtract(1, 'day');
     this.setCurrentDateInUrl(this.currentDate);
     this.ensureBookingsAreLoaded();
+    this.calculateClosedIntervals();
   }
 
   public nextDay(): void {
     this.currentDate = this.currentDate.add(1, 'day');
     this.setCurrentDateInUrl(this.currentDate);
+    this.calculateClosedIntervals();
     this.ensureBookingsAreLoaded();
   }
 

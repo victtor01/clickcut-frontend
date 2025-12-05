@@ -96,6 +96,7 @@ const sidebarBoldIcons = {
     RouterModule,
     NgIconComponent,
     LogoComponent,
+    RouterModule,
     PinEntryComponent,
     CreateBookingNavbar,
     NgIcon,

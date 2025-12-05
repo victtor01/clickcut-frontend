@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SummaryAround } from '@app/core/DTOs/around-bookings-response';
 import { SummaryService } from '@app/core/services/summary.service';
+import dayjs from 'dayjs';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -18,6 +19,10 @@ export class HomeBookingsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.fetchAround();
+  }
+
+  public formatDate(date: string) {
+    return dayjs(date).format("YYYY-MM-DD HH:mm");
   }
 
   private async fetchAround(): Promise<void> {

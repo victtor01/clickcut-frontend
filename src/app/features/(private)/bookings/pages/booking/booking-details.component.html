@@ -111,8 +111,9 @@
           </div>
 
           @if (booking.status === 'COMPLETED') {
-            <div class="w-4 h-4 bg-violet-600 rounded-full animate-ping absolute right-0 top-0">
-            </div>
+            <div
+              class="w-4 h-4 bg-violet-600 rounded-full animate-ping absolute right-0 top-0"
+            ></div>
             <div class="w-4 h-4 bg-violet-600 rounded-full absolute right-0 top-0"></div>
           }
         </div>
@@ -323,17 +324,21 @@
                       class="timeline-dot grid place-items-center"
                       [ngClass]="getStatusColor(status)"
                     >
-                      <i class="material-icons-outlined text-white text-sm">{{
-                        getStatusIcon(status)
-                      }}</i>
+                      <i class="material-icons-outlined text-white text-sm">
+                        {{ getStatusIcon(status) }}
+                      </i>
                     </div>
                     @if (!$last) {
                       <div class="w-0.5 flex-grow" [ngClass]="getLineColor(status)"></div>
                     }
                   </div>
                   <div class="pt-1" [class.pb-8]="!$last">
-                    <p class="font-semibold text-gray-800 dark:text-gray-100">{{ status }}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Status atualizado</p>
+                    <p class="font-semibold text-gray-800 saira-font dark:text-gray-100 uppercase">
+                      {{ legend[status].label }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      {{ legend[status].simpleLegend }}
+                    </p>
                   </div>
                 </div>
               }

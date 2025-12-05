@@ -10,9 +10,10 @@ import { UpdateBookingServiceDTO } from '@app/core/schemas/update-booking-servic
 import { BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import {
-    RescheduleBookingComponent,
-    RescheduleBookingDialogData,
+  RescheduleBookingComponent,
+  RescheduleBookingDialogData,
 } from '@app/features/(clients)/booking/components/reschedule-booking/reschedule-booking.component';
+import { bookingStatusMap } from '@app/shared/utils/booking-status';
 import dayjs, { Dayjs } from 'dayjs'; // Importe o Dayjs
 import { firstValueFrom } from 'rxjs';
 import { AllPaymentsComponent } from './components/all-payments/all-payments.component';
@@ -89,6 +90,8 @@ export class BookingDetailsComponent implements OnInit {
   public getTimelineStatuses(): BookingStatus[] {
     return ['PENDING', 'CREATED', 'CONFIRMED', 'IN_PROGRESS', 'COMPLETED', 'PAID'];
   }
+
+  public legend = bookingStatusMap;
 
   private getAllStatuses(): BookingStatus[] {
     return [
@@ -301,7 +304,7 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   public getStatusColor(status: BookingStatus): string {
-    if (!this.isStatusComplete(status)) return 'bg-stone-400';
+    if (!this.isStatusComplete(status)) return 'bg-gray-400 dark:bg-gray-800';
     return 'bg-indigo-500';
   }
 
