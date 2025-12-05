@@ -17,14 +17,14 @@
 
     <div *ngIf="clientsSummary.clientsCount > 0; else noClientsTemplate">
       <div
-        class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900"
+        class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-neutral-800 dark:bg-neutral-950"
       >
-        <ul class="divide-y divide-gray-200 dark:divide-gray-800">
+        <ul class="divide-y divide-gray-200 dark:divide-neutral-800">
           <button
             type="button"
             (click)="openProfileModal(item)"
             *ngFor="let item of clientsSummary.summary"
-            class="group flex flex-1 w-full items-center justify-between p-4 transition-colors hover:bg-stone-50 dark:hover:bg-gray-800/50"
+            class="group flex flex-1 w-full items-center justify-between p-4 transition-colors hover:bg-stone-50 dark:hover:bg-neutral-900/50"
           >
             <div class="flex items-center gap-4">
               <div class="relative h-10 w-10 flex-shrink-0">
@@ -58,7 +58,7 @@
               </div>
               <button
                 type="button"
-                class="flex-shrink-0 rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-200 hover:text-gray-800 dark:hover:bg-gray-700 dark:hover:text-gray-100"
+                class="flex-shrink-0 rounded-full p-2 text-gray-500 transition-colors hover:bg-stone-200 hover:text-gray-800 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
               >
                 <i class="material-icons-outlined !text-xl">more_vert</i>
               </button>
@@ -70,7 +70,7 @@
 
     <ng-template #noClientsTemplate>
       <div
-        class="text-center rounded-xl bg-white dark:bg-gray-950/50 backdrop-blur-xl border-2 border-dashed border-gray-200 p-12 dark:border-gray-800"
+        class="text-center rounded-xl bg-white dark:bg-neutral-950/50 backdrop-blur-xl border-2 border-dashed border-gray-200 p-12 dark:border-neutral-800"
       >
         <i class="material-icons-outlined text-5xl text-gray-400">people</i>
         <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-gray-200">

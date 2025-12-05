@@ -7,13 +7,13 @@
     <div class="flex items-center gap-2">
       <button
         (click)="changeMonth(-1)"
-        class="grid place-items-center w-8 h-8 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800"
+        class="grid place-items-center w-8 h-8 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-neutral-900"
       >
         <i class="material-symbols-outlined">chevron_left</i>
       </button>
       <button
         (click)="changeMonth(1)"
-        class="grid place-items-center w-8 h-8 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800"
+        class="grid place-items-center w-8 h-8 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-neutral-900"
       >
         <i class="material-symbols-outlined">chevron_right</i>
       </button>
@@ -52,7 +52,7 @@
           [class.text-gray-700]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
           [class.dark:text-gray-200]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
           [class.hover:bg-stone-100]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
-          [class.dark:hover:bg-gray-800]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
+          [class.dark:hover:bg-neutral-900]="day.isAvailable && day.isCurrentMonth && !day.isSelected"
           [class.border-2]="day.isToday && !day.isSelected"
           [class.border-indigo-500]="day.isToday && !day.isSelected"
           [class.bg-indigo-600]="day.isSelected"

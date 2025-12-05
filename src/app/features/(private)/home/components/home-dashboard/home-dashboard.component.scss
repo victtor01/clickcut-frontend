@@ -1,0 +1,45 @@
+@keyframes pulse-light {
+  0% {
+    opacity: 0.8;
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.2);
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.8;
+    filter: brightness(1);
+    transform: scale(1);
+  }
+}
+
+.animate-pulse {
+  animation: pulse-light 2s ease-in-out;
+}
+
+@keyframes fire-flicker {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(1) translateY(0);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-1px);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.98) translateY(0.5px);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.03) translateY(-0.5px);
+  }
+}
+
+.animate-fire-flicker {
+  animation: fire-flicker 0.8s ease-in-out;
+}

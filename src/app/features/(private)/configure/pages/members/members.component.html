@@ -10,10 +10,10 @@
 
   <section class="mt-5">
     <div
-      class="overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
+      class="overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-950/50"
     >
       <div
-        class="flex flex-col gap-4 border-b border-gray-200/80 p-6 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between"
+        class="flex flex-col gap-4 border-b border-gray-200/80 p-6 dark:border-neutral-800 sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
           <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Cargos</h2>
@@ -32,7 +32,7 @@
       </div>
 
       @if (roles.length > 0) {
-        <ul class="divide-y divide-gray-200/80 dark:divide-gray-800">
+        <ul class="divide-y divide-gray-200/80 dark:divide-neutral-800">
           @for (role of roles; track role.id) {
             <li class="flex items-center justify-between gap-4 p-4 sm:p-6">
               <div>
@@ -44,7 +44,7 @@
               <button
                 type="button"
                 (click)="openRoleModal(role.id)"
-                class="rounded-full grid place-items-center w-12 h-12 text-gray-500 transition-colors hover:bg-stone-100 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+                class="rounded-full grid place-items-center w-12 h-12 text-gray-500 transition-colors hover:bg-stone-100 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-neutral-900 dark:hover:text-gray-100"
               >
                 <i class="material-symbols-outlined">edit</i>
               </button>
@@ -61,10 +61,10 @@
 
   <section class="mt-4">
     <div
-      class="overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50"
+      class="overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-950/50"
     >
       <div
-        class="flex flex-col gap-4 border-b border-gray-200/80 p-6 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between"
+        class="flex flex-col gap-4 border-b border-gray-200/80 p-6 dark:border-neutral-800 sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
           <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Membros da Equipe</h2>
@@ -82,11 +82,11 @@
       </div>
 
       @if (members.length > 0) {
-        <ul class="divide-y divide-gray-200/80 dark:divide-gray-800">
+        <ul class="divide-y divide-gray-200/80 dark:divide-neutral-800">
           @for (member of members; track member.user.id) {
             <li
               (click)="openMemberDetails(member)"
-              class="flex cursor-pointer flex-col items-start gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6 hover:bg-stone-100 dark:hover:bg-gray-900"
+              class="flex cursor-pointer flex-col items-start gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6 hover:bg-stone-100 dark:hover:bg-neutral-900"
             >
               <div class="flex items-center gap-4">
                 <div class="relative h-10 w-10 flex-shrink-0">
@@ -98,7 +98,7 @@
                     />
                   } @else {
                     <div
-                      class="flex h-full w-full items-center justify-center rounded-full bg-stone-100 dark:bg-gray-700"
+                      class="flex h-full w-full items-center justify-center rounded-full bg-stone-100 dark:bg-neutral-700"
                     >
                       <i class="material-symbols-outlined text-gray-500">person</i>
                     </div>
@@ -121,7 +121,7 @@
                   }
                   @if (member.roles.length === 0) {
                     <span
-                      class="rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                      class="rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:bg-neutral-700 dark:text-gray-300"
                       >Sem cargo</span
                     >
                   }

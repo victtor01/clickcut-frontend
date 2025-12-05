@@ -1,14 +1,14 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule, DatePipe } from '@angular/common';
 import {
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-  ViewChild,
+    Component,
+    ElementRef,
+    HostListener,
+    inject,
+    OnDestroy,
+    OnInit,
+    signal,
+    ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
@@ -29,10 +29,10 @@ import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { hugeDoor01, hugeMenu02 } from '@ng-icons/huge-icons';
 import {
-  saxMoonBold,
-  saxNotificationBold,
-  saxSettingBold,
-  saxSun1Bold,
+    saxMoonBold,
+    saxNotificationBold,
+    saxSettingBold,
+    saxSun1Bold,
 } from '@ng-icons/iconsax/bold';
 import { solarUserBold } from '@ng-icons/solar-icons/bold';
 import { firstValueFrom, Subscription } from 'rxjs';
@@ -135,7 +135,7 @@ export class HomeEnterComponent implements OnInit, OnDestroy {
 
   public openSearch(): void {
     const dialogRef = this.dialog.open(BookingSearchModalComponent, {
-      backdropClass: ['bg-stone-200/50', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(65rem, 100%)',

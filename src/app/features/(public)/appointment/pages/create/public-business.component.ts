@@ -8,8 +8,8 @@ import { Service } from '@app/core/models/Service';
 import { User } from '@app/core/models/User';
 import { CreateAppointmentAttendeeDTO } from '@app/core/schemas/create-appointment-attendee.dto';
 import {
-  CreateAppointmentClientDTO,
-  CreateAppointmentDTO,
+    CreateAppointmentClientDTO,
+    CreateAppointmentDTO,
 } from '@app/core/schemas/create-appointment.dto';
 import { AppointmentsService } from '@app/core/services/appointments.service';
 import { AttendeeService } from '@app/core/services/attendee.service';
@@ -258,7 +258,7 @@ export class AppointMeetComponent implements OnInit, OnDestroy {
 
   public openLoginModal() {
     const dialogRef = this.loginDialog.open(LoginModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(55rem, 90%)',

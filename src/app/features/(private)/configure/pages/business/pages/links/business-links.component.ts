@@ -14,7 +14,7 @@ import { filter } from 'rxjs';
       </p>
 
       <div
-        class="border rounded-xl bg-white dark:bg-gray-900/50 dark:border-gray-800 border-gray-200/80 mt-8"
+        class="border rounded-xl bg-white dark:bg-neutral-950/50 dark:border-neutral-800 border-gray-200/80 mt-8"
       >
         <div class="p-6">
           <h3 class="text-lg font-semibold saira-font text-gray-500 dark:text-gray-100">
@@ -25,7 +25,7 @@ import { filter } from 'rxjs';
           </p>
         </div>
 
-        <div class="p-6 border-t dark:border-gray-800 border-gray-200/80">
+        <div class="p-6 border-t dark:border-neutral-800 border-gray-200/80">
           <label for="appointmentLink" class="text-sm font-medium text-gray-700 dark:text-gray-300">
             Compartilhe seu link
           </label>
@@ -37,14 +37,14 @@ import { filter } from 'rxjs';
               [value]="appointmentLink"
               readonly
               (click)="copyLink()"
-              class="w-full cursor-pointer rounded-lg border border-gray-300 bg-stone-100 py-2.5 pl-4 pr-28 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+              class="w-full cursor-pointer rounded-lg border border-gray-300 bg-stone-100 py-2.5 pl-4 pr-28 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300"
             />
 
             <!-- Botão para copiar -->
             <button
               type="button"
               (click)="copyLink()"
-              class="absolute inset-y-0 right-0 my-1.5 mr-1.5 flex items-center gap-2 rounded-md bg-white px-3 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 transition-all hover:bg-stone-100 dark:bg-gray-700 dark:text-gray-200 dark:ring-gray-600 dark:hover:bg-gray-600"
+              class="absolute inset-y-0 right-0 my-1.5 mr-1.5 flex items-center gap-2 rounded-md bg-white px-3 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 transition-all hover:bg-stone-100 dark:bg-neutral-700 dark:text-gray-200 dark:ring-gray-600 dark:hover:bg-neutral-600"
               [ngClass]="{ 'text-blue-500 dark:text-blue-400': copyState === 'copied' }"
             >
               @if (copyState === 'idle') {

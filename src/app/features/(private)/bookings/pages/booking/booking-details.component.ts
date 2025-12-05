@@ -54,7 +54,7 @@ export class BookingDetailsComponent implements OnInit {
   public dayjs = dayjs;
 
   private baseModal = {
-    backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+    backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
     panelClass: ['dialog-no-container'],
     enterAnimationDuration: '300ms',
     exitAnimationDuration: '200ms',
@@ -144,7 +144,7 @@ export class BookingDetailsComponent implements OnInit {
 
   public openService(service: BookingService): void {
     const dialogServiceModal = this.dialog.open(ServiceModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(45rem, 100%)',
@@ -235,7 +235,7 @@ export class BookingDetailsComponent implements OnInit {
   public getLineColor(status: BookingStatus): string {
     return this.isStatusComplete(status)
       ? this.getStatusColor(status)
-      : 'bg-stone-200 dark:bg-gray-700';
+      : 'bg-stone-200 dark:bg-neutral-700';
   }
 
   public isStatusActive(status: BookingStatus): boolean {
@@ -306,7 +306,7 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   public getStatusColor(status: BookingStatus): string {
-    if (!this.isStatusComplete(status)) return 'bg-gray-400 dark:bg-gray-800';
+    if (!this.isStatusComplete(status)) return 'bg-gray-400 dark:bg-neutral-900';
     return 'bg-indigo-500';
   }
 

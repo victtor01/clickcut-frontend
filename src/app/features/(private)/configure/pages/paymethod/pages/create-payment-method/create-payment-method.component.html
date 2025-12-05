@@ -2,7 +2,7 @@
 (click)="$event.stopPropagation()"
 class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in flex flex-col md:flex-row"
 >
-	<div class="flex-1 bg-white dark:bg-gray-950 flex flex-col justify-center">
+	<div class="flex-1 bg-white dark:bg-neutral-950 flex flex-col justify-center">
 		<header class="flex gap-2 items-center mb-5">
 			<a [routerLink]="['/configure/plan']" class="group">
 				<i class="material-symbols-outlined text-gray-500 dark:text-white !text-2xl group-hover:-translate-x-1 transition-transform">arrow_left_alt</i>
@@ -21,7 +21,7 @@ class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in
 					placeholder="Como impresso no cartão"
 					(input)="onInputName($event)"
 					(focus)="focusFront()"
-					class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
+					class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
 				/>
 			</div>
 
@@ -36,7 +36,7 @@ class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in
 					placeholder="0000 0000 0000 0000"
 					(input)="onInputNumber($event)"
 					(focus)="focusFront()"
-					class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors font-mono"
+					class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors font-mono"
 				/>
 			</div>
 
@@ -54,7 +54,7 @@ class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in
 						maxlength="2"
 						(input)="onInputMonth($event)"
 						(focus)="focusFront()"
-						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
 					/>
 				</div>
 				<!-- Ano -->
@@ -69,7 +69,7 @@ class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in
 						maxlength="2"
 						(input)="onInputYear($event)"
 						(focus)="focusFront()"
-						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
 					/>
 				</div>
 				<!-- CVV -->
@@ -84,7 +84,7 @@ class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in
 						maxlength="4"
 						(input)="onInputCvv($event)"
 						(focus)="focusBack()"
-						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
 					/>
 				</div>
 			</div>
@@ -99,7 +99,7 @@ class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in
 						id="form-checkout-identificationType"
 						name="identificationType"
 						(focus)="focusFront()"
-						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-2 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white transition-colors"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-2 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-white transition-colors"
 					></select>
 				</div>
 				<div class="w-2/3">
@@ -112,7 +112,7 @@ class="relative w-full px-5 flex-wrap max-w-4xl overflow-hidden animate-scale-in
 						type="text"
 						placeholder="CPF / CNPJ"
 						(focus)="focusFront()"
-						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-gray-900/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
+						class="h-11 w-full rounded-lg border border-zinc-200 bg-gray-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
 					/>
 				</div>
 			</div>

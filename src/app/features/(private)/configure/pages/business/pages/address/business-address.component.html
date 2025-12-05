@@ -1,5 +1,5 @@
 <div
-  class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 md:p-10 mx-4 my-8 border border-indigo-200 dark:border-indigo-700 overflow-hidden"
+  class="relative bg-white dark:bg-neutral-900 rounded-lg shadow-xl p-6 sm:p-8 md:p-10 mx-4 my-8 border border-indigo-200 dark:border-indigo-700 overflow-hidden"
 >
   <div
     class="absolute -top-10 -right-10 w-48 h-48 bg-indigo-50 dark:bg-indigo-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
@@ -34,7 +34,7 @@
         Adicionar meu negócio
       </button>
       <button
-        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full shadow-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-stone-50 dark:hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-neutral-600 rounded-full shadow-md text-gray-800 dark:text-gray-200 bg-white dark:bg-neutral-700 hover:bg-stone-50 dark:hover:bg-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
       >
         <i class="material-icons-outlined text-xl mr-2">help_outline</i>
         Saber mais
@@ -43,8 +43,8 @@
   </div>
 </div>
 
-<div class="rounded-xl mx-4 border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900/50">
-  <div class="border-b border-gray-200/80 p-6 dark:border-gray-800">
+<div class="rounded-xl mx-4 border border-gray-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-950/50">
+  <div class="border-b border-gray-200/80 p-6 dark:border-neutral-800">
     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Endereço do Negócio</h3>
     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
       Informe o endereço onde seu negócio está localizado para atendimentos presenciais.
@@ -63,7 +63,7 @@
               class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white"
               [class.border-red-500]="form.get('postalCode')?.invalid && (form.get('postalCode')?.dirty || form.get('postalCode')?.touched)"
               [class.border-gray-300]="!form.get('postalCode')?.invalid"
-              [class.dark:border-gray-700]="!form.get('postalCode')?.invalid"
+              [class.dark:border-neutral-700]="!form.get('postalCode')?.invalid"
             />
             @if (isSearchingCep()) {
               <i class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-gray-400">progress_activity</i>
@@ -84,7 +84,7 @@
               class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-stone-100 dark:disabled:bg-stone-800"
               [class.border-red-500]="form.get('street')?.invalid && (form.get('street')?.dirty || form.get('street')?.touched)"
               [class.border-gray-300]="!form.get('street')?.invalid"
-              [class.dark:border-gray-700]="!form.get('street')?.invalid"
+              [class.dark:border-neutral-700]="!form.get('street')?.invalid"
             />
           </div>
         </div>
@@ -97,7 +97,7 @@
               class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white"
               [class.border-red-500]="form.get('number')?.invalid && (form.get('number')?.dirty || form.get('number')?.touched)"
               [class.border-gray-300]="!form.get('number')?.invalid"
-              [class.dark:border-gray-700]="!form.get('number')?.invalid"
+              [class.dark:border-neutral-700]="!form.get('number')?.invalid"
             />
           </div>
         </div>
@@ -105,32 +105,32 @@
         <div class="sm:col-span-4">
           <label for="neighborhood" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Bairro</label>
           <div class="mt-2">
-            <input type="text" id="neighborhood" formControlName="neighborhood" placeholder="Ex: Centro" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-stone-100 dark:disabled:bg-stone-800" [class.border-red-500]="form.get('neighborhood')?.invalid && (form.get('neighborhood')?.dirty || form.get('neighborhood')?.touched)" [class.border-gray-300]="!form.get('neighborhood')?.invalid" [class.dark:border-gray-700]="!form.get('neighborhood')?.invalid" />
+            <input type="text" id="neighborhood" formControlName="neighborhood" placeholder="Ex: Centro" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-stone-100 dark:disabled:bg-stone-800" [class.border-red-500]="form.get('neighborhood')?.invalid && (form.get('neighborhood')?.dirty || form.get('neighborhood')?.touched)" [class.border-gray-300]="!form.get('neighborhood')?.invalid" [class.dark:border-neutral-700]="!form.get('neighborhood')?.invalid" />
           </div>
         </div>
         <div class="sm:col-span-3">
           <label for="city" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Cidade</label>
           <div class="mt-2">
-            <input type="text" id="city" formControlName="city" placeholder="Ex: São Paulo" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white text-gray-500 disabled:cursor-not-allowed disabled:bg-stone-100 dark:disabled:bg-stone-800" [class.border-red-500]="form.get('city')?.invalid && (form.get('city')?.dirty || form.get('city')?.touched)" [class.border-gray-300]="!form.get('city')?.invalid" [class.dark:border-gray-700]="!form.get('city')?.invalid" />
+            <input type="text" id="city" formControlName="city" placeholder="Ex: São Paulo" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 dark:text-white text-gray-500 disabled:cursor-not-allowed disabled:bg-stone-100 dark:disabled:bg-stone-800" [class.border-red-500]="form.get('city')?.invalid && (form.get('city')?.dirty || form.get('city')?.touched)" [class.border-gray-300]="!form.get('city')?.invalid" [class.dark:border-neutral-700]="!form.get('city')?.invalid" />
           </div>
         </div>
         <div class="sm:col-span-3">
           <label for="state" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Estado</label>
           <div class="mt-2">
-            <input type="text" id="state" formControlName="state" placeholder="Ex: SP" maxlength="2" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-stone-100 dark:disabled:bg-stone-800" [class.border-red-500]="form.get('state')?.invalid && (form.get('state')?.dirty || form.get('state')?.touched)" [class.border-gray-300]="!form.get('state')?.invalid" [class.dark:border-gray-700]="!form.get('state')?.invalid" />
+            <input type="text" id="state" formControlName="state" placeholder="Ex: SP" maxlength="2" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white disabled:cursor-not-allowed disabled:bg-stone-100 dark:disabled:bg-stone-800" [class.border-red-500]="form.get('state')?.invalid && (form.get('state')?.dirty || form.get('state')?.touched)" [class.border-gray-300]="!form.get('state')?.invalid" [class.dark:border-neutral-700]="!form.get('state')?.invalid" />
           </div>
         </div>
         
         <div class="col-span-full">
           <label for="complement" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Complemento <span class="text-gray-400">(Opcional)</span></label>
           <div class="mt-2">
-            <input type="text" id="complement" formControlName="complement" placeholder="Ex: Sala 10, Bloco B" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white" [class.border-red-500]="form.get('complement')?.invalid && (form.get('complement')?.dirty || form.get('complement')?.touched)" [class.border-gray-300]="!form.get('complement')?.invalid" [class.dark:border-gray-700]="!form.get('complement')?.invalid" />
+            <input type="text" id="complement" formControlName="complement" placeholder="Ex: Sala 10, Bloco B" class="w-full rounded-lg border bg-transparent py-2 px-3 focus:ring-2 focus:ring-indigo-500 text-gray-500 dark:text-white" [class.border-red-500]="form.get('complement')?.invalid && (form.get('complement')?.dirty || form.get('complement')?.touched)" [class.border-gray-300]="!form.get('complement')?.invalid" [class.dark:border-neutral-700]="!form.get('complement')?.invalid" />
           </div>
         </div>
       </div>
     </div>
 
-    <div class="flex items-center justify-end border-t border-gray-200/80 p-4 dark:border-gray-800">
+    <div class="flex items-center justify-end border-t border-gray-200/80 p-4 dark:border-neutral-800">
       <button type="submit" [disabled]="form.invalid || isSubmitting()" class="flex min-w-[150px] items-center justify-center rounded-full bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400 dark:disabled:bg-indigo-800">
         @if (isSubmitting()) {
           <i class="material-symbols-outlined animate-spin !text-base">progress_activity</i>

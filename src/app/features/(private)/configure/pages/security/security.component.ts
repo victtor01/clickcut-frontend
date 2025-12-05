@@ -81,7 +81,7 @@ export class SecurityComponent implements OnInit {
 
   public removeBusinessPassword(): void {
     const dialog = this.dialog.open(RemoveBusinessPinComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       width: 'min(30rem, 99%)',
     });

@@ -84,7 +84,7 @@ export class HubHomeComponent implements OnInit {
     CREATED: {
       text: 'Criado',
       icon: 'add_circle_outline',
-      classes: 'bg-stone-100 text-gray-700 dark:bg-stone-800 dark:text-gray-300',
+      classes: 'bg-stone-100 text-gray-700 dark:bg-neutral-900 dark:text-gray-300',
     },
     PENDING: {
       text: 'Pendente',

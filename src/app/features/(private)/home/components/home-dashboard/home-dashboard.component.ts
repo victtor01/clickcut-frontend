@@ -10,13 +10,25 @@ import { SummaryService } from '@app/core/services/summary.service';
 import { DoughnutChartComponent } from '@app/shared/components/graphics/doughnut-chart/doughnut.component';
 import { LineGraph } from '@app/shared/components/graphics/line-graph/line-graph.component';
 import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { hugeTradeUp } from '@ng-icons/huge-icons';
+import { saxGraphBold } from '@ng-icons/iconsax/bold';
+import { solarFireMinimalisticBold, solarGraphNewUpBold } from '@ng-icons/solar-icons/bold';
 import { firstValueFrom } from 'rxjs';
 
+const icons = {
+  saxGraphBold,
+  solarFireMinimalisticBold,
+  solarGraphNewUpBold,
+  hugeTradeUp
+}
 
 @Component({
   selector: 'home-dashboard',
   templateUrl: './home-dashboard.component.html',
-  imports: [LineGraph, DoughnutChartComponent, CommonModule, ToFormatBrlPipe, MatIconModule],
+  styleUrls: ['home-dashboard.component.scss'],
+  providers: [provideIcons(icons)],
+  imports: [LineGraph, DoughnutChartComponent, CommonModule, ToFormatBrlPipe, MatIconModule, NgIconComponent],
 })
 export class HomeDashboardComponent implements OnInit {
   private readonly summaryService = inject(SummaryService);

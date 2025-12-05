@@ -1,8 +1,8 @@
 <section
-  class="p-4 bg-transparent bg-gradient-to-b from-stone-50 dark:from-gray-950 to-transparent dark:to-transparent overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
+  class="p-4 bg-transparent bg-gradient-to-b from-stone-50 dark:from-neutral-950 to-transparent dark:to-transparent overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
 >
   <header
-    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/40 flex-shrink-0 z-20 h-16 overflow-hidden"
+    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-950/40 flex-shrink-0 z-20 h-16 overflow-hidden"
   >
     <div class="flex items-center gap-3 z-30 relative shrink-0">
       <a
@@ -21,17 +21,17 @@
           type="button"
           (click)="navigateToNow()"
           [attr.data-now]="isNow()"
-          class="hidden md:block rounded-md p-2 px-3 font-medium text-sm transition-colors border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-slate-200 dark:hover:bg-gray-700 data-[now=false]:bg-indigo-600 data-[now=false]:text-white data-[now=false]:border-indigo-600 data-[now=false]:hover:bg-indigo-700 mr-2"
+          class="hidden md:block rounded-md p-2 px-3 font-medium text-sm transition-colors border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-600 dark:text-slate-200 dark:hover:bg-neutral-700 data-[now=false]:bg-indigo-600 data-[now=false]:text-white data-[now=false]:border-indigo-600 data-[now=false]:hover:bg-indigo-700 mr-2"
         >
           <span>Hoje</span>
         </button>
 
         <div
-          class="flex items-center gap-1 p-1 rounded-md bg-gray-100 dark:bg-gray-800 shadow-sm md:shadow-none"
+          class="flex items-center gap-1 p-1 rounded-md bg-gray-100 dark:bg-neutral-900 shadow-sm md:shadow-none"
         >
           <button
             (click)="previousDay()"
-            class="p-1 rounded-md dark:hover:bg-gray-700 grid place-items-center text-gray-600 hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
+            class="p-1 rounded-md dark:hover:bg-neutral-700 grid place-items-center text-gray-600 hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
             aria-label="Anterior"
           >
             <span class="material-icons-outlined !text-lg md:!text-2xl">chevron_left</span>
@@ -45,7 +45,7 @@
 
           <button
             (click)="nextDay()"
-            class="p-1 rounded-md dark:hover:bg-gray-700 text-gray-600 grid place-items-center hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
+            class="p-1 rounded-md dark:hover:bg-neutral-700 text-gray-600 grid place-items-center hover:bg-white dark:text-gray-300 transition-colors w-8 h-8 shrink-0"
             aria-label="Próximo"
           >
             <span class="material-icons-outlined !text-lg md:!text-2xl">chevron_right</span>
@@ -53,20 +53,20 @@
         </div>
 
         <div
-          class="p-1 bg-gray-100 lg:flex hidden dark:bg-gray-800 rounded-md items-center gap-1 ml-2"
+          class="p-1 bg-gray-100 lg:flex hidden dark:bg-neutral-900 rounded-md items-center gap-1 ml-2"
         >
           <button
-            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 transition-all"
+            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-neutral-700 transition-all"
           >
             Dia
           </button>
           <button
-            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 transition-all"
+            class="px-3 py-1 text-sm font-medium rounded text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-neutral-700 transition-all"
           >
             Semana
           </button>
           <button
-            class="px-3 py-1 text-sm font-medium rounded bg-white dark:bg-gray-700 text-indigo-600 dark:text-white shadow-sm transition-all"
+            class="px-3 py-1 text-sm font-medium rounded bg-white dark:bg-neutral-700 text-indigo-600 dark:text-white shadow-sm transition-all"
           >
             Mês
           </button>
@@ -76,7 +76,7 @@
 
     <div class="flex items-center justify-end gap-2 md:gap-3 z-30 relative shrink-0">
       <button
-        class="p-2 w-9 h-9 rounded-md dark:hover:bg-gray-700 text-gray-600 hover:bg-gray-100 dark:text-gray-300 transition-colors"
+        class="p-2 w-9 h-9 rounded-md dark:hover:bg-neutral-700 text-gray-600 hover:bg-gray-100 dark:text-gray-300 transition-colors"
         aria-label="Pesquisar"
       >
         <span class="material-icons-outlined">search</span>
@@ -109,13 +109,13 @@
             <span class="text-xs text-gray-400 dark:text-gray-500 w-10 text-right pr-2"
               >{{ i }}:00</span
             >
-            <div class="flex-grow h-px bg-stone-200 dark:bg-gray-700"></div>
+            <div class="flex-grow h-px bg-stone-200 dark:bg-neutral-700"></div>
           </div>
         }
 
         @for (interval of closedIntervals(); track $index) {
           <div
-            class="col-start-2 bg-gray-100/50 dark:bg-gray-900/50 border border-zinc-200 dark:border-gray-800/60 rounded-xl pointer-events-none z-10 flex items-center justify-center"
+            class="col-start-2 bg-gray-100/50 dark:bg-neutral-950/50 border border-zinc-200 dark:border-neutral-800/60 rounded-xl pointer-events-none z-10 flex items-center justify-center"
             [ngStyle]="getClosedIntervalStyle(interval)"
             style="
               background-image: linear-gradient(
@@ -164,7 +164,7 @@
 
             @if (booking.status === 'PAID') {
               <div
-                class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-600 dark:text-gray-300 text-center flex saira-font text-xs bg-violet-500/10 dark:bg-gray-800 px-3 rounded-full"
+                class="absolute right-2 text-ellipsis overflow-hidden top-2 p-1 font-semibold text-gray-600 dark:text-gray-300 text-center flex saira-font text-xs bg-violet-500/10 dark:bg-neutral-900 px-3 rounded-full"
               >
                 PAGO
               </div>
@@ -184,7 +184,7 @@
             [style.grid-row]="i * 60 + 1 + ' / span 60'"
           >
             <div
-              class="w-full h-[140px] -translate-y-1/2 absolute left-0 top-1/2 rounded-lg border scale-80 group-hover:scale-[101%] transition-all border-zinc-300 pointer-events-none bg-white dark:bg-gray-700 dark:border-zinc-400 z-40 opacity-0 group-hover:opacity-40"
+              class="w-full h-[140px] -translate-y-1/2 absolute left-0 top-1/2 rounded-lg border scale-80 group-hover:scale-[101%] transition-all border-zinc-300 pointer-events-none bg-white dark:bg-neutral-700 dark:border-neutral-400 z-40 opacity-0 group-hover:opacity-40"
             ></div>
           </div>
         }

@@ -82,14 +82,14 @@ export class DetailsBookingComponent {
     if (this.isStatusComplete(status)) {
       return 'bg-violet-500';
     }
-    return 'bg-stone-300 dark:bg-gray-700';
+    return 'bg-stone-300 dark:bg-neutral-700';
   }
 
   public getLineColor(status: string): string {
     if (this.isStatusComplete(status)) {
       return 'bg-violet-500';
     }
-    return 'bg-stone-300 dark:bg-gray-700';
+    return 'bg-stone-300 dark:bg-neutral-700';
   }
 
   public getStatusIcon(status: string): string {

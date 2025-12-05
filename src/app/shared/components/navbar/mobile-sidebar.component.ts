@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  QueryList,
-  signal,
-  ViewChildren,
+    AfterViewInit,
+    Component,
+    ElementRef,
+    HostListener,
+    inject,
+    QueryList,
+    signal,
+    ViewChildren,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Event, NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -15,17 +15,17 @@ import { Business } from '@app/core/models/Business';
 import { AuthService } from '@app/core/services/auth.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
-  saxCalendarBold,
-  saxHome1Bold,
-  saxMenuBold,
-  saxShoppingBagBold,
+    saxCalendarBold,
+    saxHome1Bold,
+    saxMenuBold,
+    saxShoppingBagBold,
 } from '@ng-icons/iconsax/bold';
 import {
-  saxCalendarOutline,
-  saxHome1Outline,
-  saxMenuOutline,
-  saxShopOutline,
-  saxShoppingBagOutline,
+    saxCalendarOutline,
+    saxHome1Outline,
+    saxMenuOutline,
+    saxShopOutline,
+    saxShoppingBagOutline,
 } from '@ng-icons/iconsax/outline';
 import { filter, Subscription } from 'rxjs';
 import { BusinessModalComponent } from '../business-details/business-modal.component';
@@ -163,7 +163,7 @@ export class MobileNavBarComponent implements AfterViewInit {
     if (!this.business?.id) return;
 
     this.dialog.open(BusinessModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(70rem, 100%)',

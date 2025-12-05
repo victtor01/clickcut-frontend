@@ -2,7 +2,7 @@
   <button
     type="button"
     (click)="back()"
-    class="w-12 h-12 rounded-full grid place-items-center border border-gray-300 dark:border-gray-800"
+    class="w-12 h-12 rounded-full grid place-items-center border border-gray-300 dark:border-neutral-800"
   >
     <i class="material-icons-outlined !text-3xl">chevron_left</i>
   </button>
@@ -11,10 +11,10 @@
 <form
   [formGroup]="businessForm"
   (ngSubmit)="onSubmit()"
-  class="relative flex w-[90%] max-w-[35rem] flex-col overflow-hidden rounded-xl border border-gray-200 bg-white m-auto dark:border-gray-800 dark:bg-gray-900"
+  class="relative flex w-[90%] max-w-[35rem] flex-col overflow-hidden rounded-xl border border-gray-200 bg-white m-auto dark:border-neutral-800 dark:bg-neutral-950"
 >
   <div
-    class="absolute inset-0 pointer-events-none bg-gradient-to-b from-purple-500/5 via-white/20 to-white dark:from-gray-900 dark:via-gray-900/80 dark:to-gray-900"
+    class="absolute inset-0 pointer-events-none bg-gradient-to-b from-purple-500/5 via-white/20 to-white dark:from-neutral-900 dark:via-gray-900/80 dark:to-neutral-900"
   ></div>
 
   <div *ngIf="step === 'NAME'" class="flex flex-col gap-6 p-8 text-center relative">
@@ -35,12 +35,12 @@
         type="text"
         id="name"
         formControlName="name"
-        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-grayral-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
+        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-neutralral-900 dark:border-neutral-800 dark:text-stone-100 dark:focus:border-blue-500"
         placeholder=""
       />
       <label
         for="name"
-        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-neutral-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-40dark:bg-grayutral-900"
+        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-neutral-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-40dark:bg-neutralutral-900"
       >
         Nome
       </label>
@@ -86,7 +86,7 @@
         type="text"
         id="price"
         formControlName="revenueGoal"
-        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-grayral-900 dark:border-gray-800 dark:text-stone-100 dark:focus:border-blue-500"
+        class="peer block w-full rounded-lg border-2 border-stone-200 bg-transparent py-3 pl-4 pr-4 text-stone-900 focus:border-purple-500 focus:outline-none dark:bg-neutralral-900 dark:border-neutral-800 dark:text-stone-100 dark:focus:border-blue-500"
         placeholder=""
         appMoneyInput
         [showCurrencySymbol]="true"
@@ -96,7 +96,7 @@
       />
       <label
         for="price"
-        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-neutral-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-40dark:bg-grayutral-900"
+        class="absolute pointer-events-none left-4 flex h-1 items-center top-0 origin-[0] scale-75 transform text-stone-500 duration-200 peer-placeholder-shown:translate-y-6 peer-placeholder-shown:scale-100 peer-focus:-translate-y-px peer-focus:scale-75 peer-focus:text-purple-500 bg-neutral-50 px-1 dark:text-stone-400 dark:peer-focus:text-blue-40dark:bg-neutralutral-900"
       >
         Meta
       </label>
@@ -138,12 +138,12 @@
         [ngModelOptions]="{ standalone: true }"
         (input)="filterTimezones()"
         (focus)="showResults = true"
-        class="w-full p-3 pl-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-grayral-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        class="w-full p-3 pl-4 rounded-lg border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutralral-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
 
       <div
         *ngIf="showResults"
-        class="absolute z-10 w-full mb-4 bottom-[100%] bg-white h-[20rem] dark:bg-grayral-800 border border-gray-300 dark:border-gray-700 rounded-lg overflow-y-auto"
+        class="absolute z-10 w-full mb-4 bottom-[100%] bg-white h-[20rem] dark:bg-neutralral-800 border border-gray-300 dark:border-neutral-700 rounded-lg overflow-y-auto"
       >
         <div *ngIf="filteredTimezones.length === 0" class="p-4 text-center text-gray-500">
           Nenhum fuso horário encontrado.

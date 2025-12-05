@@ -173,7 +173,7 @@ export class HubLayoutComponent {
       maxWidth: '800px', // A largura pode ser ajustada para o modal de edição
       height: '90%', // Altura ajustada para permitir scroll interno
       maxHeight: '700px',
-      backdropClass: ['bg-stone-200/50', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       data: {
         user: clientAccount, // Passando os dados do usuário para o modal de edição

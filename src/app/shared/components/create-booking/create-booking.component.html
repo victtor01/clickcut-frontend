@@ -2,7 +2,7 @@
   @if (currentStep() === 'calendar' || currentStep() === 'slots') {
     <button
       (click)="goToServiceStep()"
-      class="grid place-items-center w-10 h-10 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-gray-800"
+      class="grid place-items-center w-10 h-10 rounded-full text-gray-500 hover:bg-stone-100 dark:text-gray-400 dark:hover:bg-neutral-900"
     >
       <i class="material-symbols-outlined">arrow_back</i>
     </button>
@@ -26,11 +26,11 @@
         <li
           (click)="selectBookings(service)"
           [attr.data-selected]="isServiceSelected(service)"
-          class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 dark:border-gray-800 border-stone-300 data-[selected=true]:border-indigo-100 dark:data-[selected=true]:border-violet-500 dark:data-[selected=true]:bg-indigo-900/20 data-[selected=true]:bg-indigo-50/50"
+          class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 dark:border-neutral-800 border-stone-300 data-[selected=true]:border-indigo-100 dark:data-[selected=true]:border-violet-500 dark:data-[selected=true]:bg-indigo-900/20 data-[selected=true]:bg-indigo-50/50"
         >
           <div
             [attr.data-selected]="isServiceSelected(service)"
-            class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border bg-white dark:bg-gray-900 transition-all border-gray-300 dark:border-gray-700
+            class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border bg-white dark:bg-neutral-950 transition-all border-gray-300 dark:border-neutral-700
             data-[selected=true]:bg-indigo-50 data-[selected=true]:border-indigo-400/50 dark:data-[selected=true]:border-indigo-900/50 dark:data-[selected=true]:bg-indigo-400/50"
           >
             @if (isServiceSelected(service)) {

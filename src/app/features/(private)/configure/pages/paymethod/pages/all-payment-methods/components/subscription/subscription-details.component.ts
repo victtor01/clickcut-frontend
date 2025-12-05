@@ -77,7 +77,7 @@ export class MySubscriptionComponent implements OnInit {
       
       default: // Solo
         // Light: Cinza Metálico | Dark: Preto "Stealth" (quase fundindo com o fundo, mas destacado pela borda)
-        return 'from-gray-500 to-gray-600 shadow-gray-500/30 dark:from-gray-800 dark:to-gray-950 dark:shadow-black/50 dark:border dark:border-gray-700';
+        return 'from-gray-500 to-gray-600 shadow-gray-500/30 dark:from-neutral-800 dark:to-neutral-950 dark:shadow-black/50 dark:border dark:border-neutral-700';
     }
   }
 

@@ -1,18 +1,18 @@
-<div class="flex lg:hidden scroll-hidden p-3 bg-white dark:bg-gray-900/60 dark:text-gray-100 text-gray-500 mb-3 overflow-x-auto">
+<div class="flex lg:hidden scroll-hidden p-3 bg-white dark:bg-neutral-950/60 dark:text-gray-100 text-gray-500 mb-3 overflow-x-auto">
   <a
     routerLink="/home"
-    class="min-w-10 h-10 bg-stone-100 dark:bg-gray-900 rounded-full grid place-items-center"
+    class="min-w-10 h-10 bg-stone-100 dark:bg-neutral-950 rounded-full grid place-items-center"
   >
     <i class="material-icons-outlined">arrow_back_ios_new</i>
   </a>
-  <span class="flex ml-2 bg-stone-200 dark:bg-gray-800 w-px"></span>
+  <span class="flex ml-2 bg-stone-200 dark:bg-neutral-900 w-px"></span>
   <div class="flex gap-2 px-2 scroll-hidden overflow-auto">
     @for (item of navItems; track item.path) {
     <a
       [routerLink]="item.path"
       [routerLinkActiveOptions]="{ exact: true }"
-      routerLinkActive="bg-violet-100 text-violet-700 dark:bg-gray-800 dark:text-gray-50"
-      class="flex items-center gap-3 p-2 rounded-md transition-colors hover:bg-stone-100 dark:hover:bg-gray-800"
+      routerLinkActive="bg-violet-100 text-violet-700 dark:bg-neutral-900 dark:text-gray-50"
+      class="flex items-center gap-3 p-2 rounded-md transition-colors hover:bg-stone-100 dark:hover:bg-neutral-900"
     >
       <i class="text-xl material-symbols-outlined">{{ item.icon }}</i>
       <span class="font-medium">{{ item.label }}</span>

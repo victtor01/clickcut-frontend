@@ -38,7 +38,7 @@ export class ConfigureMembersComponent implements OnInit {
   public openMemberDetails(memberToEdit: MemberShip): void {
     const dialogRef = this.dialog.open(MemberDetailsModalComponent, {
       data: { member: memberToEdit, allRoles: this.roles },
-      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '40rem',
       width: 'min(40rem, 100%)',
@@ -106,7 +106,7 @@ export class ConfigureMembersComponent implements OnInit {
 
   public openRoleModal(roleId?: string) {
     const modal = this.rolesDialog.open(RoleModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '40rem',
       width: 'min(40rem, 100%)',

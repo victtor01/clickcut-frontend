@@ -92,7 +92,7 @@ export class InvitesComponent implements OnInit {
       case InvitationStatus.Expired:
         return 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800';
       case InvitationStatus.Cancelled:
-        return 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700';
+        return 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-neutral-900 dark:text-gray-400 dark:border-neutral-700';
       default:
         return 'bg-gray-100 text-gray-700';
     }

@@ -1,7 +1,7 @@
 <div class="hidden lg:block w-[28rem] pr-4 pt-4">
   <div class="lg:sticky lg:top-8">
     <div
-      class="rounded-2xl border border-gray-200/80 bg-white p-6 dark:border-gray-800 dark:bg-gray-900"
+      class="rounded-2xl border border-gray-200/80 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950"
     >
       <h2 class="text-xl font-semibold saira-font  text-gray-600 dark:text-gray-100">Resumo do Agendamento</h2>
 
@@ -26,7 +26,7 @@
           </ul>
         } @else {
           <div
-            class="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-200 p-6 text-center text-gray-500 dark:border-gray-700 dark:text-gray-400"
+            class="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-200 p-6 text-center text-gray-500 dark:border-neutral-700 dark:text-gray-400"
           >
             <i class="material-icons-outlined text-4xl text-gray-300 dark:text-gray-600"
               >list_alt</i
@@ -36,7 +36,7 @@
         }
       </div>
 
-      <hr class="my-6 border-gray-200/80 dark:border-gray-800" />
+      <hr class="my-6 border-gray-200/80 dark:border-neutral-800" />
 
       <div class="space-y-4">
         <h3
@@ -48,7 +48,7 @@
         @if (data && data.assignTo) {
           <div class="flex items-center gap-4 pt-2">
             <div
-              class="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-stone-200 dark:bg-gray-700"
+              class="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-stone-200 dark:bg-neutral-700"
             >
               @if (data.assignTo.photoUrl) {
                 <img
@@ -73,16 +73,16 @@
           </div>
         } @else {
           <div class="flex animate-pulse items-center gap-4 pt-2">
-            <div class="h-12 w-12 rounded-full bg-stone-200 dark:bg-gray-700"></div>
+            <div class="h-12 w-12 rounded-full bg-stone-200 dark:bg-neutral-700"></div>
             <div class="flex-1 space-y-2">
-              <div class="h-4 rounded bg-stone-200 dark:bg-gray-700"></div>
-              <div class="h-3 w-3/4 rounded bg-stone-200 dark:bg-gray-700"></div>
+              <div class="h-4 rounded bg-stone-200 dark:bg-neutral-700"></div>
+              <div class="h-3 w-3/4 rounded bg-stone-200 dark:bg-neutral-700"></div>
             </div>
           </div>
         }
       </div>
 
-      <hr class="my-6 border-gray-200/80 dark:border-gray-800" />
+      <hr class="my-6 border-gray-200/80 dark:border-neutral-800" />
 
       <div class="space-y-4">
         <h3
@@ -108,13 +108,13 @@
           </div>
         } @else {
           <div class="animate-pulse space-y-3 pt-2">
-            <div class="h-4 rounded bg-stone-200 dark:bg-gray-700"></div>
-            <div class="h-4 rounded bg-stone-200 dark:bg-gray-700"></div>
+            <div class="h-4 rounded bg-stone-200 dark:bg-neutral-700"></div>
+            <div class="h-4 rounded bg-stone-200 dark:bg-neutral-700"></div>
           </div>
         }
       </div>
 
-      <hr class="my-6 border-gray-200/80 dark:border-gray-800" />
+      <hr class="my-6 border-gray-200/80 dark:border-neutral-800" />
 
       <div class="space-y-4">
         <div class="flex justify-between text-gray-600 dark:text-gray-400">
@@ -144,7 +144,7 @@
 </div>
 
 <div
-  class="lg:hidden fixed flex-col bottom-4 left-4 right-4 z-40 flex cursor-pointer items-center justify-between rounded-2xl border border-gray-200 bg-white/70 p-4 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-800/70"
+  class="lg:hidden fixed flex-col bottom-4 left-4 right-4 z-40 flex cursor-pointer items-center justify-between rounded-2xl border border-gray-200 bg-white/70 p-4 backdrop-blur-sm dark:border-neutral-700 dark:bg-neutral-900/70"
 >
   <div (click)="openSummary()" class="flex justify-between flex-1 w-full">
     <div class="text-left">
@@ -178,11 +178,11 @@
   >
     <div
       (click)="$event.stopPropagation()"
-      class="fixed bottom-5 left-0 right-0 mx-4 max-h-[85vh] transform-gpu animate-slide-up overflow-y-auto rounded-2xl border border-gray-200 bg-stone-50 p-6 dark:border-gray-700 dark:bg-gray-900"
+      class="fixed bottom-5 left-0 right-0 mx-4 max-h-[85vh] transform-gpu animate-slide-up overflow-y-auto rounded-2xl border border-gray-200 bg-stone-50 p-6 dark:border-neutral-700 dark:bg-neutral-950"
     >
       <button
         (click)="closeSummary()"
-        class="absolute top-4 right-4 grid h-8 w-8 place-items-center rounded-full bg-stone-200 dark:bg-gray-700"
+        class="absolute top-4 right-4 grid h-8 w-8 place-items-center rounded-full bg-stone-200 dark:bg-neutral-700"
       >
         <i class="material-icons-outlined !text-xl">close</i>
       </button>
@@ -205,13 +205,13 @@
         </div>
       }
 
-      <hr class="my-6 border-gray-200 dark:border-gray-700" />
+      <hr class="my-6 border-gray-200 dark:border-neutral-700" />
 
       <h3 class="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">PROFISSIONAL</h3>
       @if (data && data.assignTo) {
         <div class="flex items-center gap-3">
           <div
-            class="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-stone-200 dark:bg-gray-700"
+            class="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-stone-200 dark:bg-neutral-700"
           >
             @if (data.assignTo.photoUrl) {
               <img
@@ -238,7 +238,7 @@
         </div>
       }
 
-      <hr class="my-6 border-gray-200 dark:border-gray-700" />
+      <hr class="my-6 border-gray-200 dark:border-neutral-700" />
 
       <h3 class="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">DATA E HORA</h3>
       @if (data && data.date) {
@@ -256,7 +256,7 @@
         </div>
       }
 
-      <hr class="my-6 border-gray-200 dark:border-gray-700" />
+      <hr class="my-6 border-gray-200 dark:border-neutral-700" />
 
       <div class="space-y-4">
         <div class="flex justify-between text-gray-600 dark:text-gray-400">

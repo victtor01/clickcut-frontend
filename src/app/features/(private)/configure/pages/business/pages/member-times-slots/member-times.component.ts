@@ -8,7 +8,7 @@ import { ToastService } from '@app/core/services/toast.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { solarShopBold, solarUserBold } from '@ng-icons/solar-icons/bold';
 import { firstValueFrom } from 'rxjs';
-import { CreateTimeSlotComponent } from '../../../../components/create-time-slot/create-time-slot.component';
+import { CreateTimeSlotComponent } from '../../components/create-time-slot/create-time-slot.component';
 
 export interface WeeklySchedule {
   [day: number]: {

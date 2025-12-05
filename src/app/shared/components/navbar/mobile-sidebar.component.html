@@ -1,13 +1,13 @@
 <nav class="fixed bottom-0 left-0 w-full z-40 pointer-events-none md:hidden">
   <div
-    class="flex bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-900 relative justify-between p-3 px-5"
+    class="flex bg-white dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900 relative justify-between p-3 px-5"
   >
     @for (tab of navTabs; track $index) {
       @if ($index == 2) {
         <button
           (click)="toggleCreate()"
           [attr.data-active]="isOpenCreateBooking()"
-          class="text-gray-600 w-16 h-10 bg-stone-200 data-[active=true]:bg-rose-600 dark:bg-gray-900/80 rounded-full grid place-items-center pointer-events-auto dark:text-gray-200 data-[active=true]:text-white-500"
+          class="text-gray-600 w-16 h-10 bg-stone-200 data-[active=true]:bg-rose-600 dark:bg-neutral-900/80 rounded-full grid place-items-center pointer-events-auto dark:text-gray-200 data-[active=true]:text-white-500"
         >
           <i
             [attr.data-open]="isOpenCreateBooking()"
@@ -46,7 +46,7 @@
 @if (isOpenCreateBooking()) {
   <div class="flex bg-white/70 dark:bg-black/70 w-full h-full fixed left-0 top-0 z-30">
     <div
-      class="absolute flex flex-col bottom-0 pb-24 left-1/2 -translate-x-1/2 min-h-[20rem] max-h-[90vh] md:max-h-[80vh] overflow-y-auto rounded-t-2xl md:rounded-2xl w-full md:w-[90%] max-w-lg bg-white shadow-2xl shadow-gray-500/20 dark:shadow-black dark:bg-gray-950 border border-b-0 border-gray-200 dark:border-gray-800"
+      class="absolute flex flex-col bottom-0 pb-24 left-1/2 -translate-x-1/2 min-h-[20rem] max-h-[90vh] md:max-h-[80vh] overflow-y-auto rounded-t-2xl md:rounded-2xl w-full md:w-[90%] max-w-lg bg-white shadow-2xl shadow-gray-500/20 dark:shadow-black dark:bg-neutral-950 border border-b-0 border-gray-200 dark:border-neutral-800"
     >
       <app-create-booking-navbar (onCloseEmit)="toggleCreate($event)"></app-create-booking-navbar>
     </div>
@@ -60,15 +60,15 @@
     ></div>
 
     <div
-      class="fixed bottom-0 pb-28 left-0 right-0 p-4 bg-white dark:bg-gray-950 rounded-t-2xl transform transition-transform duration-300 ease-out"
+      class="fixed bottom-0 pb-28 left-0 right-0 p-4 bg-white dark:bg-neutral-950 rounded-t-2xl transform transition-transform duration-300 ease-out"
       [ngClass]="{ 'translate-y-0': isMenuOpen, 'translate-y-full': !isMenuOpen }"
       (click)="$event.stopPropagation()"
     >
       <div class="relative text-center mb-4">
-        <div class="mx-auto w-12 h-1.5 rounded-full bg-stone-300 dark:bg-gray-800"></div>
+        <div class="mx-auto w-12 h-1.5 rounded-full bg-stone-300 dark:bg-neutral-900"></div>
         <button
           (click)="toggleMenu()"
-          class="absolute -top-2 -right-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 focus:outline-none dark:bg-gray-800/60 dark:text-slate-400 dark:hover:bg-gray-700"
+          class="absolute -top-2 -right-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 focus:outline-none dark:bg-neutral-900/60 dark:text-slate-400 dark:hover:bg-neutral-700"
         >
           <i class="material-symbols-outlined !text-xl">close</i>
         </button>
@@ -79,7 +79,7 @@
           <a
             [routerLink]="['/select']"
             (click)="toggleMenu()"
-            class="flex items-center gap-3 p-3 mx-3 mt-10 mb-4 rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900/50 transition-colors hover:bg-stone-50 dark:hover:bg-gray-800"
+            class="flex items-center gap-3 p-3 mx-3 mt-10 mb-4 rounded-lg border border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-950/50 transition-colors hover:bg-stone-50 dark:hover:bg-neutral-900"
           >
             @if (business.logoUrl) {
               <img
@@ -89,7 +89,7 @@
               />
             } @else {
               <div
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 dark:bg-gray-800 flex-shrink-0"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 dark:bg-neutral-900 flex-shrink-0"
               >
                 <i class="material-symbols-outlined text-gray-500">store</i>
               </div>
@@ -111,7 +111,7 @@
           <a
             [routerLink]="item.route"
             (click)="toggleMenu()"
-            class="flex items-center gap-4 p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors"
+            class="flex items-center gap-4 p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-neutral-900 transition-colors"
           >
             <i class="material-symbols-outlined text-slate-500 dark:text-slate-400">{{
               item.icon
@@ -123,7 +123,7 @@
         <button
           type="button"
           (click)="openBusinessDetails()"
-          class="flex items-center gap-4 p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors"
+          class="flex items-center gap-4 p-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-neutral-900 transition-colors"
         >
           <ng-icon
             name="saxShopOutline"

@@ -10,12 +10,12 @@
     </header>
 
     <div
-      class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6"
+      class="bg-white dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-xl p-6"
     >
       <div class="flex items-center justify-between mb-4">
         <button
           (click)="prevMonth()"
-          class="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-stone-100 dark:hover:bg-gray-800"
+          class="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-stone-100 dark:hover:bg-neutral-900"
         >
           <i class="material-icons-outlined !text-xl text-gray-500">chevron_left</i>
         </button>
@@ -24,7 +24,7 @@
         </h2>
         <button
           (click)="nextMonth()"
-          class="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-stone-100 dark:hover:bg-gray-800"
+          class="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-stone-100 dark:hover:bg-neutral-900"
         >
           <i class="material-icons-outlined !text-xl text-gray-500">chevron_right</i>
         </button>
@@ -78,7 +78,7 @@
                   class="rounded-full p-3 text-center font-semibold transition-colors border-2"
                   [ngClass]="{
                     'bg-violet-600 border-violet-600 text-white': selectedTime === time,
-                    'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-violet-500 text-gray-700 dark:text-gray-200':
+                    'bg-white dark:bg-neutral-950 border-gray-200 dark:border-neutral-700 hover:border-violet-500 text-gray-700 dark:text-gray-200':
                       selectedTime !== time,
                   }"
                 >
@@ -88,7 +88,7 @@
             </div>
           } @else {
             <div
-              class="text-center py-8 text-gray-500 dark:text-gray-400 rounded-xl bg-stone-50 dark:bg-gray-900/50"
+              class="text-center py-8 text-gray-500 dark:text-gray-400 rounded-xl bg-stone-50 dark:bg-neutral-950/50"
             >
               <p>Nenhum horário disponível para esta data.</p>
             </div>

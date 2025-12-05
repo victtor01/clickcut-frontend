@@ -12,29 +12,29 @@
     <div *ngIf="isLoading" class="space-y-8">
       <div class="animate-pulse flex">
         <div class="flex-shrink-0 w-16 text-center">
-          <div class="h-10 w-10 mx-auto rounded-full bg-stone-200 dark:bg-gray-800"></div>
+          <div class="h-10 w-10 mx-auto rounded-full bg-stone-200 dark:bg-neutral-900"></div>
         </div>
         <div class="flex-1 space-y-3 py-1">
-          <div class="h-4 rounded bg-stone-200  dark:bg-gray-800"></div>
-          <div class="h-3 w-3/4 rounded bg-stone-200  dark:bg-gray-800"></div>
-          <div class="h-3 w-1/2 rounded bg-stone-200  dark:bg-gray-800"></div>
+          <div class="h-4 rounded bg-stone-200  dark:bg-neutral-900"></div>
+          <div class="h-3 w-3/4 rounded bg-stone-200  dark:bg-neutral-900"></div>
+          <div class="h-3 w-1/2 rounded bg-stone-200  dark:bg-neutral-900"></div>
         </div>
       </div>
       <div class="animate-pulse flex">
         <div class="flex-shrink-0 w-16 text-center">
-          <div class="h-10 w-10 mx-auto rounded-full bg-stone-200 dark:bg-gray-800"></div>
+          <div class="h-10 w-10 mx-auto rounded-full bg-stone-200 dark:bg-neutral-900"></div>
         </div>
         <div class="flex-1 space-y-3 py-1">
-          <div class="h-4 rounded bg-stone-200 dark:bg-gray-800"></div>
-          <div class="h-3 w-3/4 rounded bg-stone-200 dark:bg-gray-800"></div>
-          <div class="h-3 w-1/2 rounded bg-stone-200 dark:bg-gray-800"></div>
+          <div class="h-4 rounded bg-stone-200 dark:bg-neutral-900"></div>
+          <div class="h-3 w-3/4 rounded bg-stone-200 dark:bg-neutral-900"></div>
+          <div class="h-3 w-1/2 rounded bg-stone-200 dark:bg-neutral-900"></div>
         </div>
       </div>
     </div>
 
     <div *ngIf="!isLoading">
       <div *ngIf="allBookings.length === 0; else hasBookings">
-        <div class="text-center rounded-xl bg-stone-50 p-12 dark:bg-gray-900/50">
+        <div class="text-center rounded-xl bg-stone-50 p-12 dark:bg-neutral-950/50">
           <i class="material-icons-outlined text-6xl text-indigo-400">calendar_add_on</i>
           <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
             Nenhum agendamento encontrado
@@ -63,10 +63,10 @@
             <ul class="relative mt-6 space-y-8">
               
               <li *ngFor="let booking of upcomingBookings" class="relative pl-16 group " >
-                <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800 group-last:hidden"></div>
+                <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-neutral-900 group-last:hidden"></div>
                 <div class="absolute -left-0 top-1">
                   <span
-                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-gray-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950 ring-indigo-500 dark:ring-indigo-400"
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-neutral-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950 ring-indigo-500 dark:ring-indigo-400"
                   >
                     <i
                       class="material-icons-outlined !text-2xl text-violet-600 dark:text-violet-300"
@@ -117,10 +117,10 @@
             <ul class="relative mt-6">
               
               <li *ngFor="let booking of pastBookings" class="relative pl-16 pb-5 last:pb-0 group">
-                <div class="absolute left-[1.1rem] top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800 group-last:hidden"></div>
+                <div class="absolute left-[1.1rem] top-2 h-full w-0.5 bg-stone-200 dark:bg-neutral-900 group-last:hidden"></div>
                 <div class="absolute -left-0 top-1">
                   <span
-                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-gray-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950"
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-neutral-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950"
                     [ngClass]="{
                       'ring-green-500 dark:ring-green-400':
                         booking.status === 'COMPLETED' || booking.status === 'PAID',

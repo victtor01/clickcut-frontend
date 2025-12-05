@@ -1,17 +1,17 @@
 <div
-  class="flex flex-col gap-3 p-4 bg-white dark:bg-gray-900 rounded-lg"
+  class="flex flex-col gap-3 p-4 bg-white dark:bg-neutral-950 rounded-lg"
   *ngIf="payments && payments.length > 0"
 >
   <h2 class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
     Histórico de Pagamentos
   </h2>
 
-  <ul class="flex flex-col gap-2 divide-y divide-gray-200 dark:divide-gray-800">
+  <ul class="flex flex-col gap-2 divide-y divide-gray-200 dark:divide-neutral-800">
     @for (payment of payments; track $index) {
       <li class="flex items-center justify-between py-3">
         <div class="flex items-center gap-4">
           <div
-            class="w-10 h-10 grid place-items-center rounded-full bg-stone-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
+            class="w-10 h-10 grid place-items-center rounded-full bg-stone-100 dark:bg-neutral-900 text-gray-500 dark:text-gray-400"
           >
             <i class="material-icons-outlined text-xl">
               {{ getPaymentMethodIcon(payment.paymentMethod) }}

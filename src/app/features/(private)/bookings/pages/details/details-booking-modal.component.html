@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col bg-white p-6 overflow-auto h-[25rem] rounded-xl dark:bg-gray-950 border border-slate-200 dark:border-gray-800 shadow-red-400"
+  class="flex flex-col bg-white p-6 overflow-auto h-[25rem] rounded-xl dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 shadow-red-400"
 >
   <header class="flex items-center justify-between">
     <div class="flex items-center gap-3">
@@ -12,7 +12,7 @@
     <button
       type="button"
       (click)="close()"
-      class="w-8 h-8 hover:bg-stone-100 text-gray-500 dark:hover:bg-gray-800 rounded-full dark:text-white grid place-items-center transition-colors"
+      class="w-8 h-8 hover:bg-stone-100 text-gray-500 dark:hover:bg-neutral-900 rounded-full dark:text-white grid place-items-center transition-colors"
     >
       <i class="material-icons text-xl">close</i>
     </button>
@@ -23,14 +23,14 @@
       <button
         type="button"
         (click)="previousHour()"
-        class="flex items-center justify-center rounded-full w-12 h-12 bg-slate-50 dark:bg-gray-800/60 transition-colors hover:bg-slate-100 dark:hover:bg-gray-800"
+        class="flex items-center justify-center rounded-full w-12 h-12 bg-slate-50 dark:bg-neutral-900/60 transition-colors hover:bg-slate-100 dark:hover:bg-neutral-900"
       >
         <i class="material-symbols-outlined">arrow_upward_alt</i>
       </button>
       <button
         type="button"
         (click)="nextHour()"
-        class="flex items-center justify-center rounded-full w-12 h-12 bg-slate-50 dark:bg-gray-800/60 transition-colors hover:bg-slate-100 dark:hover:bg-gray-800"
+        class="flex items-center justify-center rounded-full w-12 h-12 bg-slate-50 dark:bg-neutral-900/60 transition-colors hover:bg-slate-100 dark:hover:bg-neutral-900"
       >
         <i class="material-symbols-outlined">arrow_downward_alt</i>
       </button>
@@ -39,7 +39,7 @@
     <section class="flex flex-1 flex-col gap-2">
       @if (bookings?.length) {
         <ul class="relative mt-6 space-y-4" [@listAnimation]="currentHour.hour()">
-          <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-gray-800"></div>
+          <div class="absolute left-4.5 top-2 h-full w-0.5 bg-stone-200 dark:bg-neutral-900"></div>
           <a
             [routerLink]="['/bookings', booking.id]"
             [attr.data-late]="isLate(booking)"
@@ -49,7 +49,7 @@
           >
             <div class="absolute -left-0 top-1">
               <span
-                class="flex h-9 w-9 items-center group-hover:scale-110 transition-all justify-center rounded-full bg-white dark:bg-gray-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950"
+                class="flex h-9 w-9 items-center group-hover:scale-110 transition-all justify-center rounded-full bg-white dark:bg-neutral-950 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-950"
                 [ngClass]="{
                   'ring-green-500 dark:ring-green-400':
                     booking.status === 'COMPLETED' || booking.status === 'PAID',

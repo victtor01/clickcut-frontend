@@ -5,7 +5,7 @@
         type="button"
         (click)="onClick(item.time)"
         [attr.data-selected]="selectedTime === item.time"
-        class="flex items-center justify-center h-10 min-w-[5rem] px-3 rounded-lg border transition-all bg-white border-zinc-200 text-zinc-700 hover:border-indigo-400 hover:shadow-sm dark:bg-gray-900 dark:border-gray-800 dark:text-zinc-200 dark:hover:border-indigo-500 data-[selected=true]:border-indigo-500 data-[selected=true]:bg-indigo-50 data-[selected=true]:text-indigo-700 data-[selected=true]:ring-1 data-[selected=true]:ring-indigo-500 data-[selected=true]:dark:bg-indigo-900/30 data-[selected=true]:dark:text-indigo-300"
+        class="flex items-center justify-center h-10 min-w-[5rem] px-3 rounded-lg border transition-all bg-white border-zinc-200 text-zinc-700 hover:border-indigo-400 hover:shadow-sm dark:bg-neutral-950 dark:border-neutral-800 dark:text-zinc-200 dark:hover:border-indigo-500 data-[selected=true]:border-indigo-500 data-[selected=true]:bg-indigo-50 data-[selected=true]:text-indigo-700 data-[selected=true]:ring-1 data-[selected=true]:ring-indigo-500 data-[selected=true]:dark:bg-indigo-900/30 data-[selected=true]:dark:text-indigo-300"
       >
         <span class="font-semibold text-sm">{{ item.label }}</span>
       </button>
@@ -23,7 +23,7 @@
 
     @if (item.type === 'closed') {
       <div
-        class="flex items-center justify-center h-10 px-4 rounded-lg border border-dashed border-zinc-300 text-zinc-400 bg-zinc-50/50 dark:border-gray-700 dark:bg-gray-900/50 dark:text-zinc-500 cursor-default select-none"
+        class="flex items-center justify-center h-10 px-4 rounded-lg border border-dashed border-zinc-300 text-zinc-400 bg-zinc-50/50 dark:border-neutral-700 dark:bg-neutral-950/50 dark:text-zinc-500 cursor-default select-none"
       >
         <span class="text-[10px] font-bold uppercase tracking-wider">{{ item.label }}</span>
         <span class="text-[10px] ml-2 opacity-60">({{ item.time }})</span>
@@ -34,7 +34,7 @@
 
 @if (timelineItems.length === 0) {
   <div
-    class="flex w-full flex-col items-center justify-center py-12 text-center text-zinc-400 border-2 border-dashed border-zinc-200 rounded-xl dark:border-gray-800"
+    class="flex w-full flex-col items-center justify-center py-12 text-center text-zinc-400 border-2 border-dashed border-zinc-200 rounded-xl dark:border-neutral-800"
   >
     <p class="text-sm">Nenhum dado disponível.</p>
   </div>

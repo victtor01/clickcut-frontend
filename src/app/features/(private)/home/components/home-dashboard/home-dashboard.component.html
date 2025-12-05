@@ -1,61 +1,9 @@
-<style>
-  /* Em src/styles.scss */
-
-  /* Animação para a coroa (pulsação de brilho mais sutil) */
-  @keyframes pulse-light {
-    0% {
-      opacity: 0.8;
-      filter: brightness(1);
-      transform: scale(1);
-    }
-    50% {
-      opacity: 1;
-      filter: brightness(1.2);
-      transform: scale(1.05);
-    }
-    100% {
-      opacity: 0.8;
-      filter: brightness(1);
-      transform: scale(1);
-    }
-  }
-
-  .animate-pulse {
-    animation: pulse-light 2s ease-in-out;
-  }
-
-  /* Animação para o fogo (um flicker mais intenso e com leve movimento) */
-  @keyframes fire-flicker {
-    0%,
-    100% {
-      opacity: 0.9;
-      transform: scale(1) translateY(0);
-    }
-    25% {
-      opacity: 1;
-      transform: scale(1.05) translateY(-1px);
-    }
-    50% {
-      opacity: 0.85;
-      transform: scale(0.98) translateY(0.5px);
-    }
-    75% {
-      opacity: 1;
-      transform: scale(1.03) translateY(-0.5px);
-    }
-  }
-
-  .animate-fire-flicker {
-    animation: fire-flicker 0.8s ease-in-out;
-  }
-</style>
-
 <div class="flex px-3 relative items-center w-full">
   <div
     class="flex gap-[1rem] lg:flex-wrap lg:grid lg:grid-cols-2 *:lg:last:odd:col-span-2 *:text-nowrap relative items-center scroll-hidden w-full scroll-smooth m-auto overflow-x-auto"
   >
     <div
-      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/60 dark:bg-gray-900/40 border-stone-200/50 dark:border-white/10"
+      class="flex flex-col dark:hover:border-neutral-700/70 transition-colors justify-between dark:hover:bg-neutral- rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/60 dark:bg-neutral-950/40 border-stone-200/50 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-gray-700 dark:text-gray-300"> Receita do Mês </span>
@@ -63,10 +11,8 @@
           <div
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
-          <i
-            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
-            >trending_up</i
-          >
+
+          <ng-icon class="z-10" name="hugeTradeUp"></ng-icon>
         </div>
       </header>
 
@@ -96,7 +42,7 @@
     </div>
 
     <div
-      class="flex flex-col justify-between rounded-2xl border min-w-[20rem] h-[10rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/60 dark:bg-gray-900/40 border-stone-200/50 dark:border-white/10"
+      class="flex flex-col dark:hover:border-neutral-700/70 transition-colors justify-between rounded-2xl border min-w-[20rem] h-[10rem] p-6 shadow-none dark:shadow-lg backdrop-blur-lg bg-white/60 dark:bg-neutral-950/40 border-stone-200/50 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-gray-700 dark:text-gray-300"> Visão Geral </span>
@@ -104,16 +50,14 @@
           <div
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
-          <i
-            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
-            >analytics</i
-          >
+
+          <ng-icon class="z-10" name="solarGraphNewUpBold"></ng-icon>
         </div>
       </header>
       <div class="flex-1 flex justify-around mt-3 items-center px-4 gap-2 relative">
         <div class="flex flex-col items-center gap-1 opacity-60 relative -top-3">
           <div
-            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700"
+            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-neutral-900/60 border border-gray-100 dark:border-neutral-700"
           >
             <span class="text-xl font-bold text-gray-500 dark:text-gray-400 saira-font">{{
               general?.past
@@ -135,7 +79,7 @@
 
         <div class="flex flex-col items-center gap-1 relative -top-5">
           <div
-            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700"
+            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-neutral-900/60 border border-gray-100 dark:border-neutral-700"
           >
             <span class="text-xl font-bold text-gray-700 dark:text-gray-300 saira-font">{{
               general?.tomorrow
@@ -146,7 +90,7 @@
 
         <div class="flex flex-col items-center gap-1 relative -top-2">
           <div
-            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700"
+            class="w-14 h-14 grid place-items-center rounded-full bg-stone-50 dark:bg-neutral-900/60 border border-gray-100 dark:border-neutral-700"
           >
             <span class="text-xl font-bold text-gray-700 dark:text-gray-300 saira-font">{{
               general?.future
@@ -158,7 +102,7 @@
     </div>
 
     <div
-      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-gray-900/40 dark:border-white/10"
+      class="flex flex-col dark:hover:border-neutral-700/70 transition-colors justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-4 shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-neutral-950/40 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-gray-700 dark:text-gray-300">
@@ -168,14 +112,12 @@
           <div
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
-          <i
-            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
-            >payments</i
-          >
+
+          <ng-icon class="z-10" name="saxGraphBold"></ng-icon>
         </div>
       </header>
 
-      <div class="flex-1 flex relative justify-between gap-4">
+      <div class="flex-1 flex relative justify-between gap-4 mt-2">
         <app-doughnut-chart
           class="w-[6rem] h-[6rem]"
           [data]="doughnutChartValues"
@@ -205,20 +147,19 @@
       </div>
     </div>
     <div
-      class="flex flex-col justify-between rounded-2xl border p-6 h-[10rem] min-w-[18rem] shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-gray-900/40 dark:border-white/10"
+      class="flex flex-col dark:hover:border-neutral-700/70 transition-colors justify-between rounded-2xl border p-4 h-[10rem] min-w-[18rem] shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-neutral-950/40 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-gray-700 dark:text-gray-300">
           Serviços populares
         </span>
+
         <div class="relative grid place-items-center h-7 w-7 rounded-lg overflow-hidden">
           <div
             class="absolute inset-0 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/5"
           ></div>
-          <i
-            class="material-icons-outlined !text-lg text-gray-700 dark:text-gray-300 relative z-[1]"
-            >cards_star</i
-          >
+
+          <ng-icon class="z-10" name="solarFireMinimalisticBold"></ng-icon>
         </div>
       </header>
 
@@ -229,7 +170,7 @@
               class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center relative"
             >
               @if ($index === 0) {
-                 <i class="material-symbols-outlined !text-emerald-300">crown</i>
+                <i class="material-symbols-outlined !text-emerald-300">crown</i>
               }
 
               <!-- 2º LUGAR: Foguinho Roxo -->
@@ -242,7 +183,7 @@
                 <i class="material-symbols-outlined !text-amber-500">star</i>
               } @else {
                 <div
-                  class="h-6 w-6 grid place-items-center rounded-full bg-stone-100 dark:bg-gray-700 text-xs font-bold text-gray-500 dark:text-gray-400"
+                  class="h-6 w-6 grid place-items-center rounded-full bg-stone-100 dark:bg-neutral-700 text-xs font-bold text-gray-500 dark:text-gray-400"
                 >
                   {{ $index + 1 }}
                 </div>
@@ -266,7 +207,7 @@
     </div>
 
     <div
-      class="flex flex-col justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-gray-900/40 dark:border-white/10"
+      class="flex flex-col dark:hover:border-neutral-700 transition-colors justify-between rounded-2xl border h-[10rem] min-w-[20rem] p-6 shadow-none dark:shadow-lg border-gray-200/70 backdrop-blur-lg bg-white/60 dark:bg-neutral-950/40 dark:border-white/10"
     >
       <header class="justify-between flex items-center gap-2">
         <span class="relative font-medium text-gray-700 dark:text-gray-300">

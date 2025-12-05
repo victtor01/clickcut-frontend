@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col bg-stone-50 dark:bg-gray-950 scroll-none h-screen overflow-auto">
+<div class="w-full flex flex-col bg-stone-50 dark:bg-neutral-950 scroll-none h-screen overflow-auto">
   <div
     class="bg-purple-500/40 pointer-events-none opacity-20 dark:opacity-60 z-10 absolute top-0 left-[20%] rounded-full -translate-y-[70%] blur-[40vh] w-[50vh] h-[50vh]"
   ></div>
@@ -14,10 +14,10 @@
     </header>
     <div class="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div
-        class="flex flex-col rounded-2xl border bg-white dark:bg-gray-900/50 p-8 shadow-sm transition-all duration-300 dark:shadow-none"
+        class="flex flex-col rounded-2xl border bg-white dark:bg-neutral-950/50 p-8 shadow-sm transition-all duration-300 dark:shadow-none"
         [class.border-indigo-600]="selectedPlan()?.id === 'solo'"
         [class.border-gray-200]="selectedPlan()?.id !== 'solo'"
-        [class.dark:border-gray-700]="selectedPlan()?.id !== 'solo'"
+        [class.dark:border-neutral-700]="selectedPlan()?.id !== 'solo'"
       >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Plano Solo</h3>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -31,7 +31,7 @@
         <button
           (click)="selectPlan('solo')"
           [disabled]="isSubmitting() && selectedPlan()?.id === 'solo'"
-          class="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-indigo-600 px-4 py-2.5 text-sm font-semibold text-indigo-600 transition-colors hover:bg-indigo-50 dark:hover:bg-gray-800 disabled:opacity-50"
+          class="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-indigo-600 px-4 py-2.5 text-sm font-semibold text-indigo-600 transition-colors hover:bg-indigo-50 dark:hover:bg-neutral-900 disabled:opacity-50"
         >
           <span>Começar com Solo</span>
         </button>
@@ -74,10 +74,10 @@
       </div>
 
       <div
-        class="relative flex flex-col rounded-2xl border-2 bg-white dark:bg-gray-900/50 p-8 shadow-lg shadow-indigo-100 dark:shadow-none transition-all duration-300"
+        class="relative flex flex-col rounded-2xl border-2 bg-white dark:bg-neutral-950/50 p-8 shadow-lg shadow-indigo-100 dark:shadow-none transition-all duration-300"
         [class.border-indigo-600]="selectedPlan()?.id === 'equipe' || !selectedPlan()"
         [class.border-gray-200]="selectedPlan()?.id !== 'equipe' && selectedPlan()"
-        [class.dark:border-gray-700]="selectedPlan()?.id !== 'equipe' && selectedPlan()"
+        [class.dark:border-neutral-700]="selectedPlan()?.id !== 'equipe' && selectedPlan()"
       >
         <div class="absolute -top-3 left-1/2 -translate-x-1/2">
           <span
@@ -140,10 +140,10 @@
       </div>
 
       <div
-        class="flex flex-col rounded-2xl border bg-white dark:bg-gray-900/50 p-8 shadow-sm transition-all duration-300 dark:shadow-none"
+        class="flex flex-col rounded-2xl border bg-white dark:bg-neutral-950/50 p-8 shadow-sm transition-all duration-300 dark:shadow-none"
         [class.border-indigo-600]="selectedPlan()?.id === 'pro'"
         [class.border-gray-200]="selectedPlan()?.id !== 'pro'"
-        [class.dark:border-gray-700]="selectedPlan()?.id !== 'pro'"
+        [class.dark:border-neutral-700]="selectedPlan()?.id !== 'pro'"
       >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Plano Pro</h3>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -157,7 +157,7 @@
         <button
           (click)="selectPlan('pro')"
           [disabled]="isSubmitting() && selectedPlan()?.id === 'pro'"
-          class="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-indigo-600 px-4 py-2.5 text-sm font-semibold text-indigo-600 transition-colors hover:bg-indigo-50 dark:hover:bg-gray-800 disabled:opacity-50"
+          class="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-indigo-600 px-4 py-2.5 text-sm font-semibold text-indigo-600 transition-colors hover:bg-indigo-50 dark:hover:bg-neutral-900 disabled:opacity-50"
         >
           <span>Começar com Pro</span>
         </button>
@@ -214,12 +214,12 @@
   >
     <div
       (click)="$event.stopPropagation()"
-      class="relative w-full max-w-4xl m-auto overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-zinc-900 animate-scale-in flex flex-col md:flex-row"
+      class="relative w-full max-w-4xl m-auto overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-neutral-950 animate-scale-in flex flex-col md:flex-row"
     >
       <button
         (click)="closePaymentModal()"
         [disabled]="isSubmitting()"
-        class="absolute top-4 right-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 transition-all hover:bg-zinc-200 hover:text-zinc-700 disabled:opacity-50 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+        class="absolute top-4 right-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 transition-all hover:bg-zinc-200 hover:text-zinc-700 disabled:opacity-50 dark:bg-neutral-900 dark:text-zinc-400 dark:hover:bg-neutral-700"
       >
         <mat-icon class="!text-lg">close</mat-icon>
       </button>
@@ -350,7 +350,7 @@
       </div>
 
       <!-- LADO DIREITO: FORMULÁRIO (Inputs Reais) -->
-      <div class="w-full p-8 md:w-1/2 bg-white dark:bg-zinc-900 flex flex-col justify-center">
+      <div class="w-full p-8 md:w-1/2 bg-white dark:bg-neutral-950 flex flex-col justify-center">
         <h3 class="mb-6 text-xl font-bold text-zinc-800 dark:text-white">Dados do Pagamento</h3>
 
         <!-- FORMULÁRIO -->
@@ -367,7 +367,7 @@
               placeholder="Como impresso no cartão"
               (input)="onInputName($event)"
               (focus)="focusFront()"
-              class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
+              class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
             />
           </div>
 
@@ -382,7 +382,7 @@
               placeholder="0000 0000 0000 0000"
               (input)="onInputNumber($event)"
               (focus)="focusFront()"
-              class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-600 transition-colors font-mono"
+              class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder:text-zinc-600 transition-colors font-mono"
             />
           </div>
 
@@ -401,7 +401,7 @@
                 maxlength="2"
                 (input)="onInputMonth($event)"
                 (focus)="focusFront()"
-                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
               />
             </div>
             <!-- Ano -->
@@ -417,7 +417,7 @@
                 maxlength="2"
                 (input)="onInputYear($event)"
                 (focus)="focusFront()"
-                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
               />
             </div>
             <!-- CVV -->
@@ -433,7 +433,7 @@
                 maxlength="4"
                 (input)="onInputCvv($event)"
                 (focus)="focusBack()"
-                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
+                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder:text-zinc-600 transition-colors text-center"
               />
             </div>
           </div>
@@ -449,7 +449,7 @@
                 id="form-checkout-identificationType"
                 name="identificationType"
                 (focus)="focusFront()"
-                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white transition-colors"
+                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white transition-colors"
               ></select>
             </div>
             <div class="w-2/3">
@@ -463,7 +463,7 @@
                 type="text"
                 placeholder="CPF / CNPJ"
                 (focus)="focusFront()"
-                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
+                class="h-11 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder:text-zinc-600 transition-colors"
               />
             </div>
           </div>

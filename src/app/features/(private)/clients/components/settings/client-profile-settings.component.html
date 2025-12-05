@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col mx-5 relative bg-white rounded-xl dark:bg-gray-900 overflow-hidden text-gray-800 dark:text-gray-200 min-h-[400px]"
+  class="flex flex-col mx-5 relative bg-white rounded-xl dark:bg-neutral-950 overflow-hidden text-gray-800 dark:text-gray-200 min-h-[400px]"
 >
   <header class="flex justify-between px-4 pt-4 pb-2 items-center">
     <h1 class="text-gray-500 dark:text-indigo-50 saira-font text-xl">
@@ -9,7 +9,7 @@
     <button
       type="button"
       (click)="close()"
-      class="bg-white self-end dark:bg-gray-800 z-20 grid place-items-center rounded-full w-10 h-10 text-gray-500 dark:text-indigo-50 hover:bg-stone-100 dark:hover:bg-gray-700 transition-colors"
+      class="bg-white self-end dark:bg-neutral-900 z-20 grid place-items-center rounded-full w-10 h-10 text-gray-500 dark:text-indigo-50 hover:bg-stone-100 dark:hover:bg-neutral-700 transition-colors"
     >
       <i class="material-icons-outlined">close</i>
     </button>
@@ -17,16 +17,16 @@
 
   <section class="flex flex-1 flex-col sm:flex-row">
     <aside
-      class="w-full sm:w-[14rem] overflow-auto flex-shrink-0 p-4 border-b border-gray-200 dark:border-gray-800"
+      class="w-full sm:w-[14rem] overflow-auto flex-shrink-0 p-4 border-b border-gray-200 dark:border-neutral-800"
     >
       <nav class="flex flex-row sm:flex-col gap-2">
         <button
           type="button"
           (click)="setView('profile')"
           [ngClass]="{
-            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-neutral-900 text-indigo-600 dark:text-indigo-400':
               activeView === 'profile',
-            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-neutral-900/50':
               activeView !== 'profile',
           }"
           class="flex items-center gap-3 w-full saira-font text-left p-2 rounded-md transition-colors text-sm font-semibold"
@@ -39,9 +39,9 @@
           type="button"
           (click)="setView('account')"
           [ngClass]="{
-            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-neutral-900 text-indigo-600 dark:text-indigo-400':
               activeView === 'account',
-            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-neutral-900/50':
               activeView !== 'account',
           }"
           class="flex items-center gap-3 w-full text-left saira-font p-2 rounded-md transition-colors text-sm font-semibold"
@@ -54,9 +54,9 @@
           type="button"
           (click)="setView('privacy')"
           [ngClass]="{
-            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-neutral-900 text-indigo-600 dark:text-indigo-400':
               activeView === 'privacy',
-            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-neutral-900/50':
               activeView !== 'privacy',
           }"
           class="flex items-center gap-3 w-full text-left saira-font p-2 rounded-md transition-colors text-sm font-semibold"
@@ -69,9 +69,9 @@
           type="button"
           (click)="setView('preferences')"
           [ngClass]="{
-            'bg-stone-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-neutral-900 text-indigo-600 dark:text-indigo-400':
               activeView === 'preferences',
-            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-gray-800/50':
+            'text-gray-600 hover:bg-stone-100/50 dark:hover:bg-neutral-900/50':
               activeView !== 'preferences',
           }"
           class="flex items-center gap-3 w-full text-left saira-font p-2 rounded-md transition-colors text-sm font-semibold"
@@ -100,7 +100,7 @@
                       'https://i.pravatar.cc/150?u=placeholder'
                     "
                     alt="Avatar"
-                    class="h-full w-full rounded-full object-cover border-4 border-white dark:border-gray-900 bg-stone-200 dark:bg-gray-700"
+                    class="h-full w-full rounded-full object-cover border-4 border-white dark:border-neutral-900 bg-stone-200 dark:bg-neutral-700"
                   />
                   <label
                     for="avatar-upload"
@@ -118,7 +118,7 @@
                 <div>
                   <button
                     type="button"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-stone-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-neutral-900 hover:bg-stone-50 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Remover
                   </button>
@@ -143,7 +143,7 @@
                   type="text"
                   formControlName="fullName"
                   placeholder="Digite seu email"
-                  class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                  class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
                 />
               </div>
 
@@ -169,7 +169,7 @@
                 id="bio"
                 formControlName="bio"
                 rows="3"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm bg-stone-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 shadow-sm bg-stone-50 dark:bg-neutral-900 text-gray-900 dark:text-gray-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               ></textarea>
             </div>
           </div>
@@ -191,7 +191,7 @@
                 type="text"
                 formControlName="email"
                 placeholder="Digite seu email"
-                class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
               />
               <div
                 *ngIf="
@@ -213,7 +213,7 @@
                 id="phoneNumber"
                 type="text"
                 formControlName="phoneNumber"
-                class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
+                class="block w-full px-4 py-2.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-800 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors duration-200 ease-in-out"
               />
             </div>
 
@@ -241,7 +241,7 @@
                   id="newsletterOptIn"
                   type="checkbox"
                   formControlName="newsletterOptIn"
-                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded dark:bg-neutral-700 dark:border-neutral-600"
                 />
               </div>
               <div class="ml-3 text-sm">
@@ -260,7 +260,7 @@
               >
               <button
                 type="button"
-                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-stone-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-neutral-900 hover:bg-stone-50 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Exportar meus dados
               </button>
@@ -269,7 +269,7 @@
               </p>
             </div>
 
-            <div class="pt-4 border-t border-gray-200 dark:border-gray-800">
+            <div class="pt-4 border-t border-gray-200 dark:border-neutral-800">
               <h3 class="text-lg font-medium text-red-600 dark:text-red-500">Excluir Conta</h3>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 Esta ação é irreversível. Todos os seus dados serão permanentemente removidos.
@@ -297,7 +297,7 @@
                 [value]="currentTheme()"
                 (change)="handleTheme($event)"
                 formControlName="themePreference"
-                class="mt-1 block w-full rounded-md p-3 border-gray-300 dark:border-gray-700 shadow-sm bg-stone-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="mt-1 block w-full rounded-md p-3 border-gray-300 dark:border-neutral-700 shadow-sm bg-stone-50 dark:bg-neutral-900 text-gray-900 dark:text-gray-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value="light">Claro</option>
                 <option value="dark">Escuro</option>
@@ -313,7 +313,7 @@
                 <label class="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" value="" class="sr-only peer" checked />
                   <div
-                    class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"
+                    class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-neutral-600 peer-checked:bg-indigo-600"
                   ></div>
                 </label>
               </div>
@@ -322,12 +322,12 @@
         </div>
 
         <div
-          class="mt-6 p-4 border-t border-gray-200 dark:border-gray-800 flex justify-end gap-3 flex-shrink-0"
+          class="mt-6 p-4 border-t border-gray-200 dark:border-neutral-800 flex justify-end gap-3 flex-shrink-0"
         >
           <button
             type="button"
             (click)="close()"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-full shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-stone-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-full shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-neutral-900 hover:bg-stone-50 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Cancelar
           </button>

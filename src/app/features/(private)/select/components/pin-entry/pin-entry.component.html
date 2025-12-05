@@ -1,6 +1,6 @@
-<div class="flex h-full w-full flex-col items-center justify-center p-8 text-center bg-white dark:bg-gray-950 z-60">
+<div class="flex h-full w-full flex-col items-center justify-center p-8 text-center bg-white dark:bg-neutral-950 z-60">
   <div class="mb-8">
-    <div class="mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full bg-stone-200 dark:bg-gray-700">
+    <div class="mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full bg-stone-200 dark:bg-neutral-700">
       @if (business.logoUrl) {
         <img [src]="business.logoUrl" [alt]="business.name" class="h-full w-full object-cover" />
       } @else {
@@ -28,8 +28,8 @@
           (input)="onInput($event, $index)"
           (keyup.backspace)="onBackspace($event, $index)"
           (paste)="$index === 0 ? onPaste($event) : null"
-          class="h-16 w-16 rounded-lg border-2 bg-white/50 text-center text-3xl font-bold text-gray-800 transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:bg-gray-900/50 dark:text-white"
-          [ngClass]="error() ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'"
+          class="h-16 w-16 rounded-lg border-2 bg-white/50 text-center text-3xl font-bold text-gray-800 transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:bg-neutral-950/50 dark:text-white"
+          [ngClass]="error() ? 'border-red-500' : 'border-gray-300 dark:border-neutral-600'"
         />
       }
     </div>

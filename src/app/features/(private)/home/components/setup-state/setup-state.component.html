@@ -6,9 +6,9 @@
 
   <div class="flex flex-col gap-3 px-4 pb-4">
     <div
-      class="w-full rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-gray-900/40"
+      class="w-full rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-950/40"
     >
-      <div class="border-b border-zinc-100 p-6 dark:border-zinc-800">
+      <div class="border-b border-zinc-100 p-6 dark:border-neutral-800">
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">
@@ -26,7 +26,7 @@
         </div>
 
         <!-- Barra de Progresso -->
-        <div class="mt-4 h-2 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+        <div class="mt-4 h-2 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-neutral-900">
           <div
             class="h-full bg-gradient-to-r rounded-full from-indigo-500 to-purple-600 transition-all duration-1000 ease-out"
             [style.width.%]="progress()"
@@ -38,7 +38,7 @@
       <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
         @for (step of uiSteps(); track step.id) {
           <div
-            class="group flex items-center justify-between p-4 flex-wrap gap-y-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50"
+            class="group flex items-center justify-between p-4 flex-wrap gap-y-2 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-900/50"
           >
             <div class="flex items-center gap-4">
               <!-- Ícone do Status (Check ou Círculo) -->
@@ -49,7 +49,7 @@
                     step.isCompleted,
                   'bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400':
                     !step.isCompleted && step.isCritical,
-                  'bg-gray-100 text-zinc-500 dark:bg-gray-800 dark:text-zinc-400':
+                  'bg-gray-100 text-zinc-500 dark:bg-neutral-900 dark:text-zinc-400':
                     !step.isCompleted && !step.isCritical,
                 }"
               >
@@ -190,7 +190,7 @@
               @if (!step.isCompleted) {
                 <a
                   [routerLink]="[step.route]"
-                  class="flex items-center gap-1 rounded-full bg-gray-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-gray-700 dark:bg-violet-50 dark:text-zinc-900 dark:hover:bg-gray-200"
+                  class="flex items-center gap-1 rounded-full bg-gray-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-gray-700 dark:bg-violet-50 dark:text-zinc-900 dark:hover:bg-neutral-200"
                 >
                   Resolver
                   <i class="material-icons-outlined">arrow_right_alt</i>
@@ -198,7 +198,7 @@
               } @else {
                 <a
                   [routerLink]="[step.route]"
-                  class="lg:invisible flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-400 transition hover:bg-gray-100 hover:text-zinc-600 group-hover:visible bg-gray-100 dark:bg-gray-800 lg:bg-transparent dark:hover:bg-gray-800 dark:hover:text-zinc-300"
+                  class="lg:invisible flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-400 transition hover:bg-gray-100 hover:text-zinc-600 group-hover:visible bg-gray-100 dark:bg-neutral-900 lg:bg-transparent dark:hover:bg-neutral-900 dark:hover:text-zinc-300"
                 >
                   Editar
                 </a>

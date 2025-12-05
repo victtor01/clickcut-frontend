@@ -12,7 +12,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
         class="flex flex-1 bg-gradient-to-r from-transparent to-transparent via-violet-300 dark:via-violet-700 w-full h-px"
       ></span>
       <span
-        class="flex absolute top-[50%] text-lg font-semibold saira-font dark:bg-stone-900 left-[50%] bg-white px-2 translate-[-50%]"
+        class="flex absolute top-[50%] text-lg font-semibold saira-font dark:bg-neutral-950 left-[50%] bg-white px-2 translate-[-50%]"
       >
         <span class="bg-gradient-to-l from-indigo-500 to-violet-500 bg-clip-text text-transparent">
           Você pode também

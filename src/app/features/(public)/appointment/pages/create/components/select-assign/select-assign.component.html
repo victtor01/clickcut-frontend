@@ -21,7 +21,7 @@
     <div class="container z-20 mx-auto flex flex-col px-6">
       <div class="z-20 flex flex-col items-start justify-between sm:flex-row">
         <div
-          class="-mt-16 mr-10 flex min-h-32 relative overflow-hidden min-w-32 items-center justify-center rounded-full border-4 border-white bg-stone-100 shadow-2xl shadow-black/50 dark:border-gray-950 dark:bg-gray-800"
+          class="-mt-16 mr-10 flex min-h-32 relative overflow-hidden min-w-32 items-center justify-center rounded-full border-4 border-white bg-stone-100 shadow-2xl shadow-black/50 dark:border-neutral-950 dark:bg-neutral-900"
         >
           <img
             *ngIf="business?.logoUrl"
@@ -58,7 +58,7 @@
               <span> Favoritar </span>
             </button>
             <button
-              class="rounded-lg bg-stone-200 px-4 py-2 font-semibold text-gray-800 transition-colors duration-300 hover:bg-stone-30 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+              class="rounded-lg bg-stone-200 px-4 py-2 font-semibold text-gray-800 transition-colors duration-300 hover:bg-stone-30 dark:bg-neutral-700 dark:text-gray-200 dark:hover:bg-neutral-600"
             >
               Mensagem
             </button>
@@ -82,11 +82,11 @@
         <button
           type="button"
           (click)="selectAssigner(usuario)"
-          class="relative block cursor-pointer rounded-xl p-6 text-center border border-gray-200 dark:border-gray-800 ring-2 ring-transparent transition-all duration-200 focus:outline-none"
+          class="relative block cursor-pointer rounded-xl p-6 text-center border border-gray-200 dark:border-neutral-800 ring-2 ring-transparent transition-all duration-200 focus:outline-none"
           [ngClass]="{
             'ring-indigo-500 bg-indigo-50/20 dark:bg-indigo-950/30 scale-105 !border-indigo-500':
               selectedUser?.id === usuario.id,
-            'bg-white hover:bg-stone-100 dark:bg-gray-800 dark:hover:bg-gray-700':
+            'bg-white hover:bg-stone-100 dark:bg-neutral-900 dark:hover:bg-neutral-700':
               selectedUser?.id !== usuario.id,
           }"
         >

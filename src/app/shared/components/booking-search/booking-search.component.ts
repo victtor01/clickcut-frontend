@@ -181,7 +181,7 @@ export class BookingSearchModalComponent implements OnInit {
       return `${baseClasses} bg-indigo-100 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400`;
     }
     // Classes para filtros INATIVOS
-    return `${baseClasses} text-gray-600 hover:bg-stone-100 dark:text-gray-300 dark:hover:bg-gray-800`;
+    return `${baseClasses} text-gray-600 hover:bg-stone-100 dark:text-gray-300 dark:hover:bg-neutral-900`;
   }
 
   public toggleSidebar(): void {

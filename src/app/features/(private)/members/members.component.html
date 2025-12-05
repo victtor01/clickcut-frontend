@@ -19,7 +19,7 @@
           type="text"
           [(ngModel)]="searchQuery"
           placeholder="Buscar..."
-          class="h-10 w-full rounded-lg border-0 bg-gray-100 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-indigo-500/50 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+          class="h-10 w-full rounded-lg border-0 bg-gray-100 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-indigo-500/50 dark:bg-neutral-900 dark:text-white dark:placeholder-gray-500"
         />
       </div>
 
@@ -36,12 +36,12 @@
   <section class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
     @for (member of filteredMembers(); track member.id) {
       <div
-        class="group relative h-auto flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:border-gray-300 dark:border-gray-800 dark:bg-gray-900 bg-gradient-to-r from-transparent to-transparent dark:from-gray-950/70 dark:to-gray-950/70 dark:hover:border-gray-700"
+        class="group relative h-auto flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:border-gray-300 dark:border-neutral-800 dark:bg-neutral-950 bg-gradient-to-r from-transparent to-transparent dark:from-neutral-950/70 dark:to-neutral-950/70 dark:hover:border-gray-700"
       >
         <div class="flex items-start justify-between p-6">
           <div class="flex items-center gap-4">
             <div
-              class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 text-lg font-bold text-gray-600 dark:bg-gray-800 dark:text-gray-300"
+              class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 text-lg font-bold text-gray-600 dark:bg-neutral-900 dark:text-gray-300"
             >
               @if (member.avatarUrl) {
                 <img [src]="member.avatarUrl" class="h-full w-full rounded-full object-cover" />
@@ -85,13 +85,13 @@
             @for (stat of member.stats; track stat.day) {
               <div class="flex flex-1 flex-col items-center gap-2 group/bar h-full justify-end">
                 <div
-                  class="absolute mb-2 opacity-0 group-hover/bar:opacity-100 transition-opacity bottom-full bg-gray-900 text-white text-[10px] px-2 py-1 rounded dark:bg-gray-700 pointer-events-none z-10 whitespace-nowrap shadow-lg"
+                  class="absolute mb-2 opacity-0 group-hover/bar:opacity-100 transition-opacity bottom-full bg-gray-900 text-white text-[10px] px-2 py-1 rounded dark:bg-neutral-700 pointer-events-none z-10 whitespace-nowrap shadow-lg"
                 >
                   {{ stat.count }} agend.
                 </div>
 
                 <div
-                  class="relative w-full h-full flex items-end bg-gray-100 dark:bg-gray-800/50 rounded-lg"
+                  class="relative w-full h-full flex items-end bg-gray-100 dark:bg-neutral-900/50 rounded-lg"
                 >
                   <div
                     class="w-full rounded-lg transition-all duration-500 ease-out relative"
@@ -120,7 +120,7 @@
         </div>
 
         <div
-          class="absolute bottom-0 left-0 w-full translate-y-full border-t border-gray-100 bg-gray-50 px-6 py-3 transition-transform duration-200 group-hover:translate-y-0 dark:border-gray-800 dark:bg-gray-800/50"
+          class="absolute bottom-0 left-0 w-full translate-y-full border-t border-gray-100 bg-gray-50 px-6 py-3 transition-transform duration-200 group-hover:translate-y-0 dark:border-neutral-800 dark:bg-neutral-900/50"
         >
           <button
             class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center gap-1"

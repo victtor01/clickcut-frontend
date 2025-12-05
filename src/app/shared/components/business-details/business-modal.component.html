@@ -1,13 +1,13 @@
 @if (business) {
   <div
-    class="xl:rounded-2xl flex-col relative overflow-x-hidden flex gap-5 bg-white dark:bg-gray-950 my-0 xl:my-10 border border-slate-200 dark:border-gray-800 w-full font-sans"
+    class="xl:rounded-2xl flex-col relative overflow-x-hidden flex gap-5 bg-white dark:bg-neutral-950 my-0 xl:my-10 border border-slate-200 dark:border-neutral-800 w-full font-sans"
   >
     @if (business) {
       <header class="relative">
         <button
           type="button"
           (click)="close()"
-          class="absolute right-10 top-10 z-30 w-12 h-12 rounded-full backdrop-blur-lg bg-white/80 dark:bg-gray-900 text-gray-900 dark:text-white grid place-items-center"
+          class="absolute right-10 top-10 z-30 w-12 h-12 rounded-full backdrop-blur-lg bg-white/80 dark:bg-neutral-950 text-gray-900 dark:text-white grid place-items-center"
         >
           <i class="material-icons-outlined">close</i>
         </button>
@@ -16,7 +16,7 @@
           class="h-[30vh] min-h-[25rem] relative max-h-[30rem] w-full bg-gradient-to-br from-indigo-100 to-violet-200 dark:from-indigo-500 dark:to-violet-600"
         >
         
-          <div class="absolute z-10 bg-gradient-to-b from-transparent via-white/40 dark:via-gray-950/50 to-white dark:to-gray-950 w-full h-full left-0 top-0"></div>
+          <div class="absolute z-10 bg-gradient-to-b from-transparent via-white/40 dark:via-gray-950/50 to-white dark:to-neutral-950 w-full h-full left-0 top-0"></div>
           @if (business.bannerUrl) {
             <img
               [src]="business.bannerUrl"
@@ -28,7 +28,7 @@
 
         <div class="px-9 -bottom-16 left-8 flex flex-wrap gap-4">
           <div
-            class="-translate-y-1/2 h-28 w-28 z-10 absolute flex-shrink-0 rounded-full border-4 border-white bg-stone-200 dark:border-gray-900 dark:bg-gray-700"
+            class="-translate-y-1/2 h-28 w-28 z-10 absolute flex-shrink-0 rounded-full border-4 border-white bg-stone-200 dark:border-neutral-900 dark:bg-neutral-700"
           >
             @if (business.logoUrl) {
               <img
@@ -92,7 +92,7 @@
     }
 
     <main
-      class="grid grid-cols-1 gap-x-8 border-t border-gray-200 dark:border-gray-800 gap-y-12 p-8 md:grid-cols-3"
+      class="grid grid-cols-1 gap-x-8 border-t border-gray-200 dark:border-neutral-800 gap-y-12 p-8 md:grid-cols-3"
     >
       <div class="md:col-span-2 space-y-10">
         <section class="flex flex-col">
@@ -110,10 +110,10 @@
             @for (member of business.members; track member.id) {
               <div
                 [attr.data-owner]="member.id === business.ownerId"
-                class="text-center flex flex-col items-center bg-white dark:bg-gray-900 relative gap-2 p-2 border border-gray-200 dark:border-gray-800 rounded-xl data-[owner=true]:ring-[2px] ring-indigo-500"
+                class="text-center flex flex-col items-center bg-white dark:bg-neutral-950 relative gap-2 p-2 border border-gray-200 dark:border-neutral-800 rounded-xl data-[owner=true]:ring-[2px] ring-indigo-500"
               >
                 @if(member.id === business.ownerId) {
-                  <div class="absolute flex text-indigo-400 items-end justify-center -top-[3px] w-6 h-[2.5px] bg-white dark:bg-gray-900">
+                  <div class="absolute flex text-indigo-400 items-end justify-center -top-[3px] w-6 h-[2.5px] bg-white dark:bg-neutral-950">
                     <ng-icon name="saxCrown1Bold" size="20" class="translate-y-2"></ng-icon>
                   </div>
                 }
@@ -126,7 +126,7 @@
                   />
                 } @else {
                   <div
-                    class="h-20 w-20 rounded-full bg-stone-100 dark:bg-gray-800/60 grid place-items-center"
+                    class="h-20 w-20 rounded-full bg-stone-100 dark:bg-neutral-900/60 grid place-items-center"
                   >
                     <i class="material-symbols-outlined text-4xl text-gray-400">person</i>
                   </div>
@@ -154,13 +154,13 @@
           <h2 class="text-xl font-bold text-gray-900 dark:text-white">Nossos Serviços</h2>
           @if (!!business.services?.length) {
             <div
-              class="mt-4 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800"
+              class="mt-4 overflow-hidden rounded-xl border border-gray-200 dark:border-neutral-800"
             >
-              <div class="divide-y divide-gray-200 dark:divide-gray-800">
+              <div class="divide-y divide-gray-200 dark:divide-neutral-800">
                 @for (service of business.services; track service.id) {
                   <div class="flex items-center gap-4 p-2">
                     <div
-                      class="h-14 w-14 flex-shrink-0 overflow-hidden rounded-tl-md rounded-xl bg-stone-100 dark:bg-gray-700"
+                      class="h-14 w-14 flex-shrink-0 overflow-hidden rounded-tl-md rounded-xl bg-stone-100 dark:bg-neutral-700"
                     >
                       <img
                         *ngIf="service.photoUrl"
@@ -206,7 +206,7 @@
             </div>
           } @else {
             <div
-              class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-12 text-center"
+              class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 dark:border-neutral-700 p-12 text-center"
             >
               <i class="material-symbols-outlined text-4xl text-gray-400">content_cut</i>
               <p class="mt-2 font-semibold text-gray-700 dark:text-gray-300">
@@ -228,7 +228,7 @@
             <form
               [formGroup]="reviewForm"
               (ngSubmit)="submitReview()"
-              class="flex gap-4 rounded-xl mt-4 border border-gray-200 p-4 dark:border-gray-800"
+              class="flex gap-4 rounded-xl mt-4 border border-gray-200 p-4 dark:border-neutral-800"
             >
               @if (currentClient?.avatarUrl) {
                 <img
@@ -268,7 +268,7 @@
                   rows="3"
                   formControlName="comment"
                   placeholder="Como foi sua experiência? (mín. 10 caracteres)"
-                  class="mt-3 w-full rounded-md border-gray-300 bg-white text-sm text-gray-500 !outline-none transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:placeholder-gray-500"
+                  class="mt-3 w-full rounded-md border-gray-300 bg-white text-sm text-gray-500 !outline-none transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-gray-200 dark:placeholder-gray-500"
                   [class.border-red-500]="comment?.invalid && (comment?.dirty || comment?.touched)"
                   [class.dark:border-red-500]="
                     comment?.invalid && (comment?.dirty || comment?.touched)
@@ -301,7 +301,7 @@
             @for (review of reviews; track review.id) {
               <div class="flex gap-4">
                 <div
-                  class="w-10 h-10 rounded-full bg-slate-100 dark:bg-gray-800 grid place-items-center flex-shrink-0"
+                  class="w-10 h-10 rounded-full bg-slate-100 dark:bg-neutral-900 grid place-items-center flex-shrink-0"
                 >
                   @if (!review.avatarUrl) {
                     <span class="saira-font font-semibold text-slate-700 dark:text-gray-300">{{
@@ -344,7 +344,7 @@
 
                   @if (review.reply) {
                     <div
-                      class="mt-4 rounded-lg border-l-4 border-indigo-400 bg-stone-50 p-3 dark:border-indigo-600 dark:bg-gray-800/50"
+                      class="mt-4 rounded-lg border-l-4 border-indigo-400 bg-stone-50 p-3 dark:border-indigo-600 dark:bg-neutral-900/50"
                     >
                       <div class="flex items-center justify-between">
                         <p class="text-sm font-semibold text-indigo-800 dark:text-indigo-300">
@@ -379,14 +379,14 @@
                         [(ngModel)]="replyText"
                         rows="3"
                         placeholder="Digite sua resposta..."
-                        class="w-full outline-none focus:ring-2 ring-indigo-500 text-gray-500 rounded-md border-gray-300 bg-white p-2 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:placeholder-gray-500"
+                        class="w-full outline-none focus:ring-2 ring-indigo-500 text-gray-500 rounded-md border-gray-300 bg-white p-2 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-gray-200 dark:placeholder-gray-500"
                       ></textarea>
 
                       <div class="mt-2 flex items-center justify-end gap-2">
                         <button
                           (click)="cancelReply()"
                           type="button"
-                          class="rounded-full px-4 py-1.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-stone-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                          class="rounded-full px-4 py-1.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-stone-100 dark:text-gray-300 dark:hover:bg-neutral-700/50"
                         >
                           Cancelar
                         </button>
@@ -404,7 +404,7 @@
               </div>
             } @empty {
               <div
-                class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-12 text-center"
+                class="mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 dark:border-neutral-700 p-12 text-center"
               >
                 <i class="material-symbols-outlined text-4xl text-gray-400">rate_review</i>
                 <p class="mt-2 font-semibold text-gray-700 dark:text-gray-300">
@@ -431,14 +431,14 @@
           </a>
         }
 
-        <div class="border border-slate-200 relative dark:border-gray-800 rounded-xl flex flex-col">
+        <div class="border border-slate-200 relative dark:border-neutral-800 rounded-xl flex flex-col">
           <h3
-            class="font-semibold text-gray-600 saira-font dark:text-indigo-50 top-0 bg-gradient-to-r from-white/0 dark:from-gray-950 to-white/0 dark:to-gray-950 via-white dark:via-gray-950 px-3 left-5 -translate-y-1/2 absolute"
+            class="font-semibold text-gray-600 saira-font dark:text-indigo-50 top-0 bg-gradient-to-r from-white/0 dark:from-neutral-950 to-white/0 dark:to-neutral-950 via-white dark:via-gray-950 px-3 left-5 -translate-y-1/2 absolute"
           >
             Informações
           </h3>
 
-          <div class="divide-y divide-slate-200 dark:divide-gray-800 p-4">
+          <div class="divide-y divide-slate-200 dark:divide-neutral-800 p-4">
             @if (business.address) {
               <a
                 href="http://googleusercontent.com/maps/place/{{ business.address.street }},{{
@@ -449,7 +449,7 @@
                 class="group flex items-center gap-4 py-4"
               >
                 <div
-                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-100 transition-colors group-hover:bg-indigo-200 dark:bg-gray-800 dark:group-hover:bg-stone-700"
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-100 transition-colors group-hover:bg-indigo-200 dark:bg-neutral-900 dark:group-hover:bg-stone-700"
                 >
                   <i class="material-symbols-outlined text-indigo-600 dark:text-indigo-300"
                     >location_on</i
@@ -471,7 +471,7 @@
             } @else {
               <div class="flex items-center gap-4 py-4">
                 <div
-                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-stone-100 dark:bg-gray-800"
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-stone-100 dark:bg-neutral-900"
                 >
                   <i class="material-symbols-outlined text-gray-400">location_off</i>
                 </div>
@@ -489,7 +489,7 @@
                 class="group flex items-center gap-4 py-4"
               >
                 <div
-                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-sky-100 transition-colors group-hover:bg-sky-200 dark:bg-gray-800 dark:group-hover:bg-stone-700"
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-sky-100 transition-colors group-hover:bg-sky-200 dark:bg-neutral-900 dark:group-hover:bg-stone-700"
                 >
                   <i class="material-symbols-outlined text-sky-600 dark:text-sky-300">call</i>
                 </div>
@@ -503,7 +503,7 @@
             } @else {
               <div class="flex items-center gap-4 py-4">
                 <div
-                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-stone-100 dark:bg-gray-800"
+                  class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-stone-100 dark:bg-neutral-900"
                 >
                   <i class="material-symbols-outlined text-gray-400">phone_disabled</i>
                 </div>
@@ -527,7 +527,7 @@
       class="absolute -top-10 -right-10 w-48 h-48 bg-red-50 dark:bg-red-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
     ></div>
     <div
-      class="absolute -bottom-10 -left-10 w-48 h-48 bg-stone-50 dark:bg-gray-900 rounded-full opacity-60 dark:opacity-40 blur-3xl"
+      class="absolute -bottom-10 -left-10 w-48 h-48 bg-stone-50 dark:bg-neutral-950 rounded-full opacity-60 dark:opacity-40 blur-3xl"
     ></div>
 
     <div class="relative z-10 flex flex-col items-center">
@@ -545,7 +545,7 @@
 
       <button
         (click)="close()"
-        class="mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full shadow-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-stone-50 dark:hover:bg-gray-600 transition-colors"
+        class="mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full shadow-md text-gray-800 dark:text-gray-200 bg-white dark:bg-neutral-700 hover:bg-stone-50 dark:hover:bg-neutral-600 transition-colors"
       >
         Fechar
       </button>

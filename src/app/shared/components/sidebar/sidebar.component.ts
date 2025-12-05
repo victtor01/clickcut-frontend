@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  QueryList,
-  signal,
-  ViewChild,
-  ViewChildren,
+    AfterViewInit,
+    Component,
+    ElementRef,
+    HostListener,
+    inject,
+    QueryList,
+    signal,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
@@ -22,27 +22,27 @@ import { PinEntryComponent } from '@app/features/(private)/select/components/pin
 import { NgIcon, NgIconComponent, provideIcons } from '@ng-icons/core';
 import { hugeLink06 } from '@ng-icons/huge-icons';
 import {
-  saxBag2Bold,
-  saxHome2Bold,
-  saxLinkSquareBold,
-  saxMagicpenBold,
-  saxPeopleBold,
-  saxProfile2userBold,
+    saxBag2Bold,
+    saxHome2Bold,
+    saxLinkSquareBold,
+    saxMagicpenBold,
+    saxPeopleBold,
+    saxProfile2userBold,
 } from '@ng-icons/iconsax/bold';
 import { saxAddSquareBulk } from '@ng-icons/iconsax/bulk';
 import {
-  saxBag2Outline,
-  saxHome2Outline,
-  saxLinkSquareOutline,
-  saxMagicpenOutline,
-  saxPeopleOutline,
-  saxProfile2userOutline,
+    saxBag2Outline,
+    saxHome2Outline,
+    saxLinkSquareOutline,
+    saxMagicpenOutline,
+    saxPeopleOutline,
+    saxProfile2userOutline,
 } from '@ng-icons/iconsax/outline';
 import {
-  solarCalendarMarkBold,
-  solarCrownBold,
-  solarRocket2Bold,
-  solarTagBold,
+    solarCalendarMarkBold,
+    solarCrownBold,
+    solarRocket2Bold,
+    solarTagBold,
 } from '@ng-icons/solar-icons/bold';
 import { solarCalendarMark, solarTag } from '@ng-icons/solar-icons/outline';
 import { firstValueFrom } from 'rxjs';
@@ -259,7 +259,7 @@ export class SidebarComponent implements AfterViewInit {
     if (!this.business?.id) return;
 
     this.dialog.open(BusinessModalComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(70rem, 100%)',
@@ -283,7 +283,7 @@ export class SidebarComponent implements AfterViewInit {
     this.isOpenSearch = true;
 
     const dialogRef = this.dialog.open(BookingSearchModalComponent, {
-      backdropClass: ['bg-stone-200/50', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-stone-200/50', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(65rem, 100%)',

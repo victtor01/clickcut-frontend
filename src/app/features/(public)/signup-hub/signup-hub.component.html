@@ -1,8 +1,8 @@
-<div class="h-auto py-[5rem] bg-slate-50 dark:bg-gray-900 flex flex-col font-sans">
+<div class="h-auto py-[5rem] bg-slate-50 dark:bg-neutral-950 flex flex-col font-sans">
   <!-- Main Content Area -->
   <main class="flex-grow flex items-center justify-center p-4">
     <div
-      class="w-full max-w-[60rem] flex rounded-2xl overflow-hidden bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800"
+      class="w-full max-w-[60rem] flex rounded-2xl overflow-hidden bg-white dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800"
     >
       <!-- Coluna Esquerda: Vantagens e Imagem -->
       <div class="w-1/2 bg-indigo-600 p-12 text-white hidden md:flex flex-col justify-center">
@@ -90,7 +90,7 @@
                   formControlName="fullName"
                   class="peer block w-full rounded-lg border-2 py-3 px-4 focus:outline-none bg-transparent"
                   [ngClass]="{
-                    'border-gray-300 dark:border-gray-700 focus:border-indigo-500':
+                    'border-gray-300 dark:border-neutral-700 focus:border-indigo-500':
                       !signupForm.get('fullName')?.invalid || !signupForm.get('fullName')?.touched,
                     'border-red-500 dark:border-red-500':
                       signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched,
@@ -99,7 +99,7 @@
                 />
                 <label
                   for="fullName"
-                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-gray-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-neutral-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
                   >Nome Completo</label
                 >
               </div>
@@ -111,7 +111,7 @@
                   formControlName="email"
                   class="peer block w-full rounded-lg border-2 py-3 px-4 focus:outline-none bg-transparent"
                   [ngClass]="{
-                    'border-gray-300 dark:border-gray-700 focus:border-indigo-500':
+                    'border-gray-300 dark:border-neutral-700 focus:border-indigo-500':
                       !signupForm.get('email')?.invalid || !signupForm.get('email')?.touched,
                     'border-red-500 dark:border-red-500':
                       signupForm.get('email')?.invalid && signupForm.get('email')?.touched,
@@ -120,7 +120,7 @@
                 />
                 <label
                   for="email"
-                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-gray-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-neutral-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
                   >Email</label
                 >
               </div>
@@ -132,7 +132,7 @@
                   formControlName="phone"
                   class="peer block w-full rounded-lg border-2 py-3 px-4 focus:outline-none bg-transparent"
                   [ngClass]="{
-                    'border-gray-300 dark:border-gray-700 focus:border-indigo-500':
+                    'border-gray-300 dark:border-neutral-700 focus:border-indigo-500':
                       !signupForm.get('phone')?.invalid || !signupForm.get('phone')?.touched,
                     'border-red-500 dark:border-red-500':
                       signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched,
@@ -141,7 +141,7 @@
                 />
                 <label
                   for="phone"
-                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-gray-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-neutral-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
                   >Telefone</label
                 >
               </div>
@@ -153,7 +153,7 @@
                   formControlName="password"
                   class="peer block w-full rounded-lg border-2 py-3 px-4 focus:outline-none bg-transparent"
                   [ngClass]="{
-                    'border-gray-300 dark:border-gray-700 focus:border-indigo-500':
+                    'border-gray-300 dark:border-neutral-700 focus:border-indigo-500':
                       !signupForm.get('password')?.invalid || !signupForm.get('password')?.touched,
                     'border-red-500 dark:border-red-500':
                       signupForm.get('password')?.invalid && signupForm.get('password')?.touched,
@@ -162,7 +162,7 @@
                 />
                 <label
                   for="password"
-                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-gray-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-neutral-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
                   >Senha</label
                 >
               </div>
@@ -174,7 +174,7 @@
                   formControlName="confirmPassword"
                   class="peer block w-full rounded-lg border-2 py-3 px-4 focus:outline-none bg-transparent"
                   [ngClass]="{
-                    'border-gray-300 dark:border-gray-700 focus:border-indigo-500':
+                    'border-gray-300 dark:border-neutral-700 focus:border-indigo-500':
                       !signupForm.get('confirmPassword')?.invalid ||
                       !signupForm.get('confirmPassword')?.touched,
                     'border-red-500 dark:border-red-500':
@@ -187,7 +187,7 @@
                 />
                 <label
                   for="confirmPassword"
-                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-gray-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
+                  class="absolute left-4 top-3.5 text-gray-500 duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 bg-white dark:bg-neutral-950 px-1 peer-focus:text-indigo-600 dark:peer-focus:text-indigo-400"
                   >Repetir Senha</label
                 >
                 @if (
@@ -213,7 +213,7 @@
 </div>
 
 <footer
-  class="w-full border-t border-gray-200 bg-white/50 dark:border-gray-800 dark:bg-gray-950/50"
+  class="w-full border-t border-gray-200 bg-white/50 dark:border-neutral-800 dark:bg-neutral-950/50"
 >
   <div
     class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-8 md:flex-row"
@@ -236,7 +236,7 @@
           >Privacidade</a
         >
       </nav>
-      <div class="hidden h-6 w-px bg-stone-300 dark:bg-gray-700 sm:block"></div>
+      <div class="hidden h-6 w-px bg-stone-300 dark:bg-neutral-700 sm:block"></div>
       <div class="flex items-center gap-x-4">
         <a
           href="#"

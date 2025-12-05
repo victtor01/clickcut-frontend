@@ -312,7 +312,7 @@ export class BookingComponent implements OnInit, OnDestroy {
     const dailyBookings: Booking[] = this._bookingsByDay[dayjs(date).format('YYYY-MM-DD')] || [];
 
     const dialogRef = this.dialogDetails.open(DetailsBookingComponent, {
-      backdropClass: ['bg-white/60', 'dark:bg-stone-950/60', 'backdrop-blur-sm'],
+      backdropClass: ['bg-white/60', 'dark:bg-neutral-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
       width: 'min(60rem, 90%)',

@@ -23,7 +23,7 @@
             type="text"
             id="username"
             placeholder="Nome de usuário"
-            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
+            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
             formControlName="username"
             [class.border-red-500!]="username?.invalid && (username?.dirty || username?.touched)"
           />
@@ -53,7 +53,7 @@
             id="email"
             formControlName="email"
             placeholder="voce@exemplo.com"
-            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
+            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
             [class.border-red-500!]="email?.invalid && (email?.dirty || email?.touched)"
           />
         </div>
@@ -82,7 +82,7 @@
             formControlName="password"
             placeholder="••••••••"
             autocomplete="new-password"
-            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
+            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
             [class.border-red-500!]="password?.invalid && (password?.dirty || password?.touched)"
           />
         </div>
@@ -111,7 +111,7 @@
             formControlName="confirmPassword"
             placeholder="••••••••"
             autocomplete="new-password"
-            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
+            class="w-full rounded-lg border border-gray-200 bg-white/50 py-3 pl-10 pr-4 text-gray-800 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500"
             [class.border-red-500!]="
               confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)
             "
@@ -137,16 +137,16 @@
       </button>
 
       <div class="relative flex items-center py-2">
-        <div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+        <div class="flex-grow border-t border-gray-200 dark:border-neutral-700"></div>
         <span class="mx-4 flex-shrink text-xs font-medium text-gray-400 dark:text-gray-500"
           >OU CONTINUE COM</span
         >
-        <div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+        <div class="flex-grow border-t border-gray-200 dark:border-neutral-700"></div>
       </div>
 
       <button
         type="button"
-        class="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-200 bg-white py-3 text-sm font-semibold text-gray-800 transition-all hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600 dark:focus:ring-offset-black"
+        class="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-200 bg-white py-3 text-sm font-semibold text-gray-800 transition-all hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-700 dark:focus:ring-gray-600 dark:focus:ring-offset-black"
       >
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path

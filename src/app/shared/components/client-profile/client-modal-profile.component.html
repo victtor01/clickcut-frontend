@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col mx-4 relative bg-white rounded-xl dark:bg-gray-900 overflow-hidden text-gray-800 dark:text-gray-200"
+  class="flex flex-col mx-4 relative bg-white rounded-xl dark:bg-neutral-950 overflow-hidden text-gray-800 dark:text-gray-200"
 >
   <header class="flex justify-between px-4 pt-4 pb-2 items-center">
     <h1 class="text-gray-500 dark:text-indigo-50 saira-font text-xl">Perfil</h1>
@@ -7,7 +7,7 @@
     <button
       type="button"
       (click)="close()"
-      class="bg-white self-end dark:bg-gray-800 z-20 grid place-items-center rounded-full w-10 h-10 text-gray-500 dark:text-indigo-50"
+      class="bg-white self-end dark:bg-neutral-900 z-20 grid place-items-center rounded-full w-10 h-10 text-gray-500 dark:text-indigo-50"
     >
       <i class="material-icons-outlined">close</i>
     </button>
@@ -20,9 +20,9 @@
           type="button"
           (click)="setView('profile')"
           [ngClass]="{
-            'bg-stone-100 dark:bg-gray-800 text-indigo-900 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-neutral-900 text-indigo-900 dark:text-indigo-400':
               activeView === 'profile',
-            'hover:bg-stone-100/50 dark:hover:bg-gray-800/50': activeView !== 'profile',
+            'hover:bg-stone-100/50 dark:hover:bg-neutral-900/50': activeView !== 'profile',
           }"
           class="flex items-center gap-3 w-full saira-font text-left p-2 rounded-md transition-colors text-sm font-semibold"
         >
@@ -34,9 +34,9 @@
           type="button"
           (click)="setView('statistics')"
           [ngClass]="{
-            'bg-stone-100 dark:bg-gray-800 text-indigo-900 dark:text-indigo-400':
+            'bg-stone-100 dark:bg-neutral-900 text-indigo-900 dark:text-indigo-400':
               activeView === 'statistics',
-            'hover:bg-stone-100/50 dark:hover:bg-gray-800/50': activeView !== 'statistics',
+            'hover:bg-stone-100/50 dark:hover:bg-neutral-900/50': activeView !== 'statistics',
           }"
           class="flex items-center gap-3 w-full text-left saira-font text-gray-600 p-2 rounded-md transition-colors text-sm font-semibold"
         >
@@ -56,12 +56,12 @@
                 <img
                   [src]="client.avatarUrl"
                   alt="Avatar de {{ client.fullName }}"
-                  class="w-28 h-28 rounded-full border-4 border-white dark:border-gray-900 object-cover bg-stone-200 dark:bg-gray-700"
+                  class="w-28 h-28 rounded-full border-4 border-white dark:border-neutral-900 object-cover bg-stone-200 dark:bg-neutral-700"
                 />
               </ng-container>
               <ng-template #defaultAvatar>
                 <div
-                  class="w-20 h-20 rounded-full border-4 border-white dark:border-gray-900 bg-stone-200 dark:bg-gray-700 flex items-center justify-center"
+                  class="w-20 h-20 rounded-full border-4 border-white dark:border-neutral-900 bg-stone-200 dark:bg-neutral-700 flex items-center justify-center"
                 >
                   <i class="material-icons-outlined text-5xl text-gray-500">person</i>
                 </div>
@@ -108,7 +108,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div
-              class="p-4 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800/50"
+              class="p-4 rounded-lg border border-gray-200 bg-white dark:border-neutral-800 dark:bg-neutral-900/50"
             >
               <div class="flex items-center gap-5">
                 <div

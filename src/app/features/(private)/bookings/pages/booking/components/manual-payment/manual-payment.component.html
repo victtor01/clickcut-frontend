@@ -12,7 +12,7 @@
       id="manual-amount"
       placeholder="R$ 0,00"
       formControlName="amount"
-      class="w-full p-3 mt-2 rounded-lg bg-stone-100 dark:bg-gray-800 border-none text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-violet-500"
+      class="w-full p-3 mt-2 rounded-lg bg-stone-100 dark:bg-neutral-900 border-none text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-violet-500"
     />
 
     <!-- Bloco para exibir mensagens de erro de validação -->
@@ -40,7 +40,7 @@
         (click)="selectPaymentMethod(method.value)"
         [ngClass]="{
           'bg-violet-600 text-white': paymentForm.get('paymentMethod')?.value === method.value,
-          'bg-stone-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-stone-200 dark:hover:bg-gray-700':
+          'bg-stone-100 dark:bg-neutral-900 text-gray-700 dark:text-gray-300 hover:bg-stone-200 dark:hover:bg-neutral-700':
             paymentForm.get('paymentMethod')?.value !== method.value
         }"
         class="w-full flex items-center gap-3 text-center p-3 rounded-lg text-sm font-semibold transition-colors duration-200"
