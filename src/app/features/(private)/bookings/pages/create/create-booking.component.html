@@ -1,5 +1,5 @@
 <section
-  class="flex flex-col gap-4 p-5 mx-auto bg-white dark:bg-gray-950 border-b-2 border-gray-900"
+  class="flex flex-col gap-4 p-5 mx-auto bg-white dark:bg-gray-950 border-b-2 border-gray-200 dark:border-gray-900"
 >
   <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
     <a
@@ -8,7 +8,7 @@
     >
       <i class="material-icons-outlined !text-md">arrow_back_ios_new</i>
     </a>
-    <h1 class="saira-font text-xl">Criar novo agendamento</h1>
+    <h1 class="saira-font text-lg opacity-80 font-semibold">Criar novo agendamento</h1>
   </header>
 
   <section class="flex flex-col mx-2 rounded-xl">
@@ -16,39 +16,36 @@
   </section>
 </section>
 
-@if (this.selectedServiceIds.length) {
-  <section class="flex flex-col gap-4 p-5 bg-white dark:bg-gray-950 border-b-2 border-gray-900">
-    <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
-      <h1 class="saira-font text-xl">Selecione a hora</h1>
-    </header>
-    <div class="flex flex-col gap-2 dark:text-gray-200">
-      <label for="bookingTitle" class="text-sm font-medium text-gray-600 dark:text-gray-300">
-        Título do agendamento (opcional)
-      </label>
-      <input
-        type="text"
-        id="bookingTitle"
-        [defaultValue]="'teste'"
-        class="text-xl border-b-2 p-4 bg-gray-50 focus:border-violet-50 transition-all dark:border-violet-300 shadow-inner dark:bg-gray-900/50 outline-none rounded-xl"
-      />
-    </div>
+<section
+  [class.visible]="selectedServiceIds.length > 0"
+  class="sectionVisible flex-col gap-4 p-5 bg-white dark:bg-gray-950 border-b-2 border-gray-200 dark:border-gray-900"
+>
+  <header class="flex gap-4 items-center text-gray-500 dark:text-gray-200">
+    <h1 class="saira-font text-lg opacity-80 font-semibold">Selecione a hora</h1>
+  </header>
+  <div class="flex flex-col gap-2 dark:text-gray-200">
+    <label for="bookingTitle" class="text-sm font-medium text-gray-600 dark:text-gray-300">
+      Título do agendamento (opcional)
+    </label>
+    <input
+      type="text"
+      id="bookingTitle"
+      [defaultValue]="'teste'"
+      class="text-xl border-b-2 p-4 bg-gray-50 focus:border-violet-50 transition-all dark:border-violet-300 shadow-inner dark:bg-gray-900/50 outline-none rounded-xl"
+    />
+  </div>
 
-    @if (selectedServiceIds) {
-      <section class="flex flex-col rounded-xl">
-        <all-times
-          [selectedTime]="selectedTime"
-          [whenSelectAction]="selectTime"
-          [existingBookings]="this.bookingsToDay()"
-          [workingHours]="this.timesOfBusiness()"
-          [serviceIds]="selectedServiceIds"
-          [currentDate]="currentDate?.format('YYYY-MM-DD')"
-        ></all-times>
-      </section>
-    } @else {
-      <section>Você não selecionou o serviço</section>
-    }
+  <section class="flex flex-col rounded-xl">
+    <all-times
+      [selectedTime]="selectedTime"
+      [whenSelectAction]="selectTime"
+      [existingBookings]="this.bookingsToDay()"
+      [workingHours]="this.timesOfBusiness()"
+      [serviceIds]="selectedServiceIds"
+      [currentDate]="currentDate?.format('YYYY-MM-DD')"
+    ></all-times>
   </section>
-}
+</section>
 
 <footer class="flex px-2 justify-between mt-2">
   <div></div>

@@ -199,6 +199,7 @@ export class HubHomeComponent implements OnInit {
     const reschedule = this.dialog.open(RescheduleBookingComponent, {
       data,
       maxWidth: '50rem',
+      panelClass: ['dialog-no-container'],
       width: 'min(30rem, 100%)',
     });
 

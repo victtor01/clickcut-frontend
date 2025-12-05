@@ -1,10 +1,12 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { Subscription, SubscriptionPlan, SubscriptionStatus } from '@app/core/models/Subscription';
 import { UsersService } from '@app/core/services/users.service';
 import { firstValueFrom } from 'rxjs';
+import { ChangePlanComponent } from './components/change-plan.component';
 
 @Component({
   selector: 'app-my-subscription',
@@ -16,6 +18,8 @@ export class MySubscriptionComponent implements OnInit {
 
   public readonly subscription = signal<Subscription | null>(null);
   public readonly isLoading = signal(true);
+
+  private changePlanDialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.fetchSubscription();
@@ -34,7 +38,14 @@ export class MySubscriptionComponent implements OnInit {
     }
   }
 
-  // --- UI Helpers ---
+  public openChangeDialog(): void {
+    this.changePlanDialog.open(ChangePlanComponent, {
+      width: "min(55rem, 100%)",
+      maxWidth: 1000,
+      panelClass: ['dialog-no-container'],
+      backdropClass: ['backdrop-blur-xl']
+    });
+  }
 
   public getPlanLabel(plan: SubscriptionPlan): string {
     const labels: Record<string, string> = {

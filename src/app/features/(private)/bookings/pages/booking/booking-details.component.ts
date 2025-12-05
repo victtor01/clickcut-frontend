@@ -147,7 +147,7 @@ export class BookingDetailsComponent implements OnInit {
       backdropClass: ['bg-white/60', 'dark:bg-gray-950/60', 'backdrop-blur-sm'],
       panelClass: ['dialog-no-container'],
       maxWidth: '100rem',
-      width: 'min(55rem, 90%)',
+      width: 'min(45rem, 100%)',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
       data: { service },
@@ -165,8 +165,9 @@ export class BookingDetailsComponent implements OnInit {
 
           await firstValueFrom(this.bookingService.updateService(data.id, updateData));
 
-          this.toastService.show('Atualizado com sucesso!');
-        } catch {
+          this.toastService.success('Atualizado com sucesso!');
+        } catch(err: unknown) {
+          console.log(err)
           this.toastService.error('Não foi possível atualizar o serviço!');
         }
       }
@@ -202,6 +203,7 @@ export class BookingDetailsComponent implements OnInit {
 
     const dialog = this.dialog.open(RescheduleBookingComponent, {
       width: 'min(30rem, 100%)',
+      panelClass: ['dialog-no-container'],
       backdropClass: ["bg-violet-50/50", "dark:bg-black/50"],
       data,
     });

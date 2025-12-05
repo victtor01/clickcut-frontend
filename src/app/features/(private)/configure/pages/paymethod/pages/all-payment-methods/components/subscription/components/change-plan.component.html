@@ -1,0 +1,246 @@
+  <div
+    (click)="$event.stopPropagation()"
+    class="relative w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-2xl bg-white dark:bg-[#09090b] border border-gray-200 dark:border-gray-800 shadow-2xl flex flex-col transition-transform animate-scale-in"
+  >
+    <!-- Botão Fechar -->
+    <button
+      (click)="dialogRef.close()"
+      [disabled]="isSubmitting"
+      class="absolute top-6 right-6 z-10 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
+    >
+      <i class="!text-lg material-symbols-outlined">close</i>
+    </button>
+
+    <!-- Cabeçalho -->
+    <header class="px-8 pt-8 pb-2">
+      <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        Alterar Assinatura
+      </h2>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        Gerencie o nível da sua conta e recursos.
+      </p>
+    </header>
+
+    <!-- Corpo com Scroll -->
+    <div
+      class="flex-grow overflow-y-auto px-8 py-6 space-y-10 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800 scrollbar-track-transparent"
+    >
+      <!-- 1. SELEÇÃO DO PLANO -->
+      <section>
+        <div class="flex items-center gap-3 mb-5">
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-[10px] font-bold text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
+          >
+            1
+          </span>
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-500">
+            Plano
+          </h3>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+          @for (plan of plans; track plan.id) {
+            <div
+              (click)="selectPlan(plan.id)"
+              class="group relative flex flex-col p-5 rounded-xl border cursor-pointer transition-all duration-200 ease-out"
+              [ngClass]="{
+                'bg-white dark:bg-[#09090b] border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700': selectedNewPlan?.id !== plan.id,
+                'bg-gray-50 dark:bg-[#121214] border-gray-900 dark:border-gray-100 ring-1 ring-gray-900 dark:ring-gray-100 shadow-sm': selectedNewPlan?.id === plan.id
+              }"
+            >
+              <!-- Badge Popular (Monocromático) -->
+              @if (plan.id === 'equipe') {
+                <div class="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                  <span
+                    class="rounded-full bg-gray-900 dark:bg-white px-3 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white dark:text-black border border-gray-900 dark:border-gray-200"
+                  >
+                    Popular
+                  </span>
+                </div>
+              }
+
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h4
+                    class="text-base font-semibold transition-colors"
+                    [ngClass]="{
+                      'text-gray-900 dark:text-white': true,
+                      'text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white': selectedNewPlan?.id !== plan.id
+                    }"
+                  >
+                    {{ plan.name }}
+                  </h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    {{
+                      plan.id === 'solo'
+                        ? 'Essencial para começar.'
+                        : plan.id === 'equipe'
+                          ? 'Para times em crescimento.'
+                          : 'Potência máxima.'
+                    }}
+                  </p>
+                </div>
+                
+                <!-- Radio Customizado (Minimalista) -->
+                <div 
+                   class="flex items-center justify-center h-4 w-4 rounded-full border transition-all duration-200"
+                   [ngClass]="{
+                     'border-gray-300 dark:border-gray-700': selectedNewPlan?.id !== plan.id,
+                     'border-gray-900 dark:border-white bg-gray-900 dark:bg-white': selectedNewPlan?.id === plan.id
+                   }"
+                >
+                   <div class="h-1.5 w-1.5 rounded-full bg-white dark:bg-black scale-0 transition-transform duration-200"
+                        [class.scale-100]="selectedNewPlan?.id === plan.id">
+                   </div>
+                </div>
+              </div>
+
+              <div class="mt-auto">
+                <div class="flex items-baseline gap-1">
+                  <span class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">R$ {{ plan.price }}</span>
+                  <span class="text-xs text-gray-500">/mês</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Detalhes do Plano (Cinza Sutil) -->
+        @if (selectedNewPlan) {
+          <div
+            class="mt-4 p-5 rounded-lg border border-gray-100 dark:border-gray-800/60 bg-gray-50/50 dark:bg-gray-900/30 animate-fade-in"
+          >
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm">
+              <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                <i class="material-symbols-outlined !text-base text-gray-900 dark:text-white">check</i>
+                <span><strong class="font-semibold text-gray-900 dark:text-white">{{ selectedNewPlan.stores }}</strong> Lojas</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                <i class="material-symbols-outlined !text-base text-gray-900 dark:text-white">check</i>
+                <span><strong class="font-semibold text-gray-900 dark:text-white">{{ selectedNewPlan.members }}</strong> Membros</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                <i class="material-symbols-outlined !text-base text-gray-900 dark:text-white">check</i>
+                <span><strong class="font-semibold text-gray-900 dark:text-white">{{ selectedNewPlan.appointments }}</strong> Agendamentos</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                <i class="material-symbols-outlined !text-base text-gray-900 dark:text-white">check</i>
+                <span>Relatórios Avançados</span>
+              </div>
+            </div>
+          </div>
+        }
+      </section>
+
+      <!-- 2. MÉTODO DE PAGAMENTO -->
+      @if (selectedNewPlan) {
+        <section class="animate-fade-in">
+          <div class="flex items-center gap-3 mb-5">
+            <span
+              class="flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-[10px] font-bold text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
+            >
+              2
+            </span>
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-500">
+              Pagamento
+            </h3>
+          </div>
+
+          @if (savedCards && savedCards.length > 0) {
+            <div class="space-y-3">
+              @for (card of savedCards; track card.id) {
+                <div
+                  (click)="selectPaymentMethod(card.id)"
+                  class="flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all duration-200"
+                  [ngClass]="{
+                    'bg-white dark:bg-transparent border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700': paymentMethod?.id !== card.id,
+                    'bg-gray-50 dark:bg-[#121214] border-gray-900 dark:border-gray-100 ring-1 ring-gray-900 dark:ring-gray-100 shadow-sm': paymentMethod?.id === card.id
+                  }"
+                >
+                  <div class="flex items-center gap-4">
+                    <div 
+                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700"
+                    >
+                         <i class="material-symbols-outlined">credit_card</i>
+                    </div>
+                    <div>
+                      <p class="font-medium text-gray-900 dark:text-white text-sm">
+                        {{ card.brand }} <span class="text-gray-400 font-normal ml-1">•••• {{ card.lastFourDigits }}</span>
+                      </p>
+                      <p class="text-[11px] text-gray-500 uppercase tracking-wide">
+                        Exp. {{ formatExpiry(card.expirationMonth, card.expirationYear) }}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <!-- Check Indicator Minimalista -->
+                  @if (paymentMethod?.id === card.id) {
+                    <i class="material-symbols-outlined text-gray-900 dark:text-white animate-scale-in">check_circle</i>
+                  } @else {
+                    <div class="h-5 w-5 rounded-full border border-gray-300 dark:border-gray-700"></div>
+                  }
+                </div>
+              }
+
+              <!-- Adicionar Novo Cartão -->
+              <div
+                (click)="selectPaymentMethod('new')"
+                class="flex items-center gap-4 p-4 rounded-xl border border-dashed cursor-pointer transition-all group"
+                [ngClass]="{
+                  'border-gray-300 dark:border-gray-700 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900': paymentMethod?.id !== 'new',
+                  'border-gray-900 dark:border-white bg-gray-50 dark:bg-[#121214]': paymentMethod?.id === 'new'
+                }"
+              >
+                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-400 border border-gray-200 dark:border-gray-800 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                     <i class="material-symbols-outlined !text-xl">add</i>
+                </div>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                  Usar outro cartão
+                </p>
+              </div>
+            </div>
+          } @else {
+            <div class="flex flex-col items-center justify-center p-8 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 text-center">
+              <div class="h-12 w-12 mb-3 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                  <i class="material-symbols-outlined text-gray-400">credit_card_off</i>
+              </div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                Nenhum método de pagamento salvo.
+              </p>
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    <!-- Rodapé -->
+    <footer
+      class="px-8 py-6 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-[#09090b]"
+    >
+      <div class="flex flex-col">
+        @if (selectedNewPlan) {
+            <span class="text-xs text-gray-500 uppercase tracking-wider">Total Mensal</span>
+            <span class="text-lg font-bold text-gray-900 dark:text-white">R$ {{ selectedNewPlan.price }}</span>
+        }
+      </div>
+
+      <div>
+        @if (selectedNewPlan && paymentMethod) {
+            <button
+            (click)="confirmChange()"
+            [disabled]="isSubmitting"
+            class="group relative flex items-center justify-center gap-2 rounded-lg bg-gray-900 dark:bg-white px-6 py-2.5 text-sm font-medium text-white dark:text-black shadow-sm transition-all hover:bg-black dark:hover:bg-gray-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+            @if (isSubmitting) {
+                <i class="material-symbols-outlined !text-lg animate-spin">progress_activity</i>
+            } @else {
+                <span>Confirmar</span>
+                <i class="material-symbols-outlined !text-lg transition-transform group-hover:translate-x-0.5">arrow_forward</i>
+            }
+            </button>
+        } @else {
+            <span class="text-sm text-gray-400 cursor-not-allowed">Preencha as opções</span>
+        }
+      </div>
+    </footer>
+  </div>
