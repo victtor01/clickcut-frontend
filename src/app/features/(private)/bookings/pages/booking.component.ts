@@ -7,6 +7,8 @@ import { TimeSlot } from '@app/core/models/Business';
 import { BookingsByDay, BookingsService } from '@app/core/services/booking.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { UsersService } from '@app/core/services/users.service';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { solarArrowToTopLeftBold } from '@ng-icons/solar-icons/bold';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { firstValueFrom } from 'rxjs';
@@ -18,7 +20,8 @@ type BookingFilter = 'all' | 'paid' | 'pending';
 
 @Component({
   templateUrl: './booking.component.html',
-  imports: [CommonModule, RouterLink, WeekComponent],
+  providers: [provideIcons({ solarArrowToTopLeftBold })],
+  imports: [CommonModule, RouterLink, WeekComponent, NgIconComponent],
 })
 export class BookingComponent implements OnInit, OnDestroy {
   public currentDate: Dayjs = dayjs();
@@ -29,9 +32,10 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   public operatingHours = signal<TimeSlot[]>([]);
   public closedIntervals = signal<{ start: number; duration: number }[]>([]);
+  public showMoveTop = signal<boolean>(false);
 
   @ViewChild('main')
-  private scheduleContainer!: ElementRef<HTMLDivElement>; // Referência ao DIV pai
+  private scheduleContainer!: ElementRef<HTMLDivElement>;
 
   @ViewChild('timeIndicator')
   private timeIndicator!: ElementRef;
@@ -76,6 +80,20 @@ export class BookingComponent implements OnInit, OnDestroy {
     return this.currentDate.format('dddd, D [de] MMMM');
   }
 
+  public moveToTop(): void {
+    if (this.scheduleContainer?.nativeElement) {
+      const container = this.scheduleContainer.nativeElement;
+
+      container.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  public onScroll() {
+    const el = this.scheduleContainer.nativeElement;
+
+    this.showMoveTop.set(el.scrollTop !== 0);
+  }
+
   public async ngOnInit(): Promise<void> {
     await this.fetchTimesSlots();
 
@@ -98,11 +116,9 @@ export class BookingComponent implements OnInit, OnDestroy {
     }
   }
 
-  // ✨ NOVO: Calcula os intervalos fechados para o dia atual
   private calculateClosedIntervals() {
     const dayOfWeek = this.currentDate.day(); // 0 (Dom) a 6 (Sáb)
 
-    // Filtra os slots de trabalho para o dia atual
     const todaySlots = this.operatingHours().filter(
       (s) =>
         // Lida com string "1" ou number 1

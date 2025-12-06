@@ -1,8 +1,21 @@
 <section
-  class="p-4 bg-transparent bg-gradient-to-b from-stone-50 dark:from-neutral-950 to-transparent dark:to-transparent overflow-hidden font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
+  #main
+  (scroll)="onScroll()"
+  class="p-4 bg-transparent bg-gradient-to-b from-stone-50 dark:from-neutral-950 to-transparent dark:to-transparent overflow-auto h-[100dvh] font-sans flex-1 w-full flex-col mx-auto z-20 relative overflow-x-hidden"
 >
+    <button
+      type="button"
+      (click)="moveToTop()"
+      [attr.data-show]="showMoveTop()"
+      class="fixed bottom-25 right-10 lg:right-10 lg:bottom-10 bg-white dark:bg-neutral-900 border-l border-gray-200 dark:border-neutral-800 w-12 h-12 rounded-full shadow dark:shadow-black z-30
+      opacity-0 scale-0 transition-all active:scale-90 hover:scale-90"
+      [class.opacity-100]="showMoveTop()" [class.scale-100]="showMoveTop()"
+    >
+      <ng-icon name="solarArrowToTopLeftBold" class="translate-y-1" size="24"></ng-icon>
+    </button>
+
   <header
-    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-950/40 flex-shrink-0 z-20 h-16 overflow-hidden"
+    class="relative flex p-3 px-4 gap-2 rounded-xl items-center justify-between border-b border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 flex-shrink-0 z-20 h-16 overflow-hidden"
   >
     <div class="flex items-center gap-3 z-30 relative shrink-0">
       <a
